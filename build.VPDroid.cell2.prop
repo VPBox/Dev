@@ -166,14 +166,14 @@ net.bt.name=Android
 
 ro.boot.hardware.platform=sdm670
 
-ro.build.id=MRA58K
-ro.build.display.id=MRA58K
+ro.build.id=MMB29M
+ro.build.display.id=MMB29M
 ro.product.system.manufacturer=Xiaomi
-ro.boot.serialno=PB9H4PSS9DDUEUGA
-ro.serialno=PB9H4PSS9DDUEUGA
-ro.product.model=Redmi Note 4
-ro.product.product.model=Redmi Note 4
-ro.product.system.model=Redmi Note 4
+ro.boot.serialno=c9aad3620804
+ro.serialno=c9aad3620804
+ro.product.model=Redmi Note 4x
+ro.product.product.model=Redmi Note 4x
+ro.product.system.model=Redmi Note 4x
 ro.boot.hardware.revision=Xiaomi
 ro.boot.hardware=mt6797
 ro.hardware=mt6797
@@ -189,7 +189,7 @@ ro.revision=DVT1.0
 ro.cell.bh.name=ANDROID BT
 ro.cell.bh.smode=20
 #bh getState is true as follow #####################################################
-ro.cell.bh.addr=ac:c1:ee:57:64:9A
+ro.cell.bh.addr=38:E6:0A:3D:10:82
 #bh getState is false as follow
 #ro.cell.bh.addr=02:00:00:00:00:00
 
@@ -230,8 +230,8 @@ ro.cell.gsm.psc=-1
 #ro.cell.cdma.longitute=1646750
 
 #modify imei and  add imei1 ,imei2#########################################
-ro.cell.phone.imei=865104036208548  
-#ro.cell.phone.imei1=865104036208548
+ro.cell.phone.imei=867787032352654  
+#ro.cell.phone.imei1=867787032352654
 #ro.cell.phone.imei2=865104036208555      
 ro.cell.phone.subid=460017112425331
 ro.cell.phone.imeisv=78
@@ -259,14 +259,14 @@ ro.build.version.sdk.cells=23
 ro.board.cells=msm8994
 ro.hardware.cells=angler
 
-http.agent=Dalvik/2.1.0 (Linux; U; Android 6.0; Redmi Note 4 MIUI/9.3.21)
-user.agent=Mozilla/5.0 (Linux; Android 6.0; Redmi Note 4 Build/MRA58K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 Mobile Safari/537.36
+http.agent=Dalvik/2.1.0 (Linux; U; Android 6.0; Redmi Note 4xx MIUI/9.3.21)
+user.agent=Mozilla/5.0 (Linux; Android 6.0; Redmi Note 4xx Build/MMB29M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 Mobile Safari/537.36
 
 ro.cell.sd.size=25345104k
-ro.cell.wlan.mac=AC:C1:EE:57:64:9B
-ro.cell.wlan.ip=192.168.1.107
-ro.boot.wifimacaddr=ac:c1:ee:57:64:9b
+ro.cell.wlan.mac=38:E6:0A:7D:10:81
+ro.cell.wlan.ip=192.168.1.103
+ro.boot.wifimacaddr=38:E6:0A:7D:10:81
 
-ro.cell.basebandversion=MOLY.LR11.W1603.MD.MP.V13.18.P90
-ro.cell.kernelversion=3.18.22+
+ro.cell.basebandversion=953_GEN_PACK-1.148
+ro.cell.kernelversion=3.18.24-perf-g627ed90
 

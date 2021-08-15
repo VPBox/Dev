@@ -266,9 +266,6 @@ SYSCALL_DEFINE2(setns, int, fd, int, nstype)
 	struct file *file;
 	struct ns_common *ns;
 	int err;
-	//char *buf, *path = NULL;
-	//struct fs_struct *fs = current->fs;
-	//struct path old_root = fs->root;
 
 	file = proc_ns_fget(fd);
 	if (IS_ERR(file))
@@ -290,21 +287,6 @@ SYSCALL_DEFINE2(setns, int, fd, int, nstype)
 		free_nsproxy(new_nsproxy);
 		goto out;
 	}
-
-	/*if((nstype == CLONE_NEWNS) &&
-		(current_drv_ns() != &init_drv_ns) ){
-		buf = (char *)__get_free_page(GFP_ATOMIC);
-		if (buf) {
-			path = dentry_path_raw(old_root.dentry, buf, PAGE_SIZE);
-			printk(KERN_WARNING "%s: %s\n", __func__, path);
-			free_page((unsigned long)buf);
-		}
-
-		path_get(&old_root);
-		set_fs_pwd(current->fs, &old_root);
-		set_fs_root(current->fs, &old_root);
-		path_put(&old_root);
-	}*/
 
 	switch_task_namespaces(tsk, new_nsproxy);
 out:

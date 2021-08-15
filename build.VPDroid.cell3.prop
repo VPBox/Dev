@@ -166,15 +166,15 @@ net.bt.name=Android
 
 ro.boot.hardware.platform=sdm670
 
-ro.build.id=MRA58K
-ro.build.display.id=MRA58K
-ro.product.system.manufacturer=Xiaomi
-ro.boot.serialno=PB9H4PSS9DDUEUGA
-ro.serialno=PB9H4PSS9DDUEUGA
-ro.product.model=Redmi Note 4
-ro.product.product.model=Redmi Note 4
-ro.product.system.model=Redmi Note 4
-ro.boot.hardware.revision=Xiaomi
+ro.build.id=BLN-AL 10C00B381
+ro.build.display.id=BLN-AL 10C00B381
+ro.product.system.manufacturer=Huawei
+ro.boot.serialno=UEU4C16C08004756
+ro.serialno=UEU4C16C08004756
+ro.product.model=Huawei Honor 6x
+ro.product.product.model=Huawei Honor 6x
+ro.product.system.model=Huawei Honor 6x
+ro.boot.hardware.revision=Huawei
 ro.boot.hardware=mt6797
 ro.hardware=mt6797
 ro.boot.mode=normal
@@ -189,7 +189,7 @@ ro.revision=DVT1.0
 ro.cell.bh.name=ANDROID BT
 ro.cell.bh.smode=20
 #bh getState is true as follow #####################################################
-ro.cell.bh.addr=ac:c1:ee:57:64:9A
+ro.cell.bh.addr=A4:CA:A0:40:6A:09
 #bh getState is false as follow
 #ro.cell.bh.addr=02:00:00:00:00:00
 
@@ -200,7 +200,7 @@ ro.cell.dh.gway=18655424
 ro.cell.dh.nmask=16777215
 
 ro.cell.wf.bssid=40:31:3c:fc:4b:9f
-ro.cell.wf.ssid=Xiaomi_4B9D_5G
+ro.cell.wf.ssid=Huawei_4B9D_5G
 ro.cell.wf.rssi=-53
 ro.cell.wf.nid=1
 ro.cell.wf.maddr=02:00:00:00:00:00
@@ -230,8 +230,8 @@ ro.cell.gsm.psc=-1
 #ro.cell.cdma.longitute=1646750
 
 #modify imei and  add imei1 ,imei2#########################################
-ro.cell.phone.imei=865104036208548  
-#ro.cell.phone.imei1=865104036208548
+ro.cell.phone.imei=863982032132206  
+#ro.cell.phone.imei1=863982032132206
 #ro.cell.phone.imei2=865104036208555      
 ro.cell.phone.subid=460017112425331
 ro.cell.phone.imeisv=78
@@ -259,14 +259,14 @@ ro.build.version.sdk.cells=23
 ro.board.cells=msm8994
 ro.hardware.cells=angler
 
-http.agent=Dalvik/2.1.0 (Linux; U; Android 6.0; Redmi Note 4 MIUI/9.3.21)
-user.agent=Mozilla/5.0 (Linux; Android 6.0; Redmi Note 4 Build/MRA58K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 Mobile Safari/537.36
+http.agent=Dalvik/2.1.0 (Linux; U; Android 6.0; Huawei Honor 6x MIUI/9.3.21)
+user.agent=Mozilla/5.0 (Linux; Android 6.0; Huawei Honor 6x Build/BLN-AL 10C00B381; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 Mobile Safari/537.36
 
 ro.cell.sd.size=25345104k
-ro.cell.wlan.mac=AC:C1:EE:57:64:9B
-ro.cell.wlan.ip=192.168.1.107
-ro.boot.wifimacaddr=ac:c1:ee:57:64:9b
+ro.cell.wlan.mac=A4:CA:A0:40:5A:69
+ro.cell.wlan.ip=192.168.1.101
+ro.boot.wifimacaddr=A4:CA:A0:40:5A:69
 
-ro.cell.basebandversion=MOLY.LR11.W1603.MD.MP.V13.18.P90
-ro.cell.kernelversion=3.18.22+
+ro.cell.basebandversion=21.288.03.00.050,21.288.03.00.050
+ro.cell.kernelversion=4.1.18-g6bbdebf android@localhost #1 Wed Feb 7 04:14:38 CST 2018
 

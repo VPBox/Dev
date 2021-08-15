@@ -24,10 +24,6 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
   - cellsapp/: switch applications
 
-  - rilproxy/: rild virtualization
-
-  - qmuxproxy/: QCOM gps audio radio bluetooth socket data proxy
-
   - busybox/: Linux tools
 
 ### system
@@ -74,7 +70,7 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
   - kernel-modify-config： kernel config modify file
 
-  - build.VPDroid.prop/ build.VPDroid-1.prop/ build.VPDroid-2.prop/ build.VPDroid-3.prop:  custom configuration file for update customized environment
+  - build.VPDroid.prop build.VPDroid.cell2.prop build.VPDroid.cell3.prop:  custom configuration file for update customized environment
 
 ### basic code 
 
