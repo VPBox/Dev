@@ -7,30 +7,30 @@ We develop a transparent and stealthy Android OS Sandboxing named VPBox. With VP
 
 VPBox reveals a strong resilience against virtual-machine detection heuristics and device-consistency checks, as well as native performance. VPBox’s demo video is available at https://youtu.be/TpGD_jjxSqc.  
 
-# Overview of VPBox's Virtualization Architecture
+## Overview of VPBox's Virtualization Architecture
 
 <img src="https://github.com/VPBox/Dev/blob/master/VBOX-Architecture.png" width="398">
 
 The figure provides an overview of VPBox’s device virtualization. Each isolated VP runs a stock Android userspace environment. The names in red in figure represent Cells’s modules reused by VPBox. VPBox updates the other modules. For updated code implementation, please see the section of the code introduction below. 
 
-# Code Introduction
+## Code Introduction
 
 
 
-## cells
-  cells/: VP manager daemons
+### cells
+  - cells/: VP manager daemons
     
-  cellsservice/: VP manager
+  - cellsservice/: VP manager
 
-  cellsapp/: switch applications
+  - cellsapp/: switch applications
 
-  rilproxy/: rild virtualization
+  - rilproxy/: rild virtualization
 
-  qmuxproxy/: QCOM gps audio radio bluetooth socket data proxy
+  - qmuxproxy/: QCOM gps audio radio bluetooth socket data proxy
 
-  busybox/: Linux tools
+  - busybox/: Linux tools
 
-## system
+### system
   core/adb/: adb mutex virtualization
 
   core/init/: VP startup
@@ -41,7 +41,7 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
   core/sdcard/: sdcard virtualization
 
-## kernel
+### kernel
   drivers/base/core.c: drv namespace initialization
 
   kernel/drv_namespace.c: drv namespace api
@@ -54,7 +54,7 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
   kernel/power/wakelock.c: wakelock virtualization
 
-## frameworks
+### frameworks
   av/: camera audio video media virtualization
 
   native/libs/binder/: binder virtualization
@@ -65,10 +65,10 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
   base/core/java/android/app/CellsPrivateServiceManager.java: cellsservice java service
 
-## android-binder
+### android-binder
   binder virtualization  of the android operating system
 
-## configuration file
+### configuration file
 
   share-services: compile system configuration file
 
@@ -76,19 +76,19 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
   build.VPDroid.prop/ build.VPDroid-1.prop/ build.VPDroid-2.prop/ build.VPDroid-3.prop:  custom configuration file for update customized environment
 
-## basic code 
+### basic code 
 
 The Android source code is:  android-10.0.0_r33
 
 The ways to download source code:  https://source.android.com/setup/develop/repo
 
-# System Prerequisites
+## System Prerequisites
 
 Operating System: Ubuntu 20.04 LTS
 
 JDK version：openJDK version 9
 
-# Compile Command
+## Compile Command
 
 `source build/envsetup.sh`
 
@@ -97,9 +97,9 @@ JDK version：openJDK version 9
 `make -j4`
 
 
-# Benchmarks and Samples
+## Benchmarks and Samples
 
-## Benchmarks 
+### Benchmarks 
 
 Linpack (v1.1) for CPU; 
 
@@ -113,7 +113,7 @@ GPS Test app (v1.6.3) for GPS.
 
 Bluetooth Setting for Bluetooth. 
 
-## Samples  
+### Samples  
 
 We have used nine families of malware to evaluate virtualization environment detection.
 
