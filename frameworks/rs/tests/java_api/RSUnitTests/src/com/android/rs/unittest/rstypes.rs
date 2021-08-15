@@ -1,0 +1,81 @@
+/*
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "shared.rsh"
+#include "rs_graphics.rsh"
+
+rs_element elementTest;
+rs_type typeTest;
+rs_allocation allocationTest;
+rs_sampler samplerTest;
+rs_script scriptTest;
+
+rs_matrix4x4 matrix4x4Test;
+rs_matrix3x3 matrix3x3Test;
+rs_matrix2x2 matrix2x2Test;
+
+struct my_struct {
+    int i;
+    rs_allocation banana;
+};
+
+static bool basic_test(uint32_t index) {
+    bool failed = false;
+
+    rs_matrix4x4 matrix4x4TestLocal;
+    rs_matrix3x3 matrix3x3TestLocal;
+    rs_matrix2x2 matrix2x2TestLocal;
+    (void) matrix4x4TestLocal;
+	(void) matrix3x3TestLocal;
+    (void) matrix2x2TestLocal;
+
+    // This test focuses primarily on compilation-time, not run-time.
+    rs_element elementTestLocal;
+    rs_type typeTestLocal;
+    rs_allocation allocationTestLocal;
+    rs_sampler samplerTestLocal;
+    rs_script scriptTestLocal;
+    (void) elementTestLocal;
+    (void) typeTestLocal;
+    (void) allocationTestLocal;
+    (void) samplerTestLocal;
+    (void) scriptTestLocal;
+
+    struct my_struct structTest;
+    (void) structTest;
+
+    /*for (int i = 0; i < 4; i++) {
+        fontTestLocalArray[i] = fontTestLocal;
+    }*/
+
+    /*fontTest = fontTestLocalArray[3];*/
+
+    return failed;
+}
+
+void test_rstypes(uint32_t index, int test_num) {
+    bool failed = false;
+    failed |= basic_test(index);
+
+    if (failed) {
+        rsSendToClientBlocking(RS_MSG_TEST_FAILED);
+        rsDebug("rstypes_test FAILED", -1);
+    }
+    else {
+        rsSendToClientBlocking(RS_MSG_TEST_PASSED);
+        rsDebug("rstypes_test PASSED", 0);
+    }
+}

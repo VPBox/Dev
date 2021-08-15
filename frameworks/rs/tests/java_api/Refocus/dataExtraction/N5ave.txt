@@ -1,0 +1,53 @@
+N5(fp_relaxed + no force CPU)
+Initialize: 6185329
+UnpackInputImage: 767318818
+MarkLayerMask: 18810331
+ComputeLayerMatteBehindFocalDepth: 792356787
+ComputeIntegralImageForLayerBehindFocalDepth: 1380414062
+FilterLayerBehindFocalDepth: 2589058177
+updateSharpImageUsingFuzzyImage: 1369367186
+ComputeLayerMatteInFrontOfFocalDepth: 418402639
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 819410573
+FilterLayerInFrontOfFocalDepth: 2060655173
+finalizeFuzzyImageUsingSharpImage: 104623038
+PackOutputImage: 92873923
+N5(fp_relaxed + force-CPU)
+Initialize: 6259427
+UnpackInputImage: 451224582
+MarkLayerMask: 203898194
+ComputeLayerMatteBehindFocalDepth: 218055104
+ComputeIntegralImageForLayerBehindFocalDepth: 74875364
+FilterLayerBehindFocalDepth: 614245678
+updateSharpImageUsingFuzzyImage: 70974531
+ComputeLayerMatteInFrontOfFocalDepth: 148614167
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 74727743
+FilterLayerInFrontOfFocalDepth: 41885624
+finalizeFuzzyImageUsingSharpImage: 43354028
+PackOutputImage: 59065364
+N5(no rs_fp_relaxed + force-CPU)
+Initialize: 4540105
+UnpackInputImage: 470569807
+MarkLayerMask: 225496526
+ComputeLayerMatteBehindFocalDepth: 225137344
+ComputeIntegralImageForLayerBehindFocalDepth: 97053905
+FilterLayerBehindFocalDepth: 914040573
+updateSharpImageUsingFuzzyImage: 82445104
+ComputeLayerMatteInFrontOfFocalDepth: 160384602
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 94869461
+FilterLayerInFrontOfFocalDepth: 60688125
+finalizeFuzzyImageUsingSharpImage: 50893455
+PackOutputImage: 66094895
+N5(no fp_relaxed + no force CPU)
+Initialize: 8734948
+UnpackInputImage: 1100213263
+MarkLayerMask: 318460713
+ComputeLayerMatteBehindFocalDepth: 293971909
+ComputeIntegralImageForLayerBehindFocalDepth: 112185485
+FilterLayerBehindFocalDepth: 1207560346
+updateSharpImageUsingFuzzyImage: 113682169
+ComputeLayerMatteInFrontOfFocalDepth: 207521249
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 110567743
+FilterLayerInFrontOfFocalDepth: 84226023
+finalizeFuzzyImageUsingSharpImage: 63809288
+PackOutputImage: 75402361
+N5(original)

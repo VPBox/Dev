@@ -1,0 +1,1 @@
+reduce_general_wrong_api.rs:5:12: error: reduction kernels are not supported in SDK levels 11-23

@@ -1,0 +1,131 @@
+/*
+ * Copyright (C) 2011-2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * This file is auto-generated. DO NOT MODIFY!
+ * The source Renderscript file: reflection3264_multifile_1.rs
+ */
+
+package foo;
+
+import android.os.Build;
+import android.os.Process;
+import java.lang.reflect.Field;
+import android.renderscript.*;
+import foo.reflection3264_multifile_1BitCode;
+
+/**
+ * @hide
+ */
+public class ScriptC_reflection3264_multifile_1 extends ScriptC {
+    private static final String __rs_resource_name = "reflection3264_multifile_1";
+    // Constructor
+    public  ScriptC_reflection3264_multifile_1(RenderScript rs) {
+        super(rs,
+              __rs_resource_name,
+              reflection3264_multifile_1BitCode.getBitCode32(),
+              reflection3264_multifile_1BitCode.getBitCode64());
+        __I32 = Element.I32(rs);
+        __ALLOCATION = Element.ALLOCATION(rs);
+    }
+
+    private Element __ALLOCATION;
+    private Element __I32;
+    private FieldPacker __rs_fp_ALLOCATION;
+    private FieldPacker __rs_fp_I32;
+    private final static int mExportVarIdx_a = 0;
+    private int[] mExportVar_a;
+    public synchronized void set_a(int[] v) {
+        mExportVar_a = v;
+        FieldPacker fp = new FieldPacker(40);
+        for (int ct1 = 0; ct1 < 10; ct1++) {
+            fp.addI32(v[ct1]);
+        }
+
+        int []__dimArr = new int[1];
+        __dimArr[0] = 10;
+        setVar(mExportVarIdx_a, fp, __I32, __dimArr);
+    }
+
+    public int[] get_a() {
+        return mExportVar_a;
+    }
+
+    public Script.FieldID getFieldID_a() {
+        return createFieldID(mExportVarIdx_a, null);
+    }
+
+    private final static int mExportVarIdx_b = 1;
+    private Allocation[] mExportVar_b;
+    public synchronized void set_b(Allocation[] v) {
+        mExportVar_b = v;
+        FieldPacker fp = new FieldPacker(sIs64Bit ? 320 : 40);
+        for (int ct1 = 0; ct1 < 10; ct1++) {
+            fp.addObj(v[ct1]);
+        }
+
+        int []__dimArr = new int[1];
+        __dimArr[0] = 10;
+        setVar(mExportVarIdx_b, fp, __ALLOCATION, __dimArr);
+    }
+
+    public Allocation[] get_b() {
+        return mExportVar_b;
+    }
+
+    public Script.FieldID getFieldID_b() {
+        return createFieldID(mExportVarIdx_b, null);
+    }
+
+    private final static int mExportFuncIdx_f = 0;
+    public Script.InvokeID getInvokeID_f() {
+        return createInvokeID(mExportFuncIdx_f);
+    }
+
+    public void invoke_f(int c, Allocation d, int e) {
+        FieldPacker f_fp = new FieldPacker(sIs64Bit ? 48 : 12);
+        f_fp.addI32(c);
+        f_fp.skip(sIs64Bit ? 4 : 0);
+        f_fp.addObj(d);
+        f_fp.addI32(e);
+        f_fp.skip(sIs64Bit ? 4 : 0);
+        invoke(mExportFuncIdx_f, f_fp);
+    }
+
+    private static boolean sIs64Bit;
+
+    static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            sIs64Bit = Process.is64Bit();
+        }
+
+        else {
+            try {
+                Field f = RenderScript.class.getDeclaredField("sPointerSize");
+                f.setAccessible(true);
+                sIs64Bit = (f.getInt(null) == 8);
+            }
+
+            catch (Throwable e) {
+                sIs64Bit = false;
+            }
+
+        }
+
+    }
+
+}
+

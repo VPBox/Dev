@@ -1,0 +1,17 @@
+root_compute_really_bad.rs:4:5: error: Compute kernel root() is required to return a void type
+root_compute_really_bad.rs:5:31: error: In compute kernel root(), special parameter 'x' must be defined before special parameter 'y'.
+root_compute_really_bad.rs:6:19: error: In compute kernel root(), parameter 'extra1' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').
+root_compute_really_bad.rs:6:36: error: In compute kernel root(), parameter 'extra2' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').
+root_compute_really_bad.rs:4:14: error: Compute kernel root() cannot have non-pointer parameters besides special parameters ('context', 'x', 'y', 'z'). Parameter 'ain' is of type: 'int'
+root_compute_really_bad.rs:4:23: error: Compute kernel root() cannot have non-pointer parameters besides special parameters ('context', 'x', 'y', 'z'). Parameter 'aout' is of type: 'int'
+root_compute_really_bad.rs:4:33: error: Compute kernel root() cannot have non-pointer parameters besides special parameters ('context', 'x', 'y', 'z'). Parameter 'usrData' is of type: 'int'
+root_compute_really_bad.rs:4:48: error: Compute kernel root() cannot have non-pointer parameters besides special parameters ('context', 'x', 'y', 'z'). Parameter 'x1' is of type: 'float'
+root_compute_really_bad.rs:4:59: error: Compute kernel root() cannot have non-pointer parameters besides special parameters ('context', 'x', 'y', 'z'). Parameter 'y1' is of type: 'double'
+root_compute_really_bad.rs:4:5: error: Compute kernel root() must have at least one parameter for in or out
+root_compute_really_bad.rs:10:44: error: Compute kernel root2() can only have one non-const pointer parameter. Parameters 'ain' and 'usrData' are both non-const.
+root_compute_really_bad.rs:10:66: error: Unexpected parameter 'x1' for compute kernel root2()
+root_compute_really_bad.rs:11:26: error: Unexpected parameter 'y1' for compute kernel root2()
+root_compute_really_bad.rs:16:38: error: In compute kernel root_kernel(), special parameter 'x' must be defined before special parameter 'y'.
+root_compute_really_bad.rs:16:50: error: In compute kernel root_kernel(), parameter 'extra1' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').
+root_compute_really_bad.rs:16:67: error: In compute kernel root_kernel(), parameter 'extra2' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').
+root_compute_really_bad.rs:15:31: error: Compute kernel root_kernel() cannot have parameter 'aout' of pointer type: 'int *'

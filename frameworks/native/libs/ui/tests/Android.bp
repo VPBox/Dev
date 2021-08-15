@@ -1,0 +1,100 @@
+//
+// Copyright (C) 2014 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+cc_test {
+    name: "Region_test",
+    shared_libs: ["libui"],
+    srcs: ["Region_test.cpp"],
+    cflags: ["-Wall", "-Werror"],
+}
+
+cc_test {
+    name: "colorspace_test",
+    shared_libs: ["libui"],
+    srcs: ["colorspace_test.cpp"],
+    cflags: ["-Wall", "-Werror"],
+}
+
+cc_test {
+    name: "GraphicBufferAllocator_test",
+    header_libs: [
+        "libdvr_headers",
+        "libnativewindow_headers",
+    ],
+    static_libs: [
+        "libgmock",
+    ],
+    shared_libs: [
+        "liblog",
+	"libui",
+    ],
+    srcs: [
+        "GraphicBufferAllocator_test.cpp",
+        "mock/MockGrallocAllocator.cpp",
+    ],
+    cflags: ["-Wall", "-Werror"],
+}
+
+cc_test {
+    name: "GraphicBuffer_test",
+    header_libs: [
+        "libdvr_headers",
+        "libnativewindow_headers",
+    ],
+    shared_libs: [
+        "android.frameworks.bufferhub@1.0",
+        "libcutils",
+        "libhidlbase",
+        "libhwbinder",
+        "libui",
+        "libutils",
+    ],
+    srcs: ["GraphicBuffer_test.cpp"],
+    cflags: ["-Wall", "-Werror"],
+}
+
+cc_test {
+    name: "BufferHub_test",
+    header_libs: [
+        "libdvr_headers",
+        "libnativewindow_headers",
+    ],
+    static_libs: [
+        "libgmock",
+    ],
+    shared_libs: [
+        "android.frameworks.bufferhub@1.0",
+        "libcutils",
+        "libhidlbase",
+        "libhwbinder",
+        "liblog",
+        "libui",
+        "libutils"
+    ],
+    srcs: [
+        "BufferHubBuffer_test.cpp",
+        "BufferHubEventFd_test.cpp",
+        "BufferHubMetadata_test.cpp",
+    ],
+    cflags: ["-Wall", "-Werror"],
+}
+
+cc_test {
+    name: "Size_test",
+    shared_libs: ["libui"],
+    srcs: ["Size_test.cpp"],
+    cflags: ["-Wall", "-Werror"],
+}

@@ -1,0 +1,55 @@
+LOCAL_PATH:= $(call my-dir)
+
+# Test Reverb library
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := \
+	EffectReverb.c.arm \
+	EffectsMath.c.arm
+
+LOCAL_CFLAGS := -O2
+
+LOCAL_SHARED_LIBRARIES := \
+	libcutils \
+	libdl
+
+LOCAL_MODULE_RELATIVE_PATH := soundfx
+LOCAL_MODULE := libreverbtest
+
+LOCAL_C_INCLUDES := \
+	$(call include-path-for, audio-effects) \
+	$(call include-path-for, graphics corecg)
+
+LOCAL_MODULE_TAGS := optional
+
+include $(BUILD_SHARED_LIBRARY)
+
+# Test Equalizer library
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := \
+	EffectsMath.c.arm \
+	EffectEqualizer.cpp \
+	AudioBiquadFilter.cpp.arm \
+	AudioCoefInterpolator.cpp.arm \
+	AudioPeakingFilter.cpp.arm \
+	AudioShelvingFilter.cpp.arm \
+	AudioEqualizer.cpp.arm
+
+LOCAL_CFLAGS := -O2
+
+LOCAL_SHARED_LIBRARIES := \
+	libcutils \
+	libdl
+
+LOCAL_MODULE_RELATIVE_PATH := soundfx
+LOCAL_MODULE := libequalizertest
+
+LOCAL_C_INCLUDES := \
+	$(call include-path-for, graphics corecg) \
+	$(call include-path-for, audio-effects)
+
+LOCAL_MODULE_TAGS := optional
+
+include $(BUILD_SHARED_LIBRARY)
+

@@ -1,0 +1,7 @@
+root_compute_non_uint32_t_xyzwar.rs:6:17: error: Special parameter 'x' must be of type 'int' or 'unsigned int'. It is of type 'short'.
+root_compute_non_uint32_t_xyzwar.rs:6:26: error: Special parameter 'y' must be of type 'int' or 'unsigned int'. It is of type 'float'.
+root_compute_non_uint32_t_xyzwar.rs:6:26: error: Special parameters 'x' and 'y' must be of the same type. 'x' is of type 'short' while 'y' is of type 'float'.
+root_compute_non_uint32_t_xyzwar.rs:6:36: error: Special parameter 'z' must be of type 'int' or 'unsigned int'. It is of type 'double'.
+root_compute_non_uint32_t_xyzwar.rs:6:36: error: Special parameters 'x' and 'z' must be of the same type. 'x' is of type 'short' while 'z' is of type 'double'.
+root_compute_non_uint32_t_xyzwar.rs:6:44: error: In compute kernel root(), parameter 'w' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').
+root_compute_non_uint32_t_xyzwar.rs:6:53: error: In compute kernel root(), parameter 'ar' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').

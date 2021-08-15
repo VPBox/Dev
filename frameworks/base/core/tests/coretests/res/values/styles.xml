@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="Theme" parent="android:Theme">
+        <item name="android:windowAnimationStyle">@style/Animation</item>
+    </style>
+
+    <style name="Animation">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+        <item name="android:taskOpenEnterAnimation">@null</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+    </style>
+
+    <style name="LayoutInDisplayCutoutModeUnset">
+    </style>
+    <style name="LayoutInDisplayCutoutModeDefault">
+        <item name="android:windowLayoutInDisplayCutoutMode">default</item>
+    </style>
+    <style name="LayoutInDisplayCutoutModeShortEdges">
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+    <style name="LayoutInDisplayCutoutModeNever">
+        <item name="android:windowLayoutInDisplayCutoutMode">never</item>
+    </style>
+    <style name="WindowBackgroundColorLiteral">
+        <item name="android:windowBackground">#00FF00</item>
+    </style>
+    <style name="WindowBackgroundFallbackColorLiteral">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:colorBackground">@null</item>
+        <item name="android:windowBackgroundFallback">#0000FF</item>
+    </style>
+</resources>

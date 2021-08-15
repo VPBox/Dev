@@ -1,0 +1,69 @@
+&tlmm {
+	nfc {
+		/* define the real stuff */
+		nfc_int_default: nfc_int_default {
+			/* default state */
+			mux {
+				/* GPIO 63 NFC Read Interrupt */
+				pins = "gpio63";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio63";
+				drive-strength = <2>; /* 2 MA */
+				bias-pull-down;
+			};
+		};
+
+		nfc_enable_default: nfc_enable_default {
+			/* default state */
+			mux {
+				/* 25: NFC ENABLE, 23: NFC_SE_PWR_REQ */
+				/* 79: NFC_FW_DL_REQ_FROM_HOST */
+				pins = "gpio25", "gpio23", "gpio79";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio25", "gpio23", "gpio79";
+				drive-strength = <2>; /* 2 MA */
+				bias-pull-down;
+			};
+		};
+	};
+};
+
+&qupv3_se3_i2c {
+	status = "okay";
+	nq: nq@28 {
+		status = "okay";
+		compatible = "qcom,nq-nci";
+		reg = <0x28>;
+		interrupt-parent = <&tlmm>;
+		interrupt-names = "nfc_irq";
+		interrupts = <63 0>;
+		qcom,nq-ven = <&tlmm 25 0x00>;
+		qcom,nq-irq = <&tlmm 63 0x00>;
+		qcom,nq-firm = <&tlmm 79 0x00>;
+		qcom,nq-esepwr = <&tlmm 23 0x00>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&nfc_int_default &nfc_enable_default>;
+		qcom,nq-postinit-cmd = /bits/ 8
+			<0x5 0x20 0x02 0x05 0x01 0xA0 0xF2 0x01 0x01>;
+	};
+};
+
+&qupv3_se11_spi {
+	status = "ok";
+
+	ese@0 {
+		compatible = "nxp,pn81a";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		/* i2c NFC device handles eSE power:
+		 * i2c_1, reg 0x28
+		 */
+		nxp,nfcc = "1-0028";
+	};
+};

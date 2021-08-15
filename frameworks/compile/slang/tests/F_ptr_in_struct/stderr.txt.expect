@@ -1,0 +1,2 @@
+ptr_in_struct.rs:4:8: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 's'
+ptr_in_struct.rs:10:8: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 'voidStruct'

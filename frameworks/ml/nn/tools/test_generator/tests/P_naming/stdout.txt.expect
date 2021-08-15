@@ -1,0 +1,1848 @@
+// clang-format off
+// Generated file (from: conv_float.mod.py). Do not edit
+// clang-format off
+// Generated file (from: conv_float.mod.py). Do not edit
+// clang-format off
+// Generated file (from: conv_float.mod.py). Do not edit
+#include "../../TestGenerated.h"
+
+namespace conv_float {
+// Generated conv_float test
+#include "-"
+// Generated model constructor
+#include "-"
+} // namespace conv_float
+
+void CreateModel_model_name_nhwc_act_w_as_param_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_act_w_as_param_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_act_w_as_param_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 120.0f, 94.0f, 104.0f, 70.0f, 164.0f, 23.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_act_w_as_param_float) {
+    execute(conv_float::CreateModel_model_name_nhwc_act_w_as_param_float,
+            conv_float::is_ignored_model_name_nhwc_act_w_as_param_float,
+            conv_float::examples_model_name_example_name_nhwc_act_w_as_param_float);
+}
+
+void CreateModel_model_name_nhwc_act_w_as_param_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_act_w_as_param_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_act_w_as_param_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 120.0f, 94.0f, 104.0f, 70.0f, 164.0f, 23.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_act_w_as_param_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nhwc_act_w_as_param_float_relaxed,
+            conv_float::is_ignored_model_name_nhwc_act_w_as_param_float_relaxed,
+            conv_float::examples_model_name_example_name_nhwc_act_w_as_param_float_relaxed);
+}
+
+void CreateModel_model_name_nhwc_act_w_as_param_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static uint8_t op2_init[] = {132, 136, 140, 144, 148, 152, 156, 160, 160, 156, 152, 148, 144, 140, 136, 132};
+  model->setOperandValue(op2, op2_init, sizeof(uint8_t) * 16);
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_act_w_as_param_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_act_w_as_param_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 132, 134, 136, 138, 140, 142, 144}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {202, 160, 147, 152, 135, 182, 112, 156}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_act_w_as_param_quantized) {
+    execute(conv_float::CreateModel_model_name_nhwc_act_w_as_param_quantized,
+            conv_float::is_ignored_model_name_nhwc_act_w_as_param_quantized,
+            conv_float::examples_model_name_example_name_nhwc_act_w_as_param_quantized);
+}
+
+void CreateModel_model_name_nhwc_act_w_as_input_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_act_w_as_input_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_act_w_as_input_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}, {1, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 120.0f, 94.0f, 104.0f, 70.0f, 164.0f, 23.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_act_w_as_input_float) {
+    execute(conv_float::CreateModel_model_name_nhwc_act_w_as_input_float,
+            conv_float::is_ignored_model_name_nhwc_act_w_as_input_float,
+            conv_float::examples_model_name_example_name_nhwc_act_w_as_input_float);
+}
+
+void CreateModel_model_name_nhwc_act_w_as_input_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_act_w_as_input_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_act_w_as_input_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}, {1, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 120.0f, 94.0f, 104.0f, 70.0f, 164.0f, 23.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_act_w_as_input_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nhwc_act_w_as_input_float_relaxed,
+            conv_float::is_ignored_model_name_nhwc_act_w_as_input_float_relaxed,
+            conv_float::examples_model_name_example_name_nhwc_act_w_as_input_float_relaxed);
+}
+
+void CreateModel_model_name_nhwc_act_w_as_input_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_act_w_as_input_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_act_w_as_input_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 132, 134, 136, 138, 140, 142, 144}}, {1, {132, 136, 140, 144, 148, 152, 156, 160, 160, 156, 152, 148, 144, 140, 136, 132}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {202, 160, 147, 152, 135, 182, 112, 156}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_act_w_as_input_quantized) {
+    execute(conv_float::CreateModel_model_name_nhwc_act_w_as_input_quantized,
+            conv_float::is_ignored_model_name_nhwc_act_w_as_input_quantized,
+            conv_float::examples_model_name_example_name_nhwc_act_w_as_input_quantized);
+}
+
+void CreateModel_model_name_nhwc_relu6_w_as_param_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_relu6_w_as_param_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_relu6_w_as_param_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_relu6_w_as_param_float) {
+    execute(conv_float::CreateModel_model_name_nhwc_relu6_w_as_param_float,
+            conv_float::is_ignored_model_name_nhwc_relu6_w_as_param_float,
+            conv_float::examples_model_name_example_name_nhwc_relu6_w_as_param_float);
+}
+
+void CreateModel_model_name_nhwc_relu6_w_as_param_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_relu6_w_as_param_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_relu6_w_as_param_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_relu6_w_as_param_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nhwc_relu6_w_as_param_float_relaxed,
+            conv_float::is_ignored_model_name_nhwc_relu6_w_as_param_float_relaxed,
+            conv_float::examples_model_name_example_name_nhwc_relu6_w_as_param_float_relaxed);
+}
+
+void CreateModel_model_name_nhwc_relu6_w_as_param_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static uint8_t op2_init[] = {132, 136, 140, 144, 148, 152, 156, 160, 160, 156, 152, 148, 144, 140, 136, 132};
+  model->setOperandValue(op2, op2_init, sizeof(uint8_t) * 16);
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_relu6_w_as_param_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_relu6_w_as_param_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 132, 134, 136, 138, 140, 142, 144}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {103, 103, 103, 103, 103, 103, 103, 103}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_relu6_w_as_param_quantized) {
+    execute(conv_float::CreateModel_model_name_nhwc_relu6_w_as_param_quantized,
+            conv_float::is_ignored_model_name_nhwc_relu6_w_as_param_quantized,
+            conv_float::examples_model_name_example_name_nhwc_relu6_w_as_param_quantized);
+}
+
+void CreateModel_model_name_nhwc_relu6_w_as_input_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_relu6_w_as_input_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_relu6_w_as_input_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}, {1, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_relu6_w_as_input_float) {
+    execute(conv_float::CreateModel_model_name_nhwc_relu6_w_as_input_float,
+            conv_float::is_ignored_model_name_nhwc_relu6_w_as_input_float,
+            conv_float::examples_model_name_example_name_nhwc_relu6_w_as_input_float);
+}
+
+void CreateModel_model_name_nhwc_relu6_w_as_input_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_relu6_w_as_input_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_relu6_w_as_input_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f}}, {1, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_relu6_w_as_input_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nhwc_relu6_w_as_input_float_relaxed,
+            conv_float::is_ignored_model_name_nhwc_relu6_w_as_input_float_relaxed,
+            conv_float::examples_model_name_example_name_nhwc_relu6_w_as_input_float_relaxed);
+}
+
+void CreateModel_model_name_nhwc_relu6_w_as_input_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {0};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nhwc_relu6_w_as_input_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nhwc_relu6_w_as_input_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 132, 134, 136, 138, 140, 142, 144}}, {1, {132, 136, 140, 144, 148, 152, 156, 160, 160, 156, 152, 148, 144, 140, 136, 132}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {103, 103, 103, 103, 103, 103, 103, 103}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nhwc_relu6_w_as_input_quantized) {
+    execute(conv_float::CreateModel_model_name_nhwc_relu6_w_as_input_quantized,
+            conv_float::is_ignored_model_name_nhwc_relu6_w_as_input_quantized,
+            conv_float::examples_model_name_example_name_nhwc_relu6_w_as_input_quantized);
+}
+
+void CreateModel_model_name_nchw_layout_act_w_as_param_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_act_w_as_param_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_act_w_as_param_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 94.0f, 70.0f, 23.0f, 120.0f, 104.0f, 164.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_act_w_as_param_float) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_act_w_as_param_float,
+            conv_float::is_ignored_model_name_nchw_layout_act_w_as_param_float,
+            conv_float::examples_model_name_example_name_nchw_layout_act_w_as_param_float);
+}
+
+void CreateModel_model_name_nchw_layout_act_w_as_param_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_act_w_as_param_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_act_w_as_param_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 94.0f, 70.0f, 23.0f, 120.0f, 104.0f, 164.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_act_w_as_param_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_act_w_as_param_float_relaxed,
+            conv_float::is_ignored_model_name_nchw_layout_act_w_as_param_float_relaxed,
+            conv_float::examples_model_name_example_name_nchw_layout_act_w_as_param_float_relaxed);
+}
+
+void CreateModel_model_name_nchw_layout_act_w_as_param_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static uint8_t op2_init[] = {132, 140, 148, 156, 136, 144, 152, 160, 160, 152, 144, 136, 156, 148, 140, 132};
+  model->setOperandValue(op2, op2_init, sizeof(uint8_t) * 16);
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_act_w_as_param_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_act_w_as_param_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 134, 138, 142, 132, 136, 140, 144}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {202, 147, 135, 112, 160, 152, 182, 156}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_act_w_as_param_quantized) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_act_w_as_param_quantized,
+            conv_float::is_ignored_model_name_nchw_layout_act_w_as_param_quantized,
+            conv_float::examples_model_name_example_name_nchw_layout_act_w_as_param_quantized);
+}
+
+void CreateModel_model_name_nchw_layout_act_w_as_input_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_act_w_as_input_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_act_w_as_input_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}, {1, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 94.0f, 70.0f, 23.0f, 120.0f, 104.0f, 164.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_act_w_as_input_float) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_act_w_as_input_float,
+            conv_float::is_ignored_model_name_nchw_layout_act_w_as_input_float,
+            conv_float::examples_model_name_example_name_nchw_layout_act_w_as_input_float);
+}
+
+void CreateModel_model_name_nchw_layout_act_w_as_input_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_act_w_as_input_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_act_w_as_input_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}, {1, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {204.0f, 94.0f, 70.0f, 23.0f, 120.0f, 104.0f, 164.0f, 112.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_act_w_as_input_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_act_w_as_input_float_relaxed,
+            conv_float::is_ignored_model_name_nchw_layout_act_w_as_input_float_relaxed,
+            conv_float::examples_model_name_example_name_nchw_layout_act_w_as_input_float_relaxed);
+}
+
+void CreateModel_model_name_nchw_layout_act_w_as_input_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {1};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_act_w_as_input_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_act_w_as_input_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 134, 138, 142, 132, 136, 140, 144}}, {1, {132, 140, 148, 156, 136, 144, 152, 160, 160, 152, 144, 136, 156, 148, 140, 132}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {202, 147, 135, 112, 160, 152, 182, 156}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_act_w_as_input_quantized) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_act_w_as_input_quantized,
+            conv_float::is_ignored_model_name_nchw_layout_act_w_as_input_quantized,
+            conv_float::examples_model_name_example_name_nchw_layout_act_w_as_input_quantized);
+}
+
+void CreateModel_model_name_nchw_layout_relu6_w_as_param_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_relu6_w_as_param_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_relu6_w_as_param_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_relu6_w_as_param_float) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_relu6_w_as_param_float,
+            conv_float::is_ignored_model_name_nchw_layout_relu6_w_as_param_float,
+            conv_float::examples_model_name_example_name_nchw_layout_relu6_w_as_param_float);
+}
+
+void CreateModel_model_name_nchw_layout_relu6_w_as_param_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op2_init[] = {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f};
+  model->setOperandValue(op2, op2_init, sizeof(float) * 16);
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_relu6_w_as_param_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_relu6_w_as_param_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_relu6_w_as_param_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_relu6_w_as_param_float_relaxed,
+            conv_float::is_ignored_model_name_nchw_layout_relu6_w_as_param_float_relaxed,
+            conv_float::examples_model_name_example_name_nchw_layout_relu6_w_as_param_float_relaxed);
+}
+
+void CreateModel_model_name_nchw_layout_relu6_w_as_param_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static uint8_t op2_init[] = {132, 140, 148, 156, 136, 144, 152, 160, 160, 152, 144, 136, 156, 148, 140, 132};
+  model->setOperandValue(op2, op2_init, sizeof(uint8_t) * 16);
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_relu6_w_as_param_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_relu6_w_as_param_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 134, 138, 142, 132, 136, 140, 144}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {103, 103, 103, 103, 103, 103, 103, 103}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_relu6_w_as_param_quantized) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_relu6_w_as_param_quantized,
+            conv_float::is_ignored_model_name_nchw_layout_relu6_w_as_param_quantized,
+            conv_float::examples_model_name_example_name_nchw_layout_relu6_w_as_param_quantized);
+}
+
+void CreateModel_model_name_nchw_layout_relu6_w_as_input_float(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_relu6_w_as_input_float(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_relu6_w_as_input_float = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}, {1, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_relu6_w_as_input_float) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_relu6_w_as_input_float,
+            conv_float::is_ignored_model_name_nchw_layout_relu6_w_as_input_float,
+            conv_float::examples_model_name_example_name_nchw_layout_relu6_w_as_input_float);
+}
+
+void CreateModel_model_name_nchw_layout_relu6_w_as_input_float_relaxed(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type0);
+  auto op2 = model->addOperand(&type1);
+  auto op3 = model->addOperand(&type2);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type0);
+  // Phase 2, operations
+  static float op3_init[] = {-200.0f};
+  model->setOperandValue(op3, op3_init, sizeof(float) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  // Phase 4: set relaxed execution
+  model->relaxComputationFloat32toFloat16(true);
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_relu6_w_as_input_float_relaxed(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_relu6_w_as_input_float_relaxed = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f}}, {1, {1.0f, 3.0f, 5.0f, 7.0f, 2.0f, 4.0f, 6.0f, 8.0f, 8.0f, 6.0f, 4.0f, 2.0f, 7.0f, 5.0f, 3.0f, 1.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_relu6_w_as_input_float_relaxed) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_relu6_w_as_input_float_relaxed,
+            conv_float::is_ignored_model_name_nchw_layout_relu6_w_as_input_float_relaxed,
+            conv_float::examples_model_name_example_name_nchw_layout_relu6_w_as_input_float_relaxed);
+}
+
+void CreateModel_model_name_nchw_layout_relu6_w_as_input_quantized(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {1, 2, 2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {2, 2, 2, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {1});
+  OperandType type3(Type::INT32, {});
+  OperandType type4(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 0.5f, 128);
+  OperandType type5(Type::TENSOR_QUANT8_ASYMM, {2, 2, 2, 2}, 0.25f, 128);
+  OperandType type6(Type::TENSOR_INT32, {1}, 0.125f, 0);
+  OperandType type7(Type::TENSOR_QUANT8_ASYMM, {1, 2, 2, 2}, 2.0f, 100);
+  // Phase 1, operands
+  auto op1 = model->addOperand(&type4);
+  auto op2 = model->addOperand(&type5);
+  auto op3 = model->addOperand(&type6);
+  auto param = model->addOperand(&type3);
+  auto param1 = model->addOperand(&type3);
+  auto param2 = model->addOperand(&type3);
+  auto act = model->addOperand(&type3);
+  auto layout = model->addOperand(&type3);
+  auto op4 = model->addOperand(&type7);
+  // Phase 2, operations
+  static int32_t op3_init[] = {-1600};
+  model->setOperandValue(op3, op3_init, sizeof(int32_t) * 1);
+  static int32_t param_init[] = {1};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t act_init[] = {3};
+  model->setOperandValue(act, act_init, sizeof(int32_t) * 1);
+  static int32_t layout_init[] = {1};
+  model->setOperandValue(layout, layout_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_CONV_2D, {op1, op2, op3, param, param1, param2, act, layout}, {op4});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {op1, op2},
+    {op4});
+  assert(model->isValid());
+}
+
+bool is_ignored_model_name_nchw_layout_relu6_w_as_input_quantized(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_model_name_example_name_nchw_layout_relu6_w_as_input_quantized = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {130, 134, 138, 142, 132, 136, 140, 144}}, {1, {132, 140, 148, 156, 136, 144, 152, 160, 160, 152, 144, 136, 156, 148, 140, 132}}}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {{0, {103, 103, 103, 103, 103, 103, 103, 103}}}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, conv_float_model_name_example_name_nchw_layout_relu6_w_as_input_quantized) {
+    execute(conv_float::CreateModel_model_name_nchw_layout_relu6_w_as_input_quantized,
+            conv_float::is_ignored_model_name_nchw_layout_relu6_w_as_input_quantized,
+            conv_float::examples_model_name_example_name_nchw_layout_relu6_w_as_input_quantized);
+}
+
+#include "../generated/tests/conv_float.mod.py.cpp"

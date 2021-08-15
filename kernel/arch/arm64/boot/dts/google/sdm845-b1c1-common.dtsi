@@ -1,0 +1,229 @@
+/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/* Common B1C1 includes go here (i.e. not display) */
+/* TODO: Split this file into bluetooth/keys/display/memory/power/thermal */
+
+/plugin/;
+
+#include <dt-bindings/clock/qcom,gcc-sdm845.h>
+#include <dt-bindings/clock/qcom,camcc-sdm845.h>
+#include <dt-bindings/clock/qcom,dispcc-sdm845.h>
+#include <dt-bindings/clock/qcom,rpmh.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+#include <dt-bindings/clock/mdss-10nm-pll-clk.h>
+
+#include "../qcom/sdm845-pmic-overlay.dtsi"
+#include "../qcom/sdm845-pinctrl-overlay.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/clock/qcom,camcc-sdm845.h>
+#include "sdm845-camera-sensor.dtsi"
+#include "sdm845-b1c1-display.dtsi"
+#include "sdm845-b1c1-pinctrl.dtsi"
+#include "sdm845-b1c1-haptics.dtsi"
+#include "sdm845-b1c1-nfc.dtsi"
+#include "sdm845-b1c1-citadel.dtsi"
+#include "sdm845-b1c1-easel.dtsi"
+#include "sdm845-b1c1-rainbow.dtsi"
+#include "sdm845-b1c1-fingerprint.dtsi"
+#include "sdm845-b1c1-regulator.dtsi"
+#include "sdm845-b1c1-wcharger.dtsi"
+#include "sdm845-b1c1-memory.dtsi"
+#include "sdm845-b1c1-thermal.dtsi"
+#include "sdm845-b1c1-usb.dtsi"
+#include "sdm845-b1c1-battery.dtsi"
+
+&vendor {
+	bluetooth: bt_wcn3990 {
+		compatible = "qca,wcn3990";
+		qca,bt-vdd-io-supply = <&pm8998_s3>;
+		qca,bt-vdd-xtal-supply = <&pm8998_s5>;
+		qca,bt-vdd-core-supply = <&pm8998_l7>;
+		qca,bt-vdd-pa-supply = <&pm8998_l17>;
+		qca,bt-vdd-ldo-supply = <&pm8998_l25>;
+
+		qca,bt-vdd-io-voltage-level = <1352000 1352000>;
+		qca,bt-vdd-xtal-voltage-level = <2040000 2040000>;
+		qca,bt-vdd-core-voltage-level = <1800000 1800000>;
+		qca,bt-vdd-pa-voltage-level = <1304000 1304000>;
+		qca,bt-vdd-ldo-voltage-level = <3312000 3312000>;
+
+		qca,bt-vdd-io-current-level = <1>; /* LPM/PFM */
+		qca,bt-vdd-xtal-current-level = <1>; /* LPM/PFM */
+		qca,bt-vdd-core-current-level = <1>; /* LPM/PFM */
+		qca,bt-vdd-pa-current-level = <1>; /* LPM/PFM */
+		qca,bt-vdd-ldo-current-level = <1>; /* LPM/PFM */
+	};
+};
+
+&soc {
+	gpio_keys {
+		compatible = "gpio-keys";
+		label = "gpio-keys";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&key_vol_up_default>;
+
+		vol_up {
+			label = "volume_up";
+			gpios = <&pm8998_gpios 6 GPIO_ACTIVE_LOW>;
+			linux,input-type = <1>;
+			linux,code = <115>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+			linux,can-disable;
+		};
+	};
+
+	qcom,msm-imem@146bf000 {
+		restart_info@a94 {
+			compatible = "msm-imem-restart_info";
+			reg = <0xa94 100>;
+		};
+	};
+
+	modemsmem {
+		compatible = "modemsmem";
+	};
+
+	bootloader_log {
+		compatible = "qcom,bldr_log";
+		reg = <0xA1800000 0x5C00>, <0xA1806000 0x5C00>;
+		reg-names = "bl_log", "bl_old_log";
+		memory-region = <&debug_info>;
+	};
+
+	bootloader_kinfo {
+		compatible = "bootloader_kinfo";
+		reg = <0xA1805C00 0x3C0>;
+		reg-names = "kinfo";
+		memory-region = <&debug_info>;
+	};
+
+	ramoops {
+		compatible = "ramoops";
+		memory-region = <&ramoops_mem>;
+		alt-memory-region = <&alt_ramoops_mem>;
+		record-size = <0x20000>;
+		console-size = <0x100000>;
+		pmsg-size = <0x80000>;
+	};
+
+	access_ramoops@0 {
+		compatible = "access_ramoops";
+		label = "metadata";
+		memory-region = <&ramoops_meta_mem>;
+	};
+
+	access_ramoops@1 {
+		compatible = "access_ramoops";
+		label = "ramoops";
+		memory-region = <&alt_ramoops_mem>;
+	};
+
+	keydebug {
+		compatible = "keydebug";
+		key_down_delay = <7000>;
+		keys_down = <116>;
+		dbg_fn_delay = <2500>;
+	};
+};
+
+&ufsphy_mem {
+	compatible = "qcom,ufs-phy-qmp-v3";
+
+	vdda-phy-supply = <&pm8998_l1>; /* 0.88v */
+	vdda-pll-supply = <&pm8998_l26>; /* 1.2v */
+	vdda-phy-max-microamp = <62900>;
+	vdda-pll-max-microamp = <18300>;
+
+	status = "ok";
+};
+
+&ufshc_mem {
+	vdd-hba-supply = <&ufs_phy_gdsc>;
+	vdd-hba-fixed-regulator;
+	vcc-supply = <&pm8998_l20>;
+	vcc-voltage-level = <2950000 2960000>;
+	vccq2-supply = <&pm8998_s4>;
+	vcc-max-microamp = <600000>;
+	vccq2-max-microamp = <600000>;
+
+	qcom,vddp-ref-clk-supply = <&pm8998_l2>;
+	qcom,vddp-ref-clk-max-microamp = <100>;
+
+	status = "ok";
+};
+
+&pcie0 {
+	status = "disabled";
+};
+
+&pmi8998_switch1 {
+	pinctrl-names = "led_enable", "led_disable";
+	pinctrl-0 = <&flash_led3_front_en>;
+	pinctrl-1 = <&flash_led3_front_dis>;
+};
+
+&qupv3_se9_2uart {
+	status = "ok";
+};
+
+&qupv3_se7_spi {
+	status = "ok";
+	qcom,disable-autosuspend;
+};
+
+&qupv3_se3_i2c {
+	status = "ok";
+};
+
+&qupv3_se10_i2c {
+	status = "ok";
+};
+
+&qupv3_se6_4uart {
+	status = "ok";
+};
+
+&thermal_zones {
+	vbat_too_low {
+		trips {
+			low-vbat {
+				temperature = <2800>;
+			};
+		};
+	};
+};
+
+&spmi_bus {
+	qcom,pm8998@0 {
+		qcom,power-on@800 {
+			interrupts = <0x0 0x8 0x0 IRQ_TYPE_NONE>,
+				     <0x0 0x8 0x1 IRQ_TYPE_NONE>,
+				     <0x0 0x8 0x3 IRQ_TYPE_NONE>,
+				     <0x0 0x8 0x4 IRQ_TYPE_NONE>,
+				     <0x0 0x8 0x5 IRQ_TYPE_NONE>;
+			interrupt-names = "kpdpwr", "resin", "kpdpwr-bark",
+					"resin-bark", "kpdpwr-resin-bark";
+			qcom,pon_1 {
+				qcom,use-bark;
+			};
+		};
+	};
+};
+
+// Force warm reboot on 'shutdown,thermal'
+&msm_poweroff {
+	qcom,force-warm-reboot-on-thermal-shutdown;
+};

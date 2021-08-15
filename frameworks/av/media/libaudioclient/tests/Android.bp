@@ -1,0 +1,35 @@
+cc_defaults {
+    name: "libaudioclient_tests_defaults",
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}
+
+cc_test {
+    name: "test_create_audiotrack",
+    defaults: ["libaudioclient_tests_defaults"],
+    srcs: ["test_create_audiotrack.cpp",
+           "test_create_utils.cpp"],
+    shared_libs: [
+        "libaudioclient",
+        "libbinder",
+        "libcutils",
+        "libutils",
+    ],
+    data: ["track_test_input_*.txt"],
+}
+
+cc_test {
+    name: "test_create_audiorecord",
+    defaults: ["libaudioclient_tests_defaults"],
+    srcs: ["test_create_audiorecord.cpp",
+           "test_create_utils.cpp"],
+    shared_libs: [
+        "libaudioclient",
+        "libbinder",
+        "libcutils",
+        "libutils",
+    ],
+    data: ["record_test_input_*.txt"],
+}

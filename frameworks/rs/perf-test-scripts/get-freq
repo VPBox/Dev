@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# defines
+CPU_DIR="/sys/devices/system/cpu"
+GPU_DIR="/sys/class/kgsl/kgsl-3d0"
+
+# helper functions
+fileexists() {
+  [ `adb shell "[ -f $1 ] && echo found"` ]
+}
+getprop() {
+  if fileexists $1; then
+    echo `adb shell cat $1 | tr -d '\r'`
+  else
+    echo "FILE $1 NOT FOUND"
+  fi
+}
+setprop() {
+  if fileexists $1; then
+    adb shell "echo -n $2 > $1"
+  else
+    echo "FILE $1 NOT FOUND"
+  fi
+}
+
+# setup
+echo
+if [[ "`adb shell id | tr -d '\r' | awk -F'[()]' '{print $2}'`" != "root" ]]; then
+  adb root
+  adb wait-for-device
+fi
+
+# device name
+echo Device: `adb shell getprop ro.product.model`
+echo
+
+# collect and count all cores
+frequency=
+frequencies=
+cores=`adb shell ls /sys/devices/system/cpu/ | grep cpu[0-9].* | tr -d '\r'`
+for core in $cores; do
+
+  # display cpu
+  echo "$core:"
+
+  # display current status
+  if fileexists $CPU_DIR/$core/online && [ `getprop $CPU_DIR/$core/online` -eq 0 ]; then
+    echo "  Status: OFFLINE"
+  else
+    echo "  Status: ONLINE"
+  fi
+
+  # display available frequencies
+  if fileexists $CPU_DIR/$core/cpufreq/scaling_available_frequencies; then
+    frequencies=(`getprop $CPU_DIR/$core/cpufreq/scaling_available_frequencies`)
+  elif fileexists $CPU_DIR/$core/cpufreq/stats/time_in_state; then
+    frequencies=(`adb shell cat $CPU_DIR/$core/cpufreq/stats/time_in_state | cut -f1 -d " " | tr -d '\r'`)
+  fi
+  frequencies=( `printf "%s\n" "${frequencies[@]}" | sort -n` )
+  echo "  Available Frequencies: ${frequencies[@]} (Hz)"
+
+  # display current frequency
+  if fileexists $CPU_DIR/$core/cpufreq/scaling_cur_freq; then
+    frequency=`getprop $CPU_DIR/$core/cpufreq/scaling_cur_freq`
+  fi
+  echo "  Current Frequency: $frequency (Hz)"
+
+done
+
+# poll gpu
+echo
+echo "GPU:"
+
+# get available gpu frequencies in sorted order
+if fileexists $GPU_DIR/devfreq/available_frequencies; then
+  frequencies=(`getprop $GPU_DIR/devfreq/available_frequencies`)
+elif fileexists $GPU_DIR/gpu_available_frequencies; then
+  frequencies=(`getprop $GPU_DIR/gpu_available_frequencies`)
+elif fileexists /d/clock/gbus/possible_rates; then
+  frequencies=(`getprop /d/clock/gbus/possible_rates`)
+else
+  echo "  Unable to find available GPU frequencies"
+  echo
+  exit
+fi
+frequencies=( `printf "%s\n" "${frequencies[@]}" | sort -n` )
+if [ ${frequencies[0]} == "(kHz)" ]; then
+  frequencies=(`printf "%s000\n" "${frequencies[@]:1}"`)
+fi
+echo "  Available Frequencies: ${frequencies[@]} (Hz)"
+
+# collect and print current gpu frequency
+if fileexists $GPU_DIR/max_gpuclk; then
+  freq=`getprop $GPU_DIR/max_gpuclk`
+elif fileexists /d/clock/override.gbus/rate; then
+  freq=`getprop /d/clock/override.gbus/rate`
+else
+  echo "ERROR: unable to find current GPU frequency"
+  exit
+fi
+echo "  Current Frequency: $freq (Hz)"
+echo
+
+

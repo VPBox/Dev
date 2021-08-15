@@ -1,0 +1,173 @@
+Initialize: 0
+UnpackInputImage: 0
+MarkLayerMask: 0
+ComputeLayerMatteBehindFocalDepth: 0
+ComputeIntegralImageForLayerBehindFocalDepth: 0
+FilterLayerBehindFocalDepth: 0
+updateSharpImageUsingFuzzyImage: 0
+ComputeLayerMatteInFrontOfFocalDepth: 0
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 0
+FilterLayerInFrontOfFocalDepth: 0
+finalizeFuzzyImageUsingSharpImage: 0
+PackOutputImage: 0
+N5(fp_relaxed + no force CPU)
+1.
+Initialize: 7692709
+UnpackInputImage: 744708645
+MarkLayerMask: 19980002
+ComputeLayerMatteBehindFocalDepth: 798940885
+ComputeIntegralImageForLayerBehindFocalDepth: 1965669061
+FilterLayerBehindFocalDepth: 1993508490
+updateSharpImageUsingFuzzyImage: 1368157239
+ComputeLayerMatteInFrontOfFocalDepth: 731938958
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 1019061302
+FilterLayerInFrontOfFocalDepth: 1618829219
+finalizeFuzzyImageUsingSharpImage: 98189844
+PackOutputImage: 89524271
+2.
+Initialize: 8358281
+UnpackInputImage: 805078749
+MarkLayerMask: 17205573
+ComputeLayerMatteBehindFocalDepth: 786876823
+ComputeIntegralImageForLayerBehindFocalDepth: 1086793648
+FilterLayerBehindFocalDepth: 2891901406
+updateSharpImageUsingFuzzyImage: 1368069791
+ComputeLayerMatteInFrontOfFocalDepth: 264553907
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 718563594
+FilterLayerInFrontOfFocalDepth: 2280942708
+finalizeFuzzyImageUsingSharpImage: 117157344
+PackOutputImage: 97593384
+3.
+Initialize: 2504999
+UnpackInputImage: 752169062
+MarkLayerMask: 19245419
+ComputeLayerMatteBehindFocalDepth: 791252655
+ComputeIntegralImageForLayerBehindFocalDepth: 1088779478
+FilterLayerBehindFocalDepth: 2881764636
+updateSharpImageUsingFuzzyImage: 1371874530
+ComputeLayerMatteInFrontOfFocalDepth: 258715052
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 720606824
+FilterLayerInFrontOfFocalDepth: 2282193592
+finalizeFuzzyImageUsingSharpImage: 98521926
+PackOutputImage: 91504115
+N5(fp_relaxed + force-CPU)
+1.
+Initialize: 3813542
+UnpackInputImage: 421386040
+MarkLayerMask: 198773228
+ComputeLayerMatteBehindFocalDepth: 210737136
+ComputeIntegralImageForLayerBehindFocalDepth: 73791043
+FilterLayerBehindFocalDepth: 615654272
+updateSharpImageUsingFuzzyImage: 71035939
+ComputeLayerMatteInFrontOfFocalDepth: 146879480
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 72502710
+FilterLayerInFrontOfFocalDepth: 42400781
+finalizeFuzzyImageUsingSharpImage: 43389844
+PackOutputImage: 62504687
+2.
+Initialize: 6421147
+UnpackInputImage: 487326405
+MarkLayerMask: 209085365
+ComputeLayerMatteBehindFocalDepth: 217816302
+ComputeIntegralImageForLayerBehindFocalDepth: 75212135
+FilterLayerBehindFocalDepth: 604758178
+updateSharpImageUsingFuzzyImage: 70968021
+ComputeLayerMatteInFrontOfFocalDepth: 149412813
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 77782342
+FilterLayerInFrontOfFocalDepth: 42192239
+finalizeFuzzyImageUsingSharpImage: 45541875
+PackOutputImage: 57080886
+3.
+Initialize: 8543593
+UnpackInputImage: 444961302
+MarkLayerMask: 203835989
+ComputeLayerMatteBehindFocalDepth: 225611875
+ComputeIntegralImageForLayerBehindFocalDepth: 75622916
+FilterLayerBehindFocalDepth: 622324584
+updateSharpImageUsingFuzzyImage: 70919634
+ComputeLayerMatteInFrontOfFocalDepth: 149550208
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 73898178
+FilterLayerInFrontOfFocalDepth: 41063852
+finalizeFuzzyImageUsingSharpImage: 41130365
+PackOutputImage: 57610520
+N5(no rs_fp_relaxed + force-CPU)
+1.
+Initialize: 1662136
+UnpackInputImage: 445091145
+MarkLayerMask: 227939426
+ComputeLayerMatteBehindFocalDepth: 216610990
+ComputeIntegralImageForLayerBehindFocalDepth: 96751510
+FilterLayerBehindFocalDepth: 903952397
+updateSharpImageUsingFuzzyImage: 82895155
+ComputeLayerMatteInFrontOfFocalDepth: 152075989
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 93638178
+FilterLayerInFrontOfFocalDepth: 57860417
+finalizeFuzzyImageUsingSharpImage: 48637917
+PackOutputImage: 61420416
+2.
+Initialize: 3890053
+UnpackInputImage: 478362446
+MarkLayerMask: 221298125
+ComputeLayerMatteBehindFocalDepth: 216240104
+ComputeIntegralImageForLayerBehindFocalDepth: 96675156
+FilterLayerBehindFocalDepth: 882288803
+updateSharpImageUsingFuzzyImage: 77736509
+ComputeLayerMatteInFrontOfFocalDepth: 154800785
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 95162395
+FilterLayerInFrontOfFocalDepth: 59589948
+finalizeFuzzyImageUsingSharpImage: 50662969
+PackOutputImage: 60832031
+3.
+Initialize: 8068126
+UnpackInputImage: 488255832
+MarkLayerMask: 227252029
+ComputeLayerMatteBehindFocalDepth: 242560939
+ComputeIntegralImageForLayerBehindFocalDepth: 97735051
+FilterLayerBehindFocalDepth: 955880519
+updateSharpImageUsingFuzzyImage: 86703648
+ComputeLayerMatteInFrontOfFocalDepth: 174277032
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 95807812
+FilterLayerInFrontOfFocalDepth: 64614010
+finalizeFuzzyImageUsingSharpImage: 53379479
+PackOutputImage: 76032240
+N5(no fp_relaxed + no force CPU)
+1.
+Initialize: 14349584
+UnpackInputImage: 806706250
+MarkLayerMask: 229788125
+ComputeLayerMatteBehindFocalDepth: 216738646
+ComputeIntegralImageForLayerBehindFocalDepth: 79665781
+FilterLayerBehindFocalDepth: 901299218
+updateSharpImageUsingFuzzyImage: 84707448
+ComputeLayerMatteInFrontOfFocalDepth: 156611562
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 79525260
+FilterLayerInFrontOfFocalDepth: 62089323
+finalizeFuzzyImageUsingSharpImage: 47193854
+PackOutputImage: 57472969
+2.
+Initialize: 7011147
+UnpackInputImage: 1668277603
+MarkLayerMask: 468098546
+ComputeLayerMatteBehindFocalDepth: 437556978
+ComputeIntegralImageForLayerBehindFocalDepth: 167411614
+FilterLayerBehindFocalDepth: 1807773333
+updateSharpImageUsingFuzzyImage: 165508904
+ComputeLayerMatteInFrontOfFocalDepth: 297539947
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 162689011
+FilterLayerInFrontOfFocalDepth: 124042029
+finalizeFuzzyImageUsingSharpImage: 96760208
+PackOutputImage: 112093437
+3.
+Initialize: 4844115
+UnpackInputImage: 825655937
+MarkLayerMask: 257495470
+ComputeLayerMatteBehindFocalDepth: 227620104
+ComputeIntegralImageForLayerBehindFocalDepth: 89479062
+FilterLayerBehindFocalDepth: 913608487
+updateSharpImageUsingFuzzyImage: 90830156
+ComputeLayerMatteInFrontOfFocalDepth: 168412239
+ComputeIntegralImageForLayerInFrontOfFocalDepth: 89488958
+FilterLayerInFrontOfFocalDepth: 66546719
+finalizeFuzzyImageUsingSharpImage: 47473803
+PackOutputImage: 56640677
+N5(original)

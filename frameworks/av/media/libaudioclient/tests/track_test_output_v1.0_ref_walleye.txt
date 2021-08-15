@@ -1,0 +1,308 @@
+
+#### Test 1 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(49), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 2 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(57), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(24000), original sample rate(24000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(1600), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (250), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 3 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(65), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(16000), original sample rate(16000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(1600), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (350), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 4 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(73), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(8000), original sample rate(8000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(1600), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (650), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 5 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(81), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(44100), original sample rate(44100), speed(1.000000)
+  frame count(4410), req. frame count(4410)
+  notif. frame count(1470), req. notif. frame count(2205), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 6 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(89), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(22050), original sample rate(22050), speed(1.000000)
+  frame count(4410), req. frame count(4410)
+  notif. frame count(1470), req. notif. frame count(2205), req. notif. per buff(0)
+  latency (250), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 7 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(97), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(11025), original sample rate(11025), speed(1.000000)
+  frame count(4410), req. frame count(4410)
+  notif. frame count(1470), req. notif. frame count(2205), req. notif. per buff(0)
+  latency (450), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 8 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(105), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(2), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 9 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(113), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(3), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (180), selected device Id(0), routed device Id(2)
+  output(29) AF latency (80) AF frame count(1920) AF SampleRate(48000)
+
+#### Test 10 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(121), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(5), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (180), selected device Id(0), routed device Id(2)
+  output(29) AF latency (80) AF frame count(1920) AF SampleRate(48000)
+
+#### Test 11 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(129), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(1), channel count(1)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 12 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(137), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3f), channel count(6)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 13 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(145), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(63f), channel count(8)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 14 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(153), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(1924), req. frame count(1924)
+  notif. frame count(962), req. notif. frame count(0), req. notif. per buff(0)
+  latency (90), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 15 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(161), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(48000), req. frame count(48000)
+  notif. frame count(24000), req. notif. frame count(0), req. notif. per buff(0)
+  latency (1050), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 16 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(169), flags(4)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(480), req. frame count(480)
+  notif. frame count(240), req. notif. frame count(0), req. notif. per buff(2)
+  latency (60), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 17 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(177), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(0), req. notif. frame count(0), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 18 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(185), flags(4)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(0), req. notif. frame count(0), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 19 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(193), flags(4)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(240), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 20 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(201), flags(8)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (180), selected device Id(0), routed device Id(2)
+  output(29) AF latency (80) AF frame count(1920) AF SampleRate(48000)
+
+#### Test 21 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(209), flags(11)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1000000), channel mask(3), channel count(2)
+  sample rate(44100), original sample rate(44100), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(4800), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (204), selected device Id(0), routed device Id(2)
+  output(53) AF latency (96) AF frame count(262144) AF SampleRate(44100)
+
+#### Test 22 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(1001), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 23 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(217), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 24 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(225), flags(0)
+  stream type(0), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (140), selected device Id(0), routed device Id(1)
+  output(45) AF latency (40) AF frame count(960) AF SampleRate(48000)
+
+#### Test 25 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(233), flags(0)
+  stream type(4), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(3)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 26 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(241), flags(0)
+  stream type(5), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(3)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 27 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(249), flags(0)
+  stream type(10), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)
+
+#### Test 28 status 0
+ AudioTrack::dump
+  status(0), state(1), session Id(257), flags(0)
+  stream type(3), left - right volume(1.000000, 1.000000)
+  format(1), channel mask(3), channel count(2)
+  sample rate(48000), original sample rate(48000), speed(1.000000)
+  frame count(4800), req. frame count(4800)
+  notif. frame count(2400), req. notif. frame count(2400), req. notif. per buff(0)
+  latency (150), selected device Id(0), routed device Id(2)
+  output(13) AF latency (50) AF frame count(960) AF SampleRate(48000)

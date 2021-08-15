@@ -1,0 +1,227 @@
+// slesTest_recBuffQueue
+
+cc_test {
+    name: "slesTest_recBuffQueue",
+    gtest: false,
+
+    srcs: ["slesTestRecBuffQueue.cpp"],
+
+    shared_libs: [
+        "libaudioutils",
+        "libOpenSLES",
+    ],
+
+    static_libs: ["libsndfile"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_playFdPath
+
+cc_binary {
+    name: "slesTest_playFdPath",
+
+    srcs: ["slesTestPlayFdPath.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+
+}
+
+// slesTest_feedback
+
+cc_test {
+    name: "slesTest_feedback",
+    gtest: false,
+
+    srcs: ["slesTestFeedback.cpp"],
+
+    shared_libs: [
+        "libaudioutils",
+        "libOpenSLES",
+    ],
+
+    static_libs: ["libsndfile"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+
+        "-UNDEBUG",
+    ],
+}
+
+// slesTest_sawtoothBufferQueue
+
+cc_test {
+    name: "slesTest_sawtoothBufferQueue",
+    gtest: false,
+
+    srcs: ["slesTestSawtoothBufferQueue.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_eqFdPath
+
+cc_test {
+    name: "slesTest_eqFdPath",
+    gtest: false,
+
+    srcs: ["slesTestEqFdPath.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_eqOutputPath
+
+cc_test {
+    name: "slesTest_eqOutputPath",
+    gtest: false,
+
+    srcs: ["slesTestEqOutputPath.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_bassboostPath
+
+cc_test {
+    name: "slesTest_bassboostPath",
+    gtest: false,
+
+    srcs: ["slesTestBassBoostPath.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_virtualizer
+
+cc_test {
+    name: "slesTest_virtualizer",
+    gtest: false,
+
+    srcs: ["slesTestVirtualizerPath.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_effectCapabilities
+
+cc_test {
+    name: "slesTest_effectCapabilities",
+    gtest: false,
+
+    srcs: ["slesTestEffectCapabilities.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_sendToPresetReverb
+
+cc_test {
+    name: "slesTest_sendToPresetReverb",
+    gtest: false,
+
+    srcs: ["slesTestSendToPresetReverb.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+// slesTest_decodeToBuffQueue
+
+cc_test {
+    name: "slesTest_decodeToBuffQueue",
+    gtest: false,
+
+    srcs: ["slesTestDecodeToBuffQueue.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+//##################
+// slesTestDecodeAac
+
+cc_test {
+    name: "slesTest_decodeAac",
+    gtest: false,
+
+    srcs: ["slesTestDecodeAac.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    static_libs: ["libcpustats"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+
+        "-UNDEBUG",
+    ],
+}
+
+//######################################
+// OpenMAX AL example code
+
+// xaVideoDecoderCapabilities
+
+cc_test {
+    name: "xaVideoDecoderCapabilities",
+    gtest: false,
+
+    srcs: ["xaVideoDecoderCapabilities.cpp"],
+
+    shared_libs: ["libOpenMAXAL"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}

@@ -1,0 +1,1 @@
+ctxt_wrong_place.rs:9:57: error: In compute kernel bad(), special parameter 'context' must be defined before special parameter 'x'.

@@ -1,0 +1,16 @@
+B|13131|[NN_LA_PO]HDRNet_QUANT8
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a           n/a           n/a           n/a           n/a          n/a           n/a           n/a        39.17*
+Runtime                    -          1.59          2.06          0.80        206.74            -        207.54          0.02       211.21
+IPC                     0.09             -             -             -             -            -             -             -         0.09
+Driver                  0.90             -             -           n/a           n/a          n/a             -             -         0.90
+CPU                        -             -             -             -       1117.05            -       1117.05             -      1117.05
+
+Total                   0.99*         1.59*         2.06*         0.80*      1323.79*           -*      1324.59*         0.02*     1367.43*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers

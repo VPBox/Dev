@@ -1,0 +1,363 @@
+/*
+ * Copyright (C) 2011-2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * This file is auto-generated. DO NOT MODIFY!
+ * The source Renderscript file: reduce_general_examples_explicit.rs
+ */
+
+package examples;
+
+import android.os.Build;
+import android.os.Process;
+import java.lang.reflect.Field;
+import android.renderscript.*;
+import examples.reduce_general_examples_explicitBitCode;
+
+/**
+ * @hide
+ */
+public class ScriptC_reduce_general_examples_explicit extends ScriptC {
+    private static final String __rs_resource_name = "reduce_general_examples_explicit";
+    // Constructor
+    public  ScriptC_reduce_general_examples_explicit(RenderScript rs) {
+        super(rs,
+              __rs_resource_name,
+              reduce_general_examples_explicitBitCode.getBitCode32(),
+              reduce_general_examples_explicitBitCode.getBitCode64());
+        mRSLocal = rs;
+        __I32 = Element.I32(rs);
+        __F32 = Element.F32(rs);
+        __U32 = Element.U32(rs);
+        __U8 = Element.U8(rs);
+    }
+
+    private Element __F32;
+    private Element __I32;
+    private Element __U32;
+    private Element __U8;
+    private RenderScript mRSLocal;
+    // To obtain the result, invoke get(), which blocks
+    // until the asynchronously-launched operation has completed.
+    public static class resultArray256_uint {
+        public long[] get() {
+            if (!mGotResult) {
+                int[] outArray = new int[256];
+                mOut.copyTo(outArray);
+                long[] result = new long[256];
+                for (int Idx = 0; Idx < 256; ++Idx) {
+                    result[Idx] = ((long) ((outArray[Idx]) & 0xffffffffL));
+                }
+
+                mResult = result;
+                mOut.destroy();
+                mOut = null;  // make Java object eligible for garbage collection
+                if (mTempIns != null) {
+                    for (Allocation tempIn : mTempIns) {
+                        tempIn.destroy();
+                    }
+
+                    mTempIns = null;  // make Java objects eligible for garbage collection
+                }
+
+                mGotResult = true;
+            }
+
+            return mResult;
+        }
+
+        private  resultArray256_uint(Allocation out) {
+            mTempIns = null;
+            mOut = out;
+            mGotResult = false;
+        }
+
+        private Allocation[] mTempIns;
+        private Allocation mOut;
+        private boolean mGotResult;
+        private long[] mResult;
+    }
+
+    // To obtain the result, invoke get(), which blocks
+    // until the asynchronously-launched operation has completed.
+    public static class result_float {
+        public float get() {
+            if (!mGotResult) {
+                float[] outArray = new float[1];
+                mOut.copyTo(outArray);
+                mResult = outArray[0];
+                mOut.destroy();
+                mOut = null;  // make Java object eligible for garbage collection
+                if (mTempIns != null) {
+                    for (Allocation tempIn : mTempIns) {
+                        tempIn.destroy();
+                    }
+
+                    mTempIns = null;  // make Java objects eligible for garbage collection
+                }
+
+                mGotResult = true;
+            }
+
+            return mResult;
+        }
+
+        private  result_float(Allocation out) {
+            mTempIns = null;
+            mOut = out;
+            mGotResult = false;
+        }
+
+        private Allocation[] mTempIns;
+        private Allocation mOut;
+        private boolean mGotResult;
+        private float mResult;
+    }
+
+    // To obtain the result, invoke get(), which blocks
+    // until the asynchronously-launched operation has completed.
+    public static class result_int {
+        public int get() {
+            if (!mGotResult) {
+                int[] outArray = new int[1];
+                mOut.copyTo(outArray);
+                mResult = outArray[0];
+                mOut.destroy();
+                mOut = null;  // make Java object eligible for garbage collection
+                if (mTempIns != null) {
+                    for (Allocation tempIn : mTempIns) {
+                        tempIn.destroy();
+                    }
+
+                    mTempIns = null;  // make Java objects eligible for garbage collection
+                }
+
+                mGotResult = true;
+            }
+
+            return mResult;
+        }
+
+        private  result_int(Allocation out) {
+            mTempIns = null;
+            mOut = out;
+            mGotResult = false;
+        }
+
+        private Allocation[] mTempIns;
+        private Allocation mOut;
+        private boolean mGotResult;
+        private int mResult;
+    }
+
+    private final static int mExportReduceIdx_addint_init = 0;
+    // in1 = "val"
+    public result_int reduce_addint_init(int[] in1) {
+        // Verify that "in1" is non-null.
+        if (in1 == null) {
+            throw new RSIllegalArgumentException("Array \"in1\" is null!");
+        }
+        Allocation ain1 = Allocation.createSized(mRSLocal, __I32, in1.length);
+        ain1.setAutoPadding(true);
+        ain1.copyFrom(in1);
+
+        result_int result = reduce_addint_init(ain1, null);
+        result.mTempIns = new Allocation[]{ain1};
+        return result;
+    }
+
+    // ain1 = "int val"
+    public result_int reduce_addint_init(Allocation ain1) {
+        return reduce_addint_init(ain1, null);
+    }
+
+    // ain1 = "int val"
+    public result_int reduce_addint_init(Allocation ain1, Script.LaunchOptions sc) {
+        // check ain1
+        if (!ain1.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Allocation aout = Allocation.createSized(mRSLocal, __I32, 1);
+        aout.setAutoPadding(true);
+        reduce(mExportReduceIdx_addint_init, new Allocation[]{ain1}, aout, sc);
+        return new result_int(aout);
+    }
+
+    private final static int mExportReduceIdx_addint_comb = 1;
+    // in1 = "val"
+    public result_int reduce_addint_comb(int[] in1) {
+        // Verify that "in1" is non-null.
+        if (in1 == null) {
+            throw new RSIllegalArgumentException("Array \"in1\" is null!");
+        }
+        Allocation ain1 = Allocation.createSized(mRSLocal, __I32, in1.length);
+        ain1.setAutoPadding(true);
+        ain1.copyFrom(in1);
+
+        result_int result = reduce_addint_comb(ain1, null);
+        result.mTempIns = new Allocation[]{ain1};
+        return result;
+    }
+
+    // ain1 = "int val"
+    public result_int reduce_addint_comb(Allocation ain1) {
+        return reduce_addint_comb(ain1, null);
+    }
+
+    // ain1 = "int val"
+    public result_int reduce_addint_comb(Allocation ain1, Script.LaunchOptions sc) {
+        // check ain1
+        if (!ain1.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Allocation aout = Allocation.createSized(mRSLocal, __I32, 1);
+        aout.setAutoPadding(true);
+        reduce(mExportReduceIdx_addint_comb, new Allocation[]{ain1}, aout, sc);
+        return new result_int(aout);
+    }
+
+    private final static int mExportReduceIdx_addint_init_comb = 2;
+    // in1 = "val"
+    public result_int reduce_addint_init_comb(int[] in1) {
+        // Verify that "in1" is non-null.
+        if (in1 == null) {
+            throw new RSIllegalArgumentException("Array \"in1\" is null!");
+        }
+        Allocation ain1 = Allocation.createSized(mRSLocal, __I32, in1.length);
+        ain1.setAutoPadding(true);
+        ain1.copyFrom(in1);
+
+        result_int result = reduce_addint_init_comb(ain1, null);
+        result.mTempIns = new Allocation[]{ain1};
+        return result;
+    }
+
+    // ain1 = "int val"
+    public result_int reduce_addint_init_comb(Allocation ain1) {
+        return reduce_addint_init_comb(ain1, null);
+    }
+
+    // ain1 = "int val"
+    public result_int reduce_addint_init_comb(Allocation ain1, Script.LaunchOptions sc) {
+        // check ain1
+        if (!ain1.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Allocation aout = Allocation.createSized(mRSLocal, __I32, 1);
+        aout.setAutoPadding(true);
+        reduce(mExportReduceIdx_addint_init_comb, new Allocation[]{ain1}, aout, sc);
+        return new result_int(aout);
+    }
+
+    private final static int mExportReduceIdx_dp_init = 3;
+    // in1 = "in1"
+    // in2 = "in2"
+    public result_float reduce_dp_init(float[] in1, float[] in2) {
+        // Verify that "in1" is non-null.
+        if (in1 == null) {
+            throw new RSIllegalArgumentException("Array \"in1\" is null!");
+        }
+        Allocation ain1 = Allocation.createSized(mRSLocal, __F32, in1.length);
+        ain1.setAutoPadding(true);
+        ain1.copyFrom(in1);
+        // Verify that "in2" is non-null.
+        if (in2 == null) {
+            throw new RSIllegalArgumentException("Array \"in2\" is null!");
+        }
+        // Verify that input array lengths are the same.
+        if (in1.length != in2.length) {
+            throw new RSRuntimeException("Array length mismatch between parameters \"in1\" and \"in2\"!");
+        }
+        Allocation ain2 = Allocation.createSized(mRSLocal, __F32, in2.length);
+        ain2.setAutoPadding(true);
+        ain2.copyFrom(in2);
+
+        result_float result = reduce_dp_init(ain1, ain2, null);
+        result.mTempIns = new Allocation[]{ain1, ain2};
+        return result;
+    }
+
+    // ain1 = "float in1"
+    // ain2 = "float in2"
+    public result_float reduce_dp_init(Allocation ain1, Allocation ain2) {
+        return reduce_dp_init(ain1, ain2, null);
+    }
+
+    // ain1 = "float in1"
+    // ain2 = "float in2"
+    public result_float reduce_dp_init(Allocation ain1, Allocation ain2, Script.LaunchOptions sc) {
+        Type t0, t1;
+        // check ain1
+        if (!ain1.getType().getElement().isCompatible(__F32)) {
+            throw new RSRuntimeException("Type mismatch with F32!");
+        }
+        // check ain2
+        if (!ain2.getType().getElement().isCompatible(__F32)) {
+            throw new RSRuntimeException("Type mismatch with F32!");
+        }
+        // Verify dimensions
+        t0 = ain1.getType();
+        t1 = ain2.getType();
+        if ((t0.getCount() != t1.getCount()) ||
+            (t0.getX() != t1.getX()) ||
+            (t0.getY() != t1.getY()) ||
+            (t0.getZ() != t1.getZ()) ||
+            (t0.hasFaces()   != t1.hasFaces()) ||
+            (t0.hasMipmaps() != t1.hasMipmaps())) {
+            throw new RSRuntimeException("Dimension mismatch between parameters ain1 and ain2!");
+        }
+
+        Allocation aout = Allocation.createSized(mRSLocal, __F32, 1);
+        aout.setAutoPadding(true);
+        reduce(mExportReduceIdx_dp_init, new Allocation[]{ain1, ain2}, aout, sc);
+        return new result_float(aout);
+    }
+
+    private final static int mExportReduceIdx_histogram_init = 4;
+    // in1 = "in"
+    public resultArray256_uint reduce_histogram_init(byte[] in1) {
+        // Verify that "in1" is non-null.
+        if (in1 == null) {
+            throw new RSIllegalArgumentException("Array \"in1\" is null!");
+        }
+        Allocation ain1 = Allocation.createSized(mRSLocal, __U8, in1.length);
+        ain1.setAutoPadding(true);
+        ain1.copyFrom(in1);
+
+        resultArray256_uint result = reduce_histogram_init(ain1, null);
+        result.mTempIns = new Allocation[]{ain1};
+        return result;
+    }
+
+    // ain1 = "uchar in"
+    public resultArray256_uint reduce_histogram_init(Allocation ain1) {
+        return reduce_histogram_init(ain1, null);
+    }
+
+    // ain1 = "uchar in"
+    public resultArray256_uint reduce_histogram_init(Allocation ain1, Script.LaunchOptions sc) {
+        // check ain1
+        if (!ain1.getType().getElement().isCompatible(__U8)) {
+            throw new RSRuntimeException("Type mismatch with U8!");
+        }
+        Allocation aout = Allocation.createSized(mRSLocal, __U32, 256);
+        aout.setAutoPadding(true);
+        reduce(mExportReduceIdx_histogram_init, new Allocation[]{ain1}, aout, sc);
+        return new resultArray256_uint(aout);
+    }
+
+}
+

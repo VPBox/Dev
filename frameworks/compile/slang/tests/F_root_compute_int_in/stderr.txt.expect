@@ -1,0 +1,2 @@
+root_compute_int_in.rs:4:21: error: Compute kernel root() cannot have non-pointer parameters besides special parameters ('context', 'x', 'y', 'z'). Parameter 'in' is of type: 'const int'
+root_compute_int_in.rs:4:6: error: Compute kernel root() must have at least one parameter for in or out

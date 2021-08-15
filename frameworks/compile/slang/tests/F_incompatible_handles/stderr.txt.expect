@@ -1,0 +1,1 @@
+incompatible_handles.rs:7:5: error: assigning to 'rs_allocation' (aka 'struct rs_allocation') from incompatible type 'rs_element' (aka 'struct rs_element')

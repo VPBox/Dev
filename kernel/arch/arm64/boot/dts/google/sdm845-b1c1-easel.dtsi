@@ -1,0 +1,236 @@
+/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include <dt-bindings/interrupt-controller/irq.h>
+
+&aliases {
+	serial1 = "/soc/qcom,qup_uart@88c000";
+	spi10 = "/soc/spi@880000";
+};
+
+&pcie1 {
+	/* QCOM's GICM implementation is not compatible with Easel */
+	qcom,msi-gicm-addr = <>;
+	qcom,msi-gicm-base = <>;
+
+	/* reduce endpoint reset latency */
+	qcom,ep-latency = <1>;
+
+	/* WAKE# optional sideband signal not connected */
+	wake-gpio = <>;
+	/* NOTE: signals routed to wrong pin on Binder and B1C1 */
+	perst-gpio = <&tlmm 35 0>;
+
+	/* Remove pcie1_wake_default from pin muxing */
+	pinctrl-0 = <&pcie1_clkreq_default &pcie1_perst_default>;
+};
+
+&tlmm {
+	pcie1 {
+		pcie1_perst_default: pcie1_perst_default {
+			mux {
+				pins = "gpio35";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio35";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+	};
+
+	s2mpb04_pins {
+		s2mpb04_pon_default: s2mpb04_pon_default {
+			mux {
+				pins = "gpio29";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio29";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+
+		s2mpb04_intb_default: s2mpb04_intb_default {
+			mux {
+				pins = "gpio30";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio30";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+
+		s2mpb04_resetb_default: s2mpb04_resetb_default {
+			mux {
+				pins = "gpio114";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio114";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+		s2mpb04_resetb_devboard: s2mpb04_resetb_devboard {
+			mux {
+				pins = "gpio114";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio114";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+	};
+
+	easel_pins {
+		easel_ready_default: easel_ready_default {
+			mux {
+				pins = "gpio52";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio52";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+
+		easel_boot_mode_default: easel_boot_mode_default {
+			mux {
+				pins = "gpio11";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio11";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+	};
+};
+
+&qupv3_se10_i2c {
+	status = "okay";
+	easel_pmic: s2mpb04@66 {
+		compatible = "samsung,s2mpb04";
+		reg = <0x66>;
+
+		interrupt-parent = <&tlmm>;
+		interrupts = <30 IRQ_TYPE_EDGE_FALLING>;
+		interrupt-names = "s2mpb04_intb";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&s2mpb04_pon_default &s2mpb04_intb_default
+			&s2mpb04_resetb_default>;
+
+		samsung,pon-gpio = <&tlmm 29 0x00>;
+		samsung,intb-gpio = <&tlmm 30 0x00>;
+		samsung,resetb-gpio = <&tlmm 114 0x00>;
+
+		s2mpb04_regulator: regulator {
+			compatible = "samsung,s2mpb04-regulator";
+		};
+
+		s2mpb04_gpio: gpio {
+			compatible = "samsung,s2mpb04-gpio";
+			gpio-controller;
+			#gpio-cells = <2>;
+		};
+
+		s2mpb04_thermal: sensor {
+			compatible = "samsung,s2mpb04-thermal";
+			#thermal-sensor-cells = <0>;
+		};
+	};
+};
+
+&qupv3_se0_spi {
+	status = "okay";
+	mnh-spi@0 {
+		compatible = "intel,mnh-spi";
+		reg = <0>;
+		spi-max-frequency = <25000000>;
+		spi-cpol;
+		spi-cpha;
+	};
+};
+
+/*
+ * Default client of SE3 is the I2C for NFC, enabling console requires
+ * modifying devcfg to enable 2-wire UART
+ */
+&qupv3_se3_2uart {
+	status = "disabled";
+};
+
+&soc {
+	mnh-sm {
+		compatible = "intel,mnh-sm";
+
+		clocks = <&clock_rpmh RPMH_LN_BB_CLK2>;
+		clock-names = "ref_clk";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&easel_ready_default &easel_boot_mode_default>;
+
+		soc-pwr-good-gpio = <&s2mpb04_gpio 0 0x00>;
+		ddr-pad-iso-n-gpio = <&s2mpb04_gpio 1 0x00>;
+		ready-gpio = <&tlmm 52 0x00>;
+		boot-mode-gpio = <&tlmm 11 0x00>;
+	};
+
+	mnh_thermal: mnh_thermal {
+		compatible = "intel,mnh_thermal";
+		#thermal-sensor-cells = <1>;
+		#cooling-cells = <2>;
+	};
+
+	thermal-zones {
+		mnh_ipu1 {
+			polling-delay-passive = <1000>;/* milliseconds */
+			polling-delay = <0>;/* milliseconds */
+			thermal-sensors = <&mnh_thermal 0>;
+		};
+
+		mnh_ipu2 {
+			polling-delay-passive = <1000>;/* milliseconds */
+			polling-delay = <0>;/* milliseconds */
+			thermal-sensors = <&mnh_thermal 1>;
+		};
+
+		mnh_cpu {
+			polling-delay-passive = <1000>;/* milliseconds */
+			polling-delay = <0>;/* milliseconds */
+			thermal-sensors = <&mnh_thermal 2>;
+		};
+
+		mnh_lpddr {
+			polling-delay-passive = <1000>;/* milliseconds */
+			polling-delay = <0>;/* milliseconds */
+			thermal-sensors = <&mnh_thermal 3>;
+		};
+	};
+};

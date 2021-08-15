@@ -1,0 +1,247 @@
+/* AUDIO: RESET: GPIO64, INTR1: GPIO54, INTR2: GPIO53, EXT_CLK: PM845.68 LN_BB_CLK3, SLIMBUS_CLK: GPIO70, SLIMBUS_DATA[0..1]: GPIO71,GPIO72 */
+
+#include <dt-bindings/clock/qcom,audio-ext-clk.h>
+#include "sdm845-audio-overlay.dtsi"
+
+&aliases {
+	spi0 = "/soc/spi@89c000";
+};
+
+&pm8998_gpios {
+	gpio@cc00 { /* GPIO 13 */
+		status = "disabled";
+	};
+};
+
+&tlmm {
+	cs35l36_pins {
+		cs35l36_reset_top: cs35l36_reset_top {
+			mux {
+				pins = "gpio75";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio75";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+
+		cs35l36_irq_top: cs35l36_irq_top {
+			mux {
+				pins = "gpio40";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio40";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+		cs35l36_reset_bottom: cs35l36_reset_bottom {
+			mux {
+				pins = "gpio112";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio112";
+				drive-strength = <2>;
+				bias-disable;
+			};
+		};
+
+		cs35l36_irq_bottom: cs35l36_irq_bottom {
+			mux {
+				pins = "gpio115";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio115";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+	};
+};
+
+&clock_audio_lnbb {
+	clocks = <&clock_rpmh RPMH_LN_BB_CLK3>;
+};
+
+&wcd_usbc_analog_en1_gpio {
+	status = "disabled";
+};
+
+&snd_934x {
+	qcom,model = "sdm845-tavil-b1-snd-card";
+	qcom,audio-routing =
+		"AIF4 VI", "MCLK",
+		"RX_BIAS", "MCLK",
+		"MADINPUT", "MCLK",
+		"AMIC1", "Flicker Mic",
+		"DMIC0", "MIC BIAS1",
+		"MIC BIAS1", "Digital Mic0",
+		"DMIC3", "MIC BIAS3",
+		"MIC BIAS3", "Digital Mic1",
+		"DMIC4", "MIC BIAS4",
+		"MIC BIAS4", "Digital Mic2";
+
+	qcom,msm-mbhc-hphl-swh = <0>;
+	qcom,msm-mbhc-gnd-swh = <0>;
+	qcom,wsa-max-devs = <0>;
+	qcom,msm-mbhc-hs-mic-max-threshold-mv = <1700>;
+	qcom,msm-mbhc-hs-mic-min-threshold-mv = <50>;
+	qcom,tavil-mclk-clk-freq = <9600000>;
+
+	asoc-codec = <&stub_codec>, <&ext_disp_audio_codec>;
+	asoc-codec-names = "msm-stub-codec.1",
+			   "msm-ext-disp-audio-codec-rx";
+
+	pinctrl-names = "quat-mi2s-active", "quat-mi2s-sleep",
+			"quat-tdm-active", "quat-tdm-sleep";
+	pinctrl-0 = <&quat_mi2s_active &quat_mi2s_sd0_active
+				&quat_mi2s_sd1_active>;
+	pinctrl-1 = <&quat_mi2s_sleep &quat_mi2s_sd0_sleep
+				&quat_mi2s_sd1_sleep>;
+	pinctrl-2 = <&quat_tdm_active &quat_tdm_dout_active
+				&quat_tdm_din_active>;
+	pinctrl-3 = <&quat_tdm_sleep &quat_tdm_dout_sleep
+				&quat_tdm_din_sleep>;
+};
+
+&msm_dai_tdm_quat_rx {
+	qcom,msm-cpudai-tdm-clk-rate = <12288000>;
+	qcom,msm-cpudai-tdm-sync-mode = <0>;
+	qcom,msm-cpudai-tdm-invert-sync = <0>;
+};
+&dai_quat_tdm_rx_0 {
+	qcom,msm-cpudai-tdm-header-start-offset = <0>;
+	qcom,msm-cpudai-tdm-header-width = <2>;
+	qcom,msm-cpudai-tdm-header-num-frame-repeat = <8>;
+};
+
+&msm_dai_tdm_quat_tx {
+	qcom,msm-cpudai-tdm-clk-rate = <12288000>;
+	qcom,msm-cpudai-tdm-sync-mode = <0>;
+	qcom,msm-cpudai-tdm-invert-sync = <0>;
+};
+
+&soc {
+	msm_cirrus_playback {
+		compatible = "cirrus,msm-cirrus-playback";
+		usecase-names = "Playback";
+
+		/* the resistance is 7.9999 ohm */
+		cirrus,top-speaker-impedance = <11189>;
+
+		/* the percentage of tolerance is 10 */
+		cirrus,top-speaker-tolerance = <10>;
+
+		/* the resistance is 7.6796 ohm */
+		cirrus,top-speaker-mean = <10741>;
+
+		/* the resistance is 6.7994 ohm */
+		cirrus,bottom-speaker-impedance = <9510>;
+
+		/* the percentage of tolerance is 10 */
+		cirrus,bottom-speaker-tolerance = <10>;
+
+		/* the resistance is 6.6593 ohm */
+		cirrus,bottom-speaker-mean = <9314>;
+	};
+};
+
+&routing {
+	qcom,msm-pcm-config = "b1";
+};
+
+/* path to speaker boosters */
+&dai_quat_tdm_rx_0 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-2 = <&quat_tdm_active &quat_tdm_dout_active
+			&quat_tdm_din_active>;
+	pinctrl-3 = <&quat_tdm_sleep &quat_tdm_dout_sleep
+			&quat_tdm_din_sleep>;
+};
+
+&dai_quat_tdm_tx_0 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-2 = <&quat_tdm_active &quat_tdm_dout_active
+			&quat_tdm_din_active>;
+	pinctrl-3 = <&quat_tdm_sleep &quat_tdm_dout_sleep
+			&quat_tdm_din_sleep>;
+};
+
+/* speaker boosters */
+&qupv3_se12_i2c {
+	status = "ok";
+	cs35l36_codec1: cs35l36@40 {
+		/* bottom speaker - portrait right */
+		compatible = "cirrus,cs35l36";
+		reg = <0x40>;
+		reset-gpios = <&tlmm 112 0>;
+		irq-gpio = <&tlmm 115 0>;
+		VA-supply = <&pm8998_s4>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <115 IRQ_TYPE_LEVEL_LOW>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&cs35l36_reset_bottom &cs35l36_irq_bottom>;
+		cirrus,boost-ind-nanohenry = <1000>;
+		cirrus,boost-ctl-select = <0x01>;
+		cirrus,boost-ctl-millivolt = <10000>;
+		cirrus,boost-peak-milliamp = <3700>;
+		cirrus,amp-gain-zc;
+		cirrus,ldm-mode-select = <0x01>;
+		cirrus,pdm-ldm-exit;
+		cirrus,pdm-ldm-enter;
+		cirrus,weak-fet-delay = <0x04>;
+		cirrus,weak-fet-thld = <0x01>;
+		cirrus,temp-warn-threshold = <0x01>;
+		cirrus,multi-amp-mode;
+
+		cirrus,irq-config {
+			cirrus,irq-drive-select = <0x00>;
+			cirrus,irq-polarity = <0x00>;
+			cirrus,irq-gpio-select = <0x00>;
+			cirrus,irq-output-enable = <0x01>;
+			cirrus,irq-src-select = <0x01>;
+		};
+	};
+
+	cs35l36_codec2: cs35l36@41 {
+		/* top speaker - portrait left */
+		compatible = "cirrus,cs35l36";
+		reg = <0x41>;
+		reset-gpios = <&tlmm 75 0>;
+		irq-gpio = <&tlmm 40 0>;
+		VA-supply = <&pm8998_s4>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <40 IRQ_TYPE_LEVEL_LOW>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&cs35l36_reset_top &cs35l36_irq_top>;
+		cirrus,boost-ind-nanohenry = <1000>;
+		cirrus,boost-ctl-select = <0x01>;
+		cirrus,boost-ctl-millivolt = <10000>;
+		cirrus,boost-peak-milliamp = <3700>;
+		cirrus,amp-gain-zc;
+		cirrus,ldm-mode-select = <0x01>;
+		cirrus,pdm-ldm-exit;
+		cirrus,pdm-ldm-enter;
+		cirrus,weak-fet-delay = <0x04>;
+		cirrus,weak-fet-thld = <0x01>;
+		cirrus,temp-warn-threshold = <0x01>;
+		cirrus,multi-amp-mode;
+
+		cirrus,irq-config {
+			cirrus,irq-drive-select = <0x00>;
+			cirrus,irq-polarity = <0x00>;
+			cirrus,irq-gpio-select = <0x00>;
+			cirrus,irq-output-enable = <0x01>;
+			cirrus,irq-src-select = <0x01>;
+		};
+	};
+};

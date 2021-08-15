@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">控制中心</string>
+    <string name="hello_world">你好！</string>
+    <string name="action_settings">设置</string>
+    <string name="up_string">迁移</string>
+    <string name="down_string">下载镜像</string>
+    <string name="start_string">启动</string>
+    <string name="stop_string">关闭</string>
+    <string name="back_string">退出</string>
+    <string name="action_string">运行中...</string>
+    <string name="starting_string">启动中...</string>
+    <string name="uping_string">迁移中...</string>
+    <string name="connect_string">连接</string>
+    <string name="group_string">创建群组</string>
+    <string name="seachdevice_string">正在搜索设备，请稍候……</string>
+</resources>

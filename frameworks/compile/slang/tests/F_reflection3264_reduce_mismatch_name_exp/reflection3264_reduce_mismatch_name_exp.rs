@@ -1,0 +1,15 @@
+#pragma version(1)
+#pragma rs java_package_name(foo)
+
+static void accumBad(size_t *a, size_t v) { }
+
+#ifdef __LP64__
+#pragma rs reduce(a64) accumulator(accumBad)
+#else
+#pragma rs reduce(a32) accumulator(accumBad)
+#endif
+
+// the errors after this point should go unreported, because of the
+// name mismatch above (a32 versus a64)
+
+#pragma rs reduce(b) accumulator(accumBad)

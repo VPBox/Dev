@@ -1,0 +1,31 @@
+B|13707|[NN_LA_PO]executeOnce
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a          0.46          1.77           n/a           n/a         6.58          6.96           n/a         9.36*
+Runtime                    -         18.60          6.12          2.91          2.51         0.12          5.54          1.32        29.80
+IPC                     0.73             -          2.16          0.02          1.16            -          1.17             -         4.06
+Driver                  1.04             -       1779.21           n/a           n/a          n/a          7.70             -      1787.95
+
+Total                   1.77*        19.06*      1789.25*         2.93*        11.74*        6.70*        21.37*         1.32*     1831.17*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers
+B|13707|[NN_LA_PO]executeOnce
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a          1.46          0.01           n/a           n/a         2.54          2.72           n/a         4.32*
+Runtime                    -         16.67          0.15          0.01          2.42            -          2.43          0.55        19.81
+IPC                        -             -             -             -             -            -             -             -            -
+Driver                     -             -             -           n/a           n/a          n/a             -             -            -
+CPU                        -             -             -             -         90.90            -         90.90             -        90.90
+
+Total                      -*        18.14*         0.17*         0.01*        93.50*        2.54*        96.05*         0.55*      115.03*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers

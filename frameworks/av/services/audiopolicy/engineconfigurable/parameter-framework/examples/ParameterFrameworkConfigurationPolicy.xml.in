@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ParameterFrameworkConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    SystemClassName="Policy" ServerPort="unix:///dev/socket/audioserver/policy_debug"
+    TuningAllowed="@TUNING_ALLOWED@">
+
+    <SubsystemPlugins>
+        <Location Folder="">
+            <Plugin Name="libpolicy-subsystem.so"/>
+        </Location>
+    </SubsystemPlugins>
+    <StructureDescriptionFileLocation Path="Structure/Policy/PolicyClass.xml"/>
+    <SettingsConfiguration>
+        <ConfigurableDomainsFileLocation Path="Settings/Policy/PolicyConfigurableDomains.xml"/>
+    </SettingsConfiguration>
+</ParameterFrameworkConfiguration>

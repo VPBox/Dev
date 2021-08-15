@@ -1,0 +1,2 @@
+fp16_wrong_api.rs:5:18: error: function return value cannot have __fp16 type; did you forget * ?
+fp16_wrong_api.rs:5:29: error: parameters cannot have __fp16 type; did you forget * ?

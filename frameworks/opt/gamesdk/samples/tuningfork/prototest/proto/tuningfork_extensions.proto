@@ -1,0 +1,34 @@
+syntax = "proto2";
+
+import "tuningfork.proto";
+
+enum Car {
+  CAR_BEETLE = 1;
+  CAR_MINI = 2;
+  CAR_GOLF = 3;
+  CAR_ALLEGRO = 4;
+}
+
+enum Level {
+  LEVEL_1 = 1;
+  LEVEL_2 = 2;
+  LEVEL_3 = 3;
+};
+
+// This is the annotation defined by the game developer and available
+// to Play from the APK.
+extend com.google.tuningfork.Annotation {
+  optional bool boss_alive = 1;
+  optional Car car = 2;
+  optional Level level = 3;
+}
+
+enum LOD {
+  LOD_1 = 1;
+  LOD_2 = 2;
+  LOD_3 = 3;
+  LOD_4 = 4;
+}
+extend com.google.tuningfork.FidelityParams {
+  optional LOD lod = 1;
+}

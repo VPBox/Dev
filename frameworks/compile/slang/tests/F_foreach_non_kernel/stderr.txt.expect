@@ -1,0 +1,2 @@
+foreach_non_kernel.rs:14:3: error: rsForEach applied to function oldFoo defined without "kernel" attribute
+foreach_non_kernel.rs:15:3: error: rsForEach applied to function foo defined without "kernel" attribute

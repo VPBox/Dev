@@ -1,0 +1,1 @@
+root_compute_non_ptr_usrData.rs:4:48: error: Compute kernel root() cannot have non-pointer parameters besides special parameters ('context', 'x', 'y', 'z'). Parameter 'usrData' is of type: 'const int'

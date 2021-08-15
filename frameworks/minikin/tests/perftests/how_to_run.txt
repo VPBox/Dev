@@ -1,0 +1,3 @@
+mmm -j frameworks/minikin/tests/perftests &&
+adb sync data &&
+adb shell /data/benchmarktest/minikin_perftests/minikin_perftests

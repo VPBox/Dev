@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+package com.google.tuningfork;
+
+enum Level {
+  LEVEL_INVALID = 0;
+  LEVEL_1 = 1;
+  LEVEL_2 = 2;
+  LEVEL_3 = 3;
+};
+
+message Annotation {
+  optional Level level = 1;
+  optional Level level2 = 2;
+}
+
+enum LOD {
+  LOD_INVALID = 0;
+  LOD_1 = 1;
+  LOD_2 = 2;
+  LOD_3 = 3;
+  LOD_4 = 4;
+};
+
+message FidelityParams {
+  optional LOD lod = 1;
+}

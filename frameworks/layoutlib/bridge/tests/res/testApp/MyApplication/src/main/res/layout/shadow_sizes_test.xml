@@ -1,0 +1,165 @@
+<!--
+  ~ Copyright (C) 2019 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="5.5dp"
+            android:stateListAnimator="@null"
+            android:text="5.5"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginRight="61dp"
+            android:layout_alignParentRight="true"
+            android:elevation="36dp"
+            android:stateListAnimator="@null"
+            android:text="36"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <Button
+            android:layout_width="46dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="103dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="15dp"
+            android:stateListAnimator="@null"
+            android:text="15"/>
+        <Button
+            android:id="@+id/button14"
+            android:layout_width="23dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="54dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="15dp"
+            android:stateListAnimator="@null"
+            android:text="15"/>
+        <Button
+            android:id="@+id/button12"
+            android:layout_width="76dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="176dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="15dp"
+            android:stateListAnimator="@null"
+            android:text="15"/>
+        <Button
+            android:id="@+id/button11"
+            android:layout_width="15dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="15dp"
+            android:stateListAnimator="@null"
+            android:text="15"/>
+        <Button
+            android:layout_width="39dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="278dp"
+            android:layout_marginLeft="278dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:elevation="5dp"
+            android:stateListAnimator="@null"
+            android:text="5"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="136dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="5.5dp"
+            android:stateListAnimator="@null"
+            android:text="5.5"/>
+        <Button
+            android:id="@+id/button17"
+            android:layout_width="22dp"
+            android:layout_height="85dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="77dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="5.5dp"
+            android:stateListAnimator="@null"
+            android:text="5.5"/>
+        <Button
+            android:id="@+id/button16"
+            android:layout_width="23dp"
+            android:layout_height="131dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_alignParentLeft="true"
+            android:elevation="5.5dp"
+            android:stateListAnimator="@null"
+            android:text="5.5"/>
+        <Button
+            android:layout_width="33dp"
+            android:layout_height="115dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginRight="155dp"
+            android:layout_alignParentRight="true"
+            android:elevation="36dp"
+            android:stateListAnimator="@null"
+            android:text="36"/>
+        <Button
+            android:id="@+id/button20"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginRight="92dp"
+            android:layout_alignParentRight="true"
+            android:elevation="36dp"
+            android:stateListAnimator="@null"
+            android:text="36"/>
+        <Button
+            android:id="@+id/button18"
+            android:layout_width="14dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:elevation="36dp"
+            android:stateListAnimator="@null"
+            android:text="36"/>
+    </RelativeLayout>
+</LinearLayout>

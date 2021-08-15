@@ -1,0 +1,29 @@
+reduce_general_bad_result.rs:22:36: error: multidimensional arrays cannot be exported: 'accum'
+reduce_general_bad_result.rs:32:39: error: multidimensional arrays cannot be exported: 'out'
+reduce_general_bad_result.rs:36:7: error: unions cannot be exported: 'UnionShortDouble'
+reduce_general_bad_result.rs:46:7: error: unions cannot be exported: 'UnionLongFloat'
+reduce_general_bad_result.rs:72:7: error: unions cannot be exported: 'UnionIntFloat'
+reduce_general_bad_result.rs:84:7: error: unions cannot be exported: 'UnionCharLong'
+reduce_general_bad_result.rs:113:7: error: bit fields are not able to be exported: 'Bits1.b'
+reduce_general_bad_result.rs:122:7: error: bit fields are not able to be exported: 'Bits111.e'
+reduce_general_bad_result.rs:146:7: error: bit fields are not able to be exported: 'Bits2.b'
+reduce_general_bad_result.rs:157:7: error: bit fields are not able to be exported: 'Bits222.e'
+reduce_general_bad_result.rs:183:36: error: accumulator AccumMat() for '#pragma rs reduce(redMat)' (reduce_general_bad_result.rs:182:12) parameter 'accum' (type 'rs_matrix2x2 *') must not point to a matrix type unless outconverter is provided
+reduce_general_bad_result.rs:191:39: error: outconverter OutMatBreak() for '#pragma rs reduce(redMatOutBreak)' (reduce_general_bad_result.rs:190:12) parameter 'out' (type 'rs_matrix2x2 *') must not point to a matrix type
+reduce_general_bad_result.rs:199:43: error: accumulator AccumMatArray() for '#pragma rs reduce(redMatArray)' (reduce_general_bad_result.rs:198:12) parameter 'accum' (type 'rs_matrix2x2 (*)[10]') must not point to an array of matrix type unless outconverter is provided
+reduce_general_bad_result.rs:209:46: error: outconverter OutMatArrayBreak() for '#pragma rs reduce(redMatArrayOutBreak)' (reduce_general_bad_result.rs:208:12) parameter 'out' (type 'rs_matrix2x2 (*)[10]') must not point to an array of matrix type
+reduce_general_bad_result.rs:215:37: error: outconverter OutAlloc() for '#pragma rs reduce(redAlloc)' (reduce_general_bad_result.rs:214:12) parameter 'out' (type 'struct rs_allocation *') must not point to data containing an object type
+reduce_general_bad_result.rs:224:39: error: outconverter OutAllocArray() for '#pragma rs reduce(redAllocArray)' (reduce_general_bad_result.rs:222:12) parameter 'out' (type 'struct rs_allocation (*)[10]') must not point to data containing an object type
+reduce_general_bad_result.rs:236:45: error: outconverter OutStructObj() for '#pragma rs reduce(redStructObj)' (reduce_general_bad_result.rs:234:12) parameter 'out' (type 'struct StructObj1 *') must not point to data containing an object type
+reduce_general_bad_result.rs:250:48: error: outconverter OutStructObjArray() for '#pragma rs reduce(redStructObjArray)' (reduce_general_bad_result.rs:247:12) parameter 'out' (type 'struct StructObj2 (*)[10]') must not point to data containing an object type
+reduce_general_bad_result.rs:258:27: error: accumulator AccumPtr() for '#pragma rs reduce(redPtr)' (reduce_general_bad_result.rs:257:12) parameter 'accum' (type 'char **') must not point to a pointer unless outconverter is provided
+reduce_general_bad_result.rs:268:30: error: outconverter OutPtrBreak() for '#pragma rs reduce(redPtrOutBreak)' (reduce_general_bad_result.rs:267:12) parameter 'out' (type 'char **') must not point to a pointer
+reduce_general_bad_result.rs:276:28: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 'accum'
+reduce_general_bad_result.rs:286:31: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 'out'
+reduce_general_bad_result.rs:310:28: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 'accum'
+reduce_general_bad_result.rs:322:31: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 'out'
+reduce_general_bad_result.rs:349:33: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 'accum'
+reduce_general_bad_result.rs:362:36: error: structures containing pointers cannot be used as the type of an exported global variable or the parameter to an exported function: 'out'
+reduce_general_bad_result.rs:373:23: error: function types cannot be exported: 'out'
+reduce_general_bad_result.rs:384:52: error: outconverter OutStructIncomplete() for '#pragma rs reduce(redStructIncomplete)' (reduce_general_bad_result.rs:383:12) parameter 'out' (type 'struct Incomplete *') must not point to an incomplete type
+reduce_general_bad_result.rs:395:38: error: outconverter OutArrayIncomplete() for '#pragma rs reduce(redArrayIncomplete)' (reduce_general_bad_result.rs:394:12) parameter 'out' (type 'int (*)[]') must not point to an incomplete type

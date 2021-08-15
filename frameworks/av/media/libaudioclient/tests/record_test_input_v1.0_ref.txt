@@ -1,0 +1,33 @@
+version 1.0
+# Input file for test_create_audiorecord
+# Add one line for each tested AudioRecord constructor with the following arguments:
+# sampleRate format   channelMask frameCount notificationFrames flags sessionId inputSource
+# sample rate tests
+  48000      0x1      0x10        4800       2400               0x0   0         0
+  24000      0x1      0x10        4800       2400               0x0   0         0
+  16000      0x1      0x10        4800       2400               0x0   0         0
+   8000      0x1      0x10        4800       2400               0x0   0         0
+  44100      0x1      0x10        4410       2205               0x0   0         0
+  22050      0x1      0x10        4410       2205               0x0   0         0
+  11025      0x1      0x10        4410       2205               0x0   0         0
+# format tests
+  48000      0x2      0x10        4800       2400               0x0   0         0
+  48000      0x3      0x10        4800       2400               0x0   0         0
+  48000      0x5      0x10        4800       2400               0x0   0         0
+# channel mask tests
+  48000      0x1      0x0C        4800       2400               0x0   0         0
+# frame count tests
+  48000      0x1      0x10        0          0                  0x0   0         0
+  48000      0x1      0x10        48000      0                  0x0   0         0
+  48000      0x1      0x10        12000      6000               0x0   0         0
+# flags test
+  48000      0x1      0x0C        0          0                  0x1   0         0
+  44100      0x1      0x0C        0          0                  0x5   0         0
+# session tests
+  48000      0x1      0x10        0          0                  0     1001      0
+# input source tests
+  48000      0x1      0x10        0          0                  0     0         1
+  48000      0x1      0x10        0          0                  0     0         5
+  48000      0x1      0x10        0          0                  0     0         6
+  48000      0x1      0x10        0          0                  0     0         7
+  48000      0x1      0x10        0          0                  0     0         9

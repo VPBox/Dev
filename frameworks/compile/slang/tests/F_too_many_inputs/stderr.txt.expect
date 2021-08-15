@@ -1,0 +1,1 @@
+too_many_inputs.rs:9:95: error: Invalid parameter 'in8' for compute kernel bad(). Kernels targeting SDK levels 23+ may not use more than 8 input parameters.

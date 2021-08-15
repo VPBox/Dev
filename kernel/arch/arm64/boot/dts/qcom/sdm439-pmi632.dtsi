@@ -1,0 +1,223 @@
+/*
+ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include "pmi632.dtsi"
+
+&pmi632_charger {
+	dpdm-supply = <&usb_otg>;
+};
+
+&usb_otg {
+	vbus_otg-supply = <&smb5_vbus>;
+	extcon = <&pmi632_charger>;
+};
+
+&pmi632_pon {
+	qcom,ps-hold-hard-reset-disable;
+	qcom,ps-hold-shutdown-disable;
+};
+
+/{
+	mtp_batterydata: qcom,battery-data {
+		qcom,batt-id-range-pct = <15>;
+		#include "qg-batterydata-ascent-3450mah.dtsi"
+		#include "qg-batterydata-mlp356477-2800mah.dtsi"
+	};
+};
+
+&pmi632_qg {
+	qcom,battery-data = <&mtp_batterydata>;
+};
+
+&pmi632_charger {
+	qcom,battery-data = <&mtp_batterydata>;
+};
+
+&pmi632_vadc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&quiet_therm_default &smb_therm_default>;
+};
+
+&pmi632_gpios {
+	quiet_therm {
+		quiet_therm_default: quiet_therm_default {
+			pins = "gpio3";
+			bias-high-impedance;
+		};
+	};
+
+	smb_therm {
+		smb_therm_default: smb_therm_default {
+			pins = "gpio4";
+			bias-high-impedance;
+		};
+	};
+};
+
+&pm8953_typec {
+	status = "disabled";
+};
+
+&thermal_zones {
+	pmi-vbat-lvl0 {
+		cooling-maps {
+			vbat_map0 {
+				trip = <&pmi632_vbat_lvl0>;
+				cooling-device =
+					<&CPU0 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+			vbat_map1 {
+				trip = <&pmi632_vbat_lvl0>;
+				cooling-device =
+					<&CPU1 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+			vbat_map2 {
+				trip = <&pmi632_vbat_lvl0>;
+				cooling-device =
+					<&CPU2 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+			vbat_map3 {
+				trip = <&pmi632_vbat_lvl0>;
+				cooling-device =
+					<&CPU3 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+		};
+	};
+
+	soc {
+		cooling-maps {
+			soc_map0 {
+				trip = <&pmi632_low_soc>;
+				cooling-device =
+					<&CPU0 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+			soc_map1 {
+				trip = <&pmi632_low_soc>;
+				cooling-device =
+					<&CPU1 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+			soc_map2 {
+				trip = <&pmi632_low_soc>;
+				cooling-device =
+					<&CPU2 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+			soc_map3 {
+				trip = <&pmi632_low_soc>;
+				cooling-device =
+					<&CPU3 THERMAL_MAX_LIMIT
+						THERMAL_MAX_LIMIT>;
+			};
+		};
+	};
+
+	quiet-therm-step {
+		polling-delay-passive = <1000>;
+		polling-delay = <0>;
+		thermal-sensors = <&pmi632_adc_tm 0x53>;
+		thermal-governor = "step_wise";
+
+		trips {
+			batt_trip1: batt-trip1 {
+				temperature = <41000>;
+				hysteresis = <2000>;
+				type = "passive";
+			};
+			cpus_trip: cpus-trip {
+				temperature = <44000>;
+				hysteresis = <0>;
+				type = "passive";
+			};
+			batt_trip2: batt-trip2 {
+				temperature = <45000>;
+				hysteresis = <4000>;
+				type = "passive";
+			};
+			gpu_trip: gpu-trip {
+				temperature = <50000>;
+				hysteresis = <0>;
+				type = "passive";
+			};
+		};
+
+		cooling-maps {
+			skin_cpu0 {
+				trip = <&cpus_trip>;
+				/* throttle from fmax to 1094400KHz */
+				cooling-device = <&CPU0 THERMAL_NO_LIMIT 5>;
+			};
+			skin_cpu1 {
+				trip = <&cpus_trip>;
+				cooling-device = <&CPU1 THERMAL_NO_LIMIT 5>;
+			};
+			skin_cpu2 {
+				trip = <&cpus_trip>;
+				cooling-device = <&CPU2 THERMAL_NO_LIMIT 5>;
+			};
+			skin_cpu3 {
+				trip = <&cpus_trip>;
+				cooling-device = <&CPU3 THERMAL_NO_LIMIT 5>;
+			};
+			skin_cpu4 {
+				trip = <&cpus_trip>;
+				cooling-device = <&CPU4 THERMAL_NO_LIMIT 3>;
+			};
+			skin_cpu5 {
+				trip = <&cpus_trip>;
+				cooling-device = <&CPU5 THERMAL_NO_LIMIT 3>;
+			};
+			skin_cpu6 {
+				trip = <&cpus_trip>;
+				cooling-device = <&CPU6 THERMAL_NO_LIMIT 3>;
+			};
+			skin_cpu7 {
+				trip = <&cpus_trip>;
+				cooling-device = <&CPU7 THERMAL_NO_LIMIT 3>;
+			};
+			skin_gpu {
+				trip = <&gpu_trip>;
+				/* throttle from fmax to 375000000Hz */
+				cooling-device = <&msm_gpu THERMAL_NO_LIMIT 2>;
+			};
+			battery_lvl1 {
+				trip = <&batt_trip1>;
+				cooling-device = <&pmi632_charger 4 4>;
+			};
+			battery_lvl2 {
+				trip = <&batt_trip2>;
+				cooling-device = <&pmi632_charger 5 5>;
+			};
+		};
+	};
+
+	quiet-therm-adc {
+		polling-delay-passive = <0>;
+		polling-delay = <0>;
+		thermal-sensors = <&pmi632_adc_tm 0x53>;
+		thermal-governor = "user_space";
+
+		trips {
+			active-config0 {
+				temperature = <65000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+		};
+	};
+};

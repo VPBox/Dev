@@ -1,0 +1,2 @@
+kernel_ptr_param.rs:4:26: error: Compute kernel root() cannot have parameter 'i' of pointer type: 'int *'
+kernel_ptr_param.rs:7:30: error: Compute kernel voidptr() cannot have parameter 'v' of pointer type: 'void *'

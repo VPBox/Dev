@@ -1,0 +1,66 @@
+#!/bin/bash
+
+
+# DEFINES
+LUNCH_TYPE=generic-eng
+
+# GET SCRIPT LOCATION
+DIR=`pwd`
+BRANCH=(`cd $(dirname ${BASH_SOURCE[0]})/../../.. && pwd`)
+cd $DIR
+
+
+# Usage info
+show_help() {
+  echo "
+    Usage: ${0##*/} [HELP] [DEVICE]
+    Quickly switch to a specified device
+
+    -h, -?, --help      display this help message
+    <blank>             list currently attached devices
+    DEVICE              system switches to first device that
+                        matches this term
+
+    Example:
+      ./sdv             prints all connected devices
+      ./sdv angler      switches to first angler
+      ./sdv ang         switches to first angler device
+      ./sdv vol         switches to volantis
+      ./sdv 6P          switches to Nexus 6P
+      ./sdv 8X          switches to first matching device
+                        (eg. 8XV5T15725000936)
+  "
+  echo
+}
+
+# help message
+if [[ ( $1 == "--help" ) || ( $1 == "-h" ) || ( $1 == "-?" ) ]]; then
+  show_help
+  return
+fi
+
+# if adb is not available, try to set it up
+if [ ! `which adb` ]; then
+  echo "\"adb\" not setup. Using branch \"$BRANCH\" and lunch type \"$LUNCH_TYPE\""
+  DIR=`pwd`
+  cd $BRANCH
+  . build/envsetup.sh > /dev/null
+  lunch $LUNCH_TYPE > /dev/null
+  cd $DIR
+fi
+
+# get devices...
+if [ $# -eq 0 ]; then
+  adb devices -l
+  echo "Currently set to \"$ANDROID_SERIAL\""
+# ...or switch to specified device
+else
+  STR=(`adb devices -l | grep "$1"`)
+  if [ ${#STR[@]} -gt 0 ]; then
+    export ANDROID_SERIAL="$STR"
+    echo "Switched to device \"$ANDROID_SERIAL\""
+  else
+    echo "Device \"$1\" not found"
+  fi
+fi
+

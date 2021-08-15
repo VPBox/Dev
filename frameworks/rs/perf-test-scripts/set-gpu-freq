@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# defines
+FREQ=0 #percent
+SERVICES=(perfd thermal-engine thermald mpdecision)
+DIR="/sys/class/kgsl/kgsl-3d0"
+
+
+###################### SETUP ######################
+
+# helper functions
+fileexists() {
+  [ `adb shell "[ -f $1 ] && echo found"` ]
+}
+getprop() {
+  if fileexists $1; then
+    echo `adb shell cat $1 | tr -d '\r'`
+  else
+    echo "FILE $1 NOT FOUND"
+  fi
+}
+setprop() {
+  if fileexists $1; then
+    adb shell "echo -n $2 > $1"
+  else
+    echo "FILE $1 NOT FOUND"
+  fi
+}
+
+# use passed in percent frequency
+if [[ $# -eq 1 ]]; then
+  FREQ=$1
+fi
+
+# setup
+if [[ "`adb shell id | tr -d '\r' | awk -F'[()]' '{print $2}'`" != "root" ]]; then
+  adb root
+fi
+adb wait-for-device
+
+# device name
+echo Device: `adb shell getprop ro.product.model`
+
+# get available gpu frequencies in sorted order
+if fileexists $DIR/devfreq/available_frequencies; then
+  frequencies=(`getprop $DIR/devfreq/available_frequencies`)
+elif fileexists $DIR/gpu_available_frequencies; then
+  frequencies=(`getprop $DIR/gpu_available_frequencies`)
+elif fileexists /d/clock/gbus/possible_rates; then
+  frequencies=(`getprop /d/clock/gbus/possible_rates`)
+else
+  echo "Unable to find available GPU frequencies"
+  echo
+  exit
+fi
+frequencies=( `printf "%s\n" "${frequencies[@]}" | sort -n` )
+if [ ${frequencies[0]} == "(kHz)" ]; then
+  frequencies=(`printf "%s000\n" "${frequencies[@]:1}"`)
+fi
+minFreq=${frequencies[0]}
+maxFreq=${frequencies[-1]}
+echo Frequencies: ${frequencies[@]}
+
+# find closest frequency
+targetFreq=$(( FREQ * ( maxFreq - minFreq ) / 100 + minFreq ))
+freq=`printf "%d\n" "${frequencies[@]}" | awk -v closest=${frequencies[0]} -v target=$targetFreq 'BEGIN{diff=$0-target;if(diff<0)diff=-diff;lowest=diff};{diff=$0-target;if(diff<0)diff=-diff;if(diff<lowest){lowest=diff;closest=$0}};END{print closest}'`
+echo Selected: $freq
+
+echo
+
+# freeze system
+for service in ${SERVICES[@]}; do
+  adb shell stop $service
+done
+
+# set GPU properties if possible
+setprop $DIR/bus_split 0
+setprop $DIR/devfreq/governor performance
+setprop $DIR/force_bus_on 1
+setprop $DIR/force_rail_on 1
+setprop $DIR/force_clk_on 1
+setprop $DIR/idle_timer 1000000
+setprop $DIR/max_gpuclk $freq
+setprop $DIR/gpuclk $freq
+setprop /d/clock/override.gbus/state 1
+setprop /d/clock/override.gbus/rate $freq
+
+# final message
+echo "GPU Frequency set to $freq"
+
+

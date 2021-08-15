@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#00F"
+    android:layout_width="50dp"/>
+<!-- Intentionally omitting height since it will be added via themeing -->

@@ -1,0 +1,5 @@
+cd /usr/local/google/home/hoford/aosp/frameworks/rs/java/tests/SSHealingBrush
+cp -r /media/hoford/hoford2/home/AndroidStudioProjects/SSHealingBrush/app/src/main/res/* res/
+cp -r '/media/hoford/hoford2/home/AndroidStudioProjects/SSHealingBrush/app/src/main/java/rs' src/
+cp /media/hoford/hoford2/home/AndroidStudioProjects/SSHealingBrush/app/src/main/rs/* src/rs/example/android/com/healingbrush/
+mm -j20

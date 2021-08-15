@@ -1,0 +1,36 @@
+﻿This document is to explain the process to extract kernel running time of Refocus(Lens Blur) app in GoogleCamera. A test app is made to run two versions of refocus renderscript and compare the result. 
+The app that comes with this documentation can be found inside android source tree at frameworks/rs/java/tests/Refocus
+The folder frameworks/rs/java/tests/Refocus/dataExtraction contains all the shell scripts and sample data files to extract kernel time
+
+
+Here are somethings you might want to know:
+1. All the timing numbers are in nanoseconds, since a lot of the kernel is processed really fast. 
+2. To process one image, a lot of the kernels are called more than once. Therefore, we need to add the running time of the same kernel together to get the total time of one kernel. For example, if a kernel “MarkLayerMask” is called 7 times to process one image, then the logcat would have 7 time entries for this kernel and we need to add these 7 numbers together. 
+3. You might want to run the script several times with some short intervals (a few seconds) and average the performance number. Make sure not to use the first two runs since the device might take some time to set things right
+
+
+Here are the timing process:
+1. choose which device you want to test and create a corresponding text file to record the logcat. For example, you want to test it on Nexus5 then create a file N5.txt.
+2. make and install the Refocus test app. Open up logcat and launch the app. Two scripts are called for the test app, the original pointer version with the log title “RefocusFilterF32” and the global allocation version with the log title “RefocusFilterd1new”. Choose which one you want to record (or record both), copy the corresponding log from the first line with the title you choose till the last time with the same log title, and paste them in the N5.txt file. If you want to take 3 set of numbers and average them, organize 3 sets of data like the following(all tests in the file need to have 3 sets of data). You have to organize your file like this:
+		N5 (d1new)
+		1.
+		…….logs 1...
+		2.
+		……..logs 2...
+		3.
+		…….logs 3….
+		N5 (f32)
+		1.
+		…..logs 1…..
+		2.
+		…..logs 2…..
+		3.
+		…..logs 3…..
+		N5 (you have to put this dummy line here. The script is not perfect and feel free to change)
+
+
+3. Put the file “extract_ave.sh” and “extract_data.sh” in the same directory as the file N5.txt
+4. Type command “./extract_date.sh N5.txt N5cleanData.txt”  
+This command strip up the messy log and put the clean data into a new file called N5cleanData.txt
+5. Type command “./extract_ave.sh N5cleanData.txt N5aveData.txt” 
+This command averages the  clean data and stores the final result in N5aveData.txt

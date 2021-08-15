@@ -1,0 +1,9 @@
+//########################################################################
+// Test framerate and look for hiccups
+//########################################################################
+
+android_app {
+    name: "TestFramerate",
+    srcs: ["**/*.java"],
+    sdk_version: "system_current",
+}

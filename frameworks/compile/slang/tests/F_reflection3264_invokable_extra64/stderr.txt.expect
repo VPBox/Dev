@@ -1,0 +1,2 @@
+reflection3264_invokable_extra64.rs:12:6: error: invokable function 'd' is only present for 64-bit targets
+reflection3264_invokable_extra64.rs:14:6: error: invokable function 'e' is only present for 64-bit targets

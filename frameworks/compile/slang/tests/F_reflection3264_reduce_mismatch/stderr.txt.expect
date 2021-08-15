@@ -1,0 +1,11 @@
+reflection3264_reduce_mismatch.rs:37:12: error: reduction kernel 'cc' has result type 'uint' for 32-bit targets but result type 'ulong' for 64-bit targets
+reflection3264_reduce_mismatch.rs:37:12: error: 2nd input of reduction kernel 'cc' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_reduce_mismatch.rs:37:12: error: 4th input of reduction kernel 'cc' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_reduce_mismatch.rs:43:12: error: reduction kernel 'dd' has 2 inputs for 32-bit targets but 1 input for 64-bit targets
+reflection3264_reduce_mismatch.rs:52:12: error: reduction kernel 'ee' is reflected in Java only for 32-bit targets
+reflection3264_reduce_mismatch.rs:52:12: error: reduction kernel 'ee' has result type 'int' for 32-bit targets but result type 'struct S' for 64-bit targets
+reflection3264_reduce_mismatch.rs:52:12: error: 2nd input of reduction kernel 'ee' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_reduce_mismatch.rs:53:12: error: reduction kernel 'ff' is reflected in Java only for 64-bit targets
+reflection3264_reduce_mismatch.rs:53:12: error: reduction kernel 'ff' has result type 'struct S' for 32-bit targets but result type 'int' for 64-bit targets
+reflection3264_reduce_mismatch.rs:53:12: error: reduction kernel 'ff' has 3 inputs for 32-bit targets but 2 inputs for 64-bit targets
+reflection3264_reduce_mismatch.rs:54:12: error: 1st input of reduction kernel 'gg' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+* Copyright (C) 2008 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- General -->
+    <skip />
+    <!--slider label -->
+    <string name="blur_description">Blur Radius</string>
+    <string name="in_white">In White</string>
+    <string name="out_white">Out White</string>
+    <string name="in_black">In Black</string>
+    <string name="out_black">Out Black</string>
+    <string name="gamma">Gamma</string>
+    <string name="saturation">Saturation</string>
+    <string name="benchmark">Benchmark</string>
+
+    <string name="results">Results: not run</string>
+    <string name="length_long">Long run</string>
+    <string name="length_short">Long run</string>
+    <string name="select_all">All</string>
+    <string name="select_none">None</string>
+
+    <string name="action_settings">Setting</string>
+    <string name="action_resolution">Resolution</string>
+
+    <string name="action_res">res</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">settings</string>
+    <string-array
+        name="settings_array">
+        <item>Use shared memory (TextureView) for output</item>
+        <item>Animate paramaters during benchmark</item>
+        <item>Display output while testing</item>
+        <item>Simulate background CPU load</item>
+        <item>Run each test longer, 10 seconds</item>
+        <item>Pause 10 seconds between tests</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,4 @@
+deprecated.rs:9:9: warning: 'rsClamp' is deprecated: Use clamp() instead.
+../../../../../frameworks/rs/script_api/include/rs_math.rsh:6482:5: note: 'rsClamp' has been explicitly marked deprecated here
+deprecated.rs:10:8: warning: 'rsGetAllocation' is deprecated: This function is deprecated and will be removed from the SDK in a future release.
+../../../../../frameworks/rs/script_api/include/rs_object_info.rsh:381:5: note: 'rsGetAllocation' has been explicitly marked deprecated here

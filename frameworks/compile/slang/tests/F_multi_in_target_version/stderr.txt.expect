@@ -1,0 +1,1 @@
+multi_in_target_version.rs:5:43: error: Invalid parameter 'in1' for compute kernel root(). Kernels targeting SDK levels 11-22 may not use multiple input parameters.

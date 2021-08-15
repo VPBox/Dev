@@ -1,0 +1,7 @@
++CONFIG_SYSVIPC=y
+-# CONFIG_UTS_NS is not set
+-# CONFIG_PID_NS is not set
++CONFIG_USER_NS=y
++CONFIG_DRV_NS=y
+
++CONFIG_VETH=y

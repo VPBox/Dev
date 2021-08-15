@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2018 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<Subsystem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:xi="http://www.w3.org/2001/XInclude"
+           xsi:noNamespaceSchemaLocation="Schemas/Subsystem.xsd"
+           Name="policy" Type="Policy">
+
+    <ComponentLibrary>
+        <!--#################### GLOBAL COMPONENTS BEGIN ####################-->
+        <!-- Common Types defintion -->
+        <xi:include href="PolicySubsystem-CommonTypes.xml"/>
+        <xi:include href="ProductStrategies.xml"/>
+
+
+        <!--#################### GLOBAL COMPONENTS END ####################-->
+
+        <!--#################### STREAM BEGIN ####################-->
+
+        <ComponentType Name="Streams" Description="associated to audio_stream_type_t definition">
+            <Component Name="voice_call" Type="Stream" Mapping="Name:AUDIO_STREAM_VOICE_CALL"/>
+            <Component Name="system" Type="Stream" Mapping="Name:AUDIO_STREAM_SYSTEM"/>
+            <Component Name="ring" Type="Stream" Mapping="Name:AUDIO_STREAM_RING"/>
+            <Component Name="music" Type="Stream" Mapping="Name:AUDIO_STREAM_MUSIC"/>
+            <Component Name="alarm" Type="Stream" Mapping="Name:AUDIO_STREAM_ALARM"/>
+            <Component Name="notification" Type="Stream" Mapping="Name:AUDIO_STREAM_NOTIFICATION"/>
+            <Component Name="bluetooth_sco" Type="Stream" Mapping="Name:AUDIO_STREAM_BLUETOOTH_SCO"/>
+            <Component Name="enforced_audible" Type="Stream" Mapping="Name:AUDIO_STREAM_ENFORCED_AUDIBLE"
+                       Description="Sounds that cannot be muted by user and must be routed to speaker"/>
+            <Component Name="dtmf" Type="Stream" Mapping="Name:AUDIO_STREAM_DTMF"/>
+            <Component Name="tts" Type="Stream" Mapping="Name:AUDIO_STREAM_TTS"
+                             Description="Transmitted Through Speaker. Plays over speaker only, silent on other devices"/>
+            <Component Name="accessibility" Type="Stream" Mapping="Name:AUDIO_STREAM_ACCESSIBILITY"
+                             Description="For accessibility talk back prompts"/>
+            <Component Name="rerouting" Type="Stream" Mapping="Name:AUDIO_STREAM_REROUTING"
+                             Description="For dynamic policy output mixes"/>
+            <Component Name="patch" Type="Stream" Mapping="Name:AUDIO_STREAM_PATCH"
+                             Description="For internal audio flinger tracks. Fixed volume"/>
+        </ComponentType>
+
+        <!--#################### STREAM END ####################-->
+
+        <!--#################### INPUT SOURCE BEGIN ####################-->
+
+        <ComponentType Name="InputSources" Description="associated to audio_source_t definition,
+                             identifier mapping must match the value of the enum">
+            <Component Name="default" Type="InputSource" Mapping="Name:AUDIO_SOURCE_DEFAULT"/>
+            <Component Name="mic" Type="InputSource" Mapping="Name:AUDIO_SOURCE_MIC"/>
+            <Component Name="voice_uplink" Type="InputSource"
+                                           Mapping="Name:AUDIO_SOURCE_VOICE_UPLINK"/>
+            <Component Name="voice_downlink" Type="InputSource"
+                                             Mapping="Name:AUDIO_SOURCE_VOICE_DOWNLINK"/>
+            <Component Name="voice_call" Type="InputSource"
+                                         Mapping="Name:AUDIO_SOURCE_VOICE_CALL"/>
+            <Component Name="camcorder" Type="InputSource" Mapping="Name:AUDIO_SOURCE_CAMCORDER"/>
+            <Component Name="voice_recognition" Type="InputSource"
+                                                Mapping="Name:AUDIO_SOURCE_VOICE_RECOGNITION"/>
+            <Component Name="voice_communication" Type="InputSource"
+                                                  Mapping="Name:AUDIO_SOURCE_VOICE_COMMUNICATION"/>
+            <Component Name="remote_submix" Type="InputSource"
+                                            Mapping="Name:AUDIO_SOURCE_REMOTE_SUBMIX"/>
+            <Component Name="unprocessed" Type="InputSource"
+                                            Mapping="Name:AUDIO_SOURCE_UNPROCESSED"/>
+            <Component Name="fm_tuner" Type="InputSource" Mapping="Name:AUDIO_SOURCE_FM_TUNER"/>
+            <Component Name="hotword" Type="InputSource" Mapping="Name:AUDIO_SOURCE_HOTWORD"/>
+        </ComponentType>
+
+        <!--#################### INPUT SOURCE END ####################-->
+    </ComponentLibrary>
+
+    <InstanceDefinition>
+        <Component Name="streams" Type="Streams"/>
+        <Component Name="input_sources" Type="InputSources"/>
+        <Component Name="product_strategies" Type="ProductStrategies"/>
+    </InstanceDefinition>
+</Subsystem>

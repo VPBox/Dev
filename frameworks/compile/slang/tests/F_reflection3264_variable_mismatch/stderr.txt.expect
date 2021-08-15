@@ -1,0 +1,7 @@
+reflection3264_variable_mismatch.rs:7:8: error: global variable 'a' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_variable_mismatch.rs:9:5: error: global variable 'b' has type 'int[4]' for 32-bit targets but type 'int[8]' for 64-bit targets
+reflection3264_variable_mismatch.rs:16:5: error: global variable 'd' has inconsistent 'const' qualification between 32-bit targets and 64-bit targets
+reflection3264_variable_mismatch.rs:21:5: error: global variable 'e' has inconsistent 'const' qualification between 32-bit targets and 64-bit targets
+reflection3264_variable_mismatch.rs:24:12: error: global variable 'f' has type 'struct Bar' for 32-bit targets but type 'struct Foo' for 64-bit targets
+reflection3264_variable_mismatch.rs:29:8: error: global variable 'g' has type 'uint[10]' for 32-bit targets but type 'ulong[10]' for 64-bit targets
+reflection3264_variable_mismatch.rs:32:5: error: 10th global variable is 'h32' for 32-bit targets but 'h64' for 64-bit targets

@@ -1,0 +1,2 @@
+root_compute_too_many_args.rs:6:20: error: In compute kernel root(), parameter 'extra1' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').
+root_compute_too_many_args.rs:6:37: error: In compute kernel root(), parameter 'extra2' cannot appear after any of the special parameters ('context', 'x', 'y', 'z').

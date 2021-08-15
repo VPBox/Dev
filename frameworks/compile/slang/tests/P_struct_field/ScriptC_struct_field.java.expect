@@ -1,0 +1,98 @@
+/*
+ * Copyright (C) 2011-2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * This file is auto-generated. DO NOT MODIFY!
+ * The source Renderscript file: struct_field.rs
+ */
+
+package struct_field;
+
+import android.os.Build;
+import android.os.Process;
+import java.lang.reflect.Field;
+import android.renderscript.*;
+import struct_field.struct_fieldBitCode;
+
+/**
+ * @hide
+ */
+public class ScriptC_struct_field extends ScriptC {
+    private static final String __rs_resource_name = "struct_field";
+    // Constructor
+    public  ScriptC_struct_field(RenderScript rs) {
+        super(rs,
+              __rs_resource_name,
+              struct_fieldBitCode.getBitCode32(),
+              struct_fieldBitCode.getBitCode64());
+        __ScriptField_Outer = ScriptField_Outer.createElement(rs);
+    }
+
+    private Element __ScriptField_Outer;
+    private FieldPacker __rs_fp_ScriptField_Outer;
+    private final static int mExportVarIdx_outer = 0;
+    private ScriptField_Outer.Item mExportVar_outer;
+    public synchronized void set_outer(ScriptField_Outer.Item v) {
+        mExportVar_outer = v;
+        FieldPacker fp = new FieldPacker(176);
+        fp.addI32(v.innerOneA.x);
+        fp.addI32(v.innerOneA.y);
+        fp.addF32(v.innerOneA.f);
+        fp.skip(4);
+        fp.addI64(v.l);
+        fp.addI32(v.innerOneB.x);
+        fp.addI32(v.innerOneB.y);
+        fp.addF32(v.innerOneB.f);
+        for (int ct2 = 0; ct2 < 3; ct2++) {
+            fp.addI8(v.innerTwo3[ct2].z);
+            fp.skip(3);
+            fp.addI32(v.innerTwo3[ct2].innerOne.x);
+            fp.addI32(v.innerTwo3[ct2].innerOne.y);
+            fp.addF32(v.innerTwo3[ct2].innerOne.f);
+        }
+
+        for (int ct2 = 0; ct2 < 2; ct2++) {
+            fp.addI8(v.innerTwo2[ct2].z);
+            fp.skip(3);
+            fp.addI32(v.innerTwo2[ct2].innerOne.x);
+            fp.addI32(v.innerTwo2[ct2].innerOne.y);
+            fp.addF32(v.innerTwo2[ct2].innerOne.f);
+        }
+
+        for (int ct2 = 0; ct2 < 4; ct2++) {
+            fp.addI32(v.innerOne4[ct2].x);
+            fp.addI32(v.innerOne4[ct2].y);
+            fp.addF32(v.innerOne4[ct2].f);
+        }
+
+        fp.addI32(v.innerOneC.x);
+        fp.addI32(v.innerOneC.y);
+        fp.addF32(v.innerOneC.f);
+        int []__dimArr = new int[1];
+        __dimArr[0] = 1;
+        setVar(mExportVarIdx_outer, fp, __ScriptField_Outer, __dimArr);
+    }
+
+    public ScriptField_Outer.Item get_outer() {
+        return mExportVar_outer;
+    }
+
+    public Script.FieldID getFieldID_outer() {
+        return createFieldID(mExportVarIdx_outer, null);
+    }
+
+}
+

@@ -1,0 +1,16 @@
+reflection3264_struct_mismatch.rs:19:10: error: global variable 'aa' has type 'int' for 32-bit targets but type 'struct t' for 64-bit targets
+reflection3264_struct_mismatch.rs:20:10: error: global variable 'bb' has type 'int' for 32-bit targets but type 'struct q' for 64-bit targets
+reflection3264_struct_mismatch.rs:21:10: error: global variable 'cc' has type 'int' for 32-bit targets but type 'struct b' for 64-bit targets
+reflection3264_struct_mismatch.rs:22:5: error: global variable 'dd' has type 'struct j' for 32-bit targets but type 'int' for 64-bit targets
+reflection3264_struct_mismatch.rs:23:5: error: global variable 'ee' has type 'struct f' for 32-bit targets but type 'int' for 64-bit targets
+reflection3264_struct_mismatch.rs:24:5: error: global variable 'ff' has type 'struct o' for 32-bit targets but type 'int' for 64-bit targets
+reflection3264_struct_mismatch.rs:6:8: error: structure 'q' is exported only for 64-bit targets
+reflection3264_struct_mismatch.rs:8:8: error: structure 'b' is exported only for 64-bit targets
+reflection3264_struct_mismatch.rs:4:8: error: structure 't' is exported only for 64-bit targets
+reflection3264_struct_mismatch.rs:54:8: error: 2nd field of exported structure 'FieldName' is 'e' for 32-bit targets but 'b' for 64-bit targets
+reflection3264_struct_mismatch.rs:73:8: error: field 'b' of exported structure 'FieldType' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_struct_mismatch.rs:73:8: error: field 'e' of exported structure 'FieldType' has type 'char[4]' for 32-bit targets but type 'char[8]' for 64-bit targets
+reflection3264_struct_mismatch.rs:37:8: error: exported structure 'FieldCount' has 1 field for 32-bit targets but 2 fields for 64-bit targets
+error: in file 'reflection3264_struct_mismatch.rs' structure 'f' is exported only for 32-bit targets
+error: in file 'reflection3264_struct_mismatch.rs' structure 'j' is exported only for 32-bit targets
+error: in file 'reflection3264_struct_mismatch.rs' structure 'o' is exported only for 32-bit targets

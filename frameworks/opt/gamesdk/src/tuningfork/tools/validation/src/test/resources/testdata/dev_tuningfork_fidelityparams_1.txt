@@ -1,0 +1,2 @@
+quality_settings: FANTASTIC
+int_field: 10

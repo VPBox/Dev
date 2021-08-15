@@ -1,0 +1,2 @@
+error: in file 'reflection3264_reduce_extra32.rs' reduction kernel 'cc' is only present for 32-bit targets
+error: in file 'reflection3264_reduce_extra32.rs' reduction kernel 'dd' is only present for 32-bit targets

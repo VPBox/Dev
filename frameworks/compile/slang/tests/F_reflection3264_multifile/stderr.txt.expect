@@ -1,0 +1,2 @@
+reflection3264_multifile_2.rs:16:16: error: 2nd input of foreach kernel 'm' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+error: in file 'reflection3264_multifile_2.rs' invokable function 'g' is only present for 32-bit targets

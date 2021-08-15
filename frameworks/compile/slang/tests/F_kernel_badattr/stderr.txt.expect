@@ -1,0 +1,4 @@
+kernel_badattr.rs:4:20: error: 'kernel' attribute takes no arguments
+kernel_badattr.rs:8:20: error: 'kernel' attribute takes no arguments
+kernel_badattr.rs:12:20: error: 'kernel' attribute takes no arguments
+kernel_badattr.rs:16:20: error: 'kernel' attribute takes no arguments

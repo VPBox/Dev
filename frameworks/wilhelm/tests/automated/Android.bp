@@ -1,0 +1,16 @@
+// Build the unit tests.
+
+cc_test {
+    name: "BufferQueue_test",
+
+    srcs: ["BufferQueue_test.cpp"],
+
+    shared_libs: ["libOpenSLES"],
+
+    static_libs: ["libOpenSLESUT"],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}

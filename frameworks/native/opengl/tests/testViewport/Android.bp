@@ -1,0 +1,9 @@
+//########################################################################
+// OpenGL ES JNI sample
+// This makefile builds both an activity and a shared library.
+//########################################################################
+android_app {
+    name: "TestViewport",
+    srcs: ["**/*.java"],
+    sdk_version: "8",
+}

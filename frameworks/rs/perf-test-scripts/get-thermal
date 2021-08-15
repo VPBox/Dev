@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# defines
+DIR="/sys/devices/virtual/thermal"
+
+# helper function
+direxists() {
+  [ `adb shell "[ -d $1 ] && echo found"` ]
+}
+fileexists() {
+  [ `adb shell "[ -f $1 ] && echo found"` ]
+}
+getprop() {
+  if fileexists $1; then
+    echo "`adb shell cat $1 | tr -d '\r'`"
+  else
+    echo "FILE $1 NOT FOUND"
+  fi
+}
+print_if_exists() {
+  if fileexists $1; then
+    local ERROR=`getprop $1 | grep "Invalid"`
+    if [ ${#ERROR} -eq 0 ]; then
+      eval "$2=`getprop $1`"
+    else
+      eval "$2=ERROR"
+    fi
+  else
+    eval "$2=DNE"
+  fi
+}
+
+# setup
+if [[ "`adb shell id | tr -d '\r' | awk -F'[()]' '{print $2}'`" != "root" ]]; then
+  adb root
+  adb wait-for-device
+fi
+
+# device name
+echo Device: `adb shell getprop ro.product.model`
+
+# get zones
+ZONES=`adb shell ls $DIR | tr -d '\r' | grep thermal_zone | tr -d thermal_zone | sort -n`
+
+# print temperature of each zone
+for ZONE in $ZONES; do
+  print_if_exists $DIR"/thermal_zone"$ZONE"/mode" MODE
+  print_if_exists $DIR"/thermal_zone"$ZONE"/temp" TEMP
+  print_if_exists $DIR"/thermal_zone"$ZONE"/type" TYPE
+  printf "Zone %02d:   MODE=%-8s   TEMP=%-5s   TYPE=%s\n" $ZONE $MODE $TEMP $TYPE
+done
+
+# error
+if ! direxists $DIR; then
+  echo "Thermal directory not found"
+fi
+

@@ -1,0 +1,411 @@
+/*
+ * Copyright (C) 2011-2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * This file is auto-generated. DO NOT MODIFY!
+ * The source Renderscript file: struct_field.rs
+ */
+
+package struct_field;
+
+import android.os.Build;
+import android.os.Process;
+import java.lang.reflect.Field;
+import android.renderscript.*;
+import struct_field.struct_fieldBitCode;
+
+/**
+ * @hide
+ */
+public class ScriptField_Outer extends android.renderscript.Script.FieldBase {
+    static public class Item {
+
+        ScriptField_InnerOne.Item innerOneA;
+        long l;
+        ScriptField_InnerOne.Item innerOneB;
+        ScriptField_InnerTwo.Item[] innerTwo3;
+        ScriptField_InnerTwo.Item[] innerTwo2;
+        ScriptField_InnerOne.Item[] innerOne4;
+        ScriptField_InnerOne.Item innerOneC;
+
+        Item() {
+            innerOneA = new ScriptField_InnerOne.Item();
+            innerOneB = new ScriptField_InnerOne.Item();
+            innerTwo3 = new ScriptField_InnerTwo.Item[3];
+            for (int $ct = 0; $ct < 3; $ct++) {
+                innerTwo3[$ct] = new ScriptField_InnerTwo.Item();
+            }
+
+            innerTwo2 = new ScriptField_InnerTwo.Item[2];
+            for (int $ct = 0; $ct < 2; $ct++) {
+                innerTwo2[$ct] = new ScriptField_InnerTwo.Item();
+            }
+
+            innerOne4 = new ScriptField_InnerOne.Item[4];
+            for (int $ct = 0; $ct < 4; $ct++) {
+                innerOne4[$ct] = new ScriptField_InnerOne.Item();
+            }
+
+            innerOneC = new ScriptField_InnerOne.Item();
+        }
+
+    }
+
+    private Item mItemArray[];
+    private FieldPacker mIOBuffer;
+    private static java.lang.ref.WeakReference<Element> mElementCache = new java.lang.ref.WeakReference<Element>(null);
+    public static Element createElement(RenderScript rs) {
+        Element.Builder eb = new Element.Builder(rs);
+        eb.add(ScriptField_InnerOne.createElement(rs), "innerOneA");
+        eb.add(Element.U32(rs), "#rs_padding_1");
+        eb.add(Element.I64(rs), "l");
+        eb.add(ScriptField_InnerOne.createElement(rs), "innerOneB");
+        eb.add(ScriptField_InnerTwo.createElement(rs), "innerTwo3", 3);
+        eb.add(ScriptField_InnerTwo.createElement(rs), "innerTwo2", 2);
+        eb.add(ScriptField_InnerOne.createElement(rs), "innerOne4", 4);
+        eb.add(ScriptField_InnerOne.createElement(rs), "innerOneC");
+        return eb.create();
+    }
+
+    private  ScriptField_Outer(RenderScript rs) {
+        mItemArray = null;
+        mIOBuffer = null;
+        mElement = createElement(rs);
+    }
+
+    public  ScriptField_Outer(RenderScript rs, int count) {
+        mItemArray = null;
+        mIOBuffer = null;
+        mElement = createElement(rs);
+        init(rs, count);
+    }
+
+    public  ScriptField_Outer(RenderScript rs, int count, int usages) {
+        mItemArray = null;
+        mIOBuffer = null;
+        mElement = createElement(rs);
+        init(rs, count, usages);
+    }
+
+    public static ScriptField_Outer create1D(RenderScript rs, int dimX, int usages) {
+        ScriptField_Outer obj = new ScriptField_Outer(rs);
+        obj.mAllocation = Allocation.createSized(rs, obj.mElement, dimX, usages);
+        return obj;
+    }
+
+    public static ScriptField_Outer create1D(RenderScript rs, int dimX) {
+        return create1D(rs, dimX, Allocation.USAGE_SCRIPT);
+    }
+
+    public static ScriptField_Outer create2D(RenderScript rs, int dimX, int dimY) {
+        return create2D(rs, dimX, dimY, Allocation.USAGE_SCRIPT);
+    }
+
+    public static ScriptField_Outer create2D(RenderScript rs, int dimX, int dimY, int usages) {
+        ScriptField_Outer obj = new ScriptField_Outer(rs);
+        Type.Builder b = new Type.Builder(rs, obj.mElement);
+        b.setX(dimX);
+        b.setY(dimY);
+        Type t = b.create();
+        obj.mAllocation = Allocation.createTyped(rs, t, usages);
+        return obj;
+    }
+
+    public static Type.Builder createTypeBuilder(RenderScript rs) {
+        Element e = createElement(rs);
+        return new Type.Builder(rs, e);
+    }
+
+    public static ScriptField_Outer createCustom(RenderScript rs, Type.Builder tb, int usages) {
+        ScriptField_Outer obj = new ScriptField_Outer(rs);
+        Type t = tb.create();
+        if (t.getElement() != obj.mElement) {
+            throw new RSIllegalArgumentException("Type.Builder did not match expected element type.");
+        }
+        obj.mAllocation = Allocation.createTyped(rs, t, usages);
+        return obj;
+    }
+
+    private void copyToArrayLocal(Item i, FieldPacker fp) {
+        fp.addI32(i.innerOneA.x);
+        fp.addI32(i.innerOneA.y);
+        fp.addF32(i.innerOneA.f);
+        fp.skip(4);
+        fp.addI64(i.l);
+        fp.addI32(i.innerOneB.x);
+        fp.addI32(i.innerOneB.y);
+        fp.addF32(i.innerOneB.f);
+        for (int ct2 = 0; ct2 < 3; ct2++) {
+            fp.addI8(i.innerTwo3[ct2].z);
+            fp.skip(3);
+            fp.addI32(i.innerTwo3[ct2].innerOne.x);
+            fp.addI32(i.innerTwo3[ct2].innerOne.y);
+            fp.addF32(i.innerTwo3[ct2].innerOne.f);
+        }
+
+        for (int ct2 = 0; ct2 < 2; ct2++) {
+            fp.addI8(i.innerTwo2[ct2].z);
+            fp.skip(3);
+            fp.addI32(i.innerTwo2[ct2].innerOne.x);
+            fp.addI32(i.innerTwo2[ct2].innerOne.y);
+            fp.addF32(i.innerTwo2[ct2].innerOne.f);
+        }
+
+        for (int ct2 = 0; ct2 < 4; ct2++) {
+            fp.addI32(i.innerOne4[ct2].x);
+            fp.addI32(i.innerOne4[ct2].y);
+            fp.addF32(i.innerOne4[ct2].f);
+        }
+
+        fp.addI32(i.innerOneC.x);
+        fp.addI32(i.innerOneC.y);
+        fp.addF32(i.innerOneC.f);
+    }
+
+    private void copyToArray(Item i, int index) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        mIOBuffer.reset(index * mElement.getBytesSize());
+        copyToArrayLocal(i, mIOBuffer);
+    }
+
+    public synchronized void set(Item i, int index, boolean copyNow) {
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        mItemArray[index] = i;
+        if (copyNow)  {
+            copyToArray(i, index);
+            FieldPacker fp = new FieldPacker(mElement.getBytesSize());
+            copyToArrayLocal(i, fp);
+            mAllocation.setFromFieldPacker(index, fp);
+        }
+
+    }
+
+    public synchronized Item get(int index) {
+        if (mItemArray == null) return null;
+        return mItemArray[index];
+    }
+
+    public synchronized void set_innerOneA(int index, ScriptField_InnerOne.Item v, boolean copyNow) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        if (mItemArray[index] == null) mItemArray[index] = new Item();
+        mItemArray[index].innerOneA = v;
+        if (copyNow)  {
+            mIOBuffer.reset(index * mElement.getBytesSize());
+            mIOBuffer.addI32(v.x);
+            mIOBuffer.addI32(v.y);
+            mIOBuffer.addF32(v.f);
+            FieldPacker fp = new FieldPacker(12);
+            fp.addI32(v.x);
+            fp.addI32(v.y);
+            fp.addF32(v.f);
+            mAllocation.setFromFieldPacker(index, 0, fp);
+        }
+
+    }
+
+    public synchronized void set_l(int index, long v, boolean copyNow) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        if (mItemArray[index] == null) mItemArray[index] = new Item();
+        mItemArray[index].l = v;
+        if (copyNow)  {
+            mIOBuffer.reset(index * mElement.getBytesSize() + 16);
+            mIOBuffer.addI64(v);
+            FieldPacker fp = new FieldPacker(8);
+            fp.addI64(v);
+            mAllocation.setFromFieldPacker(index, 2, fp);
+        }
+
+    }
+
+    public synchronized void set_innerOneB(int index, ScriptField_InnerOne.Item v, boolean copyNow) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        if (mItemArray[index] == null) mItemArray[index] = new Item();
+        mItemArray[index].innerOneB = v;
+        if (copyNow)  {
+            mIOBuffer.reset(index * mElement.getBytesSize() + 24);
+            mIOBuffer.addI32(v.x);
+            mIOBuffer.addI32(v.y);
+            mIOBuffer.addF32(v.f);
+            FieldPacker fp = new FieldPacker(12);
+            fp.addI32(v.x);
+            fp.addI32(v.y);
+            fp.addF32(v.f);
+            mAllocation.setFromFieldPacker(index, 3, fp);
+        }
+
+    }
+
+    public synchronized void set_innerTwo3(int index, ScriptField_InnerTwo.Item[] v, boolean copyNow) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        if (mItemArray[index] == null) mItemArray[index] = new Item();
+        mItemArray[index].innerTwo3 = v;
+        if (copyNow)  {
+            mIOBuffer.reset(index * mElement.getBytesSize() + 36);
+            for (int ct1 = 0; ct1 < 3; ct1++) {
+                mIOBuffer.addI8(v[ct1].z);
+                mIOBuffer.skip(3);
+                mIOBuffer.addI32(v[ct1].innerOne.x);
+                mIOBuffer.addI32(v[ct1].innerOne.y);
+                mIOBuffer.addF32(v[ct1].innerOne.f);
+            }
+
+            FieldPacker fp = new FieldPacker(48);
+            for (int ct1 = 0; ct1 < 3; ct1++) {
+                fp.addI8(v[ct1].z);
+                fp.skip(3);
+                fp.addI32(v[ct1].innerOne.x);
+                fp.addI32(v[ct1].innerOne.y);
+                fp.addF32(v[ct1].innerOne.f);
+            }
+
+            mAllocation.setFromFieldPacker(index, 4, fp);
+        }
+
+    }
+
+    public synchronized void set_innerTwo2(int index, ScriptField_InnerTwo.Item[] v, boolean copyNow) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        if (mItemArray[index] == null) mItemArray[index] = new Item();
+        mItemArray[index].innerTwo2 = v;
+        if (copyNow)  {
+            mIOBuffer.reset(index * mElement.getBytesSize() + 84);
+            for (int ct1 = 0; ct1 < 2; ct1++) {
+                mIOBuffer.addI8(v[ct1].z);
+                mIOBuffer.skip(3);
+                mIOBuffer.addI32(v[ct1].innerOne.x);
+                mIOBuffer.addI32(v[ct1].innerOne.y);
+                mIOBuffer.addF32(v[ct1].innerOne.f);
+            }
+
+            FieldPacker fp = new FieldPacker(32);
+            for (int ct1 = 0; ct1 < 2; ct1++) {
+                fp.addI8(v[ct1].z);
+                fp.skip(3);
+                fp.addI32(v[ct1].innerOne.x);
+                fp.addI32(v[ct1].innerOne.y);
+                fp.addF32(v[ct1].innerOne.f);
+            }
+
+            mAllocation.setFromFieldPacker(index, 5, fp);
+        }
+
+    }
+
+    public synchronized void set_innerOne4(int index, ScriptField_InnerOne.Item[] v, boolean copyNow) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        if (mItemArray[index] == null) mItemArray[index] = new Item();
+        mItemArray[index].innerOne4 = v;
+        if (copyNow)  {
+            mIOBuffer.reset(index * mElement.getBytesSize() + 116);
+            for (int ct1 = 0; ct1 < 4; ct1++) {
+                mIOBuffer.addI32(v[ct1].x);
+                mIOBuffer.addI32(v[ct1].y);
+                mIOBuffer.addF32(v[ct1].f);
+            }
+
+            FieldPacker fp = new FieldPacker(48);
+            for (int ct1 = 0; ct1 < 4; ct1++) {
+                fp.addI32(v[ct1].x);
+                fp.addI32(v[ct1].y);
+                fp.addF32(v[ct1].f);
+            }
+
+            mAllocation.setFromFieldPacker(index, 6, fp);
+        }
+
+    }
+
+    public synchronized void set_innerOneC(int index, ScriptField_InnerOne.Item v, boolean copyNow) {
+        if (mIOBuffer == null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+        if (mItemArray == null) mItemArray = new Item[getType().getX() /* count */];
+        if (mItemArray[index] == null) mItemArray[index] = new Item();
+        mItemArray[index].innerOneC = v;
+        if (copyNow)  {
+            mIOBuffer.reset(index * mElement.getBytesSize() + 164);
+            mIOBuffer.addI32(v.x);
+            mIOBuffer.addI32(v.y);
+            mIOBuffer.addF32(v.f);
+            FieldPacker fp = new FieldPacker(12);
+            fp.addI32(v.x);
+            fp.addI32(v.y);
+            fp.addF32(v.f);
+            mAllocation.setFromFieldPacker(index, 7, fp);
+        }
+
+    }
+
+    public synchronized ScriptField_InnerOne.Item get_innerOneA(int index) {
+        if (mItemArray == null) return null;
+        return mItemArray[index].innerOneA;
+    }
+
+    public synchronized long get_l(int index) {
+        if (mItemArray == null) return 0;
+        return mItemArray[index].l;
+    }
+
+    public synchronized ScriptField_InnerOne.Item get_innerOneB(int index) {
+        if (mItemArray == null) return null;
+        return mItemArray[index].innerOneB;
+    }
+
+    public synchronized ScriptField_InnerTwo.Item[] get_innerTwo3(int index) {
+        if (mItemArray == null) return null;
+        return mItemArray[index].innerTwo3;
+    }
+
+    public synchronized ScriptField_InnerTwo.Item[] get_innerTwo2(int index) {
+        if (mItemArray == null) return null;
+        return mItemArray[index].innerTwo2;
+    }
+
+    public synchronized ScriptField_InnerOne.Item[] get_innerOne4(int index) {
+        if (mItemArray == null) return null;
+        return mItemArray[index].innerOne4;
+    }
+
+    public synchronized ScriptField_InnerOne.Item get_innerOneC(int index) {
+        if (mItemArray == null) return null;
+        return mItemArray[index].innerOneC;
+    }
+
+    public synchronized void copyAll() {
+        for (int ct = 0; ct < mItemArray.length; ct++) copyToArray(mItemArray[ct], ct);
+        mAllocation.setFromFieldPacker(0, mIOBuffer);
+    }
+
+    public synchronized void resize(int newSize) {
+        if (mItemArray != null)  {
+            int oldSize = mItemArray.length;
+            int copySize = Math.min(oldSize, newSize);
+            if (newSize == oldSize) return;
+            Item ni[] = new Item[newSize];
+            System.arraycopy(mItemArray, 0, ni, 0, copySize);
+            mItemArray = ni;
+        }
+
+        mAllocation.resize(newSize);
+        if (mIOBuffer != null) mIOBuffer = new FieldPacker(mElement.getBytesSize() * getType().getX()/* count */);
+    }
+
+}
+

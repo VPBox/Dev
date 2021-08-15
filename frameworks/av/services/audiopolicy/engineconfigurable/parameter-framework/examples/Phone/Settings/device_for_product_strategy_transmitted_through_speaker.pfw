@@ -1,0 +1,43 @@
+supDomain: DeviceForProductStrategy
+	supDomain: TransmittedThroughSpeaker
+		domain: UnreacheableDevices
+			conf: Calibration
+				component: /Policy/policy/product_strategies/transmitted_through_speaker/selected_output_devices/mask
+					remote_submix = 0
+					hdmi_arc = 0
+					spdif = 0
+					aux_line = 0
+					fm = 0
+					speaker_safe = 0
+					earpiece = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					telephony_tx = 0
+					line = 0
+					ip = 0
+					bus = 0
+					stub = 0
+				/Policy/policy/product_strategies/transmitted_through_speaker/device_address =
+
+		domain: Speaker
+			conf: Selected
+				AvailableOutputDevices Includes Speaker
+
+				component: /Policy/policy/product_strategies/transmitted_through_speaker/selected_output_devices/mask
+					speaker = 1
+
+			conf: NotSelected
+				component: /Policy/policy/product_strategies/transmitted_through_speaker/selected_output_devices/mask
+					speaker = 0
+

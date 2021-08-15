@@ -1,0 +1,531 @@
+/*
+ * Copyright (C) 2011-2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * This file is auto-generated. DO NOT MODIFY!
+ * The source Renderscript file: reflection3264_divergent.rs
+ */
+
+package foo;
+
+import android.support.v8.renderscript.*;
+import foo.reflection3264_divergentBitCode;
+
+/**
+ * @hide
+ */
+public class ScriptC_reflection3264_divergent extends ScriptC {
+    private static final String __rs_resource_name = "reflection3264_divergent";
+    // Constructor
+    public  ScriptC_reflection3264_divergent(RenderScript rs) {
+        super(rs,
+              __rs_resource_name,
+              reflection3264_divergentBitCode.getBitCode32(),
+              reflection3264_divergentBitCode.getBitCode64());
+        __I32 = Element.I32(rs);
+        __@@INVALID@@ = Element.@@INVALID@@(rs);
+        __ALLOCATION = Element.ALLOCATION(rs);
+        __ScriptField_NonDivergent = ScriptField_NonDivergent.createElement(rs);
+        __ScriptField_Divergent = ScriptField_Divergent.createElement(rs);
+    }
+
+    private Element __@@INVALID@@;
+    private Element __ALLOCATION;
+    private Element __I32;
+    private Element __ScriptField_Divergent;
+    private Element __ScriptField_NonDivergent;
+    private FieldPacker __rs_fp_@@INVALID@@;
+    private FieldPacker __rs_fp_ALLOCATION;
+    private FieldPacker __rs_fp_I32;
+    private FieldPacker __rs_fp_ScriptField_Divergent;
+    private FieldPacker __rs_fp_ScriptField_NonDivergent;
+    private final static int mExportVarIdx_intVar = 0;
+    private int mExportVar_intVar;
+    public synchronized void set_intVar(int v) {
+        setVar(mExportVarIdx_intVar, v);
+        mExportVar_intVar = v;
+    }
+
+    public int get_intVar() {
+        return mExportVar_intVar;
+    }
+
+    public Script.FieldID getFieldID_intVar() {
+        return createFieldID(mExportVarIdx_intVar, null);
+    }
+
+    private final static int mExportVarIdx_intArray = 1;
+    private int[] mExportVar_intArray;
+    public synchronized void set_intArray(int[] v) {
+        mExportVar_intArray = v;
+        FieldPacker fp = new FieldPacker(40);
+        for (int ct1 = 0; ct1 < 10; ct1++) {
+            fp.addI32(v[ct1]);
+        }
+
+        int []__dimArr = new int[1];
+        __dimArr[0] = 10;
+        setVar(mExportVarIdx_intArray, fp, __I32, __dimArr);
+    }
+
+    public int[] get_intArray() {
+        return mExportVar_intArray;
+    }
+
+    public Script.FieldID getFieldID_intArray() {
+        return createFieldID(mExportVarIdx_intArray, null);
+    }
+
+    private final static int mExportVarIdx_matVar = 2;
+    private Matrix2f mExportVar_matVar;
+    public synchronized void set_matVar(Matrix2f v) {
+        mExportVar_matVar = v;
+        FieldPacker fp = new FieldPacker(16);
+        fp.addMatrix(v);
+        setVar(mExportVarIdx_matVar, fp);
+    }
+
+    public Matrix2f get_matVar() {
+        return mExportVar_matVar;
+    }
+
+    public Script.FieldID getFieldID_matVar() {
+        return createFieldID(mExportVarIdx_matVar, null);
+    }
+
+    private final static int mExportVarIdx_matArray = 3;
+    private Matrix2f[] mExportVar_matArray;
+    public synchronized void set_matArray(Matrix2f[] v) {
+        mExportVar_matArray = v;
+        FieldPacker fp = new FieldPacker(160);
+        for (int ct1 = 0; ct1 < 10; ct1++) {
+            fp.addMatrix(v[ct1]);
+        }
+
+        int []__dimArr = new int[1];
+        __dimArr[0] = 10;
+        setVar(mExportVarIdx_matArray, fp, __@@INVALID@@, __dimArr);
+    }
+
+    public Matrix2f[] get_matArray() {
+        return mExportVar_matArray;
+    }
+
+    public Script.FieldID getFieldID_matArray() {
+        return createFieldID(mExportVarIdx_matArray, null);
+    }
+
+    private final static int mExportVarIdx_allocVar = 4;
+    private Allocation mExportVar_allocVar;
+    public synchronized void set_allocVar(Allocation v) {
+        setVar(mExportVarIdx_allocVar, v);
+        mExportVar_allocVar = v;
+    }
+
+    public Allocation get_allocVar() {
+        return mExportVar_allocVar;
+    }
+
+    public Script.FieldID getFieldID_allocVar() {
+        return createFieldID(mExportVarIdx_allocVar, null);
+    }
+
+    private final static int mExportVarIdx_allocArray = 5;
+    private Allocation[] mExportVar_allocArray;
+    public synchronized void set_allocArray(Allocation[] v) {
+        mExportVar_allocArray = v;
+        FieldPacker fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 320 : 40);
+        for (int ct1 = 0; ct1 < 10; ct1++) {
+            fp.addObj(v[ct1]);
+        }
+
+        int []__dimArr = new int[1];
+        __dimArr[0] = 10;
+        setVar(mExportVarIdx_allocArray, fp, __ALLOCATION, __dimArr);
+    }
+
+    public Allocation[] get_allocArray() {
+        return mExportVar_allocArray;
+    }
+
+    public Script.FieldID getFieldID_allocArray() {
+        return createFieldID(mExportVarIdx_allocArray, null);
+    }
+
+    private final static int mExportVarIdx_ndVar = 6;
+    private ScriptField_NonDivergent.Item mExportVar_ndVar;
+    public synchronized void set_ndVar(ScriptField_NonDivergent.Item v) {
+        mExportVar_ndVar = v;
+        FieldPacker fp = new FieldPacker(8);
+        fp.addI32(v.i);
+        fp.addI32(v.j);
+        int []__dimArr = new int[1];
+        __dimArr[0] = 1;
+        setVar(mExportVarIdx_ndVar, fp, __ScriptField_NonDivergent, __dimArr);
+    }
+
+    public ScriptField_NonDivergent.Item get_ndVar() {
+        return mExportVar_ndVar;
+    }
+
+    public Script.FieldID getFieldID_ndVar() {
+        return createFieldID(mExportVarIdx_ndVar, null);
+    }
+
+    private final static int mExportVarIdx_ndArray = 7;
+    private ScriptField_NonDivergent.Item[] mExportVar_ndArray;
+    public synchronized void set_ndArray(ScriptField_NonDivergent.Item[] v) {
+        mExportVar_ndArray = v;
+        FieldPacker fp = new FieldPacker(80);
+        for (int ct1 = 0; ct1 < 10; ct1++) {
+            fp.addI32(v[ct1].i);
+            fp.addI32(v[ct1].j);
+        }
+
+        int []__dimArr = new int[1];
+        __dimArr[0] = 10;
+        setVar(mExportVarIdx_ndArray, fp, __ScriptField_NonDivergent, __dimArr);
+    }
+
+    public ScriptField_NonDivergent.Item[] get_ndArray() {
+        return mExportVar_ndArray;
+    }
+
+    public Script.FieldID getFieldID_ndArray() {
+        return createFieldID(mExportVarIdx_ndArray, null);
+    }
+
+    private final static int mExportVarIdx_dVar = 8;
+    private ScriptField_Divergent.Item mExportVar_dVar;
+    public synchronized void set_dVar(ScriptField_Divergent.Item v) {
+        mExportVar_dVar = v;
+        FieldPacker fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 48 : 12);
+        fp.addI32(v.i);
+        fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        fp.addObj(v.a);
+        fp.addI32(v.j);
+        fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        int []__dimArr = new int[1];
+        __dimArr[0] = 1;
+        setVar(mExportVarIdx_dVar, fp, __ScriptField_Divergent, __dimArr);
+    }
+
+    public ScriptField_Divergent.Item get_dVar() {
+        return mExportVar_dVar;
+    }
+
+    public Script.FieldID getFieldID_dVar() {
+        return createFieldID(mExportVarIdx_dVar, null);
+    }
+
+    private final static int mExportVarIdx_dArray = 9;
+    private ScriptField_Divergent.Item[] mExportVar_dArray;
+    public synchronized void set_dArray(ScriptField_Divergent.Item[] v) {
+        mExportVar_dArray = v;
+        FieldPacker fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 400 : 120);
+        for (int ct1 = 0; ct1 < 10; ct1++) {
+            fp.addI32(v[ct1].i);
+            fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+            fp.addObj(v[ct1].a);
+            fp.addI32(v[ct1].j);
+            fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        }
+
+        int []__dimArr = new int[1];
+        __dimArr[0] = 10;
+        setVar(mExportVarIdx_dArray, fp, __ScriptField_Divergent, __dimArr);
+    }
+
+    public ScriptField_Divergent.Item[] get_dArray() {
+        return mExportVar_dArray;
+    }
+
+    public Script.FieldID getFieldID_dArray() {
+        return createFieldID(mExportVarIdx_dArray, null);
+    }
+
+    //private final static int mExportForEachIdx_root = 0;
+    private final static int mExportForEachIdx_dnFe = 1;
+    public Script.KernelID getKernelID_dnFe() {
+        return createKernelID(mExportForEachIdx_dnFe, 7, null, null);
+    }
+
+    public void forEach_dnFe(Allocation ain, Allocation aout, ScriptField_DivergentNest.Item data) {
+        forEach_dnFe(ain, aout, data, null);
+    }
+
+    public void forEach_dnFe(Allocation ain, Allocation aout, ScriptField_DivergentNest.Item data, Script.LaunchOptions sc) {
+        // check ain
+        if (!ain.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        // check aout
+        if (!aout.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Type t0, t1;        // Verify dimensions
+        t0 = ain.getType();
+        t1 = aout.getType();
+        if ((t0.getCount() != t1.getCount()) ||
+            (t0.getX() != t1.getX()) ||
+            (t0.getY() != t1.getY()) ||
+            (t0.getZ() != t1.getZ()) ||
+            (t0.hasFaces()   != t1.hasFaces()) ||
+            (t0.hasMipmaps() != t1.hasMipmaps())) {
+            throw new RSRuntimeException("Dimension mismatch between parameters ain and aout!");
+        }
+
+        FieldPacker dnFe_fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 64 : 20);
+        dnFe_fp.addI32(data.x);
+        dnFe_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dnFe_fp.addI32(data.d.i);
+        dnFe_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dnFe_fp.addObj(data.d.a);
+        dnFe_fp.addI32(data.d.j);
+        dnFe_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dnFe_fp.addI32(data.y);
+        dnFe_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        forEach(mExportForEachIdx_dnFe, ain, aout, dnFe_fp, sc);
+    }
+
+    private final static int mExportForEachIdx_dFe = 2;
+    public Script.KernelID getKernelID_dFe() {
+        return createKernelID(mExportForEachIdx_dFe, 7, null, null);
+    }
+
+    public void forEach_dFe(Allocation ain, Allocation aout, ScriptField_Divergent.Item data) {
+        forEach_dFe(ain, aout, data, null);
+    }
+
+    public void forEach_dFe(Allocation ain, Allocation aout, ScriptField_Divergent.Item data, Script.LaunchOptions sc) {
+        // check ain
+        if (!ain.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        // check aout
+        if (!aout.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Type t0, t1;        // Verify dimensions
+        t0 = ain.getType();
+        t1 = aout.getType();
+        if ((t0.getCount() != t1.getCount()) ||
+            (t0.getX() != t1.getX()) ||
+            (t0.getY() != t1.getY()) ||
+            (t0.getZ() != t1.getZ()) ||
+            (t0.hasFaces()   != t1.hasFaces()) ||
+            (t0.hasMipmaps() != t1.hasMipmaps())) {
+            throw new RSRuntimeException("Dimension mismatch between parameters ain and aout!");
+        }
+
+        FieldPacker dFe_fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 48 : 12);
+        dFe_fp.addI32(data.i);
+        dFe_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dFe_fp.addObj(data.a);
+        dFe_fp.addI32(data.j);
+        dFe_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        forEach(mExportForEachIdx_dFe, ain, aout, dFe_fp, sc);
+    }
+
+    private final static int mExportForEachIdx_ndFe = 3;
+    public Script.KernelID getKernelID_ndFe() {
+        return createKernelID(mExportForEachIdx_ndFe, 7, null, null);
+    }
+
+    public void forEach_ndFe(Allocation ain, Allocation aout, ScriptField_NonDivergent.Item data) {
+        forEach_ndFe(ain, aout, data, null);
+    }
+
+    public void forEach_ndFe(Allocation ain, Allocation aout, ScriptField_NonDivergent.Item data, Script.LaunchOptions sc) {
+        // check ain
+        if (!ain.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        // check aout
+        if (!aout.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Type t0, t1;        // Verify dimensions
+        t0 = ain.getType();
+        t1 = aout.getType();
+        if ((t0.getCount() != t1.getCount()) ||
+            (t0.getX() != t1.getX()) ||
+            (t0.getY() != t1.getY()) ||
+            (t0.getZ() != t1.getZ()) ||
+            (t0.hasFaces()   != t1.hasFaces()) ||
+            (t0.hasMipmaps() != t1.hasMipmaps())) {
+            throw new RSRuntimeException("Dimension mismatch between parameters ain and aout!");
+        }
+
+        FieldPacker ndFe_fp = new FieldPacker(8);
+        ndFe_fp.addI32(data.i);
+        ndFe_fp.addI32(data.j);
+        forEach(mExportForEachIdx_ndFe, ain, aout, ndFe_fp, sc);
+    }
+
+    private final static int mExportForEachIdx_allocFe = 4;
+    public Script.KernelID getKernelID_allocFe() {
+        return createKernelID(mExportForEachIdx_allocFe, 7, null, null);
+    }
+
+    public void forEach_allocFe(Allocation ain, Allocation aout, Allocation data) {
+        forEach_allocFe(ain, aout, data, null);
+    }
+
+    public void forEach_allocFe(Allocation ain, Allocation aout, Allocation data, Script.LaunchOptions sc) {
+        // check ain
+        if (!ain.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        // check aout
+        if (!aout.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Type t0, t1;        // Verify dimensions
+        t0 = ain.getType();
+        t1 = aout.getType();
+        if ((t0.getCount() != t1.getCount()) ||
+            (t0.getX() != t1.getX()) ||
+            (t0.getY() != t1.getY()) ||
+            (t0.getZ() != t1.getZ()) ||
+            (t0.hasFaces()   != t1.hasFaces()) ||
+            (t0.hasMipmaps() != t1.hasMipmaps())) {
+            throw new RSRuntimeException("Dimension mismatch between parameters ain and aout!");
+        }
+
+        FieldPacker allocFe_fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 32 : 4);
+        allocFe_fp.addObj(data);
+        forEach(mExportForEachIdx_allocFe, ain, aout, allocFe_fp, sc);
+    }
+
+    private final static int mExportForEachIdx_matFe = 5;
+    public Script.KernelID getKernelID_matFe() {
+        return createKernelID(mExportForEachIdx_matFe, 7, null, null);
+    }
+
+    public void forEach_matFe(Allocation ain, Allocation aout, Matrix2f data) {
+        forEach_matFe(ain, aout, data, null);
+    }
+
+    public void forEach_matFe(Allocation ain, Allocation aout, Matrix2f data, Script.LaunchOptions sc) {
+        // check ain
+        if (!ain.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        // check aout
+        if (!aout.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Type t0, t1;        // Verify dimensions
+        t0 = ain.getType();
+        t1 = aout.getType();
+        if ((t0.getCount() != t1.getCount()) ||
+            (t0.getX() != t1.getX()) ||
+            (t0.getY() != t1.getY()) ||
+            (t0.getZ() != t1.getZ()) ||
+            (t0.hasFaces()   != t1.hasFaces()) ||
+            (t0.hasMipmaps() != t1.hasMipmaps())) {
+            throw new RSRuntimeException("Dimension mismatch between parameters ain and aout!");
+        }
+
+        FieldPacker matFe_fp = new FieldPacker(16);
+        matFe_fp.addMatrix(data);
+        forEach(mExportForEachIdx_matFe, ain, aout, matFe_fp, sc);
+    }
+
+    private final static int mExportForEachIdx_intFe = 6;
+    public Script.KernelID getKernelID_intFe() {
+        return createKernelID(mExportForEachIdx_intFe, 7, null, null);
+    }
+
+    public void forEach_intFe(Allocation ain, Allocation aout, int data) {
+        forEach_intFe(ain, aout, data, null);
+    }
+
+    public void forEach_intFe(Allocation ain, Allocation aout, int data, Script.LaunchOptions sc) {
+        // check ain
+        if (!ain.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        // check aout
+        if (!aout.getType().getElement().isCompatible(__I32)) {
+            throw new RSRuntimeException("Type mismatch with I32!");
+        }
+        Type t0, t1;        // Verify dimensions
+        t0 = ain.getType();
+        t1 = aout.getType();
+        if ((t0.getCount() != t1.getCount()) ||
+            (t0.getX() != t1.getX()) ||
+            (t0.getY() != t1.getY()) ||
+            (t0.getZ() != t1.getZ()) ||
+            (t0.hasFaces()   != t1.hasFaces()) ||
+            (t0.hasMipmaps() != t1.hasMipmaps())) {
+            throw new RSRuntimeException("Dimension mismatch between parameters ain and aout!");
+        }
+
+        FieldPacker intFe_fp = new FieldPacker(4);
+        intFe_fp.addI32(data);
+        forEach(mExportForEachIdx_intFe, ain, aout, intFe_fp, sc);
+    }
+
+    private final static int mExportFuncIdx_ndInv = 0;
+    public Script.InvokeID getInvokeID_ndInv() {
+        return createInvokeID(mExportFuncIdx_ndInv);
+    }
+
+    public void invoke_ndInv(int i, int j) {
+        FieldPacker ndInv_fp = new FieldPacker(8);
+        ndInv_fp.addI32(i);
+        ndInv_fp.addI32(j);
+        invoke(mExportFuncIdx_ndInv, ndInv_fp);
+    }
+
+    private final static int mExportFuncIdx_dInv = 1;
+    public Script.InvokeID getInvokeID_dInv() {
+        return createInvokeID(mExportFuncIdx_dInv);
+    }
+
+    public void invoke_dInv(int i, Allocation a, int j) {
+        FieldPacker dInv_fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 48 : 12);
+        dInv_fp.addI32(i);
+        dInv_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dInv_fp.addObj(a);
+        dInv_fp.addI32(j);
+        dInv_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        invoke(mExportFuncIdx_dInv, dInv_fp);
+    }
+
+    private final static int mExportFuncIdx_dnInv = 2;
+    public Script.InvokeID getInvokeID_dnInv() {
+        return createInvokeID(mExportFuncIdx_dnInv);
+    }
+
+    public void invoke_dnInv(int x, ScriptField_Divergent.Item d, int y) {
+        FieldPacker dnInv_fp = new FieldPacker((RenderScript.getPointerSize() == 8) ? 64 : 20);
+        dnInv_fp.addI32(x);
+        dnInv_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dnInv_fp.addI32(d.i);
+        dnInv_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dnInv_fp.addObj(d.a);
+        dnInv_fp.addI32(d.j);
+        dnInv_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        dnInv_fp.addI32(y);
+        dnInv_fp.skip((RenderScript.getPointerSize() == 8) ? 4 : 0);
+        invoke(mExportFuncIdx_dnInv, dnInv_fp);
+    }
+
+}
+

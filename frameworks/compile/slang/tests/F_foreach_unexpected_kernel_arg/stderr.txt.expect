@@ -1,0 +1,4 @@
+foreach_unexpected_kernel_arg.rs:11:13: error: Invalid kernel launch call. Expects a function designator for the first argument.
+foreach_unexpected_kernel_arg.rs:12:13: error: Invalid kernel launch call. Expects a function designator for the first argument.
+foreach_unexpected_kernel_arg.rs:13:24: error: Invalid kernel launch call. Expects a function designator for the first argument.
+foreach_unexpected_kernel_arg.rs:14:24: error: Invalid kernel launch call. Expects a function designator for the first argument.

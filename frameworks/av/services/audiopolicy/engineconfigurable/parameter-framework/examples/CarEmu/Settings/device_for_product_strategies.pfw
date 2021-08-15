@@ -1,0 +1,690 @@
+supDomain: DeviceForProductStrategies
+	supDomain: OemTrafficAnouncement
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/oem_traffic_anouncement/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/oem_traffic_anouncement/device_address = BUS00_MEDIA
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/oem_traffic_anouncement/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/oem_traffic_anouncement/selected_output_devices/mask
+					bus = 0
+
+	supDomain: OemStrategy1
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/oem_strategy_1/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/oem_strategy_1/device_address = BUS02_OEM1
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS02_OEM1
+
+				component: /Policy/policy/product_strategies/oem_strategy_1/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/oem_strategy_1/selected_output_devices/mask
+					bus = 0
+
+
+
+	supDomain: OemStrategy2
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/oem_strategy_2/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/oem_strategy_2/device_address = BUS01_NAV_GUIDANCE
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS01_NAV_GUIDANCE
+
+				component: /Policy/policy/product_strategies/oem_strategy_2/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/oem_strategy_2/selected_output_devices/mask
+					bus = 0
+
+
+
+	supDomain: Radio
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/radio/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/radio/device_address = BUS00_MEDIA
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/radio/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/radio/selected_output_devices/mask
+					bus = 0
+
+	supDomain: ExtAudioSource
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/ext_audio_source/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/ext_audio_source/device_address = BUS00_MEDIA
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/ext_audio_source/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/ext_audio_source/selected_output_devices/mask
+					bus = 0
+
+
+
+	supDomain: VoiceCommand
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/voice_command/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/voice_command/device_address = BUS04_VOICE
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS04_VOICE
+
+				component: /Policy/policy/product_strategies/voice_command/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/voice_command/selected_output_devices/mask
+					bus = 0
+
+
+	supDomain: SafetyAlert
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/safety_alert/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/safety_alert/device_address = BUS00_MEDIA
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/safety_alert/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/safety_alert/selected_output_devices/mask
+					bus = 0
+
+
+	supDomain: Music
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/music/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/music/device_address = BUS00_MEDIA
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/music/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/music/selected_output_devices/mask
+					bus = 0
+
+
+
+	supDomain: NavGuidance
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/nav_guidance/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/nav_guidance/device_address = BUS01_NAV_GUIDANCE
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS01_NAV_GUIDANCE
+
+				component: /Policy/policy/product_strategies/nav_guidance/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/nav_guidance/selected_output_devices/mask
+					bus = 0
+
+
+	supDomain: VoiceCall
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/voice_call/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/voice_call/device_address = BUS04_VOICE
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS04_VOICE
+
+				component: /Policy/policy/product_strategies/voice_call/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/voice_call/selected_output_devices/mask
+					bus = 0
+
+
+	supDomain: Alarm
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/alarm/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/alarm/device_address = BUS00_MEDIA
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/alarm/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/alarm/selected_output_devices/mask
+					bus = 0
+
+
+	supDomain: Ring
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/ring/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/ring/device_address = BUS04_VOICE
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS04_VOICE
+
+				component: /Policy/policy/product_strategies/ring/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/ring/selected_output_devices/mask
+					bus = 0
+
+
+	supDomain: Notification
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/notification/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/notification/device_address = BUS00_MEDIA
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/notification/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/notification/selected_output_devices/mask
+					bus = 0
+
+
+	supDomain: System
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/system/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/system/device_address = BUS03_SYSTEM_SOUND
+
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS03_SYSTEM_SOUND
+
+				component: /Policy/policy/product_strategies/system/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/system/selected_output_devices/mask
+					bus = 0
+
+	supDomain: Tts
+		domain: UnreachableDevices
+			conf: calibration
+				component: /Policy/policy/product_strategies/tts/selected_output_devices/mask
+					earpiece = 0
+					speaker = 0
+					wired_headset = 0
+					wired_headphone = 0
+					bluetooth_sco = 0
+					bluetooth_sco_headset = 0
+					bluetooth_sco_carkit = 0
+					bluetooth_a2dp = 0
+					bluetooth_a2dp_headphones = 0
+					bluetooth_a2dp_speaker = 0
+					hdmi = 0
+					angl_dock_headset = 0
+					dgtl_dock_headset = 0
+					usb_accessory = 0
+					usb_device = 0
+					remote_submix = 0
+					telephony_tx = 0
+					line = 0
+					hdmi_arc = 0
+					spdif = 0
+					fm = 0
+					aux_line = 0
+					speaker_safe = 0
+					ip = 0
+					proxy = 0
+					usb_headset = 0
+					stub = 0
+				/Policy/policy/product_strategies/tts/device_address = BUS00_MEDIA
+ 
+		domain: SelectedDevice
+			conf: Bus
+				AvailableOutputDevices Includes Bus
+				AvailableOutputDevicesAddresses Includes BUS00_MEDIA
+
+				component: /Policy/policy/product_strategies/tts/selected_output_devices/mask
+					bus = 1
+
+			conf: Default
+				component: /Policy/policy/product_strategies/tts/selected_output_devices/mask
+					bus = 0

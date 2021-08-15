@@ -1,0 +1,16 @@
+B|27550|[NN_LA_PO]HDRNet_QUANT8
+
+================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                       Benchmark
+              ------------------------------------------------------------------
+                      I/O       Compute      Results         Total    Percentage
+              -----------  ------------  -----------   -----------   -----------
+Application           n/a           n/a          n/a          0.08         1.87%
+Runtime              0.88          0.57         0.03          1.47        32.77%
+IPC                  0.01          0.35            -          0.36         7.97%
+Driver                n/a           n/a          n/a          2.57        57.39%
+
+Total                0.88*         3.57*        0.03*         4.48          100%
+================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent
+  with the rest of the numbers

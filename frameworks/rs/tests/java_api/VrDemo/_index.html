@@ -1,0 +1,80 @@
+<h1>A Volume Renderer</h1>
+<h2>To setup to load DICOM or RAW data</h2>
+<p> 
+<ol>
+  <li>Create directory <b>/sdcard/Download/volumes/</b></li>
+  <li>Create subdirectories for each dataset</li>
+  <li>Create a ".prop" for each data set</li>
+</ol>
+
+".prop" files are simple jave properties files which consist 
+of key=value pairs 
+
+<dl>
+  <dt>name</dt>
+  <dd>The name to be desplayed on the screen</dd>
+  <dt>dir</dt>
+  <dd>The subdirectory containing the data</dd>
+  <dt>format</dt>
+  <dd>the format the data is in (raw or dicom)</dd>
+  <dt>format</dt>
+  <dd>The format of the pixes (only short & ushort supported)</dd>
+  <dt>dim</dt>
+  <dd>the X by Y by Z dimensions of the data seperated by x</dd>
+  <dt>voxeldim</dt>
+  <dd>The size of each voxel separated by a comma "," uniform = (1.0,1.0,1.0)</dd>
+  <dt>sequence</dt>
+  <dd>if it says 1file the raw data is all on one file</dd>
+  <dt>looks</dt>
+  <dd>The name of the supplied looks</dd>
+  <dt>XXXXX.opacity</dt>
+  <dd>the opacity table asociate with the XXXXX look</dd>
+  <dt>XXXXX.color</dt>
+  <dd>The color table asociated with the XXXXX look</dd>
+</dl>
+</p>
+<h3>Opacity table</h3>
+opacity tabls consisit of nested arrays of shorts.
+The first being intensity the second being opacity on a 0-255 scale.
+The values for each pixel in the volume are interpolated 
+<p></p>
+<h3>Color table</h3>
+The color table 
+The values are linearly interpolated from one value to the next 
+
+<dl>
+  <dt>intensity</dt>
+  <dd>The intensity that has this "color"</dd>
+  <dt>RGB</dt>
+  <dd>Hex number describing the color this number has</dd>
+  <dt>diffuse</dt>
+  <dd>how much difuse lighting to apply to this materal 0-100</dd>
+  <dt>ambient</dt>
+  <dd>how much ambient lighting does this materal reflect 0-100</dd>
+  <dt>specular</dt>
+  <dd>How much specular reflection materal has 0-100</dd>
+</dl>
+<p></p>
+<h3>Example property file</h3>
+<p>
+<PRE>
+name=Back Pack
+dir=backpack
+format=raw
+endian=little
+pixels=ushort
+dim=512x512x373
+voxeldim=0.9766, 0.9766, 1.25
+sequence=1file
+looks=clean,clay,black
+black.opacity = { {255, 0},{259, 255}};
+black.color = {{255, 0xff0000, 10, 10, 20},{259, 0xfff5e4, 10, 10, 20}};
+clay.opacity = { {27, 0}, {92, 0}, {629, 0}, {1203, 255}, {2343, 255}}
+clay.color = {{27, 0xe1ac96, 30, 70, 20}, {92, 0xbc703a, 30, 70, 20}, {629, 0xe29c9d, 30, 70, 20}, {1203, 0xe1af97, 30, 34, 20}, {2343, 0xdebd9d, 30, 38, 20}}
+clean.opacity = {{27, 0}, {92, 0}, {1433, 0}, {1691, 255}, {1734, 255}}
+clean.color = {{27, 0xe1ac96, 30, 70, 20}, {92, 0xe1ac96, 30, 70, 20}, {629, 0xed1904, 30, 70, 0}, {1611, 0xaeb3c9, 19, 42, 44}, {1826, 0xe7e7ea, 19, 44, 41}}
+</PRE>
+
+
+ </p>
+

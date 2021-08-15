@@ -1,0 +1,6 @@
+cc_library_headers {
+    name: "neuralnetworks_test_vendor_fibonacci_extension",
+    host_supported: false,
+    vendor_available: true,
+    export_include_dirs: ["."],
+}

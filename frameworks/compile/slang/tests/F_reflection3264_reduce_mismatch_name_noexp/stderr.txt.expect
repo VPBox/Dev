@@ -1,0 +1,1 @@
+reflection3264_reduce_mismatch_name_noexp.rs:10:12: error: 1st reduction kernel is 'a32' for 32-bit targets but 'a64' for 64-bit targets

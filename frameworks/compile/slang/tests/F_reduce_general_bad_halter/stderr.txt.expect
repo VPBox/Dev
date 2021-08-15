@@ -1,0 +1,10 @@
+reduce_general_bad_halter.rs:18:13: error: halter halt_void() for '#pragma rs reduce(halt_void)' (reduce_general_bad_halter.rs:17:12) must return bool not 'void'
+reduce_general_bad_halter.rs:22:12: error: halter halt_int() for '#pragma rs reduce(halt_int)' (reduce_general_bad_halter.rs:21:12) must return bool not 'int'
+reduce_general_bad_halter.rs:26:13: error: halter halt0() for '#pragma rs reduce(halt0)' (reduce_general_bad_halter.rs:25:12) must take exactly 1 parameter (found 0)
+reduce_general_bad_halter.rs:30:13: error: halter halt2() for '#pragma rs reduce(halt2)' (reduce_general_bad_halter.rs:29:12) must take exactly 1 parameter (found 2)
+reduce_general_bad_halter.rs:34:13: error: halter halt_special() for '#pragma rs reduce(halt_special)' (reduce_general_bad_halter.rs:33:12) cannot take special parameter 'context'
+reduce_general_bad_halter.rs:38:13: error: halter hva_halt() for '#pragma rs reduce(halt_vs_accum)' (reduce_general_bad_halter.rs:37:12) parameter 'accum' (type 'const unsigned int *') and accumulator AccumInt() parameter 'accum' (type 'int *') must be pointers to the same type
+reduce_general_bad_halter.rs:45:12: error: duplicate function definition for 'halter(halt_dup)' for '#pragma rs reduce(halt_dup)' (reduce_general_bad_halter.rs:46:43, reduce_general_bad_halter.rs:47:43)
+reduce_general_bad_halter.rs:50:12: error: could not find function definition for 'halter(halt_missing)' for '#pragma rs reduce(halt_missing)'
+reduce_general_bad_halter.rs:54:6: error: halter halt_nonstatic() for '#pragma rs reduce(halt_nonstatic)' (reduce_general_bad_halter.rs:53:12) must be static
+reduce_general_bad_halter.rs:58:29: error: halter halt_const() for '#pragma rs reduce(halt_const)' (reduce_general_bad_halter.rs:57:12) parameter 'accum' (type 'int *') must point to const-qualified type

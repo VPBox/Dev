@@ -1,0 +1,2 @@
+reflection3264_reduce_extra64.rs:10:12: error: reduction kernel 'cc' is only present for 64-bit targets
+reflection3264_reduce_extra64.rs:11:12: error: reduction kernel 'dd' is only present for 64-bit targets

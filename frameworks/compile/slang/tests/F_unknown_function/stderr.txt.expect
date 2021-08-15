@@ -1,0 +1,1 @@
+unknown_function.rs:6:5: error: implicit declaration of function 'bar' is invalid in C99

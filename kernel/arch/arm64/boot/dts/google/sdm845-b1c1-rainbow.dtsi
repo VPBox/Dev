@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&cam_cci {
+	/* VD6281 */
+	status = "ok";
+	vd6281: qcom,rainbow@20 {
+		compatible = "qcom,rainbow";
+		cci-master = <0>;
+		reg = <0x20>;
+		vdd-supply = <&pm8998_lvs1>;
+		regulator-names = "vdd";
+		hw-version = <21>; /* cut2.1 */
+		status = "ok";
+	};
+};
+

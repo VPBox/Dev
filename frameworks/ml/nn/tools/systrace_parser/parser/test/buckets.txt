@@ -1,0 +1,4 @@
+LA   <----- Prepare -----> <--------------------------  Compile  --------------------------> <- I/O -> <-------   Execute ----------->
+LR      <-- Prepare -->    <- Validate -><---------------- Compile ------------------------>           <- I/O -><- Execute -><- I/O ->
+LI
+LD                                       <- Validate -><- Caps -><- Validate -><- Compile ->                    <- Execute ->

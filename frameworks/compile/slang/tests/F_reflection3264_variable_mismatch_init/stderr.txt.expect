@@ -1,0 +1,12 @@
+reflection3264_variable_mismatch_init.rs:6:7: error: global variable 'b' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:10:8: error: global variable 'd' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:14:6: error: global variable 'f' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:18:6: error: global variable 'h' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:22:8: error: global variable 'j' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:30:5: error: global variable 'k' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:38:5: error: global variable 'm' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:45:6: error: global variable 'n' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:51:8: error: global variable 'jj' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:59:5: error: global variable 'kk' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:65:5: error: global variable 'mm' is initialized differently for 32-bit targets than for 64-bit targets
+reflection3264_variable_mismatch_init.rs:72:6: error: global variable 'nn' is initialized differently for 32-bit targets than for 64-bit targets

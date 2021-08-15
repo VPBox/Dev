@@ -1,0 +1,2 @@
+context.rs:5:57: error: The special parameter of type 'rs_kernel_context' must be called 'context' instead of 'ct'.
+context.rs:5:57: error: In compute kernel bad(), special parameter 'context' must be defined before special parameter 'x'.

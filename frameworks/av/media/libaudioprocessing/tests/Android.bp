@@ -1,0 +1,52 @@
+// Build the unit tests for libaudioprocessing
+
+cc_defaults {
+    name: "libaudioprocessing_test_defaults",
+
+    header_libs: ["libbase_headers"],
+    shared_libs: [
+        "libaudioprocessing",
+        "libaudioutils",
+        "libcutils",
+        "liblog",
+        "libutils",
+        "libvibrator",
+    ],
+
+    cflags: [
+        "-Werror",
+        "-Wall",
+    ],
+}
+
+//
+// resampler unit test
+//
+cc_test {
+    name: "resampler_tests",
+    defaults: ["libaudioprocessing_test_defaults"],
+
+    srcs: ["resampler_tests.cpp"],
+}
+
+//
+// audio mixer test tool
+//
+cc_binary {
+    name: "test-mixer",
+    defaults: ["libaudioprocessing_test_defaults"],
+
+    srcs: ["test-mixer.cpp"],
+    static_libs: ["libsndfile"],
+}
+
+//
+// build audio resampler test tool
+//
+cc_binary {
+    name: "test-resampler",
+    defaults: ["libaudioprocessing_test_defaults"],
+
+    srcs: ["test-resampler.cpp"],
+    static_libs: ["libsndfile"],
+}

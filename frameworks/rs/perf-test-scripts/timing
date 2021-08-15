@@ -1,0 +1,311 @@
+#!/bin/bash
+
+
+# DEFAULT VALUES
+TESTS=()
+MIN_TIME=0.0
+MIN_ITER=0
+BATCH_MODE=0
+GRAPH_LINE=0
+GRAPH_ZERO=0
+VARIABLES=
+
+
+# DEFINES
+TEST_NAMES=(
+  LEVELS_VEC3_RELAXED            LEVELS_VEC4_RELAXED           LEVELS_VEC3_FULL              LEVELS_VEC4_FULL       BLUR_RADIUS_25              # 00-04
+  INTRINSIC_BLUR_RADIUS_25       GREYSCALE                     GRAIN                         FISHEYE_FULL           FISHEYE_RELAXED             # 05-09
+  FISHEYE_APPROXIMATE_FULL       FISHEYE_APPROXIMATE_RELAXED   VIGNETTE_FULL                 VIGNETTE_RELAXED       VIGNETTE_APPROXIMATE_FULL   # 10-14
+  VIGNETTE_APPROXIMATE_RELAXED   GROUP_TEST_EMULATED           GROUP_TEST_NATIVE             CONVOLVE_3X3           INTRINSICS_CONVOLVE_3X3     # 15-19
+  COLOR_MATRIX                   INTRINSICS_COLOR_MATRIX       INTRINSICS_COLOR_MATRIX_GREY  COPY                   CROSS_PROCESS_USING_LUT     # 20-24
+  CONVOLVE_5X5                   INTRINSICS_CONVOLVE_5X5       MANDELBROT_FLOAT              INTRINSICS_BLEND       INTRINSICS_BLUR_25G         # 25-29
+  VIBRANCE                       BW_FILTER                     SHADOWS                       CONTRAST               EXPOSURE                    # 30-34
+  WHITE_BALANCE                  COLOR_CUBE                    COLOR_CUBE_3D_INTRINSIC       ARTISTIC1              RESIZE_BI_SCRIPT            # 35-39
+  RESIZE_BI_INTRINSIC            POSTERIZE_INVOKE              POSTERIZE_SET                 HISTOGRAM_INTRINSIC    HISTOGRAM_SCRIPT            # 40-44
+  MANDELBROT_DOUBLE              BLUR_RADIUS_25_HALF                                                                                            # 45-46
+)
+
+FUNCTION_NAMES=(
+  testLevelsVec3Relaxed          testLevelsVec4Relaxed         testLevelsVec3Full            testLevelsVec4Full     testBlurRadius25            # 00-04
+  testIntrinsicBlurRadius25      testGreyscale                 testGrain                     testFisheyeFull        testFishEyeRelaxed          # 05-09
+  testFisheyeApproximateFull     testFisheyeApproximateRelaxed testVignetteFull              testVignetteRelaxed    testVignetteApproximateFull # 10-14
+  testVignetteApproximateRelaxed testGroupTestEmulated         testGroupTestNative           testConvolve3x3        testIntrinsicsConvolve3x3   # 15-19
+  testColorMatrix                testIntrinsicsColorMatrix     testIntrinsicsColorMatrixGrey testCopy               testCrossProcessUsingLUT    # 20-24
+  testConvolve5x5                testIntrinsicsConvolve5x5     testMandelbrot                testIntrinsicsBlend    testIntrinsicsBlur25G       # 25-29
+  testVibrance                   testBWFilter                  testShadows                   testContrast           testExposure                # 30-34
+  testWhiteBalance               testColorCube                 testColorCube3DIntrinsic      testArtistic1          testResizeBiCubicScript     # 35-39
+  testResizeBiCubicIntrinsic     testPosterizeInvoke           testPosterizeSet              testHistogramIntrinsic testHistogramScript         # 40-44
+  testMandelbrotfp64             testBlurRadius25Half                                                                                           # 45-46
+)
+
+RUNNER="com.android.rs.imagejb/androidx.test.runner.AndroidJUnitRunner"
+TEST_ROOT="com.android.rs.imagejb.ImageProcessingTest"
+
+
+# Helper functions
+show_help() {
+  echo "
+    Usage: ${0##*/} [OPTIONS]...
+    Do stuff with FILE and write the result to standard output. With no FILE
+    or when FILE is -, read standard input.
+
+    -h, -?, --?, --help      display this help message
+    -t, --time K             set the minimum time (in seconds) each test should run
+    -i, --iteration[s] K     set the minimum number of iterations each test should run
+    -c, --case[s] T1 [T2]... specify the number corresponding to each test to be run;
+                             the test IDs are below
+    -b, --batch              run all tests together for speed
+    -f, --bestfit            add best fit line to graph
+    -z, --zero               set graph's minimum yrange to 0
+  "
+  echo "Available test cases:"
+  for i in `seq 0 $((${#TEST_NAMES[@]} - 1))`; do
+    echo "  $i: ${TEST_NAMES[$i]}"
+  done
+  echo
+}
+fileexists() {
+  [ `adb shell "[ -f $1 ] && echo found"` ]
+}
+
+
+# display help if blank argument list
+if [ $# -eq 0 ]; then
+  show_help
+  exit
+fi
+
+# command line parsing
+using_cases=0
+while [ $# -gt 0 ]; do
+  case $1 in
+    -h|-\?|--\?|--help)
+      show_help
+      exit
+      ;;
+    -t|--time)
+      using_cases=0
+      if [ -n "$2" ]; then
+        MIN_TIME=$2
+        shift
+        shift
+      else
+        echo 'ERROR: "--time" requires a non-empty option argument.'
+        exit 1
+      fi
+      ;;
+    -i|--iter|--iters|--iteration|--iterations)
+      using_cases=0
+      if [ -n "$2" ]; then
+        MIN_ITER=$2
+        shift
+        shift
+      else
+        echo 'ERROR: "--iteration" requires a non-empty option argument.'
+        exit 1
+      fi
+      ;;
+    -c|--case|--cases)
+      if [ -n "$2" ]; then
+        using_cases=1
+        shift
+      else
+        echo 'ERROR: "--case" requires a non-empty option argument.'
+        exit 1
+      fi
+      ;;
+    -b|--batch)
+      using_cases=0
+      BATCH_MODE=1
+      shift
+      ;;
+    -f|--bestfit)
+      using_cases=0
+      GRAPH_LINE=1
+      shift
+      ;;
+    -z|--zero)
+      using_cases=0
+      GRAPH_ZERO=1
+      shift
+      ;;
+    all)
+      if [ $using_cases -eq 1 ]; then
+        using_cases=0
+        TESTS=(`seq 0 $((${#TEST_NAMES[@]} - 1))`)
+        shift
+      else
+        echo "ERROR: Invalid option: $1"
+      fi
+      ;;
+    [0-9]*)
+      if [ $using_cases -eq 1 ]; then
+        TESTS+=($1)
+        shift
+      else
+        echo "ERROR: Invalid option: $1"
+        exit 1
+      fi
+      ;;
+    *)
+      echo "ERROR: Invalid option: $1"
+      exit 1
+      ;;
+  esac
+done
+
+# error checking
+if [ ${#TESTS[@]} -eq 0 ]; then
+  echo "ERROR: need at least one --case"
+  exit 1
+fi
+
+# configure launch variables
+if [[ ( $MIN_TIME == "0.0" ) && ( $MIN_ITER -eq 0 ) ]]; then
+  MIN_TIME=1.0
+  MIN_ITER=2
+fi
+VARIABLES="$VARIABLES -e minimum_test_runtime $MIN_TIME -e minimum_test_iterations $MIN_ITER"
+TESTS=( `printf "%s\n" "${TESTS[@]}" | sort -n | uniq` )
+
+# print prep
+echo
+[ $BATCH_MODE -eq 0 ] && echo "Running tests:" || echo "Running tests (in batch mode):"
+for i in ${TESTS[@]}; do
+  echo $i: ${TEST_NAMES[$i]}
+done
+echo "with minimum runtime per test of $MIN_TIME seconds and
+minimum number of $MIN_ITER iterations per test"
+echo
+
+# setup
+echo
+if [[ "`adb shell id | tr -d '\r' | awk -F'[()]' '{print $2}'`" != "root" ]]; then
+  adb root
+  adb wait-for-device
+fi
+
+# grant permission
+adb shell pm grant com.android.rs.imagejb android.permission.READ_EXTERNAL_STORAGE
+adb shell pm grant com.android.rs.imagejb android.permission.WRITE_EXTERNAL_STORAGE
+
+# Run each test individually...
+if [[ $BATCH_MODE -eq 0 ]]; then
+
+  # run and plot each test result separately
+  for num in `seq 0 $((${#TESTS[@]} - 1))`; do
+
+    # alias
+    testId=${TESTS[$num]}
+
+    # report progress
+    printf "Running ${TEST_NAMES[$testId]} ($(($num + 1))/${#TESTS[@]})"
+
+    # run individual test
+    adb shell "am instrument -w $VARIABLES -e class $TEST_ROOT#${FUNCTION_NAMES[$testId]} $RUNNER" > /dev/null
+
+    # extract relevant data if present, write to temporary file
+    if fileexists /sdcard/rsTimes/${TEST_NAMES[$testId]}_DATA.txt; then
+      adb shell cat /sdcard/rsTimes/${TEST_NAMES[$testId]}_DATA.txt > timing.tmp
+    else
+      printf "\r                                                                       \r"
+      echo "File ${TEST_NAMES[$testId]} not saved. Is ImageProcessing_jb able to run on this device?"
+      continue
+    fi
+
+    # calculate avg and stdcoef
+    AVG=`cat timing.tmp | awk '{sum+=$2}END{printf "%.2f",sum/NR}'`
+    STDCOEF=`cat timing.tmp | awk '{sum+=$2;sos+=$2*$2}END{printf "%.2f",sqrt((sos-sum*sum/NR)/NR)/(sum/NR)*100}'`
+
+    # create plot file
+    echo "# temporary file" > plot.tmp
+    echo "set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1" >> plot.tmp  # --- blue
+    echo "set style line 2 lc rgb '#ff0000' lt 1 lw 2" >> plot.tmp  # --- green
+    echo "set title \"${TEST_NAMES[$testId]} \(avg=$AVG ms, stdcoef=$STDCOEF%\)\"" >> plot.tmp
+    echo "set xlabel \"Iteration #\"" >> plot.tmp
+    echo "set ylabel \"Elapsed Time (ms)\"" >> plot.tmp
+    if [ $GRAPH_ZERO -eq 1 ]; then
+      echo "set yrange [0.0:*]" >> plot.tmp
+    fi
+    if [ $GRAPH_LINE -eq 1 ]; then
+      echo "set fit quiet" >> plot.tmp
+      echo "set fit logfile '/dev/null'" >> plot.tmp
+      echo "f(x) = a*x + b" >> plot.tmp
+      echo "fit f(x) 'timing.tmp' using 1:2 via a, b" >> plot.tmp
+      echo "string = sprintf('%.3fe-3*x+%.3f', a*1000, b)" >> plot.tmp
+      echo "plot 'timing.tmp' with linespoints ls 1 title 'Data', f(x) ls 2 title string" >> plot.tmp
+    else
+      echo "plot 'timing.tmp' with linespoints ls 1 title 'Data'" >> plot.tmp
+    fi
+
+    # plot data as simple line graph
+    gnuplot -p plot.tmp
+
+    # clear line
+    printf "\r                                                                       \r"
+
+  done
+
+# ...or all at once
+else
+
+  # concatenate all tests together to run in batch
+  TESTS_TEXT="-e class $TEST_ROOT#${FUNCTION_NAMES[${TESTS[0]}]}"
+  for num in `seq 1 $((${#TESTS[@]} - 1))`; do
+    TESTS_TEXT=$TESTS_TEXT,"$TEST_ROOT#${FUNCTION_NAMES[${TESTS[$num]}]}"
+  done
+
+  # run command
+  adb shell "am instrument -w $VARIABLES $TESTS_TEXT $RUNNER"
+
+  # run and plot each test result separately
+  for num in `seq 0 $((${#TESTS[@]} - 1))`; do
+
+    # alias
+    testId=${TESTS[$num]}
+
+    # extract relevant data if present, write to temporary file
+    if fileexists /sdcard/rsTimes/${TEST_NAMES[$testId]}_DATA.txt; then
+      adb shell cat /sdcard/rsTimes/${TEST_NAMES[$testId]}_DATA.txt > timing.tmp
+    else
+      echo "File ${TEST_NAMES[$testId]} not saved. Is ImageProcessing_jb able to run on this device?"
+      continue
+    fi
+
+    # calculate avg and stdcoef
+    AVG=`cat timing.tmp | awk '{sum+=$2}END{printf "%.2f",sum/NR}'`
+    STDCOEF=`cat timing.tmp | awk '{sum+=$2;sos+=$2*$2}END{printf "%.2f",sqrt((sos-sum*sum/NR)/NR)/(sum/NR)*100}'`
+
+    # create plot file
+    echo "# temporary file" > plot.tmp
+    echo "set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1" >> plot.tmp  # --- blue
+    echo "set style line 2 lc rgb '#ff0000' lt 1 lw 2" >> plot.tmp  # --- green
+    echo "set title \"${TEST_NAMES[$testId]} \(avg=$AVG ms, stdcoef=$STDCOEF%\)\"" >> plot.tmp
+    echo "set xlabel \"Iteration #\"" >> plot.tmp
+    echo "set ylabel \"Elapsed Time (ms)\"" >> plot.tmp
+    if [ $GRAPH_ZERO -eq 1 ]; then
+      echo "set yrange [0.0:*]" >> plot.tmp
+    fi
+    if [ $GRAPH_LINE -eq 1 ]; then
+      echo "set fit quiet" >> plot.tmp
+      echo "set fit logfile '/dev/null'" >> plot.tmp
+      echo "f(x) = a*x + b" >> plot.tmp
+      echo "fit f(x) 'timing.tmp' using 1:2 via a, b" >> plot.tmp
+      echo "string = sprintf('%.3fe-3*x+%.3f', a*1000, b)" >> plot.tmp
+      echo "plot 'timing.tmp' with linespoints ls 1 title 'Data', f(x) ls 2 title string" >> plot.tmp
+    else
+      echo "plot 'timing.tmp' with linespoints ls 1 title 'Data'" >> plot.tmp
+    fi
+
+    # plot data as simple line graph
+    gnuplot -p plot.tmp
+
+  done
+
+fi # single or batch mode
+
+# cleanup
+rm -f plot.tmp
+rm -f timing.tmp
+
+

@@ -1,0 +1,579 @@
+supDomain: DeviceForInputSource
+	domain: Calibration
+		conf: Calibration
+			component: /Policy/policy/input_sources/default/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				hdmi = 0
+				telephony_rx = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/mic/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				hdmi = 0
+				telephony_rx = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/voice_downlink/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				builtin_mic = 0
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				hdmi = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				usb_device = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/voice_call/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				builtin_mic = 0
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				hdmi = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				usb_device = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/voice_uplink/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				builtin_mic = 0
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				hdmi = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				usb_device = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/camcorder/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				hdmi = 0
+				telephony_rx = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				usb_device = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/voice_recognition/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				hdmi = 0
+				telephony_rx = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/voice_communication/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				hdmi = 0
+				telephony_rx = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/remote_submix/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				builtin_mic = 0
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				hdmi = 0
+				telephony_rx = 0
+				back_mic = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				usb_device = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/hotword/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				hdmi = 0
+				telephony_rx = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/unprocessed/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				hdmi = 0
+				telephony_rx = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				fm_tuner = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+			component: /Policy/policy/input_sources/fm_tuner/applicable_input_device/mask
+				communication = 0
+				ambient = 0
+				bluetooth_sco_headset = 0
+				hdmi = 0
+				telephony_rx = 0
+				builtin_mic = 0
+				wired_headset = 0
+				back_mic = 0
+				remote_submix = 0
+				anlg_dock_headset = 0
+				dgtl_dock_headset = 0
+				usb_accessory = 0
+				usb_device = 0
+				tv_tuner = 0
+				line = 0
+				spdif = 0
+				bluetooth_a2dp = 0
+				loopback = 0
+				ip = 0
+				bus = 0
+				stub = 0
+
+	domain: DefaultAndMic
+		conf: A2dp
+			AvailableInputDevices Includes BluetoothA2dp
+
+			component: /Policy/policy/input_sources
+				component: default/applicable_input_device/mask/
+					bluetooth_a2dp = 1
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+				component: mic/applicable_input_device/mask/
+					bluetooth_a2dp = 1
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+
+		conf: Sco
+			AvailableInputDevices Includes BluetoothScoHeadset
+			ForceUseForRecord Is ForceBtSco
+
+			component: /Policy/policy/input_sources
+				component: default/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 1
+				component: mic/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 1
+
+		conf: WiredHeadset
+			AvailableInputDevices Includes WiredHeadset
+
+			component: /Policy/policy/input_sources
+				component: default/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 1
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+				component: mic/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 1
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+
+		conf: UsbDevice
+			AvailableInputDevices Includes UsbDevice
+
+			component: /Policy/policy/input_sources
+				component: default/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 1
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+				component: mic/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 1
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+
+		conf: BuiltinMic
+			AvailableInputDevices Includes BuiltinMic
+
+			component: /Policy/policy/input_sources
+				component: default/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 1
+					bluetooth_sco_headset = 0
+				component: mic/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 1
+					bluetooth_sco_headset = 0
+
+		conf: Default
+			component: /Policy/policy/input_sources
+				component: default/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+				component: mic/applicable_input_device/mask/
+					bluetooth_a2dp = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+					bluetooth_sco_headset = 0
+
+	domain: VoiceUplinkAndVoiceDownlinkAndVoiceCall
+		conf: VoiceCall
+			AvailableInputDevices Includes TelephonyRx
+
+			component: /Policy/policy/input_sources
+				voice_downlink/applicable_input_device/mask/telephony_rx = 1
+				voice_call/applicable_input_device/mask/telephony_rx = 1
+				voice_uplink/applicable_input_device/mask/telephony_rx = 1
+
+		conf: Default
+			component: /Policy/policy/input_sources
+				voice_downlink/applicable_input_device/mask/telephony_rx = 0
+				voice_call/applicable_input_device/mask/telephony_rx = 0
+				voice_uplink/applicable_input_device/mask/telephony_rx = 0
+
+	domain: Camcorder
+		conf: BackMic
+			AvailableInputDevices Includes BackMic
+
+			component: /Policy/policy/input_sources/camcorder/applicable_input_device/mask
+				back_mic = 1
+				builtin_mic = 0
+
+		conf: BuiltinMic
+			AvailableInputDevices Includes BuiltinMic
+
+			component: /Policy/policy/input_sources/camcorder/applicable_input_device/mask
+				back_mic = 0
+				builtin_mic = 1
+
+		conf: Default
+			component: /Policy/policy/input_sources/camcorder/applicable_input_device/mask
+				back_mic = 0
+				builtin_mic = 0
+
+	domain: VoiceRecognitionAndUnprocessedAndHotword
+		conf: ScoHeadset
+			ForceUseForRecord Is ForceBtSco
+			AvailableInputDevices Includes BluetoothScoHeadset
+
+			component: /Policy/policy/input_sources
+				component: voice_recognition/applicable_input_device/mask
+					bluetooth_sco_headset = 1
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+				component: unprocessed/applicable_input_device/mask
+					bluetooth_sco_headset = 1
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+				component: hotword/applicable_input_device/mask
+					bluetooth_sco_headset = 1
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+
+		conf: WiredHeadset
+			AvailableInputDevices Includes WiredHeadset
+
+			component: /Policy/policy/input_sources
+				component: voice_recognition/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 1
+					usb_device = 0
+					builtin_mic = 0
+				component: unprocessed/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 1
+					usb_device = 0
+					builtin_mic = 0
+				component: hotword/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 1
+					usb_device = 0
+					builtin_mic = 0
+
+		conf: UsbDevice
+			AvailableInputDevices Includes UsbDevice
+
+			component: /Policy/policy/input_sources
+				component: voice_recognition/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 1
+					builtin_mic = 0
+				component: unprocessed/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 1
+					builtin_mic = 0
+				component: hotword/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 1
+					builtin_mic = 0
+
+		conf: BuiltinMic
+			AvailableInputDevices Includes BuiltinMic
+
+			component: /Policy/policy/input_sources
+				component: voice_recognition/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 1
+				component: unprocessed/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 1
+				component: hotword/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 1
+
+		conf: Default
+			component: /Policy/policy/input_sources
+				component: voice_recognition/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+				component: unprocessed/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+				component: hotword/applicable_input_device/mask
+					bluetooth_sco_headset = 0
+					wired_headset = 0
+					usb_device = 0
+					builtin_mic = 0
+
+	domain: VoiceCommunication
+		conf: ScoHeadset
+			#
+			# SCO device may be requested but no SCO device is available
+			#
+			ForceUseForCommunication Is ForceBtSco
+			AvailableInputDevices Includes BluetoothScoHeadset
+
+			component: /Policy/policy/input_sources/voice_communication/applicable_input_device/mask
+				bluetooth_sco_headset = 1
+				wired_headset = 0
+				usb_device = 0
+				builtin_mic = 0
+				back_mic = 0
+
+		conf: WiredHeadset
+			ForceUseForCommunication Is ForceNone
+			AvailableInputDevices Includes WiredHeadset
+
+			component: /Policy/policy/input_sources/voice_communication/applicable_input_device/mask
+				bluetooth_sco_headset = 0
+				wired_headset = 1
+				usb_device = 0
+				builtin_mic = 0
+				back_mic = 0
+
+		conf: UsbDevice
+			ForceUseForCommunication Is ForceNone
+			AvailableInputDevices Includes UsbDevice
+
+			component: /Policy/policy/input_sources/voice_communication/applicable_input_device/mask
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				usb_device = 1
+				builtin_mic = 0
+				back_mic = 0
+
+		conf: BuiltinMic
+			AvailableInputDevices Includes BuiltinMic
+			ANY
+				ForceUseForCommunication Is ForceNone
+				ALL
+					ForceUseForCommunication Is ForceSpeaker
+					AvailableInputDevices Excludes BackMic
+
+			component: /Policy/policy/input_sources/voice_communication/applicable_input_device/mask
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				usb_device = 0
+				builtin_mic = 1
+				back_mic = 0
+
+		conf: BackMic
+			ForceUseForCommunication Is ForceSpeaker
+			AvailableInputDevices Includes BackMic
+
+			component: /Policy/policy/input_sources/voice_communication/applicable_input_device/mask
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				usb_device = 0
+				builtin_mic = 0
+				back_mic = 1
+
+		conf: Default
+			#
+			# Fallback on the default input device which can be builtin mic for example
+			#
+			component: /Policy/policy/input_sources/voice_communication/applicable_input_device/mask
+				bluetooth_sco_headset = 0
+				wired_headset = 0
+				usb_device = 0
+				builtin_mic = 1
+				back_mic = 0
+
+	domain: RemoteSubmix
+		conf: RemoteSubmix
+			AvailableInputDevices Includes RemoteSubmix
+
+			component: /Policy/policy/input_sources/remote_submix/applicable_input_device/mask
+				remote_submix = 1
+
+		conf: Default
+			component: /Policy/policy/input_sources/remote_submix/applicable_input_device/mask
+				remote_submix = 0
+
+	domain: FmTuner
+		conf: FmTuner
+			AvailableInputDevices Includes FmTuner
+
+			component: /Policy/policy/input_sources/fm_tuner/applicable_input_device/mask
+				fm_tuner = 1
+
+		conf: Default
+			component: /Policy/policy/input_sources/fm_tuner/applicable_input_device/mask
+				fm_tuner = 0
+

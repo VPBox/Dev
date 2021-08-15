@@ -1,0 +1,154 @@
+#!/bin/bash
+
+# defines
+FREQ=0 #percent
+SERVICES=(perfd thermal-engine mpdecision)
+DIR="/sys/devices/system/cpu"
+
+
+###################### SETUP ######################
+
+# helper functions
+fileexists() {
+  [ `adb shell "[ -f $1 ] && echo 1 || echo 0" | tr -d '\r'` -eq 1 ]
+}
+getprop() {
+  if fileexists $1; then
+    echo `adb shell cat $1 | tr -d '\r'`
+  else
+    echo "FILE $1 NOT FOUND"
+  fi
+}
+setprop() {
+  if fileexists $1; then
+    adb shell "echo -n $2 > $1"
+  else
+    echo "FILE $1 NOT FOUND"
+  fi
+}
+
+# use passed in percent frequency
+if [[ $# -eq 1 ]]; then
+  FREQ=$1
+fi
+
+# switch to root
+if [[ "`adb shell id | tr -d '\r' | awk -F'[()]' '{print $2}'`" != "root" ]]; then
+  adb root
+  adb wait-for-device
+fi
+
+# device name
+echo Device: `adb shell getprop ro.product.model`
+echo
+
+# collect all cores
+cores=`adb shell ls /sys/devices/system/cpu/ | grep cpu[0-9].* | tr -d '\r'`
+
+# disable GPU
+adb shell setprop debug.rs.default-CPU-driver 1
+
+
+###################### CONFIGURE ######################
+
+# freeze system
+for service in ${SERVICES[@]}; do
+  adb shell stop $service
+done
+
+# set frequencies
+declare -A selectedFreq
+for core in $cores; do
+
+  # turn on core if possible
+  if fileexists $DIR/$core/online; then
+    adb shell "echo -n 1 > $DIR/$core/online"
+  fi
+
+  # get available frequencies in sorted order
+  if fileexists $DIR/$core/cpufreq/scaling_available_frequencies; then
+    frequencies=(`getprop $DIR/$core/cpufreq/scaling_available_frequencies`)
+  elif fileexists $DIR/$core/cpufreq/stats/time_in_state; then
+    frequencies=(`adb shell cat $DIR/$core/cpufreq/stats/time_in_state | cut -f1 -d " " | tr -d '\r'`)
+  fi
+  frequencies=(`printf "%s\n" "${frequencies[@]}" | sort -n`)
+
+  # find target frequency based on frequency percentage
+  minFreq=${frequencies[0]}
+  maxFreq=${frequencies[-1]}
+  targetFreq=$(( FREQ * ( maxFreq - minFreq ) / 100 + minFreq ))
+
+  # find closest frequency
+  freq=`printf "%d\n" "${frequencies[@]}" | awk -v c=${frequencies[0]} -v t=$targetFreq 'BEGIN{d=$0-t;if(d<0)d=-d;l=d}{d=$0-t;if(d<0)d=-d;if(d<l){l=d;c=$0}}END{print c}'`
+  selectedFreq[$core]=$freq
+
+  # set frequency
+  adb shell "echo -n $freq > $DIR/$core/cpufreq/scaling_min_freq"
+  adb shell "echo -n $freq > $DIR/$core/cpufreq/scaling_max_freq"
+
+done
+
+
+# keep trying until the frequencies are properly set
+while true; do
+
+  # check to see if frequencies are correct
+  CORRECT=true
+  for core in $cores; do
+    if fileexists $DIR/$core/online && [ `getprop $DIR/$core/online` -eq 0 ]; then
+      echo "$core is offline"
+      CORRECT=false
+    else
+      if fileexists $DIR/$core/cpufreq/scaling_cur_freq; then
+        frequency=`getprop $DIR/$core/cpufreq/scaling_cur_freq`
+        if [ $frequency != ${selectedFreq[$core]} ]; then
+          echo "$core: $frequency != ${selectedFreq[$core]}"
+          CORRECT=false
+        fi
+      else
+        echo "$core is offline"
+        CORRECT=false
+      fi
+    fi
+  done
+
+  # finished
+  if [ $CORRECT == "true" ]; then
+    break
+  fi
+
+  # display
+  echo "Frequencies not properly set. Trying again..."
+
+  # unfreeze system
+  for service in ${SERVICES[@]}; do
+    adb shell start $service
+  done
+
+  # wait for changes to be made
+  sleep 1
+
+  # freeze system
+  for service in ${SERVICES[@]}; do
+    adb shell stop $service
+  done
+
+  # try resetting the values (only really needed for Nexus 7 for some reason)
+  for core in $cores; do
+    if fileexists $DIR/$core/online; then
+      adb shell "echo -n 1 > $DIR/$core/online"
+    fi
+    adb shell "echo -n $freq > $DIR/$core/cpufreq/scaling_min_freq"
+    adb shell "echo -n $freq > $DIR/$core/cpufreq/scaling_max_freq"
+  done
+
+  sleep 1
+
+done
+
+# display
+for core in $cores; do
+  echo "$core successfully set to ${selectedFreq[$core]}"
+done
+
+

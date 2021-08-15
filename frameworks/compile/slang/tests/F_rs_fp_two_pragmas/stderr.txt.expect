@@ -1,0 +1,1 @@
+rs_fp_two_pragmas.rs:5:9: error: Multiple float precisions specified.  Encountered rs_fp_relaxed previously.

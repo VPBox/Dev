@@ -1,0 +1,51 @@
+/* I2C pins 85/86 QUP_L0(5)
+ * NRST 87
+ * TRIG_INTZ 88
+ *
+ * HAP_PMIC_EN: PM845 GPIO 15
+ */
+
+&tlmm {
+	cs40l20_rst:cs40l20_rst {
+		mux {
+			pins = "gpio87";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio87";
+			drive-strength = <2>;
+			output-low;
+		};
+	};
+};
+
+&qupv3_se5_spi {
+	status = "disabled";
+};
+
+&qupv3_se5_i2c {
+	status = "okay";
+	qcom,clk-freq-out = <1000000>;
+	cs40l20@43 {
+		compatible = "cirrus,cs40l20";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cs40l20_rst>;
+		reset-gpios = <&tlmm 87 0>;
+		reg = <0x43>;
+		cirrus,boost-ind-nanohenry = <1000>;
+		cirrus,boost-cap-microfarad = <4>;
+		cirrus,boost-ipk-milliamp = <4500>;
+		cirrus,f0-default = <2514000>; /* 153 Hz */
+		cirrus,f0-min = <2293760>; /* 140 Hz */
+		cirrus,f0-max = <2703360>; /* 165 Hz */
+		cirrus,redc-default = <327728>; /* 15 Ohm */
+		cirrus,redc-min = <302112>; /* 13.5 Ohm */
+		cirrus,redc-max = <369248>; /* 16.5 Ohm */
+		cirrus,gpio1-rise-index = <5>; /* 100% HEAVY_CLICK */
+		cirrus,gpio1-fall-index = <4>; /* 75% HEAVY_CLICK */
+		cirrus,gpio1-fall-timeout = <47278>; /* 985 ms */
+		cirrus,gpio1-mode = <2>; /* enabled only in suspend mode */
+		status = "ok";
+	};
+};
+

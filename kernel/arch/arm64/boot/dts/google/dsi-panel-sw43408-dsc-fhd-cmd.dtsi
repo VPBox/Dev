@@ -1,0 +1,279 @@
+/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&mdss_mdp {
+	dsi_sw43408_dsc_fhd_cmd: qcom,mdss_dsi_sw43408_dsc_fhd_cmd {
+		compatible = "google,dsi_binned_lp";
+
+		qcom,mdss-dsi-panel-name = "sw43408 cmd mode dsc dsi panel";
+		google,mdss-dsi-panel-vendor = "LG";
+		google,mdss-dsi-panel-sn-location = <0xA9 0 9>;
+		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
+		qcom,mdss-dsi-virtual-channel-id = <0>;
+		qcom,mdss-dsi-stream = <0>;
+		qcom,mdss-dsi-bpp = <24>;
+		qcom,mdss-dsi-color-order = "rgb_swap_rgb";
+		qcom,mdss-dsi-underflow-color = <0xff>;
+		qcom,mdss-dsi-border-color = <0>;
+		qcom,mdss-dsi-traffic-mode = "burst_mode";
+		qcom,mdss-dsi-lane-map = "lane_map_0123";
+		/* qcom,partial-update-enabled = "single-roi"; */
+		/* qcom,panel-roi-alignment = <1440 16 1440 16 1440 16>; */
+		qcom,mdss-dsi-lane-0-state;
+		qcom,mdss-dsi-lane-1-state;
+		qcom,mdss-dsi-lane-2-state;
+		qcom,mdss-dsi-lane-3-state;
+		qcom,mdss-dsi-reset-sequence = <1 9>, <0 1>, <1 10>;
+		qcom,mdss-dsi-dma-trigger = "trigger_sw";
+		qcom,mdss-dsi-mdp-trigger = "none";
+		qcom,mdss-dsi-te-pin-select = <1>;
+		qcom,mdss-dsi-wr-mem-start = <0x2c>;
+		qcom,mdss-dsi-wr-mem-continue = <0x3c>;
+		qcom,mdss-dsi-te-dcs-command = <1>;
+		qcom,mdss-dsi-te-check-enable;
+		qcom,mdss-dsi-te-using-te-pin;
+		qcom,mdss-dsi-tx-eot-append;
+		qcom,mdss-dsi-force-clock-lane-hs = <1>;
+
+		qcom,mdss-pan-physical-width-dimension = <62>;
+		qcom,mdss-pan-physical-height-dimension = <124>;
+
+		qcom,mdss-dsi-hs-pps;
+		qcom,mdss-dsi-init-delay-us = <5000>;
+		qcom,mdss-dsi-lp11-init;
+
+		qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
+		qcom,mdss-dsi-bl-min-level = <0x8>; /* 2.74 nits */
+		qcom,mdss-dsi-bl-max-level = <0x384>; /* 399.81 nits */
+		qcom,mdss-dsi-panel-hdr-enabled;
+		qcom,mdss-dsi-panel-hdr-color-primaries = <14500 15500 32000
+			17000 15500 30000 8000 3000>;
+		qcom,mdss-dsi-panel-peak-brightness = <6200000>;
+		qcom,mdss-dsi-panel-blackness-level = <42>;
+		google,mdss-dsi-lp-brightness-compensation = <0>;
+
+		qcom,mdss-dsi-display-timings {
+			timing@0 {
+				qcom,mdss-dsi-panel-framerate = <60>;
+				qcom,mdss-dsi-panel-width = <1080>;
+				qcom,mdss-dsi-panel-height = <2160>;
+				qcom,mdss-dsi-h-front-porch = <20>;
+				qcom,mdss-dsi-h-back-porch = <20>;
+				qcom,mdss-dsi-h-pulse-width = <32>;
+				qcom,mdss-dsi-h-sync-skew = <0>;
+				qcom,mdss-dsi-v-back-porch = <20>;
+				qcom,mdss-dsi-v-front-porch = <20>;
+				qcom,mdss-dsi-v-pulse-width = <4>;
+				qcom,mdss-dsi-h-left-border = <0>;
+				qcom,mdss-dsi-h-right-border = <0>;
+				qcom,mdss-dsi-v-top-border = <0>;
+				qcom,mdss-dsi-v-bottom-border = <0>;
+				qcom,mdss-dsi-init-delay-us = <10000>;
+				qcom,mdss-dsi-on-command = [
+					15 01 00 00 00 00 02 26 02
+					15 01 00 00 00 00 02 35 00
+					39 01 00 00 00 00 03 53 0C 30
+					39 01 00 00 00 00 07 55 00 70 DF 00 70 DF
+					39 01 00 00 00 00 04 F7 01 49 0C
+					05 01 00 00 32 00 01 11
+					07 01 00 00 00 00 01 11
+					15 01 00 00 00 00 02 B0 AC
+					39 01 00 00 00 00 08 E5
+						00 3A 00 3A 00 0E 10
+					39 01 00 00 55 00 2A B5
+						75 60 2D 5D 80 00 0A 0B
+						00 05 0B 00 80 0D 0E 40
+						00 0C 00 16 00 B8 00 80
+						0D 0E 40 00 0C 00 16 00
+						B8 00 81 00 03 03 03 01
+						01
+					39 01 00 00 00 00 13 CD
+						00 00 00 19 19 19 19 19
+						19 19 19 19 19 19 19 19
+						16 16
+					39 01 00 00 00 00 06 CB 80 5C 07 03 28
+					39 01 00 00 00 00 04 C0 02 02 0F
+					39 01 00 00 00 00 07 55 04 61 DB 04 70 DB
+					15 01 00 00 00 00 02 B0 CA
+					05 01 00 00 32 00 01 29
+				];
+				qcom,mdss-dsi-off-command = [
+					05 01 00 00 00 00 01 28
+					05 01 00 00 64 00 01 10
+				];
+
+				qcom,mdss-dsi-lp1-command = [
+					05 01 00 00 00 00 01 22
+					39 01 00 00 00 00 05 30 00 00 08 6F
+					39 01 00 00 00 00 05 31 00 00 04 37
+					15 01 00 00 00 00 02 B0 AC
+					39 01 00 00 00 00 07 55 04 61 DB 04 78 DB
+					39 01 00 00 00 00 0D B4 2A 40 25 22 41 41 41 0A 10 50 11 03
+					39 01 00 00 3C 00 06 CB 80 5C 07 09 28
+				];
+
+				qcom,mdss-dsi-nolp-command = [
+					05 01 00 00 00 00 01 22
+					15 01 00 00 00 00 02 B0 AC
+					39 01 00 00 00 00 0D B4 2A 02 25 22 41 41 41 0A 10 50 11 00
+					39 01 00 00 00 00 06 CB 80 5C 07 03 28
+					39 01 00 00 00 00 03 51 00 00
+					05 01 00 00 3C 00 01 13
+				];
+
+				qcom,mdss-dsi-vr-command = [
+					05 01 00 00 64 00 01 28
+					/* display off; wait 100ms */
+					15 01 00 00 00 00 02 B0 AC
+					/* MCS Access */
+					39 01 00 00 00 00 08 E5
+						00 3E 00 3E 00 0E 30
+					39 01 00 00 00 00 2A B5
+						75 60 2D 5D 80 00 0A 0B
+						00 05 0B 00 80 0D 0E 40
+						00 0C 00 16 00 B8 00 80
+						0D 0E 40 00 0C 00 16 00
+						B8 00 81 00 03 1F 1F 02
+						02
+					/* VR mode: enable EM inversion */
+					15 01 00 00 00 00 02 B0 CA
+					/* Don't MCS Access */
+					39 01 00 00 00 00 07 55 04 70 DB 04 70 DB
+					/* Write ACL - turn off edge rounding */
+					39 01 00 00 00 00 03 51 01 A0
+					/* vr mode band1 (50 nit ) */
+					39 01 00 00 00 00 03 53 2C 30
+					/* vr mode enable */
+					05 01 00 00 00 00 01 29
+					/* display on */
+				];
+
+				qcom,mdss-dsi-novr-command = [
+					05 01 00 00 64 00 01 28
+					/* display off; wait 100ms */
+					15 01 00 00 00 00 02 B0 AC
+					/* MCS Access */
+					39 01 00 00 00 00 08 E5
+						00 3A 00 3A 00 0E 10
+					39 01 00 00 00 00 2A B5
+						75 60 2D 5D 80 00 0A 0B
+						00 05 0B 00 80 0D 0E 40
+						00 0C 00 16 00 B8 00 80
+						0D 0E 40 00 0C 00 16 00
+						B8 00 81 00 03 03 03 01
+						01
+					/* Normal mode: disable EM inversion */
+					15 01 00 00 00 00 02 B0 CA
+					/* Don't MCS Access */
+					39 01 00 00 00 00 03 53 0C 30
+					/* vr mode disable */
+					39 01 00 00 00 00 07 55 04 61 DB 04 70 DB
+					/* Write ACL - turn on edge rounding */
+					05 01 00 00 00 00 01 29
+					/* display on */
+				];
+
+				qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-off-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-h-sync-pulse = <0>;
+				qcom,compression-mode = "dsc";
+				qcom,mdss-dsc-slice-height = <16>;
+				qcom,mdss-dsc-slice-width = <540>;
+				qcom,mdss-dsc-slice-per-pkt = <1>;
+				qcom,mdss-dsc-bit-per-component = <8>;
+				qcom,mdss-dsc-bit-per-pixel = <8>;
+				qcom,mdss-dsc-block-prediction-enable;
+
+				/* 2xLM, 2xDSC Enc, 1xDSI Intf */
+				qcom,display-topology = <2 2 1>;
+				qcom,default-topology-index = <0>;
+			};
+		};
+
+		google,lp-modes {
+			lp-mode@0 {
+				label = "off";
+
+				google,dsi-lp-brightness-threshold = <0>;
+				google,dsi-lp-command = [
+					05 01 00 00 00 00 01 22
+				];
+				google,dsi-lp-command-state = "dsi_lp_mode";
+			};
+
+			lp-mode@1 {
+				label = "dim";
+
+				google,dsi-lp-brightness-threshold = <5>;
+				google,dsi-lp-command = [
+					39 01 00 00 00 00 03 51 00 6B
+					05 01 00 00 00 00 01 12
+				];
+				google,dsi-lp-command-state = "dsi_lp_mode";
+			};
+			lp-mode@2 {
+				label = "low";
+
+				google,dsi-lp-brightness-threshold = <10>;
+				google,dsi-lp-command = [
+					39 01 00 00 00 00 03 51 00 E0
+					05 01 00 00 00 00 01 12
+				];
+				google,dsi-lp-command-state = "dsi_lp_mode";
+			};
+
+			lp-mode@3 {
+				label = "high";
+
+				google,dsi-lp-brightness-threshold = <255>;
+				google,dsi-lp-command = [
+					39 01 00 00 00 00 03 51 03 87
+					05 01 00 00 00 00 01 12
+				];
+				google,dsi-lp-command-state = "dsi_lp_mode";
+			};
+		};
+
+		google,hbm-ranges {
+			google,dsi-hbm-exit-command = [
+				/* Enable brightness dimming */
+				39 01 00 00 00 00 03 53 4C 30
+			];
+			google,dsi-hbm-exit-num-dimming-frames = <32>;
+			google,dsi-hbm-exit-dimming-stop-command = [
+				/* Disable brightness dimming */
+				39 01 00 00 00 00 03 53 0C 30
+			];
+			google,dsi-hbm-commands-state = "dsi_lp_mode";
+
+			hbm-range@0 {
+				google,dsi-hbm-range-brightness-threshold = <1>;
+
+				google,dsi-hbm-range-bl-min-level = <0x8>;
+				google,dsi-hbm-range-bl-max-level = <0x3ff>;
+
+				google,dsi-hbm-range-entry-command = [
+					/* Enable brightness dimming */
+					39 01 00 00 00 00 03 53 4C 30
+				];
+				google,dsi-hbm-range-num-dimming-frames = <32>;
+				google,dsi-hbm-range-dimming-stop-command = [
+					/* Disable brightness dimming */
+					39 01 00 00 00 00 03 53 0C 30
+				];
+				google,dsi-hbm-range-commands-state =
+					"dsi_lp_mode";
+			};
+		};
+	};
+};
+

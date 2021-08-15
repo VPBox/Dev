@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Copyright (C) 2018 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<criterion_types>
+    <criterion_type name="OutputDevicesMaskType" type="inclusive"/>
+    <criterion_type name="InputDevicesMaskType" type="inclusive"/>
+    <criterion_type name="OutputDevicesAddressesType" type="inclusive">
+        <values>
+            <!-- legacy remote submix -->
+            <value literal="0" numerical="1"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="InputDevicesAddressesType" type="inclusive"/>
+    <criterion_type name="AndroidModeType" type="exclusive"/>
+    <criterion_type name="BooleanType" type="exclusive">
+        <values>
+            <value literal="False" numerical="0"/>
+            <value literal="True" numerical="1"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForCommunicationType" type="exclusive">
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceSpeaker" numerical="1"/>
+            <value literal="ForceBtSco" numerical="3"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForMediaType" type="exclusive">
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceSpeaker" numerical="1"/>
+            <value literal="ForceHeadphones" numerical="2"/>
+            <value literal="ForceBtA2dp" numerical="4"/>
+            <value literal="ForceWiredAccessory" numerical="5"/>
+            <value literal="ForceAnalogDock" numerical="8"/>
+            <value literal="ForceDigitalDock" numerical="9"/>
+            <value literal="ForceNoBtA2dp" numerical="10"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForRecordType" type="exclusive">
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceBtSco" numerical="3"/>
+            <value literal="ForceWiredAccessory" numerical="5"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForDockType" type="exclusive">
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceWiredAccessory" numerical="5"/>
+            <value literal="ForceBtCarDock" numerical="6"/>
+            <value literal="ForceBtDeskDock" numerical="7"/>
+            <value literal="ForceAnalogDock" numerical="8"/>
+            <value literal="ForceDigitalDock" numerical="9"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForSystemType" type="exclusive" >
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceSystemEnforced" numerical="11"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForHdmiSystemAudioType" type="exclusive">
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceHdmiSystemEnforced" numerical="12"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForEncodedSurroundType" type="exclusive">
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceEncodedSurroundNever" numerical="13"/>
+            <value literal="ForceEncodedSurroundAlways" numerical="14"/>
+        </values>
+    </criterion_type>
+    <criterion_type name="ForceUseForVibrateRingingType" type="exclusive">
+        <values>
+            <value literal="ForceNone" numerical="0"/>
+            <value literal="ForceBtSco" numerical="3"/>
+        </values>
+    </criterion_type>
+</criterion_types>
+
+

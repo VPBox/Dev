@@ -1,0 +1,7 @@
+bad_pragmas.rs:5:9: error: unknown pragma ignored
+bad_pragmas.rs:6:9: error: unknown pragma ignored
+bad_pragmas.rs:7:9: error: unknown pragma ignored
+bad_pragmas.rs:8:8: error: unknown pragma ignored
+bad_pragmas.rs:9:9: error: unknown pragma ignored
+bad_pragmas.rs:10:9: error: unknown pragma ignored
+bad_pragmas.rs:11:9: error: unknown pragma ignored

@@ -1,0 +1,26 @@
+reflection3264_foreach_mismatch.rs:13:15: error: foreach kernel 'bb' has __attribute__((kernel)) for 64-bit targets but not for 32-bit targets
+reflection3264_foreach_mismatch.rs:22:18: error: foreach kernel 'dd' has output type 'uint' for 32-bit targets but output type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch.rs:39:15: error: foreach kernel 'ii' has output type 'int' for 64-bit targets but no output for 32-bit targets
+reflection3264_foreach_mismatch.rs:40:16: error: foreach kernel 'jj' has output type 'int' for 32-bit targets but no output for 64-bit targets
+reflection3264_foreach_mismatch.rs:66:16: error: foreach kernel 'nn' has 1 input for 32-bit targets but 2 inputs for 64-bit targets
+reflection3264_foreach_mismatch.rs:88:16: error: foreach kernel 'qq' has different special parameters for 32-bit targets than for 64-bit targets
+reflection3264_foreach_mismatch.rs:124:16: error: 2nd input of foreach kernel 'uu' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch.rs:124:16: error: 4th input of foreach kernel 'uu' has type 'struct S' for 32-bit targets but type 'struct T' for 64-bit targets
+reflection3264_foreach_mismatch.rs:133:6: error: foreach kernel 'xx' has 0 usrData parameters for 32-bit targets but 1 usrData parameter for 64-bit targets
+reflection3264_foreach_mismatch.rs:132:6: error: foreach kernel 'ww' has 1 usrData parameter for 32-bit targets but 0 usrData parameters for 64-bit targets
+reflection3264_foreach_mismatch.rs:128:6: error: 1st usrData parameter of foreach kernel 'vv' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch.rs:108:6: error: 1st input of foreach kernel 'tt' has type 'short' for 64-bit targets but is untyped for 32-bit targets
+reflection3264_foreach_mismatch.rs:100:6: error: 1st input of foreach kernel 'ss' has type 'char' for 32-bit targets but is untyped for 64-bit targets
+reflection3264_foreach_mismatch.rs:98:6: error: 1st input of foreach kernel 'rr' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch.rs:82:6: error: foreach kernel 'pp' has different special parameters for 32-bit targets than for 64-bit targets
+reflection3264_foreach_mismatch.rs:74:6: error: foreach kernel 'oo' has output type 'uint' for 32-bit targets but output type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch.rs:74:6: error: foreach kernel 'oo' has 0 usrData parameters for 32-bit targets but 1 usrData parameter for 64-bit targets
+reflection3264_foreach_mismatch.rs:60:6: error: foreach kernel 'mm' has 0 inputs for 32-bit targets but 1 input for 64-bit targets
+reflection3264_foreach_mismatch.rs:52:6: error: foreach kernel 'll' has untyped output for 32-bit targets but no output for 64-bit targets
+reflection3264_foreach_mismatch.rs:51:6: error: foreach kernel 'kk' has untyped output for 64-bit targets but no output for 32-bit targets
+reflection3264_foreach_mismatch.rs:38:6: error: foreach kernel 'hh' has output type 'int' for 32-bit targets but no output for 64-bit targets
+reflection3264_foreach_mismatch.rs:37:6: error: foreach kernel 'gg' has output type 'int' for 64-bit targets but no output for 32-bit targets
+reflection3264_foreach_mismatch.rs:28:6: error: foreach kernel 'ff' has output type 'short' for 32-bit targets but has untyped output for 64-bit targets
+reflection3264_foreach_mismatch.rs:27:6: error: foreach kernel 'ee' has output type 'short' for 64-bit targets but has untyped output for 32-bit targets
+reflection3264_foreach_mismatch.rs:20:6: error: foreach kernel 'cc' has output type 'uint' for 32-bit targets but output type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch.rs:7:6: error: foreach kernel 'aa' has __attribute__((kernel)) for 32-bit targets but not for 64-bit targets

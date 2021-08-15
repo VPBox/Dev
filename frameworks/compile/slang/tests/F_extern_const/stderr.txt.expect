@@ -1,0 +1,1 @@
+extern_const.rs:4:18: error: invalid declaration of uninitialized constant variable 'extern_const_int'

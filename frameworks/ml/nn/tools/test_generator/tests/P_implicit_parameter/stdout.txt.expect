@@ -1,0 +1,262 @@
+// clang-format off
+// Generated file (from: mean_implicit.mod.py). Do not edit
+// clang-format off
+// Generated file (from: mean_implicit.mod.py). Do not edit
+// clang-format off
+// Generated file (from: mean_implicit.mod.py). Do not edit
+#include "../../TestGenerated.h"
+
+namespace mean_implicit {
+// Generated mean_implicit test
+#include "-"
+// Generated model constructor
+#include "-"
+} // namespace mean_implicit
+
+void CreateModel(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {1, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {2, 1});
+  OperandType type3(Type::TENSOR_FLOAT32, {1});
+  OperandType type4(Type::TENSOR_INT32, {1});
+  OperandType type5(Type::INT32, {});
+  OperandType type6(Type::TENSOR_INT32, {2});
+  // Phase 1, operands
+  auto i0 = model->addOperand(&type0);
+  auto param = model->addOperand(&type4);
+  auto param1 = model->addOperand(&type5);
+  auto o1 = model->addOperand(&type1);
+  // Phase 2, operations
+  static int32_t param_init[] = {0};
+  model->setOperandValue(param, param_init, sizeof(int32_t) * 1);
+  static int32_t param1_init[] = {1};
+  model->setOperandValue(param1, param1_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_MEAN, {i0, param, param1}, {o1});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {i0},
+    {o1});
+  assert(model->isValid());
+}
+
+bool is_ignored(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {4.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-1.0f, -2.0f, -3.0f, -4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-4.0f, -6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, mean_implicit) {
+    execute(mean_implicit::CreateModel,
+            mean_implicit::is_ignored,
+            mean_implicit::examples);
+}
+
+void CreateModel_2(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {1, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {2, 1});
+  OperandType type3(Type::TENSOR_FLOAT32, {1});
+  OperandType type4(Type::TENSOR_INT32, {1});
+  OperandType type5(Type::INT32, {});
+  OperandType type6(Type::TENSOR_INT32, {2});
+  // Phase 1, operands
+  auto i0 = model->addOperand(&type0);
+  auto param2 = model->addOperand(&type4);
+  auto param3 = model->addOperand(&type5);
+  auto o2 = model->addOperand(&type2);
+  // Phase 2, operations
+  static int32_t param2_init[] = {1};
+  model->setOperandValue(param2, param2_init, sizeof(int32_t) * 1);
+  static int32_t param3_init[] = {1};
+  model->setOperandValue(param3, param3_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_MEAN, {i0, param2, param3}, {o2});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {i0},
+    {o2});
+  assert(model->isValid());
+}
+
+bool is_ignored_2(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_2 = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {3.0f, 7.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-1.0f, -2.0f, -3.0f, -4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-3.0f, -7.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, mean_implicit_2) {
+    execute(mean_implicit::CreateModel_2,
+            mean_implicit::is_ignored_2,
+            mean_implicit::examples_2);
+}
+
+void CreateModel_3(Model *model) {
+  OperandType type0(Type::TENSOR_FLOAT32, {2, 2});
+  OperandType type1(Type::TENSOR_FLOAT32, {1, 2});
+  OperandType type2(Type::TENSOR_FLOAT32, {2, 1});
+  OperandType type3(Type::TENSOR_FLOAT32, {1});
+  OperandType type4(Type::TENSOR_INT32, {1});
+  OperandType type5(Type::INT32, {});
+  OperandType type6(Type::TENSOR_INT32, {2});
+  // Phase 1, operands
+  auto i0 = model->addOperand(&type0);
+  auto param4 = model->addOperand(&type6);
+  auto param5 = model->addOperand(&type5);
+  auto o3 = model->addOperand(&type3);
+  // Phase 2, operations
+  static int32_t param4_init[] = {0, 1};
+  model->setOperandValue(param4, param4_init, sizeof(int32_t) * 2);
+  static int32_t param5_init[] = {0};
+  model->setOperandValue(param5, param5_init, sizeof(int32_t) * 1);
+  model->addOperation(ANEURALNETWORKS_MEAN, {i0, param4, param5}, {o3});
+  // Phase 3, inputs and outputs
+  model->identifyInputsAndOutputs(
+    {i0},
+    {o3});
+  assert(model->isValid());
+}
+
+bool is_ignored_3(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_3 = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {10.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-1.0f, -2.0f, -3.0f, -4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-10.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(GeneratedTests, mean_implicit_3) {
+    execute(mean_implicit::CreateModel_3,
+            mean_implicit::is_ignored_3,
+            mean_implicit::examples_3);
+}
+
+#include "../generated/tests/mean_implicit.mod.py.cpp"

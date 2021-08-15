@@ -1,0 +1,381 @@
+// clang-format off
+// Generated file (from: mean_implicit.mod.py). Do not edit
+// clang-format off
+// Generated file (from: mean_implicit.mod.py). Do not edit
+// Generated from: mean_implicit.mod.py.
+namespace mean_implicit {
+// Generated mean_implicit test
+#include "-"
+// Generated model constructor
+#include "-"
+} // namespace mean_implicit
+
+// Create the model
+Model createTestModel() {
+    const std::vector<Operand> operands = {
+        {
+            .type = OperandType::TENSOR_FLOAT32,
+            .dimensions = {2, 2},
+            .numberOfConsumers = 3,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::MODEL_INPUT,
+            .location = {.poolIndex = 0, .offset = 0, .length = 0},
+        },
+        {
+            .type = OperandType::TENSOR_INT32,
+            .dimensions = {1},
+            .numberOfConsumers = 1,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::CONSTANT_COPY,
+            .location = {.poolIndex = 0, .offset = 0, .length = 4},
+        },
+        {
+            .type = OperandType::INT32,
+            .dimensions = {},
+            .numberOfConsumers = 1,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::CONSTANT_COPY,
+            .location = {.poolIndex = 0, .offset = 4, .length = 4},
+        },
+        {
+            .type = OperandType::TENSOR_FLOAT32,
+            .dimensions = {1, 2},
+            .numberOfConsumers = 0,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::MODEL_OUTPUT,
+            .location = {.poolIndex = 0, .offset = 0, .length = 0},
+        }
+    };
+
+    const std::vector<Operation> operations = {
+        {
+            .type = OperationType::MEAN,
+            .inputs = {0, 1, 2},
+            .outputs = {3},
+        }
+    };
+
+    const std::vector<uint32_t> inputIndexes = {0};
+    const std::vector<uint32_t> outputIndexes = {3};
+    std::vector<uint8_t> operandValues = {
+      0, 0, 0, 0, 1, 0, 0, 0
+    };
+    const std::vector<hidl_memory> pools = {};
+
+    return {
+        .operands = operands,
+        .operations = operations,
+        .inputIndexes = inputIndexes,
+        .outputIndexes = outputIndexes,
+        .operandValues = operandValues,
+        .pools = pools,
+    };
+}
+
+bool is_ignored(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {4.0f, 6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-1.0f, -2.0f, -3.0f, -4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-4.0f, -6.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(NeuralnetworksHidlTest, mean_implicit) {
+  generated_tests::Execute(device,
+                           mean_implicit::createTestModel,
+                           mean_implicit::is_ignored,
+                           mean_implicit::examples);
+}
+
+// Create the model
+Model createTestModel_2() {
+    const std::vector<Operand> operands = {
+        {
+            .type = OperandType::TENSOR_FLOAT32,
+            .dimensions = {2, 2},
+            .numberOfConsumers = 3,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::MODEL_INPUT,
+            .location = {.poolIndex = 0, .offset = 0, .length = 0},
+        },
+        {
+            .type = OperandType::TENSOR_INT32,
+            .dimensions = {1},
+            .numberOfConsumers = 1,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::CONSTANT_COPY,
+            .location = {.poolIndex = 0, .offset = 0, .length = 4},
+        },
+        {
+            .type = OperandType::INT32,
+            .dimensions = {},
+            .numberOfConsumers = 1,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::CONSTANT_COPY,
+            .location = {.poolIndex = 0, .offset = 4, .length = 4},
+        },
+        {
+            .type = OperandType::TENSOR_FLOAT32,
+            .dimensions = {2, 1},
+            .numberOfConsumers = 0,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::MODEL_OUTPUT,
+            .location = {.poolIndex = 0, .offset = 0, .length = 0},
+        }
+    };
+
+    const std::vector<Operation> operations = {
+        {
+            .type = OperationType::MEAN,
+            .inputs = {0, 1, 2},
+            .outputs = {3},
+        }
+    };
+
+    const std::vector<uint32_t> inputIndexes = {0};
+    const std::vector<uint32_t> outputIndexes = {3};
+    std::vector<uint8_t> operandValues = {
+      1, 0, 0, 0, 1, 0, 0, 0
+    };
+    const std::vector<hidl_memory> pools = {};
+
+    return {
+        .operands = operands,
+        .operations = operations,
+        .inputIndexes = inputIndexes,
+        .outputIndexes = outputIndexes,
+        .operandValues = operandValues,
+        .pools = pools,
+    };
+}
+
+bool is_ignored_2(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_2 = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {3.0f, 7.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-1.0f, -2.0f, -3.0f, -4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-3.0f, -7.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(NeuralnetworksHidlTest, mean_implicit_2) {
+  generated_tests::Execute(device,
+                           mean_implicit::createTestModel_2,
+                           mean_implicit::is_ignored_2,
+                           mean_implicit::examples_2);
+}
+
+// Create the model
+Model createTestModel_3() {
+    const std::vector<Operand> operands = {
+        {
+            .type = OperandType::TENSOR_FLOAT32,
+            .dimensions = {2, 2},
+            .numberOfConsumers = 3,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::MODEL_INPUT,
+            .location = {.poolIndex = 0, .offset = 0, .length = 0},
+        },
+        {
+            .type = OperandType::TENSOR_INT32,
+            .dimensions = {2},
+            .numberOfConsumers = 1,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::CONSTANT_COPY,
+            .location = {.poolIndex = 0, .offset = 0, .length = 8},
+        },
+        {
+            .type = OperandType::INT32,
+            .dimensions = {},
+            .numberOfConsumers = 1,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::CONSTANT_COPY,
+            .location = {.poolIndex = 0, .offset = 8, .length = 4},
+        },
+        {
+            .type = OperandType::TENSOR_FLOAT32,
+            .dimensions = {1},
+            .numberOfConsumers = 0,
+            .scale = 0.0f,
+            .zeroPoint = 0,
+            .lifetime = OperandLifeTime::MODEL_OUTPUT,
+            .location = {.poolIndex = 0, .offset = 0, .length = 0},
+        }
+    };
+
+    const std::vector<Operation> operations = {
+        {
+            .type = OperationType::MEAN,
+            .inputs = {0, 1, 2},
+            .outputs = {3},
+        }
+    };
+
+    const std::vector<uint32_t> inputIndexes = {0};
+    const std::vector<uint32_t> outputIndexes = {3};
+    std::vector<uint8_t> operandValues = {
+      0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0
+    };
+    const std::vector<hidl_memory> pools = {};
+
+    return {
+        .operands = operands,
+        .operations = operations,
+        .inputIndexes = inputIndexes,
+        .outputIndexes = outputIndexes,
+        .operandValues = operandValues,
+        .pools = pools,
+    };
+}
+
+bool is_ignored_3(int i) {
+  static std::set<int> ignore = {};
+  return ignore.find(i) != ignore.end();
+}
+
+std::vector<MixedTypedExample> examples_3 = {
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {1.0f, 2.0f, 3.0f, 4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {10.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+// Begin of an example
+{
+//Input(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-1.0f, -2.0f, -3.0f, -4.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+},
+//Output(s)
+{ // See tools/test_generator/include/TestHarness.h:MixedTyped
+  // int -> FLOAT32 map
+  {{0, {-10.0f}}},
+  // int -> INT32 map
+  {},
+  // int -> QUANT8_ASYMM map
+  {}
+}
+}, // End of an example
+};
+
+TEST_F(NeuralnetworksHidlTest, mean_implicit_3) {
+  generated_tests::Execute(device,
+                           mean_implicit::createTestModel_3,
+                           mean_implicit::is_ignored_3,
+                           mean_implicit::examples_3);
+}
+

@@ -1,0 +1,1 @@
+z_wrong_api.rs:5:60: error: compute kernel bad() targeting SDK levels 11-22 may not use special parameter 'z'.

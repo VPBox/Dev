@@ -1,0 +1,2 @@
+reflection3264_foreach_mismatch_extra64.rs:10:6: error: foreach kernel 'cc' is only present for 64-bit targets
+reflection3264_foreach_mismatch_extra64.rs:12:16: error: foreach kernel 'dd' is only present for 64-bit targets

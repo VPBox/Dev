@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    android:background="#FF8C00"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btn_up_vm"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/up_string"
+        android:onClick="btnUp" />
+
+    <Button
+        android:id="@+id/btn_down_vm"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/down_string"
+        android:onClick="btnDown" />
+
+    <Button
+        android:id="@+id/btn_start_vm"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/start_string"
+        android:onClick="btnStart" />
+
+    <Button
+        android:id="@+id/btn_stop_vm"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/stop_string"
+        android:onClick="btnStop" />
+
+    <Button
+        android:id="@+id/btn_back_vm"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/back_string"
+        android:onClick="btnBack" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+    </LinearLayout>
+
+     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_margin="10dp" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.2px"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp" >
+
+            <Button
+                android:id="@+id/btn_connect_vm"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:text="@string/connect_string"
+                android:textColor="@color/white"
+                android:textSize="15dp" 
+                android:onClick="btnConnect" />
+
+            <Button
+                android:id="@+id/btn_group_vm"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:text="@string/group_string"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:onClick="btnGroup" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

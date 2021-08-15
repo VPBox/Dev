@@ -1,0 +1,75 @@
+B|27005|[NN_LA_PO]mobilenet_quantized
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a           n/a           n/a           n/a           n/a          n/a         18.43           n/a       108.63*
+Runtime                    -             -             -             -             -            -             -             -            -
+IPC                     8.26             -          1.43             -             -            -             -             -       -11.04
+Driver                 74.51             -        544.97           n/a           n/a          n/a         20.73             -       640.21
+
+Total                  82.77*            -*       546.40*            -*        39.16*           -*        39.16*            -*      737.80*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers
+B|27005|[NN_LA_PO]mobilenet_quantized
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a           n/a           n/a           n/a           n/a          n/a          4.97           n/a       131.10*
+Runtime                    -             -             -             -             -            -             -             -            -
+IPC                        -             -          0.49             -             -            -             -             -       -10.03
+Driver                     -             -        522.53           n/a           n/a          n/a         10.52             -       533.04
+
+Total                      -*            -*       523.01*            -*        15.49*           -*        15.49*            -*      654.11*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers
+B|27005|[NN_LA_PO]mobilenet_quantized
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a           n/a           n/a           n/a           n/a          n/a          4.95           n/a       135.85*
+Runtime                    -             -             -             -             -            -             -             -            -
+IPC                        -             -          0.50             -             -            -             -             -       -13.69
+Driver                     -             -        544.36           n/a           n/a          n/a         14.18             -       558.54
+
+Total                      -*            -*       544.85*            -*        19.13*           -*        19.13*            -*      680.71*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers
+B|27005|[NN_LA_PO]mobilenet_quantized
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a           n/a           n/a           n/a           n/a          n/a          5.10           n/a       145.48*
+Runtime                    -             -             -             -             -            -             -             -            -
+IPC                        -             -          0.76             -             -            -             -             -       -15.22
+Driver                     -             -        669.45           n/a           n/a          n/a         15.98             -       685.43
+
+Total                      -*            -*       670.21*            -*        21.08*           -*        21.08*            -*      815.69*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers
+B|27005|[NN_LA_PO]mobilenet_quantized
+
+===========================================================================================================================================
+NNAPI timing summary (self-times, ms wall-clock)                                                      Execution
+                                                           ----------------------------------------------------
+              Initialization   Preparation   Compilation           I/O       Compute      Results     Ex. total   Termination        Total
+              --------------   -----------   -----------   -----------  ------------  -----------   -----------   -----------   ----------
+Application              n/a           n/a           n/a           n/a           n/a          n/a          5.64           n/a       136.85*
+Runtime                    -             -             -             -             -            -             -             -            -
+IPC                        -             -          1.19             -             -            -             -             -       -11.83
+Driver                     -             -        697.51           n/a           n/a          n/a         13.01             -       710.52
+
+Total                      -*            -*       698.70*            -*        18.65*           -*        18.65*            -*      835.55*
+===========================================================================================================================================
+* This total ignores missing (n/a) values and thus is not necessarily consistent with the rest of the numbers

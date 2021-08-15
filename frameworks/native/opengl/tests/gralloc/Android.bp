@@ -1,0 +1,18 @@
+cc_test {
+    name: "test-opengl-gralloc",
+
+    srcs: ["gralloc.cpp"],
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+
+    gtest: false,
+
+    shared_libs: [
+        "libcutils",
+        "libutils",
+        "libui",
+    ],
+}

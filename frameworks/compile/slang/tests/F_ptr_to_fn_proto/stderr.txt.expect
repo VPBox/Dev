@@ -1,0 +1,1 @@
+ptr_to_fn_proto.rs:4:7: error: function types cannot be exported: 'fnptr'

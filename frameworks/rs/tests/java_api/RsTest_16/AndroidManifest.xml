@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.rs.test_v16">
+    <uses-sdk android:minSdkVersion="16" />
+    <application
+        android:label="_RS_Test_v16"
+        android:icon="@drawable/test_pattern">
+        <uses-library android:name="android.test.runner" />
+
+        <activity android:name="RSTest_v16"
+                  android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

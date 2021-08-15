@@ -1,0 +1,102 @@
+/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&vendor {
+	b1_batterydata: qcom,battery-data {
+		qcom,batt-id-range-pct = <10>;
+		/* Desay using Lishen cell - 10k
+		 * Sunwoda using Lishen cell - 22k
+		 * Desay using ATL cell - 47k
+		 * Sunwoda using ATL cell - 68k
+		 * Sunwoda using Liwinon cell - 100k
+		 */
+		#include "batterydata-qcom-b1-10k.dtsi"
+		#include "batterydata-qcom-b1-22k.dtsi"
+		#include "batterydata-qcom-b1-47k.dtsi"
+		#include "batterydata-qcom-b1-68k.dtsi"
+		#include "batterydata-qcom-b1-100k.dtsi"
+	};
+};
+
+&pmi8998_fg {
+	qcom,battery-data = <&b1_batterydata>;
+	qcom,fg-chg-term-current = <145>;
+	qcom,fg-sys-term-current = <(-181)>;
+};
+
+&google_charger {
+	google,chg-battery-capacity = <2915>;
+	google,wlc-power-supply = "wireless";
+};
+
+&vendor {
+	b1_maxim_config: maxim,config {
+		maxim,b1-10k {
+			maxim,batt-id-kohm = <10>;
+			maxim,capacity-rcomp0 = <0x203f>; /* LSN / Desay */
+#include "batterydata-maxim-b1-10k.dtsi"
+		};
+		maxim,b1-22k {
+			maxim,batt-id-kohm = <22>;
+			maxim,capacity-rcomp0 = <0x203b>; /* LSN / Sunwoda */
+#include "batterydata-maxim-b1-22k.dtsi"
+		};
+		maxim,b1-47k {
+			maxim,batt-id-kohm = <47>;
+			maxim,capacity-rcomp0 = <0x203d>; /* ATL / Desay */
+#include "batterydata-maxim-b1-47k.dtsi"
+		};
+		maxim,b1-68k {
+			maxim,batt-id-kohm = <68>;
+			maxim,capacity-rcomp0 = <0x2048>; /* ATL / Sunwoda */
+#include "batterydata-maxim-b1-68k.dtsi"
+		};
+		maxim,b1-180k {
+			maxim,batt-id-kohm = <100>;
+#include "batterydata-maxim-b1-100k.dtsi"
+		};
+	};
+};
+
+&max1720x_fg {
+	maxim,capacity-reset-cnt;
+
+	maxim,capacity-stable = <5>;
+	maxim,capacity-fade = <4000>;
+	maxim,capacity-design = <2915>;
+	maxim,capacity-tempco = <0x2226>;
+
+	maxim,config = <&b1_maxim_config>;
+	maxim,n_regval =  /bits/ 16 <
+	    0x9C 0x0300 /* nIChgTerm = 240.0 mA */
+	    0xB7 0x33C1 /* nConvgCfg: RepLow=6% VoltLowOff=140mV MinSlopeX=8/16 RepL_per_stage=1% */
+	    0x9F 0x2606 /* nLearnCfg: Filt Empty */
+	    0xB0 0x7217 /* nConfig: SS TS VS Ten Aen dSOCen TAlrtEn */
+	    0xC0 0xFF00 /* nVAlrtTh: disabled */
+	    0xC1 0x7F80 /* nTAlrtTh: disabled */
+	    0xC2 0xFF00 /* nSAlrtTh: disabled */
+	    0x9D 0x0EB4 /* nFilterCfg: TEMP=90.0s MIX=12.8h VOLT=90.0s CURR=5.625s */
+	    0xC6 0x5A05 /* nFullSOCThr = 90% */
+	    0xD5 0x2D7D /* nRFastVShdn: rFast=87mohm VShdn=2.5V */
+	    0xB8 0xCDF0 /* nNVCfg0: enOCV enX enCfg enFCfg enLCfg enICT enCG enVE enDC */
+	    0xB9 0xB00E /* nNVCfg1: enTGO enFTh enRFVSH enAT enCRV enCTE */
+	    0xBA 0xFF0A /* nNVCfg2: enT enSOC enMMT enMMV enMMC enVT enFC enIAvg CYCLESpSAVE=5.0 */
+	    0xB3 0x0B80 /* nDesignCap: 2944 mAh */
+	>;
+};
+
+&soc {
+	google,overheat_mitigation {
+		google,begin-mitigation-temp = <550>;
+		google,end-mitigation-temp = <450>;
+	};
+};

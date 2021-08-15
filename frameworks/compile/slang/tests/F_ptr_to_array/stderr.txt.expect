@@ -1,0 +1,1 @@
+ptr_to_array.rs:4:7: error: pointers to arrays cannot be exported: 'arrayptr'

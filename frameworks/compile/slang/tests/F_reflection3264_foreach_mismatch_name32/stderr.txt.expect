@@ -1,0 +1,3 @@
+reflection3264_foreach_mismatch_name32.rs:18:16: error: 1st input of foreach kernel 'bb' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch_name32.rs:8:6: error: 1st input of foreach kernel 'aa' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_foreach_mismatch_name32.rs:11:6: error: 2nd foreach kernel is 'cc32' for 32-bit targets but 'cc64' for 64-bit targets

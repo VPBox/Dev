@@ -1,0 +1,2 @@
+foreach_unexpected_allocs.rs:10:3: error: Number of input and output allocations unexpected for kernel function foo
+foreach_unexpected_allocs.rs:11:3: error: Number of input and output allocations unexpected for kernel function foo

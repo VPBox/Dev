@@ -1,0 +1,972 @@
+N5(fp_relaxed + no force CPU)
+1.
+07-30 19:27:05.154  20903-21523/com.example.xinyiwang.refocus V/RenderScript﹕ 0xb4aa0000 Launching thread(s), CPUs 4
+07-30 19:27:05.166  20903-21523/com.example.xinyiwang.refocus V/RenderScript﹕ Successfully loaded runtime: libRSDriver_adreno.so
+07-30 19:27:06.356  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:06.356  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:06.452  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:06.452  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:06.465  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 7692709 ns
+07-30 19:27:07.209  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 744708645 ns
+07-30 19:27:07.210  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:07.210  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:07.378  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:07.378  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:07.387  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 4345677 ns
+07-30 19:27:07.786  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 398907448 ns
+07-30 19:27:08.762  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 975083853 ns
+07-30 19:27:08.791  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 28282761 ns
+07-30 19:27:09.832  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 1041012239 ns
+07-30 19:27:09.926  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:09.926  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:09.983  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:09.984  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:10.008  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 4137918 ns
+07-30 19:27:10.222  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 213465573 ns
+07-30 19:27:11.009  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 786876041 ns
+07-30 19:27:11.980  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 970581510 ns
+07-30 19:27:12.098  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 118639948 ns
+07-30 19:27:12.147  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:12.148  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:12.201  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:12.201  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:12.212  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 636667 ns
+07-30 19:27:12.322  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 109328281 ns
+07-30 19:27:12.526  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 203709167 ns
+07-30 19:27:13.492  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 966430364 ns
+07-30 19:27:13.581  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 88634375 ns
+07-30 19:27:13.624  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:13.624  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:13.655  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:13.656  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:13.680  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 645729 ns
+07-30 19:27:13.757  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 77239583 ns
+07-30 19:27:13.786  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 28213855 ns
+07-30 19:27:13.906  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 119870677 ns
+07-30 19:27:13.985  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:13.986  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:14.129  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:14.129  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:14.138  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 3115521 ns
+07-30 19:27:14.720  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 581354635 ns
+07-30 19:27:15.496  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 775913594 ns
+07-30 19:27:15.606  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 110070469 ns
+07-30 19:27:15.608  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:15.608  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:15.663  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:15.663  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:15.690  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 4180729 ns
+07-30 19:27:15.799  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 109000781 ns
+07-30 19:27:15.984  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 185129478 ns
+07-30 19:27:16.752  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 767500781 ns
+07-30 19:27:16.835  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:16.835  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:16.883  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:16.884  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:16.906  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 2917761 ns
+07-30 19:27:16.948  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 41583542 ns
+07-30 19:27:17.006  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 58018230 ns
+07-30 19:27:17.748  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 741257969 ns
+07-30 19:27:17.846  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 98189844 ns
+07-30 19:27:17.936  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 89524271 ns
+07-30 19:27:17.970  20903-20903/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:27:17.970  20903-20903/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 11.943 seconds
+2.
+07-30 19:27:26.721  20903-20903/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:27:26.724  20903-21740/com.example.xinyiwang.refocus W/RenderScript﹕ Warning: unknown RenderScript HAL API query, 2027
+07-30 19:27:26.724  20903-21740/com.example.xinyiwang.refocus V/RenderScript﹕ 0xb4ab9000 Launching thread(s), CPUs 4
+07-30 19:27:26.730  20903-21740/com.example.xinyiwang.refocus V/RenderScript﹕ Successfully loaded runtime: libRSDriver_adreno.so
+07-30 19:27:27.918  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:27.918  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:28.001  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:28.001  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:28.015  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 8358281 ns
+07-30 19:27:28.820  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 805078749 ns
+07-30 19:27:28.821  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:28.821  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:28.986  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:28.986  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:28.997  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 5152031 ns
+07-30 19:27:29.393  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 396080834 ns
+07-30 19:27:29.483  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 89543073 ns
+07-30 19:27:30.401  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 917795938 ns
+07-30 19:27:31.439  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 1037267916 ns
+07-30 19:27:31.528  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:31.528  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:31.535  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:31.536  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:31.544  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 3498645 ns
+07-30 19:27:31.753  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 208450521 ns
+07-30 19:27:32.546  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 792533126 ns
+07-30 19:27:33.518  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 972003125 ns
+07-30 19:27:33.638  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 119180625 ns
+07-30 19:27:33.681  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:33.681  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:33.688  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:33.688  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:33.695  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 672241 ns
+07-30 19:27:33.803  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 107990833 ns
+07-30 19:27:34.008  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 204717449 ns
+07-30 19:27:34.982  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 973478801 ns
+07-30 19:27:35.077  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 95736667 ns
+07-30 19:27:35.121  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.121  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.128  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.128  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.134  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 762864 ns
+07-30 19:27:35.209  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 74354635 ns
+07-30 19:27:35.238  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 28623542 ns
+07-30 19:27:35.354  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 115884583 ns
+07-30 19:27:35.424  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.424  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.529  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.529  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:35.538  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 2984010 ns
+07-30 19:27:35.643  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 105226406 ns
+07-30 19:27:36.117  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 473978542 ns
+07-30 19:27:36.887  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 769540521 ns
+07-30 19:27:36.982  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:36.982  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:36.990  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:36.990  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:36.999  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 3552917 ns
+07-30 19:27:37.117  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 117572084 ns
+07-30 19:27:37.306  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 186346250 ns
+07-30 19:27:38.080  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 774575468 ns
+07-30 19:27:38.150  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:38.150  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:38.156  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:38.156  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:27:38.161  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 582865 ns
+07-30 19:27:38.203  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 41755417 ns
+07-30 19:27:38.262  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 58238802 ns
+07-30 19:27:38.999  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 736826719 ns
+07-30 19:27:39.116  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 117157344 ns
+07-30 19:27:39.214  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 97593384 ns
+07-30 19:27:39.253  20903-20903/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:27:39.253  20903-20903/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 11.672 seconds
+3.
+07-30 19:29:38.511  20903-22922/com.example.xinyiwang.refocus V/RenderScript﹕ 0x9cf66000 Launching thread(s), CPUs 4
+07-30 19:29:38.517  20903-22922/com.example.xinyiwang.refocus V/RenderScript﹕ Successfully loaded runtime: libRSDriver_adreno.so
+07-30 19:29:39.688  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:39.688  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:39.773  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:39.773  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:39.781  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 2504999 ns
+07-30 19:29:40.533  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 752169062 ns
+07-30 19:29:40.534  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:40.534  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:40.705  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:40.706  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:40.715  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 4269480 ns
+07-30 19:29:41.107  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 391731875 ns
+07-30 19:29:41.198  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 90118281 ns
+07-30 19:29:42.116  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 917892396 ns
+07-30 19:29:43.157  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 1041016353 ns
+07-30 19:29:43.246  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:43.246  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:43.254  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:43.254  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:43.263  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 3555833 ns
+07-30 19:29:43.475  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 211798229 ns
+07-30 19:29:44.270  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 794321093 ns
+07-30 19:29:45.234  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 964059166 ns
+07-30 19:29:45.355  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 120531980 ns
+07-30 19:29:45.401  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:45.401  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:45.450  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:45.450  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:45.456  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 699323 ns
+07-30 19:29:45.569  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 113117864 ns
+07-30 19:29:45.774  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 204340104 ns
+07-30 19:29:46.746  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 971051199 ns
+07-30 19:29:46.841  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 95253698 ns
+07-30 19:29:46.884  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:46.884  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:46.892  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:46.892  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:46.905  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 756824 ns
+07-30 19:29:46.979  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 74604687 ns
+07-30 19:29:47.008  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 28761875 ns
+07-30 19:29:47.123  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 115072499 ns
+07-30 19:29:47.189  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:47.189  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:47.279  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:47.279  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:47.288  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 3277136 ns
+07-30 19:29:47.393  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 105150000 ns
+07-30 19:29:47.869  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 476414115 ns
+07-30 19:29:48.640  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 770711093 ns
+07-30 19:29:48.738  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:48.738  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:48.748  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:48.748  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:48.757  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 3574532 ns
+07-30 19:29:48.869  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 111750209 ns
+07-30 19:29:49.056  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 185581823 ns
+07-30 19:29:49.833  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 776534843 ns
+07-30 19:29:49.912  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:49.912  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:49.918  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:49.918  20903-20903/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:29:49.929  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 3112291 ns
+07-30 19:29:49.971  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 41814843 ns
+07-30 19:29:50.030  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 58610886 ns
+07-30 19:29:50.765  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 734947656 ns
+07-30 19:29:50.863  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 98521926 ns
+07-30 19:29:50.955  20903-20903/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 91504115 ns
+07-30 19:29:51.003  20903-20903/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:29:51.003  20903-20903/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 11.647 seconds
+N5(fp_relaxed + force-CPU)
+1.
+07-30 19:31:07.899  23889-24171/com.example.xinyiwang.refocus D/RenderScript﹕ Skipping hardware driver and loading default CPU driver
+07-30 19:31:07.900  23889-24171/com.example.xinyiwang.refocus V/RenderScript﹕ 0xacde8000 Launching thread(s), CPUs 4
+07-30 19:31:08.818  23889-23889/com.example.xinyiwang.refocus I/art﹕ Waiting for a blocking GC NativeAlloc
+07-30 19:31:08.826  23889-23889/com.example.xinyiwang.refocus I/art﹕ WaitForGcToComplete blocked for 7.800ms for cause NativeAlloc
+07-30 19:31:08.826  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:08.826  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:08.834  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:08.834  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:08.845  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 3813542 ns
+07-30 19:31:09.267  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 421386040 ns
+07-30 19:31:09.267  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:09.267  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:09.416  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:09.416  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:09.502  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 80264219 ns
+07-30 19:31:09.510  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7799115 ns
+07-30 19:31:09.534  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 24218698 ns
+07-30 19:31:10.028  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 493669428 ns
+07-30 19:31:10.069  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 41221823 ns
+07-30 19:31:10.069  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.069  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.077  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.077  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.120  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 38194635 ns
+07-30 19:31:10.283  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 163350313 ns
+07-30 19:31:10.308  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 24480730 ns
+07-30 19:31:10.347  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 39535938 ns
+07-30 19:31:10.353  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6229948 ns
+07-30 19:31:10.354  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.354  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.359  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.359  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.382  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 18408594 ns
+07-30 19:31:10.414  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 31903750 ns
+07-30 19:31:10.440  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 25091615 ns
+07-30 19:31:10.471  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 31120938 ns
+07-30 19:31:10.477  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6190261 ns
+07-30 19:31:10.477  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.477  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.483  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.483  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.503  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 15035260 ns
+07-30 19:31:10.511  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7683958 ns
+07-30 19:31:10.562  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 51327968 ns
+07-30 19:31:10.580  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 17393907 ns
+07-30 19:31:10.580  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.580  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.639  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.639  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.663  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 19185365 ns
+07-30 19:31:10.764  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 101451667 ns
+07-30 19:31:10.789  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 24321094 ns
+07-30 19:31:10.814  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 25565468 ns
+07-30 19:31:10.814  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.814  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.821  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.821  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.842  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 16482187 ns
+07-30 19:31:10.873  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 31615938 ns
+07-30 19:31:10.898  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 24323230 ns
+07-30 19:31:10.908  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 10103959 ns
+07-30 19:31:10.908  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.908  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.913  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.913  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:10.929  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 11202968 ns
+07-30 19:31:10.943  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 13811875 ns
+07-30 19:31:10.967  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 23858386 ns
+07-30 19:31:10.974  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 6731354 ns
+07-30 19:31:11.017  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 43389844 ns
+07-30 19:31:11.080  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 62504687 ns
+07-30 19:31:11.080  23889-23889/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:31:11.080  23889-23889/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 2.297 seconds
+2.
+07-30 19:31:19.445  23889-23895/com.example.xinyiwang.refocus W/art﹕ Suspending all threads took: 9.779ms
+07-30 19:31:23.601  23889-23889/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:31:23.601  23889-24382/com.example.xinyiwang.refocus D/RenderScript﹕ Skipping hardware driver and loading default CPU driver
+07-30 19:31:23.602  23889-24382/com.example.xinyiwang.refocus V/RenderScript﹕ 0xadba1000 Launching thread(s), CPUs 4
+07-30 19:31:24.471  23889-23889/com.example.xinyiwang.refocus I/art﹕ Waiting for a blocking GC NativeAlloc
+07-30 19:31:24.475  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:24.475  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:24.481  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:24.481  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:24.495  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 6421147 ns
+07-30 19:31:24.982  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 487326405 ns
+07-30 19:31:24.982  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:24.982  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:25.126  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:25.126  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:25.219  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 87788125 ns
+07-30 19:31:25.227  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7784583 ns
+07-30 19:31:25.251  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 24835051 ns
+07-30 19:31:25.735  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 482978646 ns
+07-30 19:31:25.776  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 41651562 ns
+07-30 19:31:25.777  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:25.777  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:25.783  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:25.783  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:25.826  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 38509739 ns
+07-30 19:31:25.996  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 170016198 ns
+07-30 19:31:26.022  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 25124948 ns
+07-30 19:31:26.062  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 40124219 ns
+07-30 19:31:26.068  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6221511 ns
+07-30 19:31:26.068  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.068  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.074  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.074  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.097  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 18112865 ns
+07-30 19:31:26.129  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 32179427 ns
+07-30 19:31:26.155  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 25252136 ns
+07-30 19:31:26.184  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 28878854 ns
+07-30 19:31:26.190  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 5881875 ns
+07-30 19:31:26.190  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.190  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.195  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.195  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.214  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 14854427 ns
+07-30 19:31:26.222  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7836094 ns
+07-30 19:31:26.275  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 52776459 ns
+07-30 19:31:26.293  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 17213073 ns
+07-30 19:31:26.293  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.293  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.352  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.352  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.379  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 22060677 ns
+07-30 19:31:26.484  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 104356146 ns
+07-30 19:31:26.513  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 29173958 ns
+07-30 19:31:26.538  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 24952136 ns
+07-30 19:31:26.538  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.538  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.544  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.544  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.565  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 16739219 ns
+07-30 19:31:26.597  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 31376666 ns
+07-30 19:31:26.621  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 24360780 ns
+07-30 19:31:26.632  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 10366145 ns
+07-30 19:31:26.632  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.632  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.637  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.637  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:26.652  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 11020313 ns
+07-30 19:31:26.666  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 13680001 ns
+07-30 19:31:26.691  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 24247604 ns
+07-30 19:31:26.697  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 6873958 ns
+07-30 19:31:26.743  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 45541875 ns
+07-30 19:31:26.800  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 57080886 ns
+07-30 19:31:26.800  23889-23889/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:31:26.800  23889-23889/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 2.354 seconds
+3.
+07-30 19:31:34.159  23889-23889/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:31:34.160  23889-24530/com.example.xinyiwang.refocus D/RenderScript﹕ Skipping hardware driver and loading default CPU driver
+07-30 19:31:34.161  23889-24530/com.example.xinyiwang.refocus V/RenderScript﹕ 0xadbb3000 Launching thread(s), CPUs 4
+07-30 19:31:35.041  23889-23889/com.example.xinyiwang.refocus I/art﹕ Waiting for a blocking GC NativeAlloc
+07-30 19:31:35.063  23889-23889/com.example.xinyiwang.refocus I/art﹕ WaitForGcToComplete blocked for 21.483ms for cause NativeAlloc
+07-30 19:31:35.063  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.063  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.069  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.069  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.084  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 8543593 ns
+07-30 19:31:35.529  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 444961302 ns
+07-30 19:31:35.529  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.529  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.673  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.673  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:35.756  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 76533958 ns
+07-30 19:31:35.766  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 9899635 ns
+07-30 19:31:35.792  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 26570468 ns
+07-30 19:31:36.285  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 493097500 ns
+07-30 19:31:36.326  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 40875729 ns
+07-30 19:31:36.327  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.327  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.333  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.333  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.378  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 40749479 ns
+07-30 19:31:36.550  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 171540885 ns
+07-30 19:31:36.575  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 24889792 ns
+07-30 19:31:36.616  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 40915260 ns
+07-30 19:31:36.622  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 5976198 ns
+07-30 19:31:36.622  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.622  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.628  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.628  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.655  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 21768022 ns
+07-30 19:31:36.692  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 36678333 ns
+07-30 19:31:36.716  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 24162656 ns
+07-30 19:31:36.746  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 29692605 ns
+07-30 19:31:36.751  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 5597708 ns
+07-30 19:31:36.751  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.751  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.758  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.758  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.778  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 15863906 ns
+07-30 19:31:36.786  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7493022 ns
+07-30 19:31:36.845  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 58619219 ns
+07-30 19:31:36.863  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 18469999 ns
+07-30 19:31:36.863  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.863  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.924  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.924  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:36.948  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 19459948 ns
+07-30 19:31:37.052  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 103930781 ns
+07-30 19:31:37.078  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 26093698 ns
+07-30 19:31:37.103  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 24194114 ns
+07-30 19:31:37.103  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.103  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.109  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.109  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.132  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 18425989 ns
+07-30 19:31:37.164  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 31879167 ns
+07-30 19:31:37.188  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 24024376 ns
+07-30 19:31:37.198  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 10092656 ns
+07-30 19:31:37.198  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.198  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.203  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.203  23889-23889/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:31:37.219  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 11034687 ns
+07-30 19:31:37.233  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 13740260 ns
+07-30 19:31:37.257  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 23780104 ns
+07-30 19:31:37.264  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 6777082 ns
+07-30 19:31:37.305  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 41130365 ns
+07-30 19:31:37.362  23889-23889/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 57610520 ns
+07-30 19:31:37.363  23889-23889/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:31:37.363  23889-23889/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 2.335 seconds
+N5(no rs_fp_relaxed + force-CPU)
+1.
+07-30 19:33:32.789  25520-25520/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:33:32.790  25520-26022/com.example.xinyiwang.refocus D/RenderScript﹕ Skipping hardware driver and loading default CPU driver
+07-30 19:33:32.791  25520-26022/com.example.xinyiwang.refocus V/RenderScript﹕ 0xb4aa0000 Launching thread(s), CPUs 4
+07-30 19:33:33.340  25520-25526/com.example.xinyiwang.refocus W/art﹕ Suspending all threads took: 6.112ms
+07-30 19:33:33.688  25520-25520/com.example.xinyiwang.refocus I/art﹕ Waiting for a blocking GC NativeAlloc
+07-30 19:33:33.702  25520-25520/com.example.xinyiwang.refocus I/art﹕ WaitForGcToComplete blocked for 14.127ms for cause NativeAlloc
+07-30 19:33:33.702  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:33.703  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:33.708  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:33.708  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:33.715  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 1662136 ns
+07-30 19:33:34.160  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 445091145 ns
+07-30 19:33:34.160  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:34.160  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:34.305  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:34.305  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:34.420  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 109887188 ns
+07-30 19:33:34.433  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 12888385 ns
+07-30 19:33:34.467  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 33858282 ns
+07-30 19:33:35.227  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 759487761 ns
+07-30 19:33:35.274  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 47190624 ns
+07-30 19:33:35.274  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.274  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.281  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.281  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.324  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 38035207 ns
+07-30 19:33:35.488  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 163522917 ns
+07-30 19:33:35.520  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 31557916 ns
+07-30 19:33:35.573  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 53312708 ns
+07-30 19:33:35.582  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 8880573 ns
+07-30 19:33:35.582  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.582  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.588  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.588  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.610  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 18168229 ns
+07-30 19:33:35.643  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 32152656 ns
+07-30 19:33:35.674  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 31335312 ns
+07-30 19:33:35.711  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 36365417 ns
+07-30 19:33:35.717  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6585833 ns
+07-30 19:33:35.717  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.717  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.723  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.723  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.744  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 15016823 ns
+07-30 19:33:35.752  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 8047032 ns
+07-30 19:33:35.807  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 54786511 ns
+07-30 19:33:35.827  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 20238125 ns
+07-30 19:33:35.828  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.828  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.889  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.890  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:35.914  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 19296145 ns
+07-30 19:33:36.018  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 103844999 ns
+07-30 19:33:36.050  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31302813 ns
+07-30 19:33:36.085  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 35348282 ns
+07-30 19:33:36.085  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.085  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.093  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.093  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.115  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 16523386 ns
+07-30 19:33:36.150  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 34647448 ns
+07-30 19:33:36.181  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31226511 ns
+07-30 19:33:36.195  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 13983177 ns
+07-30 19:33:36.195  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.195  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.201  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.201  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:36.217  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 11012448 ns
+07-30 19:33:36.231  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 13583542 ns
+07-30 19:33:36.262  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31108854 ns
+07-30 19:33:36.270  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 8528958 ns
+07-30 19:33:36.319  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 48637917 ns
+07-30 19:33:36.381  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 61420416 ns
+07-30 19:33:36.381  25520-25520/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:33:36.381  25520-25520/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 2.706 seconds
+2.
+07-30 19:33:42.480  25520-25530/com.example.xinyiwang.refocus W/art﹕ Suspending all threads took: 8.539ms
+07-30 19:33:42.830  25520-25520/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:33:42.831  25520-26188/com.example.xinyiwang.refocus D/RenderScript﹕ Skipping hardware driver and loading default CPU driver
+07-30 19:33:42.832  25520-26188/com.example.xinyiwang.refocus V/RenderScript﹕ 0xb4ab9000 Launching thread(s), CPUs 4
+07-30 19:33:43.717  25520-25520/com.example.xinyiwang.refocus I/art﹕ Waiting for a blocking GC NativeAlloc
+07-30 19:33:43.739  25520-25520/com.example.xinyiwang.refocus I/art﹕ WaitForGcToComplete blocked for 21.819ms for cause NativeAlloc
+07-30 19:33:43.739  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:43.739  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:43.744  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:43.744  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:43.755  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 3890053 ns
+07-30 19:33:44.233  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 478362446 ns
+07-30 19:33:44.233  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:44.233  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:44.377  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:44.377  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:44.482  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 100024479 ns
+07-30 19:33:44.491  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 8519479 ns
+07-30 19:33:44.524  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 32762344 ns
+07-30 19:33:45.266  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 741921928 ns
+07-30 19:33:45.311  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 45126666 ns
+07-30 19:33:45.311  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.311  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.318  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.318  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.362  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 39322917 ns
+07-30 19:33:45.530  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 168107500 ns
+07-30 19:33:45.562  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 31989792 ns
+07-30 19:33:45.614  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 51365313 ns
+07-30 19:33:45.620  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6625417 ns
+07-30 19:33:45.621  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.621  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.626  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.626  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.649  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 17875730 ns
+07-30 19:33:45.681  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 32060260 ns
+07-30 19:33:45.713  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 31923020 ns
+07-30 19:33:45.747  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 33439688 ns
+07-30 19:33:45.753  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6148697 ns
+07-30 19:33:45.753  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.753  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.758  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.758  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.779  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 15675729 ns
+07-30 19:33:45.786  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7552865 ns
+07-30 19:33:45.842  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 55561874 ns
+07-30 19:33:45.862  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 19835729 ns
+07-30 19:33:45.862  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.862  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.921  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.922  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:45.948  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 21005104 ns
+07-30 19:33:46.057  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 109147605 ns
+07-30 19:33:46.089  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31833802 ns
+07-30 19:33:46.126  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 36825365 ns
+07-30 19:33:46.126  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.126  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.132  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.132  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.153  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 16392760 ns
+07-30 19:33:46.185  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 31856460 ns
+07-30 19:33:46.217  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31771979 ns
+07-30 19:33:46.231  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 14162760 ns
+07-30 19:33:46.232  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.232  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.237  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.237  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:46.252  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 11001406 ns
+07-30 19:33:46.266  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 13796720 ns
+07-30 19:33:46.298  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31556614 ns
+07-30 19:33:46.307  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 8601823 ns
+07-30 19:33:46.357  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 50662969 ns
+07-30 19:33:46.418  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 60832031 ns
+07-30 19:33:46.419  25520-25520/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:33:46.419  25520-25520/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 2.715 seconds
+3.
+07-30 19:33:52.161  25520-25520/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:33:52.162  25520-26309/com.example.xinyiwang.refocus D/RenderScript﹕ Skipping hardware driver and loading default CPU driver
+07-30 19:33:52.162  25520-26309/com.example.xinyiwang.refocus V/RenderScript﹕ 0x99fb4000 Launching thread(s), CPUs 4
+07-30 19:33:52.270  25520-25530/com.example.xinyiwang.refocus I/art﹕ Background partial concurrent mark sweep GC freed 124(2MB) AllocSpace objects, 1(204KB) LOS objects, 14% free, 93MB/109MB, paused 5.658ms total 14.053ms
+07-30 19:33:53.134  25520-25520/com.example.xinyiwang.refocus I/art﹕ Waiting for a blocking GC NativeAlloc
+07-30 19:33:53.150  25520-25520/com.example.xinyiwang.refocus I/art﹕ WaitForGcToComplete blocked for 15.626ms for cause NativeAlloc
+07-30 19:33:53.150  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.150  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.158  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.158  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.175  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 8068126 ns
+07-30 19:33:53.663  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 488255832 ns
+07-30 19:33:53.663  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.663  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.830  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.831  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:53.922  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 85027395 ns
+07-30 19:33:53.930  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 8416563 ns
+07-30 19:33:53.964  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 33207031 ns
+07-30 19:33:54.768  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 804447083 ns
+07-30 19:33:54.819  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 50743386 ns
+07-30 19:33:54.819  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:54.819  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:54.827  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:54.827  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:54.883  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 50339791 ns
+07-30 19:33:55.072  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 188871823 ns
+07-30 19:33:55.104  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 32316510 ns
+07-30 19:33:55.159  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 54552396 ns
+07-30 19:33:55.166  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 7111511 ns
+07-30 19:33:55.166  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.166  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.172  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.172  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.199  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 20797343 ns
+07-30 19:33:55.235  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 36401303 ns
+07-30 19:33:55.267  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 32211510 ns
+07-30 19:33:55.303  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 35823905 ns
+07-30 19:33:55.310  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6735730 ns
+07-30 19:33:55.310  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.310  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.316  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.316  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.339  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 17545209 ns
+07-30 19:33:55.348  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 8871250 ns
+07-30 19:33:55.409  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 61057135 ns
+07-30 19:33:55.431  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 22113021 ns
+07-30 19:33:55.431  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.431  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.500  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.500  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.528  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 22017916 ns
+07-30 19:33:55.649  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 121592604 ns
+07-30 19:33:55.681  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31964844 ns
+07-30 19:33:55.721  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 39297343 ns
+07-30 19:33:55.721  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.721  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.728  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.728  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.752  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 18929375 ns
+07-30 19:33:55.789  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 36665834 ns
+07-30 19:33:55.821  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 32018229 ns
+07-30 19:33:55.837  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 15510052 ns
+07-30 19:33:55.837  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.837  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.843  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.843  25520-25520/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:33:55.861  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 12595000 ns
+07-30 19:33:55.877  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 16018594 ns
+07-30 19:33:55.909  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 31824739 ns
+07-30 19:33:55.919  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 9806615 ns
+07-30 19:33:55.972  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 53379479 ns
+07-30 19:33:56.049  25520-25520/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 76032240 ns
+07-30 19:33:56.049  25520-25520/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:33:56.049  25520-25520/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 2.934 seconds
+N5(no fp_relaxed + no force CPU)
+1.
+07-30 19:35:49.081  27224-27224/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:35:49.085  27224-27657/com.example.xinyiwang.refocus W/RenderScript﹕ Warning: unknown RenderScript HAL API query, 2027
+07-30 19:35:49.085  27224-27657/com.example.xinyiwang.refocus V/RenderScript﹕ 0xb4aa0000 Launching thread(s), CPUs 4
+07-30 19:35:49.096  27224-27657/com.example.xinyiwang.refocus V/RenderScript﹕ Successfully loaded runtime: libRSDriver_adreno.so
+07-30 19:35:49.470  27224-27234/com.example.xinyiwang.refocus W/art﹕ Suspending all threads took: 10.482ms
+07-30 19:35:50.357  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:50.357  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:50.438  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:50.439  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:50.459  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 14349584 ns
+07-30 19:35:51.266  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 806706250 ns
+07-30 19:35:51.266  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:51.266  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:51.412  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:51.412  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:51.509  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 90958646 ns
+07-30 19:35:51.517  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7522761 ns
+07-30 19:35:51.543  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 26539739 ns
+07-30 19:35:52.285  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 741445104 ns
+07-30 19:35:52.336  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 51519948 ns
+07-30 19:35:52.337  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.337  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.344  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.344  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.392  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 44345833 ns
+07-30 19:35:52.562  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 169463281 ns
+07-30 19:35:52.589  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 26529010 ns
+07-30 19:35:52.641  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 52009583 ns
+07-30 19:35:52.647  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6658490 ns
+07-30 19:35:52.648  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.648  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.654  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.654  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.678  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 20135938 ns
+07-30 19:35:52.711  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 32260885 ns
+07-30 19:35:52.737  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 26597032 ns
+07-30 19:35:52.773  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 35224479 ns
+07-30 19:35:52.779  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6272292 ns
+07-30 19:35:52.780  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.780  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.785  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.785  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.807  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 17497968 ns
+07-30 19:35:52.814  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7491719 ns
+07-30 19:35:52.887  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 72620052 ns
+07-30 19:35:52.907  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 20256718 ns
+07-30 19:35:52.908  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.908  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.968  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.968  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:52.997  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 24499376 ns
+07-30 19:35:53.104  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 106941510 ns
+07-30 19:35:53.131  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 26763802 ns
+07-30 19:35:53.168  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 36991042 ns
+07-30 19:35:53.168  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.168  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.175  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.175  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.200  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 19989062 ns
+07-30 19:35:53.235  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 35372969 ns
+07-30 19:35:53.262  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 26385000 ns
+07-30 19:35:53.277  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 14947865 ns
+07-30 19:35:53.277  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.277  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.282  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.283  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:35:53.300  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 12361302 ns
+07-30 19:35:53.314  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 14297083 ns
+07-30 19:35:53.340  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 26376458 ns
+07-30 19:35:53.351  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 10150416 ns
+07-30 19:35:53.398  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 47193854 ns
+07-30 19:35:53.455  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 57472969 ns
+07-30 19:35:53.485  27224-27224/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:35:53.485  27224-27224/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 3.486 seconds
+2.
+07-30 19:37:01.995  27224-27224/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:37:01.996  27224-28541/com.example.xinyiwang.refocus W/RenderScript﹕ Warning: unknown RenderScript HAL API query, 2027
+07-30 19:37:01.997  27224-28541/com.example.xinyiwang.refocus V/RenderScript﹕ 0x9dd56000 Launching thread(s), CPUs 4
+07-30 19:37:02.005  27224-28541/com.example.xinyiwang.refocus V/RenderScript﹕ Successfully loaded runtime: libRSDriver_adreno.so
+07-30 19:37:03.192  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:03.192  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:03.278  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:03.278  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:03.286  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 2400834 ns
+07-30 19:37:04.144  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 858308072 ns
+07-30 19:37:04.145  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:04.145  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:04.289  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:04.289  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:04.397  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 102398282 ns
+07-30 19:37:04.405  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 8421094 ns
+07-30 19:37:04.433  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 27482447 ns
+07-30 19:37:05.171  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 737864687 ns
+07-30 19:37:05.219  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 48371718 ns
+07-30 19:37:05.220  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.220  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.228  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.228  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.283  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 49770521 ns
+07-30 19:37:05.460  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 176678854 ns
+07-30 19:37:05.489  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 29699166 ns
+07-30 19:37:05.542  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 52074635 ns
+07-30 19:37:05.548  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6839323 ns
+07-30 19:37:05.549  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.549  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.555  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.555  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.580  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 19551250 ns
+07-30 19:37:05.612  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 31920521 ns
+07-30 19:37:05.640  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 27788073 ns
+07-30 19:37:05.676  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 35546198 ns
+07-30 19:37:05.682  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6220103 ns
+07-30 19:37:05.683  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.683  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.689  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.689  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.711  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 16898020 ns
+07-30 19:37:05.718  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7746666 ns
+07-30 19:37:05.791  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 72361148 ns
+07-30 19:37:05.811  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 19956042 ns
+07-30 19:37:05.812  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.812  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.872  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.872  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:05.899  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 21729063 ns
+07-30 19:37:06.001  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 102067968 ns
+07-30 19:37:06.029  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 27691302 ns
+07-30 19:37:06.066  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 37100990 ns
+07-30 19:37:06.067  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.067  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.074  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.074  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.097  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 18358073 ns
+07-30 19:37:06.130  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 33186250 ns
+07-30 19:37:06.158  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 27714479 ns
+07-30 19:37:06.173  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 14856822 ns
+07-30 19:37:06.173  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.173  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.179  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.179  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:06.196  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 11903751 ns
+07-30 19:37:06.210  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 14162760 ns
+07-30 19:37:06.238  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 27377344 ns
+07-30 19:37:06.248  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 10172969 ns
+07-30 19:37:06.295  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 46702604 ns
+07-30 19:37:06.352  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 56773437 ns
+07-30 19:37:06.381  27224-27224/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:37:06.381  27224-27224/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 3.551 seconds
+07-30 19:37:10.935  27224-27224/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:37:10.936  27224-28696/com.example.xinyiwang.refocus W/RenderScript﹕ Warning: unknown RenderScript HAL API query, 2027
+07-30 19:37:10.937  27224-28696/com.example.xinyiwang.refocus V/RenderScript﹕ 0x99c42000 Launching thread(s), CPUs 4
+07-30 19:37:10.944  27224-28696/com.example.xinyiwang.refocus V/RenderScript﹕ Successfully loaded runtime: libRSDriver_adreno.so
+07-30 19:37:12.194  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:12.194  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:12.275  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:12.275  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:12.285  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 4610313 ns
+07-30 19:37:13.095  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 809969531 ns
+07-30 19:37:13.096  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:13.096  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:13.240  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:13.240  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:13.333  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 87421874 ns
+07-30 19:37:13.340  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7395417 ns
+07-30 19:37:13.367  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 26610105 ns
+07-30 19:37:14.115  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 748072655 ns
+07-30 19:37:14.164  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 49076718 ns
+07-30 19:37:14.165  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.165  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.172  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.172  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.220  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 43956406 ns
+07-30 19:37:14.386  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 165820260 ns
+07-30 19:37:14.413  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 27054739 ns
+07-30 19:37:14.465  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 51823646 ns
+07-30 19:37:14.472  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 7075989 ns
+07-30 19:37:14.473  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.473  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.479  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.479  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.505  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 21428230 ns
+07-30 19:37:14.537  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 32098333 ns
+07-30 19:37:14.566  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 28777084 ns
+07-30 19:37:14.602  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 35767708 ns
+07-30 19:37:14.610  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 7889063 ns
+07-30 19:37:14.610  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.610  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.615  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.615  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.637  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 16990834 ns
+07-30 19:37:14.645  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7475833 ns
+07-30 19:37:14.719  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 74262656 ns
+07-30 19:37:14.739  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 20079948 ns
+07-30 19:37:14.739  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.739  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.801  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.801  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.828  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 22044688 ns
+07-30 19:37:14.929  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 101436771 ns
+07-30 19:37:14.955  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 25747396 ns
+07-30 19:37:14.992  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 36625832 ns
+07-30 19:37:14.993  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:14.993  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:15.000  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:15.000  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:15.028  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 23537709 ns
+07-30 19:37:15.061  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 32790677 ns
+07-30 19:37:15.087  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 25695521 ns
+07-30 19:37:15.102  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 14809062 ns
+07-30 19:37:15.102  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:15.102  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:15.108  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:15.108  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:37:15.125  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 12109845 ns
+07-30 19:37:15.139  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 13895521 ns
+07-30 19:37:15.168  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 28462969 ns
+07-30 19:37:15.178  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 10476354 ns
+07-30 19:37:15.228  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 50057604 ns
+07-30 19:37:15.284  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 55320000 ns
+07-30 19:37:15.313  27224-27224/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:37:15.313  27224-27224/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 3.455 seconds
+3.
+07-30 19:38:16.585  27224-27224/com.example.xinyiwang.refocus V/RenderScript_jni﹕ RS native mode
+07-30 19:38:16.587  27224-29497/com.example.xinyiwang.refocus W/RenderScript﹕ Warning: unknown RenderScript HAL API query, 2027
+07-30 19:38:16.588  27224-29497/com.example.xinyiwang.refocus V/RenderScript﹕ 0x930b4000 Launching thread(s), CPUs 4
+07-30 19:38:16.595  27224-29497/com.example.xinyiwang.refocus V/RenderScript﹕ Successfully loaded runtime: libRSDriver_adreno.so
+07-30 19:38:16.682  27224-27230/com.example.xinyiwang.refocus W/art﹕ Suspending all threads took: 5.242ms
+07-30 19:38:17.770  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:17.770  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:17.862  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:17.862  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:17.875  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ Initialize: 4844115 ns
+07-30 19:38:18.700  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ UnpackInputImage: 825655937 ns
+07-30 19:38:18.701  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:18.701  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:18.846  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:18.846  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:18.952  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 100380052 ns
+07-30 19:38:18.960  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 7432083 ns
+07-30 19:38:18.988  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 27897708 ns
+07-30 19:38:19.734  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 746301561 ns
+07-30 19:38:19.782  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 47897292 ns
+07-30 19:38:19.783  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:19.783  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:19.790  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:19.790  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:19.841  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 46264323 ns
+07-30 19:38:20.009  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 167735938 ns
+07-30 19:38:20.038  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 28916771 ns
+07-30 19:38:20.092  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 53768437 ns
+07-30 19:38:20.099  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 6560990 ns
+07-30 19:38:20.099  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.099  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.105  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.106  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.135  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 24277344 ns
+07-30 19:38:20.178  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 42726979 ns
+07-30 19:38:20.210  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerBehindFocalDepth: 32664583 ns
+07-30 19:38:20.248  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 37938021 ns
+07-30 19:38:20.265  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 16287604 ns
+07-30 19:38:20.265  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.265  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.271  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.271  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.299  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 22384531 ns
+07-30 19:38:20.308  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteBehindFocalDepth: 9725104 ns
+07-30 19:38:20.384  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerBehindFocalDepth: 75600468 ns
+07-30 19:38:20.404  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ updateSharpImageUsingFuzzyImage: 20084270 ns
+07-30 19:38:20.405  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.405  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.465  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.465  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.495  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 24911407 ns
+07-30 19:38:20.606  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 110718698 ns
+07-30 19:38:20.636  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 29967344 ns
+07-30 19:38:20.676  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 39337292 ns
+07-30 19:38:20.676  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.676  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.683  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.683  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.715  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 27040573 ns
+07-30 19:38:20.759  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 43469948 ns
+07-30 19:38:20.788  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 28925052 ns
+07-30 19:38:20.805  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 16937448 ns
+07-30 19:38:20.806  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.806  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.812  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.812  27224-27224/com.example.xinyiwang.refocus I/art﹕ Starting a blocking GC NativeAlloc
+07-30 19:38:20.829  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ MarkLayerMask: 12237240 ns
+07-30 19:38:20.843  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeLayerMatteInFrontOfFocalDepth: 14223593 ns
+07-30 19:38:20.874  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ ComputeIntegralImageForLayerInFrontOfFocalDepth: 30596562 ns
+07-30 19:38:20.884  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ FilterLayerInFrontOfFocalDepth: 10271979 ns
+07-30 19:38:20.932  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ finalizeFuzzyImageUsingSharpImage: 47473803 ns
+07-30 19:38:20.988  27224-27224/com.example.xinyiwang.refocus D/RefocusFilterd1new﹕ PackOutputImage: 56640677 ns
+07-30 19:38:21.018  27224-27224/com.example.xinyiwang.refocus D/RefocusFilter﹕ filterAndBlendAllLayersUsingKernel is finished
+07-30 19:38:21.018  27224-27224/com.example.xinyiwang.refocus D/RenderScriptTask﹕ applyRefocusFilter is finished in 3.578 seconds
+N5(original)

@@ -1,0 +1,49 @@
+/* Copyright (c) 2017 Google, Inc.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
+/dts-v1/;
+
+#include "sdm845-b1-common-v2.1.dtsi"
+#include "sdm845-b1c1-proto-evt-audio.dtsi"
+#include "sdm845-b1c1-audio-cal.dtsi"
+#include "sdm845-b1c1-thermal-v2.dtsi"
+#include "sdm845-b1-evt1-panel.dtsi"
+
+/ {
+	model = "Google Inc. MSM sdm845 B1 EVT v1.0";
+	compatible = "google,b1c1-sdm845", "qcom,sdm845";
+	qcom,board-id = <0x00020A05 0>;
+};
+
+&p9221 {
+	status = "disabled";
+};
+
+&vd6281 {
+	hw-version = <20>; /* cut2.0 */
+};
+
+&nq {
+	ese {
+		loader_scripts_path =
+				"/vendor/etc/ese/loaderservice_updater_eng_";
+	};
+};
+
+&pmi8998_pdphy {
+	/delete-property/ goog,wlc-supported;
+};
+
+&google_charger {
+	/delete-property/ google,wlc-power-supply;
+};

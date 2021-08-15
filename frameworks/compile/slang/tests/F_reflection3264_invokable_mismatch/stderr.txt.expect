@@ -1,0 +1,4 @@
+reflection3264_invokable_mismatch.rs:5:6: error: invokable function 'a' has 2 parameters for 32-bit targets but 1 parameter for 64-bit targets
+reflection3264_invokable_mismatch.rs:10:6: error: 2nd parameter of invokable function 'b' has type 'uint' for 32-bit targets but type 'ulong' for 64-bit targets
+reflection3264_invokable_mismatch.rs:10:6: error: 4th parameter of invokable function 'b' has type 'int' for 32-bit targets but type 'long' for 64-bit targets
+reflection3264_invokable_mismatch.rs:13:6: error: 3rd invokable function is 'c32' for 32-bit targets but 'c64' for 64-bit targets

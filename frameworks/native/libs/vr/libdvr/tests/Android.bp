@@ -1,0 +1,104 @@
+// Copyright (C) 2017 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+cc_test {
+    srcs: [
+        "dvr_display_manager-test.cpp",
+        "dvr_named_buffer-test.cpp",
+        "dvr_tracking-test.cpp",
+    ],
+
+    header_libs: ["libdvr_headers"],
+    static_libs: [
+        "libdvr_static.google",
+        "libchrome",
+        "libdvrcommon",
+        "libdisplay",
+        "libbroadcastring",
+    ],
+    shared_libs: [
+        "libbase",
+        "libbinder",
+        "libbufferhubqueue",
+        "libcutils",
+        "libgui",
+        "liblog",
+        "libhardware",
+        "libui",
+        "libutils",
+        "libnativewindow",
+        "libpdx_default_transport",
+    ],
+    cflags: [
+        "-DDVR_TRACKING_IMPLEMENTED=0",
+        "-DLOG_TAG=\"dvr_api-test\"",
+        "-DTRACE=0",
+        "-Wno-missing-field-initializers",
+        "-O0",
+        "-g",
+    ],
+    name: "dvr_api-test",
+}
+
+cc_test {
+    name: "dvr_buffer_queue-test",
+
+    // Includes the dvr_api.h header. Tests should only include "dvr_api.h",
+    // and shall only get access to |dvrGetApi|, as other symbols are hidden
+    // from the library.
+    include_dirs: ["frameworks/native/libs/vr/libdvr/include"],
+
+    srcs: ["dvr_buffer_queue-test.cpp"],
+
+    shared_libs: [
+        "libandroid",
+        "liblog",
+    ],
+
+    cflags: [
+        "-DTRACE=0",
+        "-O2",
+        "-g",
+    ],
+
+    // DTS Should only link to NDK libraries.
+    sdk_version: "26",
+    stl: "c++_static",
+}
+
+cc_test {
+    name: "dvr_display-test",
+
+    include_dirs: [
+        "frameworks/native/libs/vr/libdvr/include",
+        "frameworks/native/libs/nativewindow/include",
+    ],
+
+    srcs: ["dvr_display-test.cpp"],
+
+    shared_libs: [
+        "libandroid",
+        "liblog",
+    ],
+
+    cflags: [
+        "-DTRACE=0",
+        "-O2",
+        "-g",
+    ],
+
+    // DTS Should only link to NDK libraries.
+    sdk_version: "26",
+    stl: "c++_static",
+}

@@ -1,0 +1,27 @@
+//########################################################################
+// OpenGL ES Perf App
+// This makefile builds both an activity and a shared library.
+//########################################################################
+android_app {
+    name: "GLPerf",
+    srcs: ["**/*.java"],
+    jni_libs: ["libglperf"],
+    // Run on Eclair
+    sdk_version: "7",
+}
+
+// Build JNI Shared Library
+cc_library_shared {
+    name: "libglperf",
+    cflags: [
+        "-Werror",
+        "-Wno-error=unused-parameter",
+    ],
+    srcs: ["jni/gl_code.cpp"],
+    shared_libs: [
+        "liblog",
+        "libEGL",
+        "libGLESv2",
+    ],
+    sdk_version: "current",
+}

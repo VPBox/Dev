@@ -1,0 +1,1 @@
+error: in file 'reflection3264_package_mismatch.rs' Java package name is 'thirty_two' for 32-bit targets but 'sixty_four' for 64-bit targets

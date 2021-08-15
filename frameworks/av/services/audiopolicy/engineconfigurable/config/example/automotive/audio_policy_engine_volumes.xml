@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Copyright (C) 2018 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+     -->
+
+<!-- Volume Groups Tables included by Audio Policy Configuration file -->
+<!-- Note:
+        It is VALID to have a group without attributes if a product strategy is following
+        this group for all attributes.
+        Otherwise, attributes must be specified
+-->
+
+<volumeGroups>
+    <volumeGroup>
+        <name>oem_traffic_anouncement</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+        <volume deviceCategory="DEVICE_CATEGORY_HEADSET">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+        <volume deviceCategory="DEVICE_CATEGORY_EARPIECE">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+        <volume deviceCategory="DEVICE_CATEGORY_EXT_MEDIA">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+<!-- OEM ADAS is a volume group that has a single port gain (this is the reason why it is a group
+     but may host different streams.
+     A priority must be given among them (either they are multualy excluisve, so the volume
+     will be the one of the currently acitve stream, otherwise a priority must be given by
+     any mean. -->
+    <volumeGroup>
+        <name>oem_adas_2</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+        <volume deviceCategory="DEVICE_CATEGORY_HEADSET">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+    <volumeGroup>
+        <name>oem_adas_3</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-2400</point>
+            <point>33,-1600</point>
+            <point>66,-800</point>
+            <point>100,0</point>
+        </volume>
+        <volume deviceCategory="DEVICE_CATEGORY_EARPIECE">
+            <point>0,-2400</point>
+            <point>33,-1600</point>
+            <point>66,-800</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+<!-- MEDIA is a volume group that has a single port gain (this is the reason why it is a group
+     but may host different streams.
+     A priority must be given among them (either they are multualy exclusive, so the volume
+     will be the one of the active stream with highest priority (ORDER MATTERS) unless the curves
+     followed will the the curves for the requested attributes.-->
+    <volumeGroup>
+        <name>media_car_audio_type_3</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+    <volumeGroup>
+        <name>media_car_audio_type_7</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-2400</point>
+            <point>33,-1600</point>
+            <point>66,-800</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+    <volumeGroup>
+        <name>media</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-2400</point>
+            <point>33,-1600</point>
+            <point>66,-800</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+    <volumeGroup>
+        <name>speech</name>
+        <indexMin>1</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+    <volumeGroup>
+        <name>system</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+    <volumeGroup>
+        <name>phone</name>
+        <indexMin>1</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+    <volumeGroup>
+        <name>ring</name>
+        <indexMin>0</indexMin>
+        <indexMax>40</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-4200</point>
+            <point>33,-2800</point>
+            <point>66,-1400</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+    <volumeGroup>
+        <name>tts</name>
+        <indexMin>0</indexMin>
+        <indexMax>15</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_SPEAKER">
+            <point>0,-0</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+    <volumeGroup>
+        <name>rerouting</name>
+        <indexMin>0</indexMin>
+        <indexMax>1</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_HEADSET">
+            <point>0,0</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+    <volumeGroup>
+        <name>patch</name>
+        <indexMin>0</indexMin>
+        <indexMax>1</indexMax>
+        <volume deviceCategory="DEVICE_CATEGORY_HEADSET">
+            <point>0,0</point>
+            <point>100,0</point>
+        </volume>
+    </volumeGroup>
+
+</volumeGroups>
+

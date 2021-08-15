@@ -1,0 +1,2 @@
+error: in file 'reflection3264_foreach_mismatch_extra32.rs' foreach kernel 'cc' is only present for 32-bit targets
+error: in file 'reflection3264_foreach_mismatch_extra32.rs' foreach kernel 'dd' is only present for 32-bit targets

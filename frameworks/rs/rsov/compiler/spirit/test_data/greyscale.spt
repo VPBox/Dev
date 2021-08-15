@@ -1,0 +1,128 @@
+; SPIR-V
+; Version: 1.0
+; Generator: Khronos Glslang Reference Front End; 1
+; Bound: 75
+; Schema: 0
+               OpCapability Shader
+          %1 = OpExtInstImport "GLSL.std.450"
+               OpMemoryModel Logical GLSL450
+               OpEntryPoint GLCompute %main "main" %gl_GlobalInvocationID
+               OpExecutionMode %main LocalSize 4 1 1
+               OpSource GLSL 450
+               OpSourceExtension "GL_ARB_shading_language_420pack"
+               OpSourceExtension "GL_GOOGLE_cpp_style_line_directive"
+               OpSourceExtension "GL_GOOGLE_include_directive"
+               OpName %main "main"
+               OpName %greyscale_vf4_ "greyscale(vf4;"
+               OpName %p "p"
+               OpName %globalBuffer "globalBuffer"
+               OpMemberName %globalBuffer 0 "coeff"
+               OpMemberName %globalBuffer 1 "width"
+               OpMemberName %globalBuffer 2 "height"
+               OpName %globalBlock "globalBlock"
+               OpName %xy "xy"
+               OpName %gl_GlobalInvocationID "gl_GlobalInvocationID"
+               OpName %inputPixel "inputPixel"
+               OpName %inputTexture "inputTexture"
+               OpName %res "res"
+               OpName %x "x"
+               OpName %y "y"
+               OpName %outputBufferS "outputBufferS"
+               OpMemberName %outputBufferS 0 "buf"
+               OpName %outputBuffer "outputBuffer"
+               OpMemberDecorate %globalBuffer 0 Offset 0
+               OpMemberDecorate %globalBuffer 1 Offset 16
+               OpMemberDecorate %globalBuffer 2 Offset 20
+               OpDecorate %globalBuffer BufferBlock
+               OpDecorate %globalBlock DescriptorSet 0
+               OpDecorate %globalBlock Binding 2
+               OpDecorate %gl_GlobalInvocationID BuiltIn GlobalInvocationId
+               OpDecorate %inputTexture DescriptorSet 0
+               OpDecorate %inputTexture Binding 0
+               OpDecorate %_runtimearr_v4float ArrayStride 16
+               OpMemberDecorate %outputBufferS 0 Offset 0
+               OpDecorate %outputBufferS BufferBlock
+               OpDecorate %outputBuffer DescriptorSet 0
+               OpDecorate %outputBuffer Binding 1
+               OpDecorate %gl_WorkGroupSize BuiltIn WorkgroupSize
+       %void = OpTypeVoid
+          %3 = OpTypeFunction %void
+      %float = OpTypeFloat 32
+    %v4float = OpTypeVector %float 4
+          %8 = OpTypeFunction %v4float %v4float
+        %int = OpTypeInt 32 1
+%globalBuffer = OpTypeStruct %v4float %int %int
+%_ptr_Uniform_globalBuffer = OpTypePointer Uniform %globalBuffer
+%globalBlock = OpVariable %_ptr_Uniform_globalBuffer Uniform
+         %16 = OpConstant %int 0
+%_ptr_Uniform_v4float = OpTypePointer Uniform %v4float
+      %v2int = OpTypeVector %int 2
+%_ptr_Function_v2int = OpTypePointer Function %v2int
+       %uint = OpTypeInt 32 0
+     %v3uint = OpTypeVector %uint 3
+%_ptr_Input_v3uint = OpTypePointer Input %v3uint
+%gl_GlobalInvocationID = OpVariable %_ptr_Input_v3uint Input
+     %v2uint = OpTypeVector %uint 2
+%_ptr_Function_v4float = OpTypePointer Function %v4float
+         %37 = OpTypeImage %float 2D 0 0 0 1 Unknown
+         %38 = OpTypeSampledImage %37
+%_ptr_UniformConstant_38 = OpTypePointer UniformConstant %38
+%inputTexture = OpVariable %_ptr_UniformConstant_38 UniformConstant
+%_ptr_Function_uint = OpTypePointer Function %uint
+         %50 = OpConstant %uint 0
+%_ptr_Input_uint = OpTypePointer Input %uint
+         %55 = OpConstant %uint 1
+%_runtimearr_v4float = OpTypeRuntimeArray %v4float
+%outputBufferS = OpTypeStruct %_runtimearr_v4float
+%_ptr_Uniform_outputBufferS = OpTypePointer Uniform %outputBufferS
+%outputBuffer = OpVariable %_ptr_Uniform_outputBufferS Uniform
+         %63 = OpConstant %int 1
+%_ptr_Uniform_int = OpTypePointer Uniform %int
+         %73 = OpConstant %uint 4
+%gl_WorkGroupSize = OpConstantComposite %v3uint %73 %55 %55
+       %main = OpFunction %void None %3
+          %5 = OpLabel
+         %xy = OpVariable %_ptr_Function_v2int Function
+ %inputPixel = OpVariable %_ptr_Function_v4float Function
+        %res = OpVariable %_ptr_Function_v4float Function
+          %x = OpVariable %_ptr_Function_uint Function
+          %y = OpVariable %_ptr_Function_uint Function
+         %32 = OpLoad %v3uint %gl_GlobalInvocationID
+         %33 = OpVectorShuffle %v2uint %32 %32 0 1
+         %34 = OpBitcast %v2int %33
+               OpStore %xy %34
+         %41 = OpLoad %38 %inputTexture
+         %42 = OpLoad %v2int %xy
+         %43 = OpImage %37 %41
+         %44 = OpImageFetch %v4float %43 %42 Lod %16
+               OpStore %inputPixel %44
+         %46 = OpLoad %v4float %inputPixel
+         %47 = OpFunctionCall %v4float %greyscale_vf4_ %46
+               OpStore %res %47
+         %52 = OpAccessChain %_ptr_Input_uint %gl_GlobalInvocationID %50
+         %53 = OpLoad %uint %52
+               OpStore %x %53
+         %56 = OpAccessChain %_ptr_Input_uint %gl_GlobalInvocationID %55
+         %57 = OpLoad %uint %56
+               OpStore %y %57
+         %62 = OpLoad %uint %y
+         %65 = OpAccessChain %_ptr_Uniform_int %globalBlock %63
+         %66 = OpLoad %int %65
+         %67 = OpBitcast %uint %66
+         %68 = OpIMul %uint %62 %67
+         %69 = OpLoad %uint %x
+         %70 = OpIAdd %uint %68 %69
+         %71 = OpLoad %v4float %res
+         %72 = OpAccessChain %_ptr_Uniform_v4float %outputBuffer %16 %70
+               OpStore %72 %71
+               OpReturn
+               OpFunctionEnd
+%greyscale_vf4_ = OpFunction %v4float None %8
+          %p = OpFunctionParameter %v4float
+         %11 = OpLabel
+         %18 = OpAccessChain %_ptr_Uniform_v4float %globalBlock %16
+         %19 = OpLoad %v4float %18
+         %20 = OpDot %float %p %19
+         %21 = OpCompositeConstruct %v4float %20 %20 %20 %20
+               OpReturnValue %21
+               OpFunctionEnd

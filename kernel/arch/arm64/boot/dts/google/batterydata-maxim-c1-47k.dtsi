@@ -1,0 +1,39 @@
+maxim,n_regval = /bits/ 16 <
+	/* Sunwoda_C1_Proto_ATL_ALERT_LearnCFG_2380.INI */
+	/* Generated on 2018/03/13 18:14:44 */
+	0x80 0x0021	/* nXTable0                                 */
+	0x81 0x0022	/* nXTable1                                 */
+	0x82 0x04F3	/* nXTable2                                 */
+	0x83 0x0DF1	/* nXTable3                                 */
+	0x84 0x1B6D	/* nXTable4                                 */
+	0x85 0x1976	/* nXTable5                                 */
+	0x86 0x0FB0	/* nXTable6                                 */
+	0x87 0x11A9	/* nXTable7                                 */
+	0x88 0x0951	/* nXTable8                                 */
+	0x89 0x0780	/* nXTable9                                 */
+	0x8A 0x0756	/* nXTable10                                */
+	0x8B 0x0611	/* nXTable11                                */
+	0x90 0x7D0B	/* nOCVTable0                               */
+	0x91 0x7D68	/* nOCVTable1                               */
+	0x92 0xB2F3	/* nOCVTable2                               */
+	0x93 0xBA1B	/* nOCVTable3                               */
+	0x94 0xBBCD	/* nOCVTable4                               */
+	0x95 0xBCCC	/* nOCVTable5                               */
+	0x96 0xBEAC	/* nOCVTable6                               */
+	0x97 0xC015	/* nOCVTable7                               */
+	0x98 0xC144	/* nOCVTable8                               */
+	0x99 0xC82D	/* nOCVTable9                               */
+	0x9A 0xCDA6	/* nOCVTable10                              */
+	0x9B 0xD48E	/* nOCVTable11                              */
+	0x9E 0xA561	/* nVEmpty: VE=3300 VR=3880                 */
+	0xB1 0x0204	/* nRippleCfg                               */
+	0xB5 0x9C01	/* nPackCfg                                 */
+	0xB6 0x0000	/* nRelaxCfg                                */
+	0xB9 0xA00E	/* nNVCfg1                                  */
+	0xBB 0x0002	/* nSBSCfg                                  */
+	0xC3 0x7F80	/* nIAlrtTh: Disabled                       */
+	0xC7 0x0000	/* nTTFCfg                                  */
+	0xC9 0x002F	/* nTCurve                                  */
+	0xCA 0xF1F1	/* nTGain                                   */
+	0xCB 0x198A	/* nTOff                                    */
+>;

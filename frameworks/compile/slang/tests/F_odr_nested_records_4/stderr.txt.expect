@@ -1,0 +1,1 @@
+error: type 'Middle' in different translation unit (odr2.rs v.s. odr1.rs) has incompatible type definition

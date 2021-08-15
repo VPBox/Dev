@@ -1,0 +1,4 @@
+deprecated.rs:9:11: error: implicit declaration of function 'func0' is invalid in C99
+deprecated.rs:9:11: note: did you mean 'func1'?
+deprecated.rs:8:13: note: 'func1' declared here
+deprecated.rs:15:1: error: control reaches end of non-void function

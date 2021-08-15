@@ -1,0 +1,27 @@
+//########################################################################
+// OpenGL ES JNI sample
+// This makefile builds both an activity and a shared library.
+//########################################################################
+
+android_app {
+    name: "GL2JNI",
+    srcs: ["**/*.java"],
+    sdk_version: "current",
+    jni_libs: ["libgl2jni"],
+}
+
+// Build JNI Shared Library
+cc_library_shared {
+    name: "libgl2jni",
+    cflags: [
+        "-Werror",
+        "-Wno-error=unused-parameter",
+    ],
+    srcs: ["jni/gl_code.cpp"],
+    shared_libs: [
+        "liblog",
+        "libEGL",
+        "libGLESv2",
+    ],
+    sdk_version: "current",
+}

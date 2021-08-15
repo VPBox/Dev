@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (C) 2018 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="234.0dp"
+        android:height="210.0dp"
+        android:viewportWidth="234.0"
+        android:viewportHeight="210.0">
+    <path
+        android:pathData="M117,183 C114.95,183 112.91,182.22 111.34,180.66 L38.48,107.53 C30.15,99.21 25,87.7 25,75 C25,49.59 45.59,29 71,29 C83.7,29 95.2,34.15 103.53,42.47 L117,55.83 C117,55.83 117,183 117,183 "
+        android:fillColor="@color/multiple_alpha_items_gradient">
+    </path>
+    <path
+        android:pathData="M117,183 C119.05,183 121.09,182.22 122.66,180.66 L195.52,107.53 C203.85,99.21 209,87.7 209,75 C209,49.59 188.41,29 163,29 C150.3,29 138.8,34.15 130.47,42.47 L117,55.83 C117,55.83 117,183 117,183 "
+        android:fillColor="@color/multiple_offset_items_gradient">
+    </path>
+</vector>

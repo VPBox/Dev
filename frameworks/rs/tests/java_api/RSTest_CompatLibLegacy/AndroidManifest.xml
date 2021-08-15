@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.rs.test_compatlegacy">
+  <uses-sdk android:minSdkVersion="8"
+            android:targetSdkVersion="20" />
+    <application
+        android:label="_RS_Test_CompatLegacy"
+        android:icon="@drawable/test_pattern">
+        <uses-library android:name="android.test.runner" />
+
+        <activity android:name="RSTestCompatLegacy"
+                  android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

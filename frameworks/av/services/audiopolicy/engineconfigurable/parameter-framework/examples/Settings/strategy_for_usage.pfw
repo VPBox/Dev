@@ -1,0 +1,40 @@
+supDomain: SelectedStrategyForUsages
+
+	domain: Calibration
+		conf: Calibration
+			/Policy/policy/usages/unknown/applicable_strategy/strategy = media
+			/Policy/policy/usages/media/applicable_strategy/strategy = media
+			/Policy/policy/usages/voice_communication/applicable_strategy/strategy = phone
+			/Policy/policy/usages/voice_communication_signalling/applicable_strategy/strategy = dtmf
+			/Policy/policy/usages/alarm/applicable_strategy/strategy = sonification
+			/Policy/policy/usages/notification/applicable_strategy/strategy = sonification_respectful
+			/Policy/policy/usages/notification_telephony_ringtone/applicable_strategy/strategy = sonification
+			/Policy/policy/usages/notification_communication_request/applicable_strategy/strategy = sonification_respectful
+			/Policy/policy/usages/notification_communication_instant/applicable_strategy/strategy = sonification_respectful
+			/Policy/policy/usages/notification_communication_delayed/applicable_strategy/strategy = sonification_respectful
+			/Policy/policy/usages/notification_event/applicable_strategy/strategy = sonification_respectful
+			/Policy/policy/usages/assistance_navigation_guidance/applicable_strategy/strategy = media
+			/Policy/policy/usages/assistance_sonification/applicable_strategy/strategy = media
+			/Policy/policy/usages/game/applicable_strategy/strategy = media
+			/Policy/policy/usages/assistant/applicable_strategy/strategy = media
+
+	domain: AssistanceAccessibility
+		conf: Sonification
+			#
+			# In case of Ring or Alarm stream type active, switching to sonification
+			# @todo: handle this dynamic case. As a WA, using Ringtone mode...
+			#
+			TelephonyMode Is Ringtone
+
+			/Policy/policy/usages/assistance_accessibility/applicable_strategy/strategy = sonification
+
+		conf: Phone
+			ANY
+				TelephonyMode Is InCall
+				TelephonyMode Is InCommunication
+
+			/Policy/policy/usages/assistance_accessibility/applicable_strategy/strategy = phone
+
+		conf: Accessibility
+			/Policy/policy/usages/assistance_accessibility/applicable_strategy/strategy = accessibility
+
