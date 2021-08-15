@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_layout"
-    android:background="#0e0f10"
+    android:background="#F5DEB3"
     android:orientation="vertical" >
 
     <Button
@@ -15,15 +15,5 @@
         android:layout_gravity="center"
         android:text="@string/cell1"
         android:onClick="btncell1" />
-
-    <Button
-        android:id="@+id/btn_cell2"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:text="@string/cell2"
-        android:onClick="btncell2" />
 
 </LinearLayout>

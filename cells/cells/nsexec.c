@@ -82,11 +82,11 @@ int g_cgroup_pipe[2];
 
 extern int clone(int (*fn)(void *), void *child_stack, int flags, void *arg, ...);
 
-int load_cgroup_dir(char *dest, int len)
+static int load_cgroup_dir(char *dest, int len, const char* keyword)
 {
 	FILE *f = fopen("/proc/mounts", "r");
 	char buf[200];
-	char *name, *path, *fsname, *options, *p1;
+	char *name, *path, *fsname, *options, *p1, *p2, *s;
 	if (!f)
 		return 0;
 	while (fgets(buf, sizeof(buf), f)) {
@@ -94,7 +94,7 @@ int load_cgroup_dir(char *dest, int len)
 		path = strtok_r(NULL, " ", &p1);
 		fsname = strtok_r(NULL, " ", &p1);
 		options = strtok_r(NULL, " ", &p1);
-		if (strcmp(fsname, "cgroup") != 0)
+		if (strcmp(fsname, "cgroup") != 0 || strstr(path, keyword) == NULL)
 			continue;
 		strncpy(dest, path, len);
 		fclose(f);
@@ -104,13 +104,13 @@ int load_cgroup_dir(char *dest, int len)
 	return 0;
 }
 
-char *get_cgroup_folder(char *cellname)
+static char *get_cgroup_folder(char *cellname, const char* keyword)
 {
 	char cgroupbase[100];
 	char *folder;
 	int ret;
 
-	if (!load_cgroup_dir(cgroupbase, sizeof(cgroupbase)))
+	if (!load_cgroup_dir(cgroupbase, sizeof(cgroupbase), keyword))
 		return NULL;
 
 	folder = malloc(MAX_PATH_LEN);
@@ -125,12 +125,12 @@ char *get_cgroup_folder(char *cellname)
 	return folder;
 }
 
-char *create_cgroup(char *cellname)
+static char *create_cgroup(char *cellname, const char* keyword)
 {
 	int ret;
 	char *cgroupname;
 
-	cgroupname = get_cgroup_folder(cellname);
+	cgroupname = get_cgroup_folder(cellname, keyword);
 	if (!cgroupname)
 		return NULL;
 
@@ -140,7 +140,7 @@ char *create_cgroup(char *cellname)
 	return cgroupname;
 }
 
-int move_to_new_cgroup(struct cell_args *args)
+static int move_acct_to_new_cgroup(struct cell_args *args)
 {
 	char tasksfname[200];
 	FILE *fout;
@@ -149,16 +149,18 @@ int move_to_new_cgroup(struct cell_args *args)
 
 	ret = -1;
 
-	cgroupname = create_cgroup(args->cellname);
+	cgroupname = create_cgroup(args->cellname, "acct");
 	if (!cgroupname)
 		goto out;
 
-	snprintf(tasksfname, sizeof(tasksfname), "%s/tasks", cgroupname);
-	fout = fopen(tasksfname, "w");
-	if (!fout)
-		goto out;
-	fprintf(fout, "%d\n", args->init_pid);
-	fclose(fout);
+	{
+		snprintf(tasksfname, sizeof(tasksfname), "%s/tasks", cgroupname);
+		fout = fopen(tasksfname, "w");
+		if (!fout)
+			goto out;
+		fprintf(fout, "%d\n", args->init_pid);
+		fclose(fout);
+	}
 
 	ALOGI("Moved %s (%d) into new cgroup (%s)",
 		 args->cellname, args->init_pid, cgroupname);
@@ -168,12 +170,56 @@ out:
 	return ret;
 }
 
-int do_newcgroup(struct cell_args *args)
+#define MEMORY_CGROUP "1536M"
+static int move_memory_to_new_cgroup(struct cell_args *args)
+{
+	char tasksfname[200];
+	FILE *fout;
+	char *cgroupname;
+	int ret;
+
+	ret = -1;
+
+	cgroupname = create_cgroup(args->cellname, "memcg");
+	if (!cgroupname)
+		goto out;
+
+	{
+		snprintf(tasksfname, sizeof(tasksfname), "%s/memory.limit_in_bytes", cgroupname);
+		fout = fopen(tasksfname, "w");
+		if (!fout)
+			goto out;
+		fprintf(fout, MEMORY_CGROUP);
+		fclose(fout);
+	}
+
+	{
+		snprintf(tasksfname, sizeof(tasksfname), "%s/tasks", cgroupname);
+		fout = fopen(tasksfname, "w");
+		if (!fout)
+			goto out;
+		fprintf(fout, "%d\n", args->init_pid);
+		fclose(fout);
+	}
+
+	ALOGI("Moved %s (%d) into new cgroup (%s)",
+		 args->cellname, args->init_pid, cgroupname);
+	ret = 0;
+out:
+	free(cgroupname);
+	return ret;
+}
+
+static int do_newcgroup(struct cell_args *args)
 {
 	if (!args->start_args.newcgrp)
 		return 0;
 
-	return move_to_new_cgroup(args);
+	move_acct_to_new_cgroup(args);
+
+	move_memory_to_new_cgroup(args);
+
+	return 0;
 }
 
 static int rootfs_chroot_root(const char *rootfs)

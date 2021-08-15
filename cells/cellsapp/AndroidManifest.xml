@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher_general"
+        android:icon="@drawable/switcher1"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         <activity
@@ -19,6 +19,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity-alias
+            android:name=".TestIcon1"
+            android:enabled="false"
+            android:label="@string/app_name"
+            android:icon="@drawable/switcher2"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:targetActivity=".view.SecureSwitchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
     </application>
 
 </manifest>

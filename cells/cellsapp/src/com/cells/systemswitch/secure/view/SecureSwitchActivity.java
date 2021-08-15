@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import android.widget.Toast;
 
+import android.content.pm.PackageManager;
+import android.content.ComponentName;
+
 import com.cells.systemswitch.secure.R;
 
 import android.app.CellsPrivateServiceManager;
@@ -42,6 +45,14 @@ public class SecureSwitchActivity extends Activity {
 			finish();
 		}else{
 			setContentView(R.layout.activity_main);
+
+			ComponentName mDefault = getComponentName();
+			ComponentName mIcon1 = new ComponentName(getBaseContext(),"com.cells.systemswitch.secure.TestIcon1");
+			PackageManager mPm = getApplicationContext().getPackageManager();
+			mPm.setComponentEnabledSetting(mDefault,
+				PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+			mPm.setComponentEnabledSetting(mIcon1,
+				PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 		}
 	}
 
@@ -62,10 +73,10 @@ public class SecureSwitchActivity extends Activity {
 			long ms = System.currentTimeMillis() - beginTime;
 			Log.e(TAG, "Boot image consumption - " + ms + "(ms).");
 
-			int count = 25;
+			int count = 20;
 			while(SystemProperties.get("persist.sys.cell1.init").equals("0") && count > 0){
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -100,10 +111,10 @@ public class SecureSwitchActivity extends Activity {
 			long ms = System.currentTimeMillis() - beginTime;
 			Log.e(TAG, "Boot image consumption - " + ms + "(ms).");
 
-			int count = 25;
+			int count = 20;
 			while(SystemProperties.get("persist.sys.cell2.init").equals("0") && count > 0){
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -114,6 +125,120 @@ public class SecureSwitchActivity extends Activity {
 		try {
 			disableAdapter();
 			mCellsService.switchCellsVM("cell2");
+		}catch(RemoteException e){
+			e.printStackTrace();
+		}
+
+		finish();
+	}
+
+	public void btncell3(View v)
+	{
+		CellsPrivateServiceManager mCellsService;
+		mCellsService = new CellsPrivateServiceManager(SecureSwitchActivity.this, 
+																					ServiceManager.getService("CellsPrivateService"));
+
+		if(SystemProperties.get("persist.sys.cell3.init").equals("0")){
+			long beginTime=System.currentTimeMillis();
+			try{
+				//mCellsService.untarCellsVM("cell3");
+				mCellsService.startCellsVM("cell3");
+			}catch(RemoteException e){
+				e.printStackTrace();
+			}
+			long ms = System.currentTimeMillis() - beginTime;
+			Log.e(TAG, "Boot image consumption - " + ms + "(ms).");
+
+			int count = 20;
+			while(SystemProperties.get("persist.sys.cell3.init").equals("0") && count > 0){
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				count--;
+			}
+		}
+
+		try {
+			disableAdapter();
+			mCellsService.switchCellsVM("cell3");
+		}catch(RemoteException e){
+			e.printStackTrace();
+		}
+
+		finish();
+	}
+
+	public void btncell4(View v)
+	{
+		CellsPrivateServiceManager mCellsService;
+		mCellsService = new CellsPrivateServiceManager(SecureSwitchActivity.this, 
+																					ServiceManager.getService("CellsPrivateService"));
+
+		if(SystemProperties.get("persist.sys.cell4.init").equals("0")){
+			long beginTime=System.currentTimeMillis();
+			try{
+				//mCellsService.untarCellsVM("cell4");
+				mCellsService.startCellsVM("cell4");
+			}catch(RemoteException e){
+				e.printStackTrace();
+			}
+			long ms = System.currentTimeMillis() - beginTime;
+			Log.e(TAG, "Boot image consumption - " + ms + "(ms).");
+
+			int count = 20;
+			while(SystemProperties.get("persist.sys.cell4.init").equals("0") && count > 0){
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				count--;
+			}
+		}
+
+		try {
+			disableAdapter();
+			mCellsService.switchCellsVM("cell4");
+		}catch(RemoteException e){
+			e.printStackTrace();
+		}
+
+		finish();
+	}
+
+	public void btncell5(View v)
+	{
+		CellsPrivateServiceManager mCellsService;
+		mCellsService = new CellsPrivateServiceManager(SecureSwitchActivity.this, 
+																					ServiceManager.getService("CellsPrivateService"));
+
+		if(SystemProperties.get("persist.sys.cell5.init").equals("0")){
+			long beginTime=System.currentTimeMillis();
+			try{
+				//mCellsService.untarCellsVM("cell5");
+				mCellsService.startCellsVM("cell5");
+			}catch(RemoteException e){
+				e.printStackTrace();
+			}
+			long ms = System.currentTimeMillis() - beginTime;
+			Log.e(TAG, "Boot image consumption - " + ms + "(ms).");
+
+			int count = 20;
+			while(SystemProperties.get("persist.sys.cell5.init").equals("0") && count > 0){
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				count--;
+			}
+		}
+
+		try {
+			disableAdapter();
+			mCellsService.switchCellsVM("cell5");
 		}catch(RemoteException e){
 			e.printStackTrace();
 		}

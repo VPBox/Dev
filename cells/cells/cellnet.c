@@ -117,7 +117,7 @@ void rnameveth(int index)
 
     errno = 0;
     memset(cmd,0,sizeof(cmd));
-    snprintf(cmd, sizeof(cmd), "route add default gw %s",vethaddr0);
+    snprintf(cmd, sizeof(cmd), "ip ro add default via %s dev %s",vethaddr0 ,INTERFACE);
     ret = system(cmd);
     ALOGD("%s errno = %s",cmd,strerror(errno));
 }

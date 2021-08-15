@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">General System</string>
+    <string name="app_name">Switch</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="cell1">CELL1</string>
-    <string name="cell2">CELL2</string>
+    <string name="cell1">Virtual Phone 1</string>
+    <string name="cell2">Virtual Phone 2</string>
+    <string name="cell3">Virtual Phone 3</string>
+    <string name="cell4">Virtual Phone 4</string>
+    <string name="cell5">Virtual Phone 5</string>
 
 </resources>

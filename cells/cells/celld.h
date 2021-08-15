@@ -53,7 +53,7 @@
 #define MAX_ARGS 20
 #define MAX_PATH_LEN 256
 
-#define MAX_CELL_NUM 2
+#define MAX_CELL_NUM 5
 
 /* Update CELL_CMD_REV if you change this enum in any way */
 enum cell_cmd {

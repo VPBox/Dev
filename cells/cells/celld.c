@@ -812,7 +812,7 @@ static int __umount_rootmount(const char* root_path)
 	char dev_persist_dir_name[PATH_MAX];
 	char dev_mnt_vendor_persist_dir_name[PATH_MAX];
 	char dev_metadata_dir_name[PATH_MAX];
-	char dev_cache_dir_name[PATH_MAX];
+	//char dev_cache_dir_name[PATH_MAX];
 
 	int ret = 0;
 
@@ -858,12 +858,12 @@ static int __umount_rootmount(const char* root_path)
 		ALOGD("umount %s = %s", dev_metadata_dir_name, strerror(errno));
 	}
 
-	errno = 0;
-	sprintf(dev_cache_dir_name, "%s/cache", root_path);
-	if(is_mounted(dev_cache_dir_name)){
-		ret |= umount(dev_cache_dir_name);//rw
-		ALOGD("umount %s = %s" , dev_cache_dir_name, strerror(errno));
-	}
+	//errno = 0;
+	//sprintf(dev_cache_dir_name, "%s/cache", root_path);
+	//if(is_mounted(dev_cache_dir_name)){
+	//	ret |= umount(dev_cache_dir_name);//rw
+	//	ALOGD("umount %s = %s" , dev_cache_dir_name, strerror(errno));
+	//}
 
 	errno = 0;
 	sprintf(dev_oem_dir_name, "%s/oem", root_path);
@@ -2448,74 +2448,6 @@ static void autostart_cells(void)
 	pthread_create(&tid, NULL, autostart_runner, (void *)NULL);
 }
 
-static void dump_timestamp(char *out)
-{
-	struct timeval tv;
-	char tm_buf[128];
-	tm_buf[0] = 0; /* just in case... */
-	gettimeofday(&tv, NULL);
-	ctime_r(&tv.tv_sec, tm_buf);
-
-	FILE *f_out = fopen(out, "a");
-	if (!f_out) {
-		ALOGE("Could not open file to dump to (%s)", out);
-		return;
-	}
-	fprintf(f_out, "TIMESTAMP: %s", tm_buf);
-	fclose(f_out);
-}
-
-/* Dumps one line of numeric characters */
-static void dump_file(char *in, char *out)
-{
-	char *msg;
-	int ret;
-	FILE *fd_out = fopen(out, "a");
-	if (fd_out == NULL) {
-		ALOGE("Could not open file to dump to (%s)", out);
-		return;
-	}
-
-	int fd_in = open(in, O_RDONLY);
-	if (fd_in == -1) {
-		ALOGE("Could not open file to read from (%s)", in);
-		msg = "Failed to open input file\n";
-	}
-
-	char buf[1024];
-	while ((ret = read(fd_in, buf, 1024)) > 0) {
-		buf[ret] = '\0';
-		fprintf(fd_out, "%s", buf);
-	}
-	fflush(fd_out);
-	close(fd_in);
-	fclose(fd_out);
-}
-
-static void *power_runner(void* arg)
-{
-	arg;
-
-	char *out = "/data/power_info";
-	while (1) {
-		dump_timestamp(out);
-		dump_file("/sys/class/power_supply/battery/uevent", out);
-		sleep(10);
-	}
-	return (void *)0;
-}
-
-static void power_info_thread(void)
-{
-	pthread_t tid;
-	pthread_create(&tid, NULL, power_runner, (void *)NULL);
-}
-
-static void power_info_only(void)
-{
-	power_runner((void *)0);
-}
-
 static void log_start(void)
 {
 	struct timeval tv;
@@ -2789,7 +2721,7 @@ int main(int argc, char **argv)
 	/* reset our umask */
 	umask(0000);
 
-	while ((c = getopt(argc, argv, "ac:s:FM:rpPl:R:h")) != -1) {
+	while ((c = getopt(argc, argv, "ac:s:FM:rh")) != -1) {
 		switch (c) {
 		case 'a':
 			autostart = 1;
@@ -2814,17 +2746,9 @@ int main(int argc, char **argv)
 		case 'r':
 			reattach_cells = 1;
 			break;
-		case 'p':
-			power_info_thread();
-			break;
-		case 'P':
-			power_info_only();
-			exit(0);
 		case 'h':
 			print_usage(argv[0]);
 			exit(0);
-		case ':':
-			ALOGE("Option %c needs a value", optopt);
 		default:
 			ALOGE("Invalid start options");
 			print_usage(argv[0]);
