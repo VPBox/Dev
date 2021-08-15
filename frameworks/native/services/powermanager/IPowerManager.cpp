@@ -134,12 +134,13 @@ public:
         return remote()->transact(CRASH, data, &reply, 0);
     }
 
-    virtual status_t wakeUp(int64_t event_time_ms, const String16& reason, const String16& opPackageName)
+    virtual status_t wakeUp(int64_t event_time_ms, int reason, const String16& details, const String16& opPackageName)
     {
         Parcel data, reply;
         data.writeInterfaceToken(IPowerManager::getInterfaceDescriptor());
         data.writeInt64(event_time_ms);
-        data.writeString16(reason);
+        data.writeInt32(reason);
+        data.writeString16(details);
         data.writeString16(opPackageName);
         // This FLAG_ONEWAY is in the .aidl, so there is no way to disable it
         return remote()->transact(WAKE_UP, data, &reply, IBinder::FLAG_ONEWAY);

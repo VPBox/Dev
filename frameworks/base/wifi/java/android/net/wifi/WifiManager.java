@@ -51,6 +51,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.os.WorkSource;
+import android.os.SystemProperties;
+import android.os.Process;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -4600,6 +4602,15 @@ public class WifiManager {
      */
     @RequiresPermission(android.Manifest.permission.NETWORK_SETTINGS)
     public String[] getFactoryMacAddresses() {
+
+        if(SystemProperties.get("ro.boot.vm").equals("1")){
+            //if(Process.myUid() >= Process.FIRST_APPLICATION_UID){
+                final List<String> result = new ArrayList<>();
+                result.add(SystemProperties.get("ro.cell.wlan.mac","ac:c1:ee:57:64:9b"));
+                return result.isEmpty() ? null : result.stream().toArray(String[]::new);
+            //}
+        }
+
         try {
             return mService.getFactoryMacAddresses();
         } catch (RemoteException e) {

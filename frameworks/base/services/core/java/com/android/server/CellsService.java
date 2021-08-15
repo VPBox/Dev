@@ -77,15 +77,31 @@ public class CellsService extends ICellsService.Stub {
 
     public  void systemReady(){
         if(SystemProperties.get("ro.boot.vm","0").equals("1")){
-              mCellsNetworkAgent = new CellsNetworkAgent(mContext);
+            mCellsNetworkAgent = new CellsNetworkAgent(mContext);
 
-              CellsPrivateServiceManager mCellsService = new CellsPrivateServiceManager(mContext,
-                        ServiceManager.getInitService("CellsPrivateService"));
-              try{
-                    mCellsService.vmSystemReady();
-              }catch(RemoteException e){
-                    e.printStackTrace();
-              }
+            Thread vmready = new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    CellsPrivateServiceManager mCellsService = new CellsPrivateServiceManager(mContext,
+                                ServiceManager.getInitService("CellsPrivateService"));
+                    do
+                    {
+                        SystemClock.sleep(5000);
+
+                        if("1".equals(SystemProperties.get("sys.boot_completed"))){
+                            try{
+                                SystemClock.sleep(2000);
+                                mCellsService.vmSystemReady();
+                                return ;
+                            }catch(RemoteException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }while(true);
+                }
+            });
+            vmready.setDefaultUncaughtExceptionHandler(null);
+            vmready.start();
         }
 
         mSystemReady = true;

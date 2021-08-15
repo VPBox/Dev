@@ -43,7 +43,7 @@ public class OemHookResponse extends IOemHookResponse.Stub {
             byte[] ret = null;
             if (responseInfo.error == RadioError.NONE) {
                 ret = RIL.arrayListToPrimitiveArray(data);
-                RadioResponse.sendMessageResponse(rr.mResult, ret);
+                RadioResponse.sendMessageResponse(rr, ret);
             }
             mRil.processResponseDone(rr, responseInfo, ret);
         }

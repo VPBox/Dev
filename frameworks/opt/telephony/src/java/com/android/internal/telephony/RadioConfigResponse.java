@@ -52,7 +52,7 @@ public class RadioConfigResponse extends IRadioConfigResponse.Stub {
             ArrayList<IccSlotStatus> ret = RadioConfig.convertHalSlotStatus(slotStatus);
             if (responseInfo.error == RadioError.NONE) {
                 // send response
-                RadioResponse.sendMessageResponse(rr.mResult, ret);
+                RadioResponse.sendMessageResponse(rr, ret);
                 Rlog.d(TAG, rr.serialString() + "< "
                         + mRadioConfig.requestToString(rr.mRequest) + " " + ret.toString());
             } else {
@@ -78,7 +78,7 @@ public class RadioConfigResponse extends IRadioConfigResponse.Stub {
             ArrayList<IccSlotStatus> ret = RadioConfig.convertHalSlotStatus_1_2(slotStatus);
             if (responseInfo.error == RadioError.NONE) {
                 // send response
-                RadioResponse.sendMessageResponse(rr.mResult, ret);
+                RadioResponse.sendMessageResponse(rr, ret);
                 Rlog.d(TAG, rr.serialString() + "< "
                         + mRadioConfig.requestToString(rr.mRequest) + " " + ret.toString());
             } else {
@@ -101,7 +101,7 @@ public class RadioConfigResponse extends IRadioConfigResponse.Stub {
         if (rr != null) {
             if (responseInfo.error == RadioError.NONE) {
                 // send response
-                RadioResponse.sendMessageResponse(rr.mResult, null);
+                RadioResponse.sendMessageResponse(rr, null);
                 Rlog.d(TAG, rr.serialString() + "< "
                         + mRadioConfig.requestToString(rr.mRequest));
             } else {
@@ -143,7 +143,7 @@ public class RadioConfigResponse extends IRadioConfigResponse.Stub {
             PhoneCapability ret = convertHalPhoneCapability(phoneCapability);
             if (responseInfo.error == RadioError.NONE) {
                 // send response
-                RadioResponse.sendMessageResponse(rr.mResult, ret);
+                RadioResponse.sendMessageResponse(rr, ret);
                 Rlog.d(TAG, rr.serialString() + "< "
                         + mRadioConfig.requestToString(rr.mRequest) + " " + ret.toString());
             } else {
@@ -166,7 +166,7 @@ public class RadioConfigResponse extends IRadioConfigResponse.Stub {
         if (rr != null) {
             if (responseInfo.error == RadioError.NONE) {
                 // send response
-                RadioResponse.sendMessageResponse(rr.mResult, null);
+                RadioResponse.sendMessageResponse(rr, null);
                 Rlog.d(TAG, rr.serialString() + "< "
                         + mRadioConfig.requestToString(rr.mRequest));
             } else {
@@ -190,7 +190,7 @@ public class RadioConfigResponse extends IRadioConfigResponse.Stub {
         if (rr != null) {
             if (responseInfo.error == RadioError.NONE) {
                 // send response
-                RadioResponse.sendMessageResponse(rr.mResult, rr.mRequest);
+                RadioResponse.sendMessageResponse(rr, rr.mRequest);
                 Rlog.d(TAG, rr.serialString() + "< "
                         + mRadioConfig.requestToString(rr.mRequest));
             } else {
@@ -213,7 +213,7 @@ public class RadioConfigResponse extends IRadioConfigResponse.Stub {
         if (rr != null) {
             if (responseInfo.error == RadioError.NONE) {
                 // send response
-                RadioResponse.sendMessageResponse(rr.mResult, modemsConfig);
+                RadioResponse.sendMessageResponse(rr, modemsConfig);
                 Rlog.d(TAG, rr.serialString() + "< "
                         + mRadioConfig.requestToString(rr.mRequest));
             } else {

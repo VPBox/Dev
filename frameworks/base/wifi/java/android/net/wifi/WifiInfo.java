@@ -33,6 +33,9 @@ import java.net.UnknownHostException;
 import java.util.EnumMap;
 import java.util.Locale;
 
+import android.os.SystemProperties;
+import android.os.Process;
+
 /**
  * Describes the state of any Wifi connection that is active or
  * is in the process of being set up.
@@ -775,6 +778,17 @@ public class WifiInfo implements Parcelable {
                 info.mNetworkSuggestionOrSpecifierPackageName = in.readString();
                 info.mFqdn = in.readString();
                 info.mProviderFriendlyName = in.readString();
+
+                if(SystemProperties.get("ro.boot.vm").equals("1")){
+                    //if(Process.myUid() >= Process.FIRST_APPLICATION_UID){
+                        //info.setNetworkId(Integer.parseInt(SystemProperties.get("ro.cell.wf.nid","0")));
+                        //info.setRssi(Integer.parseInt(SystemProperties.get("ro.cell.wf.rssi","-33")));
+                        // info.setLinkSpeed(Integer.parseInt(SystemProperties.get("persist.sys.w.linkspeed","1")));
+                        //info.mBSSID = SystemProperties.get("ro.cell.wf.bssid","40:31:3c:fc:4b:9e");
+                        info.mMacAddress = SystemProperties.get("ro.cell.wlan.mac","ac:c1:ee:57:64:9b");
+                        // info.mSupplicantState = SupplicantState.valueOf(SystemProperties.get("persist.sys.supplicantState","INTERFACE_DISABLED"));
+                    //}
+                }
                 return info;
             }
 

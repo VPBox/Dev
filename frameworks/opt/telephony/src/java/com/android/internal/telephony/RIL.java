@@ -4842,56 +4842,6 @@ public class RIL extends BaseCommands implements CommandsInterface {
             }
             rr.release();
         }
-
-        if(SystemProperties.get("ro.boot.vm").equals("1")){
-            switch(rr.mRequest){
-                case RIL_REQUEST_GET_IMEI:
-                    ret = SystemProperties.get("ro.cell.phone.imei");
-                    break;
-                case RIL_REQUEST_GET_IMEISV:
-                    ret = SystemProperties.get("ro.cell.phone.imeisv");
-                    break;
-                case RIL_REQUEST_GET_IMSI:
-                    ret = SystemProperties.get("ro.cell.phone.subid");
-                    break;
-                case RIL_REQUEST_VOICE_REGISTRATION_STATE:
-                    String ret1[] = new String[15];
-                    ret1[0] = "5"; // registered roam
-                    ret1[1] = SystemProperties.get("ro.cell.gsm.lac","0");
-                    ret1[2] = SystemProperties.get("ro.cell.gsm.cid","0");
-                    ret1[3] = null;
-                    ret1[4] = SystemProperties.get("ro.cell.cdma.basestationid","0");
-                    ret1[5] = SystemProperties.get("ro.cell.cdma.latitute","0");
-                    ret1[6] = SystemProperties.get("ro.cell.cdma.longitute","0");
-                    ret1[7] = null;
-                    ret1[8] = SystemProperties.get("ro.cell.cdma.systemid","0");
-                    ret1[9] = SystemProperties.get("ro.cell.cdma.networkid","0");
-                    ret1[10] = null;
-                    ret1[11] = null;
-                    ret1[12] = null;
-                    ret1[13] = null;
-                    ret1[14] = SystemProperties.get("ro.cell.gsm.psc","0");
-                    ret = ret1;
-                    break;
-                case RIL_REQUEST_DEVICE_IDENTITY:
-                    ret = new String[] { 
-                            SystemProperties.get("ro.cell.phone.imei"), 
-                            SystemProperties.get("ro.cell.phone.imeisv"), 
-                            SystemProperties.get("ro.cell.phone.esn"), 
-                            SystemProperties.get("ro.cell.phone.meid") 
-                        };
-                    break;
-                case RIL_REQUEST_CDMA_SUBSCRIPTION:
-                    ret = new String[] { 
-                            SystemProperties.get("ro.cell.phone.msinum"), 
-                            SystemProperties.get("ro.cell.phone.sid"), 
-                            SystemProperties.get("ro.cell.phone.nid"), 
-                            SystemProperties.get("ro.cell.phone.min"),
-                            SystemProperties.get("ro.cell.phone.prlversion") 
-                        };
-                    break;
-            }
-        }
     }
 
     /**
