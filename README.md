@@ -9,7 +9,7 @@ VPBox reveals a strong resilience against virtual-machine detection heuristics a
 
 # Overview of VPBox's Virtualization Architecture
 
-<img src="https://github.com/VPBox/Dev/main/VBOX-Architecture.png" width="398">
+<img src="https://github.com/VPBox/Dev/blob/master/VBOX-Architecture.png" width="398">
 
 The figure provides an overview of VPBox’s device virtualization. Each isolated VP runs a stock Android userspace environment. The names in red in figure represent Cells’s modules reused by VPBox. VPBox updates the other modules. For updated code implementation, please see the section of the code introduction below. 
 
