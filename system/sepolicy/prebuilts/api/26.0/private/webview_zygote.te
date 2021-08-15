@@ -1,0 +1,116 @@
+# webview_zygote is an auxiliary zygote process that is used to spawn
+# isolated_app processes for rendering untrusted web content.
+
+typeattribute webview_zygote coredomain;
+
+# The webview_zygote needs to be able to transition domains.
+typeattribute webview_zygote mlstrustedsubject;
+
+# When init launches the WebView zygote's executable, transition the
+# resulting process into webview_zygote domain.
+init_daemon_domain(webview_zygote)
+
+# Allow reading/executing installed binaries to enable preloading the
+# installed WebView implementation.
+allow webview_zygote apk_data_file:dir r_dir_perms;
+allow webview_zygote apk_data_file:file { r_file_perms execute };
+
+# Access to the WebView relro file.
+allow webview_zygote shared_relro_file:dir search;
+allow webview_zygote shared_relro_file:file r_file_perms;
+
+# Set the UID/GID of the process.
+allow webview_zygote self:capability { setgid setuid };
+# Drop capabilities from bounding set.
+allow webview_zygote self:capability setpcap;
+# Switch SELinux context to app domains.
+allow webview_zygote self:process setcurrent;
+allow webview_zygote isolated_app:process dyntransition;
+
+# For art.
+allow webview_zygote dalvikcache_data_file:dir r_dir_perms;
+allow webview_zygote dalvikcache_data_file:lnk_file r_file_perms;
+allow webview_zygote dalvikcache_data_file:file { r_file_perms execute };
+
+# Allow webview_zygote to stat the files that it opens. It must
+# be able to inspect them so that it can reopen them on fork
+# if necessary: b/30963384.
+allow webview_zygote debugfs_trace_marker:file getattr;
+
+# Allow webview_zygote to manage the pgroup of its children.
+allow webview_zygote system_server:process getpgid;
+
+# Interaction between the webview_zygote and its children.
+allow webview_zygote isolated_app:process setpgid;
+
+# Get seapp_contexts
+allow webview_zygote seapp_contexts_file:file r_file_perms;
+# Check validity of SELinux context before use.
+selinux_check_context(webview_zygote)
+# Check SELinux permissions.
+selinux_check_access(webview_zygote)
+
+#####
+##### Neverallow
+#####
+
+# Only permit transition to isolated_app.
+neverallow webview_zygote { domain -isolated_app }:process dyntransition;
+
+# Only setcon() transitions, no exec() based transitions, except for crash_dump.
+neverallow webview_zygote { domain -crash_dump }:process transition;
+
+# Must not exec() a program without changing domains.
+# Having said that, exec() above is not allowed.
+neverallow webview_zygote *:file execute_no_trans;
+
+# The only way to enter this domain is for init to exec() us.
+neverallow { domain -init } webview_zygote:process transition;
+neverallow * webview_zygote:process dyntransition;
+
+# Disallow write access to properties.
+neverallow webview_zygote property_socket:sock_file write;
+neverallow webview_zygote property_type:property_service set;
+
+# Should not have any access to app data files.
+neverallow webview_zygote {
+    app_data_file
+    system_app_data_file
+    bluetooth_data_file
+    nfc_data_file
+    radio_data_file
+    shell_data_file
+}:file { rwx_file_perms };
+
+neverallow webview_zygote {
+    service_manager_type
+    -activity_service
+    -webviewupdate_service
+}:service_manager find;
+
+# Isolated apps shouldn't be able to access the driver directly.
+neverallow webview_zygote gpu_device:chr_file { rwx_file_perms };
+
+# Do not allow webview_zygote access to /cache.
+neverallow webview_zygote cache_file:dir ~{ r_dir_perms };
+neverallow webview_zygote cache_file:file ~{ read getattr };
+
+# Do not allow most socket access. This is socket_class_set, excluding unix_dgram_socket,
+# unix_stream_socket, and netlink_selinux_socket.
+neverallow webview_zygote domain:{
+  socket tcp_socket udp_socket rawip_socket netlink_socket packet_socket key_socket
+  appletalk_socket netlink_route_socket netlink_tcpdiag_socket
+  netlink_nflog_socket netlink_xfrm_socket netlink_audit_socket
+  netlink_dnrt_socket netlink_kobject_uevent_socket tun_socket netlink_iscsi_socket
+  netlink_fib_lookup_socket netlink_connector_socket netlink_netfilter_socket
+  netlink_generic_socket netlink_scsitransport_socket netlink_rdma_socket netlink_crypto_socket
+  sctp_socket icmp_socket ax25_socket ipx_socket netrom_socket atmpvc_socket
+  x25_socket rose_socket decnet_socket atmsvc_socket rds_socket irda_socket
+  pppox_socket llc_socket can_socket tipc_socket bluetooth_socket iucv_socket
+  rxrpc_socket isdn_socket phonet_socket ieee802154_socket caif_socket
+  alg_socket nfc_socket vsock_socket kcm_socket qipcrtr_socket
+} *;
+
+# Do not allow access to Bluetooth-related system properties.
+# neverallow rules for Bluetooth-related data files are listed above.
+neverallow webview_zygote bluetooth_prop:file create_file_perms;

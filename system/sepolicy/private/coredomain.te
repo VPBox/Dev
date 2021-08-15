@@ -1,0 +1,119 @@
+get_prop(coredomain, pm_prop)
+get_prop(coredomain, exported_pm_prop)
+
+full_treble_only(`
+neverallow {
+    coredomain
+
+    # for chowning
+    -init
+
+    # generic access to sysfs_type
+    -ueventd
+    -vold
+} sysfs_leds:file *;
+')
+
+# On TREBLE devices, a limited set of files in /vendor are accessible to
+# only a few whitelisted coredomains to keep system/vendor separation.
+full_treble_only(`
+    # Limit access to /vendor/app
+    neverallow {
+        coredomain
+        -appdomain
+        -dex2oat
+        -idmap
+        -init
+        -installd
+        userdebug_or_eng(`-perfprofd')
+        userdebug_or_eng(`-heapprofd')
+        -postinstall_dexopt
+        -rs # spawned by appdomain, so carryover the exception above
+        -system_server
+    } vendor_app_file:dir { open read getattr search };
+')
+
+full_treble_only(`
+    neverallow {
+        coredomain
+        -appdomain
+        -dex2oat
+        -idmap
+        -init
+        -installd
+        userdebug_or_eng(`-perfprofd')
+        userdebug_or_eng(`-heapprofd')
+        -postinstall_dexopt
+        -rs # spawned by appdomain, so carryover the exception above
+        -system_server
+        -mediaserver
+    } vendor_app_file:file r_file_perms;
+')
+
+full_treble_only(`
+    # Limit access to /vendor/overlay
+    neverallow {
+        coredomain
+        -appdomain
+        -idmap
+        -init
+        -installd
+        -postinstall_dexopt
+        -rs # spawned by appdomain, so carryover the exception above
+        -system_server
+        -app_zygote
+        -webview_zygote
+        -zygote
+        userdebug_or_eng(`-heapprofd')
+    } vendor_overlay_file:dir { getattr open read search };
+')
+
+full_treble_only(`
+    neverallow {
+        coredomain
+        -appdomain
+        -idmap
+        -init
+        -installd
+        -postinstall_dexopt
+        -rs # spawned by appdomain, so carryover the exception above
+        -system_server
+        -app_zygote
+        -webview_zygote
+        -zygote
+        userdebug_or_eng(`-heapprofd')
+    } vendor_overlay_file:file r_file_perms;
+')
+
+# Core domains are not permitted to use kernel interfaces which are not
+# explicitly labeled.
+# TODO(b/65643247): Apply these neverallow rules to all coredomain.
+
+
+# Following /dev nodes must not be directly accessed by coredomain, but should
+# instead be wrapped by HALs.
+neverallow coredomain {
+  iio_device
+  radio_device
+}:chr_file { open read append write ioctl };
+
+# TODO(b/120243891): HAL permission to tee_device is included into coredomain
+# on non-Treble devices.
+full_treble_only(`
+  neverallow coredomain tee_device:chr_file { open read append write ioctl };
+')
+
+# Allow access to ashmemd to request /dev/ashmem fds.
+allow {
+  coredomain
+  -init
+  -iorapd
+  -perfprofd
+} ashmem_device_service:service_manager find;
+
+binder_call({
+  coredomain
+  -init
+  -iorapd
+  -perfprofd
+}, ashmemd)

@@ -1,0 +1,23 @@
+type system_server_startup, domain, coredomain;
+type system_server_startup_tmpfs, file_type;
+
+tmpfs_domain(system_server_startup)
+
+# Create JIT memory
+allow system_server_startup self:process execmem;
+allow system_server_startup system_server_startup_tmpfs:file { execute read write open map };
+
+# Allow to pick up integrity-checked artifacts from the dalvik cache.
+allow system_server_startup dalvikcache_data_file:dir r_dir_perms;
+allow system_server_startup dalvikcache_data_file:file { r_file_perms execute };
+
+# While doing the above, will touch the apex mount dir.
+allow system_server_startup mnt_expand_file:dir getattr;
+
+# Allow system_server_startup to run setcon() and enter the
+# system_server domain
+allow system_server_startup self:process setcurrent;
+allow system_server_startup system_server:process dyntransition;
+
+# Child of the zygote.
+allow system_server_startup zygote:process sigchld;

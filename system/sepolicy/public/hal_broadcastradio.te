@@ -1,0 +1,4 @@
+binder_call(hal_broadcastradio_client, hal_broadcastradio_server)
+binder_call(hal_broadcastradio_server, hal_broadcastradio_client)
+
+hal_attribute_hwservice(hal_broadcastradio, hal_broadcastradio_hwservice)

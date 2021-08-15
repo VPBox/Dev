@@ -1,0 +1,5 @@
+{
+  "name": "com.android.apex.cts.shim",
+  "version": 2,
+  "preInstallHook": "/bin/true"
+}

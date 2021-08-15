@@ -1,0 +1,30 @@
+# performanced
+type performanced, domain, mlstrustedsubject;
+type performanced_exec, system_file_type, exec_type, file_type;
+
+# Needed to check for app permissions.
+binder_use(performanced)
+binder_call(performanced, system_server)
+allow performanced permission_service:service_manager find;
+
+pdx_server(performanced, performance_client)
+
+# TODO: use file caps to obtain sys_nice instead of setuid / setgid.
+allow performanced self:global_capability_class_set { setuid setgid sys_nice };
+
+# Access /proc to validate we're only affecting threads in the same thread group.
+# Performanced also shields unbound kernel threads.  It scans every task in the
+# root cpu set, but only affects the kernel threads.
+r_dir_file(performanced, { appdomain bufferhubd kernel surfaceflinger })
+dontaudit performanced domain:dir read;
+allow performanced { appdomain bufferhubd kernel surfaceflinger }:process setsched;
+
+# These /proc accesses only show up in permissive mode but they
+# generate a lot of noise in the log.
+userdebug_or_eng(`
+  dontaudit performanced domain:dir open;
+  dontaudit performanced domain:file { open read getattr };
+')
+
+# Access /dev/cpuset/cpuset.cpus
+r_dir_file(performanced, cgroup)

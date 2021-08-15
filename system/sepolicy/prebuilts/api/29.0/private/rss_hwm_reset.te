@@ -1,0 +1,14 @@
+type rss_hwm_reset_exec, system_file_type, exec_type, file_type;
+
+# Start rss_hwm_reset from init.
+init_daemon_domain(rss_hwm_reset)
+
+# Search /proc/pid directories.
+allow rss_hwm_reset domain:dir search;
+
+# Write to /proc/pid/clear_refs of other processes.
+# /proc/pid/clear_refs is S_IWUSER, see: fs/proc/base.c
+allow rss_hwm_reset self:global_capability_class_set { dac_override };
+
+# Write to /prc/pid/clear_refs.
+allow rss_hwm_reset domain:file w_file_perms;

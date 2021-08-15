@@ -1,0 +1,29 @@
+# HwBinder IPC from client to server
+binder_call(hal_wifi_supplicant_client, hal_wifi_supplicant_server)
+binder_call(hal_wifi_supplicant_server, hal_wifi_supplicant_client)
+
+add_hwservice(hal_wifi_supplicant_server, hal_wifi_supplicant_hwservice)
+allow hal_wifi_supplicant_client hal_wifi_supplicant_hwservice:hwservice_manager find;
+
+# in addition to ioctls whitelisted for all domains, grant hal_wifi_supplicant priv_sock_ioctls.
+allowxperm hal_wifi_supplicant self:udp_socket ioctl priv_sock_ioctls;
+
+r_dir_file(hal_wifi_supplicant, sysfs_type)
+r_dir_file(hal_wifi_supplicant, proc_net)
+
+allow hal_wifi_supplicant kernel:system module_request;
+allow hal_wifi_supplicant self:global_capability_class_set { setuid net_admin setgid net_raw };
+allow hal_wifi_supplicant cgroup:dir create_dir_perms;
+allow hal_wifi_supplicant self:netlink_route_socket nlmsg_write;
+allow hal_wifi_supplicant self:netlink_socket create_socket_perms_no_ioctl;
+allow hal_wifi_supplicant self:netlink_generic_socket create_socket_perms_no_ioctl;
+allow hal_wifi_supplicant self:packet_socket create_socket_perms;
+allowxperm hal_wifi_supplicant self:packet_socket ioctl { unpriv_sock_ioctls priv_sock_ioctls unpriv_tty_ioctls };
+
+###
+### neverallow rules
+###
+
+# wpa_supplicant should not trust any data from sdcards
+neverallow hal_wifi_supplicant_server sdcard_type:dir ~getattr;
+neverallow hal_wifi_supplicant_server sdcard_type:file *;

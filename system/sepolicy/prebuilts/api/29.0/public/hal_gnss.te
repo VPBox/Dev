@@ -1,0 +1,5 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_gnss_client, hal_gnss_server)
+binder_call(hal_gnss_server, hal_gnss_client)
+
+hal_attribute_hwservice(hal_gnss, hal_gnss_hwservice)

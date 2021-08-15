@@ -1,0 +1,84 @@
+type statsd, domain, mlstrustedsubject;
+
+type statsd_exec, system_file_type, exec_type, file_type;
+binder_use(statsd)
+
+# Allow statsd to scan through /proc/pid for all processes.
+r_dir_file(statsd, domain)
+
+# Allow executing files on system, such as running a shell or running:
+#   /system/bin/toolbox
+#   /system/bin/logcat
+#   /system/bin/dumpsys
+allow statsd devpts:chr_file { getattr ioctl read write };
+allow statsd shell_exec:file rx_file_perms;
+allow statsd system_file:file execute_no_trans;
+allow statsd toolbox_exec:file rx_file_perms;
+
+userdebug_or_eng(`
+  allow statsd su:fifo_file read;
+')
+
+# Create, read, and write into /data/misc/stats-data, /data/misc/stats-system.
+allow statsd stats_data_file:dir create_dir_perms;
+allow statsd stats_data_file:file create_file_perms;
+
+# Allow statsd to make binder calls to any binder service.
+binder_call(statsd, appdomain)
+binder_call(statsd, healthd)
+binder_call(statsd, incidentd)
+userdebug_or_eng(`
+  binder_call(statsd, perfprofd)
+')
+binder_call(statsd, system_server)
+
+# Allow statsd to interact with gpuservice
+allow statsd gpu_service:service_manager find;
+binder_call(statsd, gpuservice)
+
+# Allow logd access.
+read_logd(statsd)
+control_logd(statsd)
+
+# Grant statsd with permissions to register the services.
+allow statsd {
+  app_api_service
+  incident_service
+  userdebug_or_eng(`
+    perfprofd_service
+  ')
+  system_api_service
+}:service_manager find;
+
+# Grant statsd to access health hal to access battery metrics.
+allow statsd hal_health_hwservice:hwservice_manager find;
+
+# Allow statsd to send dump info to dumpstate
+allow statsd dumpstate:fd use;
+allow statsd dumpstate:fifo_file { getattr write };
+
+# Allow access to with hardware layer and process stats.
+allow statsd proc_uid_cputime_showstat:file { getattr open read };
+hal_client_domain(statsd, hal_health)
+hal_client_domain(statsd, hal_power)
+hal_client_domain(statsd, hal_power_stats)
+hal_client_domain(statsd, hal_thermal)
+
+# Allow 'adb shell cmd' to upload configs and download output.
+allow statsd adbd:fd use;
+allow statsd adbd:unix_stream_socket { getattr read write };
+allow statsd shell:fifo_file { getattr read write };
+
+unix_socket_send(statsd, statsdw, statsd)
+
+###
+### neverallow rules
+###
+
+# Only statsd and the other root services in limited circumstances.
+# can get to the files in /data/misc/stats-data, /data/misc/stats-service.
+# Other services are prohibitted from accessing the file.
+neverallow { domain -statsd -system_server -init -vold } stats_data_file:file *;
+
+# Limited access to the directory itself.
+neverallow { domain -statsd -system_server -init -vold } stats_data_file:dir *;

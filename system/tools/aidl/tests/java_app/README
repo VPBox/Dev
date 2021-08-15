@@ -1,0 +1,17 @@
+To use this APK do something like:
+
+1) Build your favorite AOSP flavor.
+2) Start an emulator:
+    $ emulator
+3) Push over hellod binary:
+    $ adb remount && adb sync
+4) Install the Java client:
+    $ adb install -r <path-to-APK-in-out-directory>
+5) Put selinux in permissive mode.
+6) Start hellod:
+    $ adb shell "(hellod ) </dev/null >/dev/null 2>&1 &"
+7) Start Java client:
+    $ adb shell am start -S -a android.intent.action.MAIN \
+                           -n "android.aidl.tests/.TestServiceClient"
+8) Watch output on logcat:
+    $ adb logcat -s TestServiceClient hellod

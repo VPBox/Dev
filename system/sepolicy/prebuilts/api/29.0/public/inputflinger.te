@@ -1,0 +1,15 @@
+# inputflinger
+type inputflinger, domain;
+type inputflinger_exec, system_file_type, exec_type, file_type;
+
+binder_use(inputflinger)
+binder_service(inputflinger)
+
+binder_call(inputflinger, system_server)
+
+wakelock_use(inputflinger)
+
+allow inputflinger input_device:dir r_dir_perms;
+allow inputflinger input_device:chr_file rw_file_perms;
+
+r_dir_file(inputflinger, cgroup)

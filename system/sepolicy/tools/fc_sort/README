@@ -1,0 +1,9 @@
+fc_sort is a tool used for sorting the file_contexts entries based on a heuristic that is
+ covered by a Fedora document. That document can be found here:
+ * https://fedoraproject.org/wiki/SELinux/ManagingFileContext
+
+The tool itself originates from:
+ * https://github.com/TresysTechnology/refpolicy
+
+It can be updated to the current tip of master branch with the below command:
+$ wget https://raw.githubusercontent.com/TresysTechnology/refpolicy/master/support/fc_sort.c

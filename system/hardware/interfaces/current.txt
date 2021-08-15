@@ -1,0 +1,18 @@
+# Do not change this file except to add new interfaces. Changing
+# pre-existing interfaces will fail VTS and break framework-only OTAs
+
+# Frameworks HALs released in Android O
+
+b0ff0dc756845dd132f998e8c55f1a0d7e3efd8aa85f6253776fb7012814524b android.system.wifi.keystore@1.0::IKeystore
+
+# Frameworks HALs released in Android O-MR1
+
+2cfd7918acf09462fe8fe3f5608be2956c9f737c78d3bb3f176cc5531c09f5d6 android.system.net.netd@1.0::INetd
+
+# Frameworks HALs released in Android P
+421aac09f4928daebbbffe3302f15c6f68d2b5e4b9c671e528da8a599133906c android.system.net.netd@1.1::INetd
+
+# Frameworks HALs released in Android Q
+33917c1ec8ce300d5f50cf4b00ced1333d77d11d8b8314a70fc7adab008553fc android.system.suspend@1.0::ISystemSuspend
+4a288d439addc1a1c58d55495f4f1e5602cbb0d12e29f39b985151e165d016ac android.system.suspend@1.0::IWakeLock
+93310e309a676fce1bdff182e5241e44028e869e54be5ba6e3413c4b12fcd453 android.system.suspend@1.0::types

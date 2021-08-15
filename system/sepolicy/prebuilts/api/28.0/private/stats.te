@@ -1,0 +1,25 @@
+type stats, domain;
+typeattribute stats coredomain;
+type stats_exec, exec_type, file_type;
+
+# switch to stats domain for stats command
+domain_auto_trans(shell, stats_exec, stats)
+
+# allow stats access to stdout from its parent shell.
+allow stats shell:fd use;
+
+# allow stats to communicate use, read and write over the adb
+# connection.
+allow stats adbd:fd use;
+allow stats adbd:unix_stream_socket { read write };
+
+# allow adbd to reap stats
+allow stats adbd:process { sigchld };
+
+# Allow the stats command to talk to the statsd over the binder, and get
+# back the stats report data from a ParcelFileDescriptor.
+binder_use(stats)
+allow stats stats_service:service_manager find;
+binder_call(stats, statsd)
+allow stats statsd:fifo_file write;
+

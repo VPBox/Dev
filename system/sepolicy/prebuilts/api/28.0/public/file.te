@@ -1,0 +1,411 @@
+# Filesystem types
+type labeledfs, fs_type;
+type pipefs, fs_type;
+type sockfs, fs_type;
+type rootfs, fs_type;
+type proc, fs_type, proc_type;
+# Security-sensitive proc nodes that should not be writable to most.
+type proc_security, fs_type, proc_type;
+type proc_drop_caches, fs_type, proc_type;
+type proc_overcommit_memory, fs_type, proc_type;
+type proc_min_free_order_shift, fs_type, proc_type;
+# proc, sysfs, or other nodes that permit configuration of kernel usermodehelpers.
+type usermodehelper, fs_type, proc_type;
+type sysfs_usermodehelper, fs_type, sysfs_type;
+type qtaguid_proc, fs_type, mlstrustedobject, proc_type;
+type proc_qtaguid_stat, fs_type, mlstrustedobject, proc_type;
+type proc_bluetooth_writable, fs_type, proc_type;
+type proc_abi, fs_type, proc_type;
+type proc_asound, fs_type, proc_type;
+type proc_buddyinfo, fs_type, proc_type;
+type proc_cmdline, fs_type, proc_type;
+type proc_cpuinfo, fs_type, proc_type;
+type proc_dirty, fs_type, proc_type;
+type proc_diskstats, fs_type, proc_type;
+type proc_extra_free_kbytes, fs_type, proc_type;
+type proc_filesystems, fs_type, proc_type;
+type proc_hostname, fs_type, proc_type;
+type proc_hung_task, fs_type, proc_type;
+type proc_interrupts, fs_type, proc_type;
+type proc_iomem, fs_type, proc_type;
+type proc_kmsg, fs_type, proc_type;
+type proc_loadavg, fs_type, proc_type;
+type proc_max_map_count, fs_type, proc_type;
+type proc_meminfo, fs_type, proc_type;
+type proc_misc, fs_type, proc_type;
+type proc_modules, fs_type, proc_type;
+type proc_mounts, fs_type, proc_type;
+type proc_net, fs_type, proc_type;
+type proc_page_cluster, fs_type, proc_type;
+type proc_pagetypeinfo, fs_type, proc_type;
+type proc_panic, fs_type, proc_type;
+type proc_perf, fs_type, proc_type;
+type proc_pid_max, fs_type, proc_type;
+type proc_pipe_conf, fs_type, proc_type;
+type proc_random, fs_type, proc_type;
+type proc_sched, fs_type, proc_type;
+type proc_stat, fs_type, proc_type;
+type proc_swaps, fs_type, proc_type;
+type proc_sysrq, fs_type, proc_type;
+type proc_timer, fs_type, proc_type;
+type proc_tty_drivers, fs_type, proc_type;
+type proc_uid_cputime_showstat, fs_type, proc_type;
+type proc_uid_cputime_removeuid, fs_type, proc_type;
+type proc_uid_io_stats, fs_type, proc_type;
+type proc_uid_procstat_set, fs_type, proc_type;
+type proc_uid_time_in_state, fs_type, proc_type;
+type proc_uid_concurrent_active_time, fs_type, proc_type;
+type proc_uid_concurrent_policy_time, fs_type, proc_type;
+type proc_uid_cpupower, fs_type, proc_type;
+type proc_uptime, fs_type, proc_type;
+type proc_version, fs_type, proc_type;
+type proc_vmallocinfo, fs_type, proc_type;
+type proc_vmstat, fs_type, proc_type;
+type proc_zoneinfo, fs_type, proc_type;
+type selinuxfs, fs_type, mlstrustedobject;
+type cgroup, fs_type, mlstrustedobject;
+type cgroup_bpf, fs_type;
+type sysfs, fs_type, sysfs_type, mlstrustedobject;
+type sysfs_android_usb, fs_type, sysfs_type;
+type sysfs_uio, sysfs_type, fs_type;
+type sysfs_batteryinfo, fs_type, sysfs_type;
+type sysfs_bluetooth_writable, fs_type, sysfs_type, mlstrustedobject;
+type sysfs_dm, fs_type, sysfs_type;
+type sysfs_dt_firmware_android, fs_type, sysfs_type;
+type sysfs_ipv4, fs_type, sysfs_type;
+type sysfs_kernel_notes, fs_type, sysfs_type, mlstrustedobject;
+type sysfs_leds, fs_type, sysfs_type;
+type sysfs_hwrandom, fs_type, sysfs_type;
+type sysfs_nfc_power_writable, fs_type, sysfs_type, mlstrustedobject;
+type sysfs_wake_lock, fs_type, sysfs_type;
+type sysfs_mac_address, fs_type, sysfs_type;
+type sysfs_net, fs_type, sysfs_type;
+type sysfs_power, fs_type, sysfs_type;
+type sysfs_rtc, fs_type, sysfs_type;
+type sysfs_switch, fs_type, sysfs_type;
+type sysfs_usb, fs_type, sysfs_type;
+type sysfs_wakeup_reasons, fs_type, sysfs_type;
+type sysfs_fs_ext4_features, sysfs_type, fs_type;
+type fs_bpf, fs_type;
+type configfs, fs_type;
+# /sys/devices/system/cpu
+type sysfs_devices_system_cpu, fs_type, sysfs_type;
+# /sys/module/lowmemorykiller
+type sysfs_lowmemorykiller, fs_type, sysfs_type;
+# /sys/module/wlan/parameters/fwpath
+type sysfs_wlan_fwpath, fs_type, sysfs_type;
+type sysfs_vibrator, fs_type, sysfs_type;
+
+type sysfs_thermal, sysfs_type, fs_type;
+
+type sysfs_zram, fs_type, sysfs_type;
+type sysfs_zram_uevent, fs_type, sysfs_type;
+type inotify, fs_type, mlstrustedobject;
+type devpts, fs_type, mlstrustedobject;
+type tmpfs, fs_type;
+type shm, fs_type;
+type mqueue, fs_type;
+type fuse, sdcard_type, fs_type, mlstrustedobject;
+type sdcardfs, sdcard_type, fs_type, mlstrustedobject;
+type vfat, sdcard_type, fs_type, mlstrustedobject;
+type exfat, sdcard_type, fs_type, mlstrustedobject;
+type debugfs, fs_type, debugfs_type;
+type debugfs_mmc, fs_type, debugfs_type;
+type debugfs_trace_marker, fs_type, debugfs_type, mlstrustedobject;
+type debugfs_tracing, fs_type, debugfs_type, mlstrustedobject;
+type debugfs_tracing_debug, fs_type, debugfs_type, mlstrustedobject;
+type debugfs_tracing_instances, fs_type, debugfs_type;
+type debugfs_wakeup_sources, fs_type, debugfs_type;
+type debugfs_wifi_tracing, fs_type, debugfs_type;
+
+type pstorefs, fs_type;
+type functionfs, fs_type, mlstrustedobject;
+type oemfs, fs_type, contextmount_type;
+type usbfs, fs_type;
+type binfmt_miscfs, fs_type;
+type app_fusefs, fs_type, contextmount_type;
+
+# File types
+type unlabeled, file_type;
+
+# Default type for anything under /system.
+type system_file, file_type;
+
+# Default type for directories search for
+# HAL implementations
+type vendor_hal_file, vendor_file_type, file_type;
+# Default type for under /vendor or /system/vendor
+type vendor_file, vendor_file_type, file_type;
+# Default type for everything in /vendor/app
+type vendor_app_file, vendor_file_type, file_type;
+# Default type for everything under /vendor/etc/
+type vendor_configs_file, vendor_file_type, file_type;
+# Default type for all *same process* HALs.
+# e.g. libEGL_xxx.so, android.hardware.graphics.mapper@2.0-impl.so
+type same_process_hal_file, vendor_file_type, file_type;
+# Default type for vndk-sp libs. /vendor/lib/vndk-sp
+type vndk_sp_file, vendor_file_type, file_type;
+# Default type for everything in /vendor/framework
+type vendor_framework_file, vendor_file_type, file_type;
+# Default type for everything in /vendor/overlay
+type vendor_overlay_file, vendor_file_type, file_type;
+
+# /metadata partition itself
+type metadata_file, file_type;
+# Vold files within /metadata
+type vold_metadata_file, file_type;
+
+# Speedup access for trusted applications to the runtime event tags
+type runtime_event_log_tags_file, file_type;
+# Type for /system/bin/logcat.
+type logcat_exec, exec_type, file_type;
+# /cores for coredumps on userdebug / eng builds
+type coredump_file, file_type;
+# Default type for anything under /data.
+type system_data_file, file_type, data_file_type, core_data_file_type;
+# Default type for anything under /data/vendor{_ce,_de}.
+type vendor_data_file, file_type, data_file_type;
+# Unencrypted data
+type unencrypted_data_file, file_type, data_file_type, core_data_file_type;
+# /data/.layout_version or other installd-created files that
+# are created in a system_data_file directory.
+type install_data_file, file_type, data_file_type, core_data_file_type;
+# /data/drm - DRM plugin data
+type drm_data_file, file_type, data_file_type, core_data_file_type;
+# /data/adb - adb debugging files
+type adb_data_file, file_type, data_file_type, core_data_file_type;
+# /data/anr - ANR traces
+type anr_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/tombstones - core dumps
+type tombstone_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/vendor/tombstones/wifi - vendor wifi dumps
+type tombstone_wifi_data_file, file_type, data_file_type;
+# /data/app - user-installed apps
+type apk_data_file, file_type, data_file_type, core_data_file_type;
+type apk_tmp_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/app-private - forward-locked apps
+type apk_private_data_file, file_type, data_file_type, core_data_file_type;
+type apk_private_tmp_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/dalvik-cache
+type dalvikcache_data_file, file_type, data_file_type, core_data_file_type;
+# /data/ota
+type ota_data_file, file_type, data_file_type, core_data_file_type;
+# /data/ota_package
+type ota_package_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/misc/profiles
+type user_profile_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/misc/profman
+type profman_dump_data_file, file_type, data_file_type, core_data_file_type;
+# /data/resource-cache
+type resourcecache_data_file, file_type, data_file_type, core_data_file_type;
+# /data/local - writable by shell
+type shell_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/property
+type property_data_file, file_type, data_file_type, core_data_file_type;
+# /data/bootchart
+type bootchart_data_file, file_type, data_file_type, core_data_file_type;
+# /data/system/heapdump
+type heapdump_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/nativetest
+type nativetest_data_file, file_type, data_file_type, core_data_file_type;
+# /data/system_de/0/ringtones
+type ringtone_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# /data/preloads
+type preloads_data_file, file_type, data_file_type, core_data_file_type;
+# /data/preloads/media
+type preloads_media_file, file_type, data_file_type, core_data_file_type;
+# /data/misc/dhcp and /data/misc/dhcp-6.8.2
+type dhcp_data_file, file_type, data_file_type, core_data_file_type;
+
+# Mount locations managed by vold
+type mnt_media_rw_file, file_type;
+type mnt_user_file, file_type;
+type mnt_expand_file, file_type;
+type storage_file, file_type;
+
+# Label for storage dirs which are just mount stubs
+type mnt_media_rw_stub_file, file_type;
+type storage_stub_file, file_type;
+
+# Mount location for read-write vendor partitions.
+type mnt_vendor_file, file_type;
+
+# /postinstall: Mount point used by update_engine to run postinstall.
+type postinstall_mnt_dir, file_type;
+# Files inside the /postinstall mountpoint are all labeled as postinstall_file.
+type postinstall_file, file_type;
+
+# /data/misc subdirectories
+type adb_keys_file, file_type, data_file_type, core_data_file_type;
+type audio_data_file, file_type, data_file_type, core_data_file_type;
+type audioserver_data_file, file_type, data_file_type, core_data_file_type;
+type bluetooth_data_file, file_type, data_file_type, core_data_file_type;
+type bluetooth_logs_data_file, file_type, data_file_type, core_data_file_type;
+type bootstat_data_file, file_type, data_file_type, core_data_file_type;
+type boottrace_data_file, file_type, data_file_type, core_data_file_type;
+type camera_data_file, file_type, data_file_type, core_data_file_type;
+type gatekeeper_data_file, file_type, data_file_type, core_data_file_type;
+type incident_data_file, file_type, data_file_type, core_data_file_type;
+type keychain_data_file, file_type, data_file_type, core_data_file_type;
+type keystore_data_file, file_type, data_file_type, core_data_file_type;
+type media_data_file, file_type, data_file_type, core_data_file_type;
+type media_rw_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+type misc_user_data_file, file_type, data_file_type, core_data_file_type;
+type net_data_file, file_type, data_file_type, core_data_file_type;
+type network_watchlist_data_file, file_type, data_file_type, core_data_file_type;
+type nfc_data_file, file_type, data_file_type, core_data_file_type;
+type radio_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+type recovery_data_file, file_type, data_file_type, core_data_file_type;
+type shared_relro_file, file_type, data_file_type, core_data_file_type;
+type systemkeys_data_file, file_type, data_file_type, core_data_file_type;
+type textclassifier_data_file, file_type, data_file_type, core_data_file_type;
+type trace_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+type vpn_data_file, file_type, data_file_type, core_data_file_type;
+type wifi_data_file, file_type, data_file_type, core_data_file_type;
+type zoneinfo_data_file, file_type, data_file_type, core_data_file_type;
+type vold_data_file, file_type, data_file_type, core_data_file_type;
+type perfprofd_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+type tee_data_file, file_type, data_file_type;
+type update_engine_data_file, file_type, data_file_type, core_data_file_type;
+type update_engine_log_data_file, file_type, data_file_type, core_data_file_type;
+# /data/misc/trace for method traces on userdebug / eng builds
+type method_trace_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+
+# /data/data subdirectories - app sandboxes
+type app_data_file, file_type, data_file_type, core_data_file_type;
+# /data/data subdirectory for system UID apps.
+type system_app_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# Compatibility with type name used in Android 4.3 and 4.4.
+# Default type for anything under /cache
+type cache_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# Type for /cache/backup_stage/* (fd interchange with apps)
+type cache_backup_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# type for anything under /cache/backup (local transport storage)
+type cache_private_backup_file, file_type, data_file_type, core_data_file_type;
+# Type for anything under /cache/recovery
+type cache_recovery_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# Default type for anything under /efs
+type efs_file, file_type;
+# Type for wallpaper file.
+type wallpaper_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# Type for shortcut manager icon file.
+type shortcut_manager_icons, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# Type for user icon file.
+type icon_file, file_type, data_file_type, core_data_file_type;
+# /mnt/asec
+type asec_apk_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# Elements of asec files (/mnt/asec) that are world readable
+type asec_public_file, file_type, data_file_type, core_data_file_type;
+# /data/app-asec
+type asec_image_file, file_type, data_file_type, core_data_file_type;
+# /data/backup and /data/secure/backup
+type backup_data_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+# All devices have bluetooth efs files. But they
+# vary per device, so this type is used in per
+# device policy
+type bluetooth_efs_file, file_type;
+# Type for fingerprint template file
+type fingerprintd_data_file, file_type, data_file_type, core_data_file_type;
+# Type for _new_ fingerprint template file
+type fingerprint_vendor_data_file, file_type, data_file_type;
+# Type for appfuse file.
+type app_fuse_file, file_type, data_file_type, core_data_file_type, mlstrustedobject;
+
+# Socket types
+type adbd_socket, file_type, coredomain_socket;
+type bluetooth_socket, file_type, data_file_type, core_data_file_type, coredomain_socket;
+type dnsproxyd_socket, file_type, coredomain_socket, mlstrustedobject;
+type dumpstate_socket, file_type, coredomain_socket;
+type fwmarkd_socket, file_type, coredomain_socket, mlstrustedobject;
+type lmkd_socket, file_type, coredomain_socket;
+type logd_socket, file_type, coredomain_socket, mlstrustedobject;
+type logdr_socket, file_type, coredomain_socket, mlstrustedobject;
+type logdw_socket, file_type, coredomain_socket, mlstrustedobject;
+type mdns_socket, file_type, coredomain_socket;
+type mdnsd_socket, file_type, coredomain_socket, mlstrustedobject;
+type misc_logd_file, coredomain_socket, file_type, data_file_type, core_data_file_type;
+type mtpd_socket, file_type, coredomain_socket;
+type netd_socket, file_type, coredomain_socket;
+type property_socket, file_type, coredomain_socket, mlstrustedobject;
+type racoon_socket, file_type, coredomain_socket;
+type rild_socket, file_type;
+type rild_debug_socket, file_type;
+type system_wpa_socket, file_type, data_file_type, core_data_file_type, coredomain_socket;
+type system_ndebug_socket, file_type, data_file_type, core_data_file_type, coredomain_socket, mlstrustedobject;
+type tombstoned_crash_socket, file_type, coredomain_socket, mlstrustedobject;
+type tombstoned_java_trace_socket, file_type, mlstrustedobject;
+type tombstoned_intercept_socket, file_type, coredomain_socket;
+type traced_producer_socket, file_type, coredomain_socket, mlstrustedobject;
+type traced_consumer_socket, file_type, coredomain_socket;
+type uncrypt_socket, file_type, coredomain_socket;
+type wpa_socket, file_type, data_file_type, core_data_file_type;
+type zygote_socket, file_type, coredomain_socket;
+# UART (for GPS) control proc file
+type gps_control, file_type;
+
+# PDX endpoint types
+type pdx_display_dir, pdx_endpoint_dir_type, file_type;
+type pdx_performance_dir, pdx_endpoint_dir_type, file_type;
+type pdx_bufferhub_dir, pdx_endpoint_dir_type, file_type;
+
+pdx_service_socket_types(display_client, pdx_display_dir)
+pdx_service_socket_types(display_manager, pdx_display_dir)
+pdx_service_socket_types(display_screenshot, pdx_display_dir)
+pdx_service_socket_types(display_vsync, pdx_display_dir)
+pdx_service_socket_types(performance_client, pdx_performance_dir)
+pdx_service_socket_types(bufferhub_client, pdx_bufferhub_dir)
+
+# file_contexts files
+type file_contexts_file, file_type;
+
+# mac_permissions file
+type mac_perms_file, file_type;
+
+# property_contexts file
+type property_contexts_file, file_type;
+
+# seapp_contexts file
+type seapp_contexts_file, file_type;
+
+# sepolicy files binary and others
+type sepolicy_file, file_type;
+
+# service_contexts file
+type service_contexts_file, file_type;
+
+# nonplat service_contexts file (only accessible on non full-treble devices)
+type nonplat_service_contexts_file, file_type;
+
+# hwservice_contexts file
+type hwservice_contexts_file, file_type;
+
+# vndservice_contexts file
+type vndservice_contexts_file, file_type;
+
+# Allow files to be created in their appropriate filesystems.
+allow fs_type self:filesystem associate;
+allow cgroup tmpfs:filesystem associate;
+allow cgroup_bpf tmpfs:filesystem associate;
+allow sysfs_type sysfs:filesystem associate;
+allow debugfs_type { debugfs debugfs_tracing debugfs_tracing_debug }:filesystem associate;
+allow file_type labeledfs:filesystem associate;
+allow file_type tmpfs:filesystem associate;
+allow file_type rootfs:filesystem associate;
+allow dev_type tmpfs:filesystem associate;
+allow app_fuse_file app_fusefs:filesystem associate;
+allow postinstall_file self:filesystem associate;
+
+# asanwrapper (run a sanitized app_process, to be used with wrap properties)
+with_asan(`type asanwrapper_exec, exec_type, file_type;')
+
+# Deprecated in SDK version 28
+type audiohal_data_file, file_type, data_file_type, core_data_file_type;
+
+# It's a bug to assign the file_type attribute and fs_type attribute
+# to any type. Do not allow it.
+#
+# For example, the following is a bug:
+#   type apk_data_file, file_type, data_file_type, fs_type;
+# Should be:
+#   type apk_data_file, file_type, data_file_type;
+neverallow fs_type file_type:filesystem associate;

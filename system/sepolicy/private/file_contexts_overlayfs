@@ -1,0 +1,9 @@
+#############################
+# Overlayfs support directories for userdebug/eng devices
+#
+/cache/overlay/(system|product)/upper       u:object_r:system_file:s0
+/cache/overlay/(vendor|odm)/upper           u:object_r:vendor_file:s0
+/cache/overlay/oem/upper                    u:object_r:vendor_file:s0
+/mnt/scratch/overlay/(system|product)/upper u:object_r:system_file:s0
+/mnt/scratch/overlay/(vendor|odm)/upper     u:object_r:vendor_file:s0
+/mnt/scratch/overlay/oem/upper              u:object_r:vendor_file:s0

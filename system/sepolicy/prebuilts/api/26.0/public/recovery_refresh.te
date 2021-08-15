@@ -1,0 +1,24 @@
+# android recovery refresh log manager
+type recovery_refresh, domain;
+type recovery_refresh_exec, exec_type, file_type;
+
+allow recovery_refresh pstorefs:dir search;
+allow recovery_refresh pstorefs:file r_file_perms;
+# NB: domain inherits write_logd which hands us write to pmsg_device
+
+###
+### Neverallow rules
+###
+### recovery_refresh should NEVER do any of this
+
+# Block device access.
+neverallow recovery_refresh dev_type:blk_file { read write };
+
+# ptrace any other app
+neverallow recovery_refresh domain:process ptrace;
+
+# Write to /system.
+neverallow recovery_refresh system_file:dir_file_class_set write;
+
+# Write to files in /data/data or system files on /data
+neverallow recovery_refresh { app_data_file system_data_file }:dir_file_class_set write;

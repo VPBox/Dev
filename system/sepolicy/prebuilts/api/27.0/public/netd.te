@@ -1,0 +1,129 @@
+# network manager
+type netd, domain, mlstrustedsubject;
+type netd_exec, exec_type, file_type;
+
+net_domain(netd)
+# in addition to ioctls whitelisted for all domains, grant netd priv_sock_ioctls.
+allowxperm netd self:udp_socket ioctl priv_sock_ioctls;
+
+r_dir_file(netd, cgroup)
+allow netd system_server:fd use;
+
+allow netd self:capability { net_admin net_raw kill };
+# Note: fsetid is deliberately not included above. fsetid checks are
+# triggered by chmod on a directory or file owned by a group other
+# than one of the groups assigned to the current process to see if
+# the setgid bit should be cleared, regardless of whether the setgid
+# bit was even set.  We do not appear to truly need this capability
+# for netd to operate.
+dontaudit netd self:capability fsetid;
+
+allow netd self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+allow netd self:netlink_route_socket nlmsg_write;
+allow netd self:netlink_nflog_socket create_socket_perms_no_ioctl;
+allow netd self:netlink_socket create_socket_perms_no_ioctl;
+allow netd self:netlink_tcpdiag_socket { create_socket_perms_no_ioctl nlmsg_read nlmsg_write };
+allow netd self:netlink_generic_socket create_socket_perms_no_ioctl;
+allow netd self:netlink_netfilter_socket create_socket_perms_no_ioctl;
+allow netd shell_exec:file rx_file_perms;
+allow netd system_file:file x_file_perms;
+not_full_treble(`allow netd vendor_file:file x_file_perms;')
+allow netd devpts:chr_file rw_file_perms;
+
+# Acquire advisory lock on /system/etc/xtables.lock
+allow netd system_file:file lock;
+
+r_dir_file(netd, proc_net)
+# For /proc/sys/net/ipv[46]/route/flush.
+allow netd proc_net:file rw_file_perms;
+
+# Enables PppController and interface enumeration (among others)
+r_dir_file(netd, sysfs_type)
+# Allows setting interface MTU
+allow netd sysfs:file write;
+
+# TODO: added to match above sysfs rule. Remove me?
+allow netd sysfs_usb:file write;
+
+# TODO: netd previously thought it needed these permissions to do WiFi related
+#       work.  However, after all the WiFi stuff is gone, we still need them.
+#       Why?
+allow netd self:capability { dac_override chown };
+
+# Needed to update /data/misc/net/rt_tables
+allow netd net_data_file:file create_file_perms;
+allow netd net_data_file:dir rw_dir_perms;
+allow netd self:capability fowner;
+
+# Needed to lock the iptables lock.
+allow netd system_file:file lock;
+
+# Allow netd to spawn dnsmasq in it's own domain
+allow netd dnsmasq:process signal;
+
+# Allow netd to start clatd in its own domain
+allow netd clatd:process signal;
+
+set_prop(netd, ctl_mdnsd_prop)
+set_prop(netd, netd_stable_secret_prop)
+
+# Allow netd to publish a binder service and make binder calls.
+binder_use(netd)
+add_service(netd, netd_service)
+allow netd dumpstate:fifo_file  { getattr write };
+
+# Allow netd to call into the system server so it can check permissions.
+allow netd system_server:binder call;
+allow netd permission_service:service_manager find;
+
+# Allow netd to talk to the framework service which collects netd events.
+allow netd netd_listener_service:service_manager find;
+
+# Allow netd to operate on sockets that are passed to it.
+allow netd netdomain:{
+  tcp_socket
+  udp_socket
+  rawip_socket
+  tun_socket
+} { read write getattr setattr getopt setopt };
+allow netd netdomain:fd use;
+
+# give netd permission to read and write netlink xfrm
+allow netd self:netlink_xfrm_socket { create_socket_perms_no_ioctl nlmsg_write nlmsg_read };
+
+# Allow netd to register as hal server.
+add_hwservice(netd, system_net_netd_hwservice)
+hwbinder_use(netd)
+get_prop(netd, hwservicemanager_prop)
+
+###
+### Neverallow rules
+###
+### netd should NEVER do any of this
+
+# Block device access.
+neverallow netd dev_type:blk_file { read write };
+
+# ptrace any other app
+neverallow netd { domain }:process ptrace;
+
+# Write to /system.
+neverallow netd system_file:dir_file_class_set write;
+
+# Write to files in /data/data or system files on /data
+neverallow netd { app_data_file system_data_file }:dir_file_class_set write;
+
+# only system_server and dumpstate may find netd service
+neverallow { domain -system_server -dumpstate -netd } netd_service:service_manager find;
+
+# apps may not interact with netd over binder.
+neverallow appdomain netd:binder call;
+neverallow netd { appdomain userdebug_or_eng(`-su') }:binder call;
+
+# persist.netd.stable_secret contains RFC 7217 secret key which should never be
+# leaked to other processes. Make sure it never leaks.
+neverallow { domain -netd -init } netd_stable_secret_prop:file r_file_perms;
+
+# We want to ensure that no other process ever tries tampering with persist.netd.stable_secret,
+# the RFC 7217 secret key managed by netd. Doing so could compromise user privacy.
+neverallow { domain -netd -init } netd_stable_secret_prop:property_service set;

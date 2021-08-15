@@ -1,0 +1,22 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_neuralnetworks_client, hal_neuralnetworks_server)
+binder_call(hal_neuralnetworks_server, hal_neuralnetworks_client)
+
+hal_attribute_hwservice(hal_neuralnetworks, hal_neuralnetworks_hwservice)
+allow hal_neuralnetworks hidl_memory_hwservice:hwservice_manager find;
+allow hal_neuralnetworks hal_allocator:fd use;
+
+# Allow NN HAL service to use a client-provided fd residing in /data/data/.
+allow hal_neuralnetworks_server app_data_file:file { read write getattr map };
+allow hal_neuralnetworks_server privapp_data_file:file { read write getattr map };
+
+# Allow NN HAL service to use a client-provided fd residing in /data/local/tmp/.
+allow hal_neuralnetworks_server shell_data_file:file { read write getattr map };
+
+# Allow NN HAL client to check the ro.nnapi.extensions.deny_on_product
+# property to determine whether to deny NNAPI extensions use for apps
+# on product partition (apps in GSI are not allowed to use NNAPI extensions).
+get_prop(hal_neuralnetworks_client, nnapi_ext_deny_product_prop);
+# This property is only expected to be found in /product/build.prop,
+# allow to be set only by init.
+neverallow { domain -init } nnapi_ext_deny_product_prop:property_service set;

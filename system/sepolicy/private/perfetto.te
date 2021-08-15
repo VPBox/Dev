@@ -1,0 +1,87 @@
+# Perfetto command-line client. Can be used only from the domains that are
+# explicitly whitelisted with a domain_auto_trans(X, perfetto_exec, perfetto).
+# This command line client accesses the privileged socket of the traced
+# daemon.
+
+type perfetto_exec, system_file_type, exec_type, file_type;
+type perfetto_tmpfs, file_type;
+
+tmpfs_domain(perfetto);
+
+# Allow to access traced's privileged consumer socket.
+unix_socket_connect(perfetto, traced_consumer, traced)
+
+# Connect to the Perfetto traced daemon as a producer. This requires
+# connecting to its producer socket and obtaining a (per-process) tmpfs fd.
+allow perfetto traced:fd use;
+allow perfetto traced_tmpfs:file { read write getattr map };
+unix_socket_connect(perfetto, traced_producer, traced)
+
+
+# Allow to write and unlink traces into /data/misc/perfetto-traces.
+allow perfetto perfetto_traces_data_file:dir rw_dir_perms;
+allow perfetto perfetto_traces_data_file:file create_file_perms;
+
+# Allow to access binder to pass the traces to Dropbox.
+binder_use(perfetto)
+binder_call(perfetto, system_server)
+allow perfetto dropbox_service:service_manager find;
+
+# Allow perfetto to read the trace config from statsd and shell
+# (both root and non-root) on stdin and also to write the resulting trace to
+# stdout.
+allow perfetto { statsd shell su }:fd use;
+allow perfetto { statsd shell su }:fifo_file { getattr read write };
+
+# Allow to communicate use, read and write over the adb connection.
+allow perfetto adbd:fd use;
+allow perfetto adbd:unix_stream_socket { read write };
+
+# Allow adbd to reap perfetto
+allow perfetto adbd:process { sigchld };
+
+# Allow to access /dev/pts when launched in an adb shell.
+allow perfetto devpts:chr_file rw_file_perms;
+
+# Allow perfetto to ask incidentd to start a report.
+# TODO(b/134706389): remove when no longer used.
+userdebug_or_eng(`
+  allow perfetto incident_service:service_manager find;
+  binder_call(perfetto, incidentd)
+');
+
+###
+### Neverallow rules
+###
+### perfetto should NEVER do any of this
+
+# Disallow mapping executable memory (execstack and exec are already disallowed
+# globally in domain.te).
+neverallow perfetto self:process execmem;
+
+# Block device access.
+neverallow perfetto dev_type:blk_file { read write };
+
+# ptrace any other process
+neverallow perfetto domain:process ptrace;
+
+# Disallows access to other /data files.
+neverallow perfetto {
+  data_file_type
+  -system_data_file
+  # TODO(b/72998741) Remove exemption. Further restricted in a subsequent
+  # neverallow. Currently only getattr and search are allowed.
+  -vendor_data_file
+  -zoneinfo_data_file
+  -perfetto_traces_data_file
+  with_native_coverage(`-method_trace_data_file')
+}:dir *;
+neverallow perfetto { system_data_file -perfetto_traces_data_file }:dir ~{ getattr search };
+neverallow perfetto zoneinfo_data_file:dir ~r_dir_perms;
+neverallow perfetto { data_file_type -zoneinfo_data_file -perfetto_traces_data_file }:lnk_file *;
+neverallow perfetto {
+  data_file_type
+  -zoneinfo_data_file
+  -perfetto_traces_data_file
+  with_native_coverage(`-method_trace_data_file')
+}:file ~write;

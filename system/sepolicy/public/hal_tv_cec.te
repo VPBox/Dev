@@ -1,0 +1,5 @@
+# HwBinder IPC from clients into server, and callbacks
+binder_call(hal_tv_cec_client, hal_tv_cec_server)
+binder_call(hal_tv_cec_server, hal_tv_cec_client)
+
+hal_attribute_hwservice(hal_tv_cec, hal_tv_cec_hwservice)

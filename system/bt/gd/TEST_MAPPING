@@ -1,0 +1,8 @@
+{
+  "presubmit" : [
+    {
+      "name" : "bluetooth_test_gd",
+      "host" : true
+    }
+  ]
+}

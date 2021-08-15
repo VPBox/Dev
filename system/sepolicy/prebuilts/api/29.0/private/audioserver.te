@@ -1,0 +1,99 @@
+# audioserver - audio services daemon
+
+typeattribute audioserver coredomain;
+
+type audioserver_exec, exec_type, file_type, system_file_type;
+init_daemon_domain(audioserver)
+tmpfs_domain(audioserver)
+
+r_dir_file(audioserver, sdcard_type)
+
+binder_use(audioserver)
+binder_call(audioserver, binderservicedomain)
+binder_call(audioserver, appdomain)
+binder_service(audioserver)
+
+hal_client_domain(audioserver, hal_allocator)
+# /system/lib64/hw for always-passthrough Allocator HAL ashmem / mapper .so
+r_dir_file(audioserver, system_file)
+
+hal_client_domain(audioserver, hal_audio)
+
+userdebug_or_eng(`
+  # used for TEE sink - pcm capture for debug.
+  allow audioserver media_data_file:dir create_dir_perms;
+  allow audioserver audioserver_data_file:dir create_dir_perms;
+  allow audioserver audioserver_data_file:file create_file_perms;
+
+  # ptrace to processes in the same domain for memory leak detection
+  allow audioserver self:process ptrace;
+')
+
+add_service(audioserver, audioserver_service)
+allow audioserver activity_service:service_manager find;
+allow audioserver appops_service:service_manager find;
+allow audioserver batterystats_service:service_manager find;
+allow audioserver external_vibrator_service:service_manager find;
+allow audioserver package_native_service:service_manager find;
+allow audioserver permission_service:service_manager find;
+allow audioserver power_service:service_manager find;
+allow audioserver scheduling_policy_service:service_manager find;
+allow audioserver mediametrics_service:service_manager find;
+allow audioserver sensor_privacy_service:service_manager find;
+
+# Allow read/write access to bluetooth-specific properties
+set_prop(audioserver, bluetooth_a2dp_offload_prop)
+set_prop(audioserver, bluetooth_audio_hal_prop)
+set_prop(audioserver, bluetooth_prop)
+set_prop(audioserver, exported_bluetooth_prop)
+
+# Grant access to audio files to audioserver
+allow audioserver audio_data_file:dir ra_dir_perms;
+allow audioserver audio_data_file:file create_file_perms;
+
+# allow access to ALSA MMAP FDs for AAudio API
+allow audioserver audio_device:chr_file { read write };
+
+not_full_treble(`allow audioserver audio_device:dir r_dir_perms;')
+not_full_treble(`allow audioserver audio_device:chr_file rw_file_perms;')
+
+# For A2DP bridge which is loaded directly into audioserver
+unix_socket_connect(audioserver, bluetooth, bluetooth)
+
+# Allow shell commands from ADB and shell for CTS testing/dumping
+allow audioserver adbd:fd use;
+allow audioserver adbd:unix_stream_socket { read write };
+allow audioserver shell:fifo_file { read write };
+
+# Allow shell commands from ADB for CTS testing/dumping
+userdebug_or_eng(`
+  allow audioserver su:fd use;
+  allow audioserver su:fifo_file { read write };
+  allow audioserver su:unix_stream_socket { read write };
+')
+
+# Allow write access to log tag property
+set_prop(audioserver, log_tag_prop);
+
+###
+### neverallow rules
+###
+
+# audioserver should never execute any executable without a
+# domain transition
+neverallow audioserver { file_type fs_type }:file execute_no_trans;
+
+# The goal of the mediaserver split is to place media processing code into
+# restrictive sandboxes with limited responsibilities and thus limited
+# permissions. Example: Audioserver is only responsible for controlling audio
+# hardware and processing audio content. Cameraserver does the same for camera
+# hardware/content. Etc.
+#
+# Media processing code is inherently risky and thus should have limited
+# permissions and be isolated from the rest of the system and network.
+# Lengthier explanation here:
+# https://android-developers.googleblog.com/2016/05/hardening-media-stack.html
+neverallow audioserver domain:{ tcp_socket udp_socket rawip_socket } *;
+
+# Allow using wake locks
+wakelock_use(audioserver)

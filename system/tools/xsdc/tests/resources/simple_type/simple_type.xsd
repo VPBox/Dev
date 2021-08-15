@@ -1,0 +1,54 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="simple_type" xmlns="simple_type">
+    <xs:simpleType name="ints">
+        <xs:list itemType="xs:int"/>
+    </xs:simpleType>
+    <xs:simpleType name="restrictedInts">
+        <xs:restriction base="ints">
+            <xs:maxLength value="5"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="percent">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="unionOfListAndInteger">
+        <xs:union memberTypes="restrictedInts percent"/>
+    </xs:simpleType>
+    <xs:simpleType name="enumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="YES">
+            <xs:annotation name="Deprecated"/>
+            </xs:enumeration>
+            <xs:enumeration value="NO"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="simple-types">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="listInt" type="restrictedInts"/>
+                <xs:element name="union-test" type="unionOfListAndInteger"/>
+                <xs:element name="yesOrNo" type="enumType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="multi-choice">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="example1" type="xs:string"/>
+                <xs:element name="example2" type="xs:string"/>
+                <xs:element name="example3" type="xs:string"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="single-choice">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="example1" type="xs:string"/>
+                <xs:element name="example2" type="xs:string"/>
+                <xs:element name="example3" type="xs:string"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

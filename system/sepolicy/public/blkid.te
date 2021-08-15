@@ -1,0 +1,2 @@
+# blkid called from vold
+type blkid, domain;

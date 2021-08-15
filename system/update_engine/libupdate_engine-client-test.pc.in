@@ -1,0 +1,6 @@
+include_dir=@INCLUDE_DIR@
+
+Name: libupdate_engine-client-test
+Version: 1.0
+Description: update_engine client interface mock library
+Cflags: -I${include_dir}

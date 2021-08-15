@@ -1,0 +1,76 @@
+# Android heap profiling daemon. go/heapprofd.
+#
+# On user builds, this daemon is responsible for receiving the initial
+# profiling configuration, finding matching target processes (if profiling by
+# process name), and sending the activation signal to them (+ setting system
+# properties for new processes to start profiling from startup). When profiling
+# is triggered in a process, it spawns a private heapprofd subprocess (in its
+# own SELinux domain), which will exclusively handle profiling of its parent.
+#
+# On debug builds, this central daemon performs profiling for all target
+# processes (which talk directly to this daemon).
+type heapprofd_exec, exec_type, file_type, system_file_type;
+type heapprofd_tmpfs, file_type;
+
+init_daemon_domain(heapprofd)
+tmpfs_domain(heapprofd)
+
+# Allow apps in other MLS contexts (for multi-user) to access
+# shared memory buffers created by heapprofd.
+typeattribute heapprofd_tmpfs mlstrustedobject;
+
+set_prop(heapprofd, heapprofd_prop);
+
+# Necessary for /proc/[pid]/cmdline access & sending signals.
+typeattribute heapprofd mlstrustedsubject;
+
+# Allow sending signals to processes. This excludes SIGKILL, SIGSTOP and
+# SIGCHLD, which are controlled by separate permissions.
+allow heapprofd self:capability kill;
+
+# When scanning /proc/[pid]/cmdline to find matching processes for by-name
+# profiling, only whitelisted domains will be allowed by SELinux. Avoid
+# spamming logs with denials for entries that we can not access.
+dontaudit heapprofd domain:dir { search open };
+
+# Write trace data to the Perfetto traced daemon. This requires connecting to
+# its producer socket and obtaining a (per-process) tmpfs fd.
+allow heapprofd traced:fd use;
+allow heapprofd traced_tmpfs:file { read write getattr map };
+unix_socket_connect(heapprofd, traced_producer, traced)
+
+# When handling profiling for all processes, heapprofd needs to read
+# executables/libraries/etc to do stack unwinding.
+userdebug_or_eng(`
+  r_dir_file(heapprofd, nativetest_data_file)
+  r_dir_file(heapprofd, system_file_type)
+  r_dir_file(heapprofd, apk_data_file)
+  r_dir_file(heapprofd, dalvikcache_data_file)
+  r_dir_file(heapprofd, vendor_file_type)
+  # Some dex files are not world-readable.
+  # We are still constrained by the SELinux rules above.
+  allow heapprofd self:global_capability_class_set dac_read_search;
+')
+
+# This is going to happen on user but is benign because central heapprofd
+# does not actually need these permission.
+# If the dac_read_search capability check is rejected, the kernel then tries
+# to perform a dac_override capability check, so we need to dontaudit that
+# as well.
+dontaudit heapprofd self:global_capability_class_set { dac_read_search dac_override };
+
+never_profile_heap(`{
+  bpfloader
+  init
+  kernel
+  keystore
+  llkd
+  logd
+  ueventd
+  vendor_init
+  vold
+}')
+
+full_treble_only(`
+  neverallow heapprofd vendor_file:file { no_w_file_perms no_x_file_perms };
+')

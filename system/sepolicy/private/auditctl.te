@@ -1,0 +1,18 @@
+#
+# /system/bin/auditctl executed for logd
+#
+# Performs maintenance of the kernel auditing system, including
+# setting rate limits on SELinux denials.
+#
+
+type auditctl, domain, coredomain;
+type auditctl_exec, file_type, system_file_type, exec_type;
+
+# Uncomment the line below to put this domain into permissive
+# mode. This helps speed SELinux policy development.
+# userdebug_or_eng(`permissive auditctl;')
+
+init_daemon_domain(auditctl)
+
+allow auditctl self:global_capability_class_set audit_control;
+allow auditctl self:netlink_audit_socket { create_socket_perms_no_ioctl nlmsg_write };

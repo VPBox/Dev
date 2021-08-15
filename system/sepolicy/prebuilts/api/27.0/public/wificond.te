@@ -1,0 +1,35 @@
+# wificond
+type wificond, domain;
+type wificond_exec, exec_type, file_type;
+
+binder_use(wificond)
+binder_call(wificond, system_server)
+
+add_service(wificond, wificond_service)
+
+set_prop(wificond, wifi_prop)
+set_prop(wificond, ctl_default_prop)
+
+# create sockets to set interfaces up and down
+allow wificond self:udp_socket create_socket_perms;
+# setting interface state up/down is a privileged ioctl
+allowxperm wificond self:udp_socket ioctl { SIOCSIFFLAGS };
+allow wificond self:capability { net_admin net_raw };
+# allow wificond to speak to nl80211 in the kernel
+allow wificond self:netlink_socket create_socket_perms_no_ioctl;
+# newer kernels (e.g. 4.4 but not 4.1) have a new class for sockets
+allow wificond self:netlink_generic_socket create_socket_perms_no_ioctl;
+
+r_dir_file(wificond, proc_net)
+
+# wificond writes out configuration files for wpa_supplicant/hostapd.
+# wificond also reads pid files out of this directory
+allow wificond wifi_data_file:dir rw_dir_perms;
+allow wificond wifi_data_file:file create_file_perms;
+
+# allow wificond to check permission for dumping logs
+allow wificond permission_service:service_manager find;
+
+# dumpstate support
+allow wificond dumpstate:fd use;
+allow wificond dumpstate:fifo_file write;

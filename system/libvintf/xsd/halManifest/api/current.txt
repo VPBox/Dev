@@ -1,0 +1,101 @@
+// Signature format: 2.0
+package hal.manifest {
+
+  public class Hal {
+    ctor public Hal();
+    method public String getFormat();
+    method public java.util.List<java.lang.String> getFqname();
+    method public String getName();
+    method public String getOverride();
+    method public hal.manifest.Hal.Transport getTransport();
+    method public java.util.List<java.lang.String> getVersion();
+    method public java.util.List<hal.manifest.Interface> get_interface();
+    method public void setFormat(String);
+    method public void setName(String);
+    method public void setOverride(String);
+    method public void setTransport(hal.manifest.Hal.Transport);
+  }
+
+  public static class Hal.Transport {
+    ctor public Hal.Transport();
+    method public String getArch();
+    method public String getValue();
+    method public void setArch(String);
+    method public void setValue(String);
+  }
+
+  public class Interface {
+    ctor public Interface();
+    method public java.util.List<java.lang.String> getInstance();
+    method public String getName();
+    method public void setName(String);
+  }
+
+  public class Kernel {
+    ctor public Kernel();
+    method public java.util.List<hal.manifest.Kernel.Config> getConfig();
+    method public String getVersion();
+    method public void setVersion(String);
+  }
+
+  public static class Kernel.Config {
+    ctor public Kernel.Config();
+    method public String getKey();
+    method public String getValue();
+    method public void setKey(String);
+    method public void setValue(String);
+  }
+
+  public class Manifest {
+    ctor public Manifest();
+    method public java.util.List<hal.manifest.Hal> getHal();
+    method public hal.manifest.Kernel getKernel();
+    method public hal.manifest.Sepolicy getSepolicy();
+    method public hal.manifest.SystemSdk getSystemSdk();
+    method public String getTargetLevel();
+    method public String getType();
+    method public java.util.List<hal.manifest.VendorNdk> getVendorNdk();
+    method public String getVersion();
+    method public java.util.List<hal.manifest.Vndk> getVndk();
+    method public void setKernel(hal.manifest.Kernel);
+    method public void setSepolicy(hal.manifest.Sepolicy);
+    method public void setSystemSdk(hal.manifest.SystemSdk);
+    method public void setTargetLevel(String);
+    method public void setType(String);
+    method public void setVersion(String);
+  }
+
+  public class Sepolicy {
+    ctor public Sepolicy();
+    method public String getVersion();
+    method public void setVersion(String);
+  }
+
+  public class SystemSdk {
+    ctor public SystemSdk();
+    method public java.util.List<java.lang.String> getVersion();
+  }
+
+  public class VendorNdk {
+    ctor public VendorNdk();
+    method public java.util.List<java.lang.String> getLibrary();
+    method public String getVersion();
+    method public void setVersion(String);
+  }
+
+  public class Vndk {
+    ctor public Vndk();
+    method public java.util.List<java.lang.String> getLibrary();
+    method public String getVersion();
+    method public void setVersion(String);
+  }
+
+  public class XmlParser {
+    ctor public XmlParser();
+    method public static hal.manifest.Manifest read(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static String readText(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static void skip(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+  }
+
+}
+

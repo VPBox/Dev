@@ -1,0 +1,6 @@
+typeattribute bootanim coredomain;
+
+init_daemon_domain(bootanim)
+
+# b/68864350
+dontaudit bootanim unlabeled:dir search;

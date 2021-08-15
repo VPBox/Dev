@@ -1,0 +1,316 @@
+######################################
+# Attribute declarations
+#
+
+# All types used for devices.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# in tools/checkfc.c
+attribute dev_type;
+
+# All types used for processes.
+attribute domain;
+
+# All types used for filesystems.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute fs_type;
+
+# All types used for context= mounts.
+attribute contextmount_type;
+
+# All types used for files that can exist on a labeled fs.
+# Do not use for pseudo file types.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute file_type;
+
+# All types used for domain entry points.
+attribute exec_type;
+
+# All types used for /data files.
+attribute data_file_type;
+expandattribute data_file_type false;
+# All types in /data, not in /data/vendor
+attribute core_data_file_type;
+expandattribute core_data_file_type false;
+
+# All types in /system
+attribute system_file_type;
+
+# All types in /vendor
+attribute vendor_file_type;
+
+# All types used for procfs files.
+attribute proc_type;
+expandattribute proc_type false;
+
+# Types in /proc/net, excluding qtaguid types.
+# TODO(b/9496886) Lock down access to /proc/net.
+# This attribute is used to audit access to proc_net. it is temporary and will
+# be removed.
+attribute proc_net_type;
+expandattribute proc_net_type true;
+
+# All types used for sysfs files.
+attribute sysfs_type;
+
+# All types use for debugfs files.
+attribute debugfs_type;
+
+# Attribute used for all sdcards
+attribute sdcard_type;
+
+# All types used for nodes/hosts.
+attribute node_type;
+
+# All types used for network interfaces.
+attribute netif_type;
+
+# All types used for network ports.
+attribute port_type;
+
+# All types used for property service
+# On change, update CHECK_PC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute property_type;
+
+# All properties defined in core SELinux policy. Should not be
+# used by device specific properties
+attribute core_property_type;
+
+# All properties used to configure log filtering.
+attribute log_property_type;
+
+# All properties that are not specific to device but are added from
+# outside of AOSP. (e.g. OEM-specific properties)
+# These properties are not accessible from device-specific domains
+attribute extended_core_property_type;
+
+# All service_manager types created by system_server
+attribute system_server_service;
+
+# services which should be available to all but isolated apps
+attribute app_api_service;
+
+# services which should be available to all ephemeral apps
+attribute ephemeral_app_api_service;
+
+# services which export only system_api
+attribute system_api_service;
+
+# All types used for services managed by servicemanager.
+# On change, update CHECK_SC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute service_manager_type;
+
+# All types used for services managed by hwservicemanager
+attribute hwservice_manager_type;
+
+# All HwBinder services guaranteed to be passthrough. These services always run
+# in the process of their clients, and thus operate with the same access as
+# their clients.
+attribute same_process_hwservice;
+
+# All HwBinder services guaranteed to be offered only by core domain components
+attribute coredomain_hwservice;
+
+# All types used for services managed by vndservicemanager
+attribute vndservice_manager_type;
+
+
+# All domains that can override MLS restrictions.
+# i.e. processes that can read up and write down.
+attribute mlstrustedsubject;
+
+# All types that can override MLS restrictions.
+# i.e. files that can be read by lower and written by higher
+attribute mlstrustedobject;
+
+# All domains used for apps.
+attribute appdomain;
+
+# All third party apps.
+attribute untrusted_app_all;
+
+# All domains used for apps with network access.
+attribute netdomain;
+
+# All domains used for apps with bluetooth access.
+attribute bluetoothdomain;
+
+# All domains used for binder service domains.
+attribute binderservicedomain;
+
+# update_engine related domains that need to apply an update and run
+# postinstall. This includes the background daemon and the sideload tool from
+# recovery for A/B devices.
+attribute update_engine_common;
+
+# All core domains (as opposed to vendor/device-specific domains)
+attribute coredomain;
+
+# All socket devices owned by core domain components
+attribute coredomain_socket;
+expandattribute coredomain_socket false;
+
+# All vendor domains which violate the requirement of not using Binder
+# TODO(b/35870313): Remove this once there are no violations
+attribute binder_in_vendor_violators;
+expandattribute binder_in_vendor_violators false;
+
+# All vendor domains which violate the requirement of not using sockets for
+# communicating with core components
+# TODO(b/36577153): Remove this once there are no violations
+attribute socket_between_core_and_vendor_violators;
+expandattribute socket_between_core_and_vendor_violators false;
+
+# All vendor domains which violate the requirement of not executing
+# system processes
+# TODO(b/36463595)
+attribute vendor_executes_system_violators;
+expandattribute vendor_executes_system_violators false;
+
+# All domains which violate the requirement of not sharing files by path
+# between between vendor and core domains.
+# TODO(b/34980020)
+attribute data_between_core_and_vendor_violators;
+expandattribute data_between_core_and_vendor_violators false;
+
+# All system domains which violate the requirement of not executing vendor
+# binaries/libraries.
+# TODO(b/62041836)
+attribute system_executes_vendor_violators;
+expandattribute system_executes_vendor_violators false;
+
+# All system domains which violate the requirement of not writing vendor
+# properties.
+# TODO(b/78598545): Remove this once there are no violations
+attribute system_writes_vendor_properties_violators;
+expandattribute system_writes_vendor_properties_violators false;
+
+# All system domains which violate the requirement of not writing to
+# /mnt/vendor/*. Must not be used on devices launched with P or later.
+attribute system_writes_mnt_vendor_violators;
+expandattribute system_writes_mnt_vendor_violators false;
+
+# hwservices that are accessible from untrusted applications
+# WARNING: Use of this attribute should be avoided unless
+# absolutely necessary.  It is a temporary allowance to aid the
+# transition to treble and will be removed in a future platform
+# version, requiring all hwservices that are labeled with this
+# attribute to be submitted to AOSP in order to maintain their
+# app-visibility.
+attribute untrusted_app_visible_hwservice_violators;
+expandattribute untrusted_app_visible_hwservice_violators false;
+
+# halserver domains that are accessible to untrusted applications.  These
+# domains are typically those hosting  hwservices attributed by the
+# untrusted_app_visible_hwservice_violators.
+# WARNING: Use of this attribute should be avoided unless absolutely necessary.
+# It is a temporary allowance to aid the transition to treble and will be
+# removed in the future platform version, requiring all halserver domains that
+# are labeled with this attribute to be submitted to AOSP in order to maintain
+# their app-visibility.
+attribute untrusted_app_visible_halserver_violators;
+expandattribute untrusted_app_visible_halserver_violators false;
+
+# PDX services
+attribute pdx_endpoint_dir_type;
+attribute pdx_endpoint_socket_type;
+expandattribute pdx_endpoint_socket_type false;
+attribute pdx_channel_socket_type;
+expandattribute pdx_channel_socket_type false;
+
+pdx_service_attributes(display_client)
+pdx_service_attributes(display_manager)
+pdx_service_attributes(display_screenshot)
+pdx_service_attributes(display_vsync)
+pdx_service_attributes(performance_client)
+pdx_service_attributes(bufferhub_client)
+
+# All HAL servers
+attribute halserverdomain;
+# All HAL clients
+attribute halclientdomain;
+expandattribute halclientdomain true;
+
+# Exempt for halserverdomain to access sockets. Only builds for automotive
+# device types are allowed to use this attribute (enforced by CTS).
+# Unlike phone, in a car many modules are external from Android perspective and
+# HALs should be able to communicate with those devices through sockets.
+attribute hal_automotive_socket_exemption;
+
+# HALs
+hal_attribute(allocator);
+hal_attribute(atrace);
+hal_attribute(audio);
+hal_attribute(audiocontrol);
+hal_attribute(authsecret);
+hal_attribute(bluetooth);
+hal_attribute(bootctl);
+hal_attribute(bufferhub);
+hal_attribute(broadcastradio);
+hal_attribute(camera);
+hal_attribute(cas);
+hal_attribute(codec2);
+hal_attribute(configstore);
+hal_attribute(confirmationui);
+hal_attribute(contexthub);
+hal_attribute(drm);
+hal_attribute(dumpstate);
+hal_attribute(evs);
+hal_attribute(face);
+hal_attribute(fingerprint);
+hal_attribute(gatekeeper);
+hal_attribute(gnss);
+hal_attribute(graphics_allocator);
+hal_attribute(graphics_composer);
+hal_attribute(health);
+hal_attribute(health_storage);
+hal_attribute(input_classifier);
+hal_attribute(ir);
+hal_attribute(keymaster);
+hal_attribute(light);
+hal_attribute(lowpan);
+hal_attribute(memtrack);
+hal_attribute(neuralnetworks);
+hal_attribute(nfc);
+hal_attribute(oemlock);
+hal_attribute(omx);
+hal_attribute(power);
+hal_attribute(power_stats);
+hal_attribute(secure_element);
+hal_attribute(sensors);
+hal_attribute(telephony);
+hal_attribute(tetheroffload);
+hal_attribute(thermal);
+hal_attribute(tv_cec);
+hal_attribute(tv_input);
+hal_attribute(usb);
+hal_attribute(usb_gadget);
+hal_attribute(vehicle);
+hal_attribute(vibrator);
+hal_attribute(vr);
+hal_attribute(weaver);
+hal_attribute(wifi);
+hal_attribute(wifi_hostapd);
+hal_attribute(wifi_offload);
+hal_attribute(wifi_supplicant);
+
+# HwBinder services offered across the core-vendor boundary
+#
+# We annotate server domains with x_server  to loosen the coupling between
+# system and vendor images. For example, it should be possible to move a service
+# from one core domain to another, without having to update the vendor image
+# which contains clients of this service.
+
+attribute camera_service_server;
+attribute display_service_server;
+attribute scheduler_service_server;
+attribute sensor_service_server;
+attribute stats_service_server;
+attribute system_suspend_server;
+attribute wifi_keystore_service_server;
+
+# All types used for super partition block devices.
+attribute super_block_device_type;

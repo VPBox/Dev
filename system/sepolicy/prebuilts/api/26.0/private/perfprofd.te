@@ -1,0 +1,5 @@
+userdebug_or_eng(`
+  typeattribute perfprofd coredomain;
+  typeattribute perfprofd domain_deprecated;
+  init_daemon_domain(perfprofd)
+')

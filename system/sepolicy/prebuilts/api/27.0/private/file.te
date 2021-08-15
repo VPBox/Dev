@@ -1,0 +1,7 @@
+# Compatibility with type names used in vanilla Android 4.3 and 4.4.
+typealias audio_data_file alias audio_firmware_file;
+typealias app_data_file alias platform_app_data_file;
+typealias app_data_file alias download_file;
+
+# /proc/config.gz
+type config_gz, fs_type;

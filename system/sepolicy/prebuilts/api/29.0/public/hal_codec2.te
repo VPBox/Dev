@@ -1,0 +1,22 @@
+binder_call(hal_codec2_client, hal_codec2_server)
+binder_call(hal_codec2_server, hal_codec2_client)
+
+hal_attribute_hwservice(hal_codec2, hal_codec2_hwservice)
+
+# The following permissions are added to hal_codec2_server because vendor and
+# vndk libraries provided for Codec2 implementation need them.
+
+# Allow server access to composer sync fences
+allow hal_codec2_server hal_graphics_composer:fd use;
+
+# Allow both server and client access to ion
+allow hal_codec2_server ion_device:chr_file r_file_perms;
+
+# Allow server access to camera HAL's fences
+allow hal_codec2_server hal_camera:fd use;
+
+# Receive gralloc buffer FDs from bufferhubd.
+allow hal_codec2_server bufferhubd:fd use;
+
+allow hal_codec2_client ion_device:chr_file r_file_perms;
+

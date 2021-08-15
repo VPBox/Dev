@@ -1,0 +1,23 @@
+// Copyright 2006 The Android Open Source Project
+
+cc_binary {
+    name: "icache",
+
+    srcs: [
+        "icache_main.cpp",
+        "Profiler.cpp",
+        "icache.S",
+    ],
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+
+    enabled: false,
+    arch: {
+        arm: {
+            enabled: true,
+        },
+    },
+}

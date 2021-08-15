@@ -1,0 +1,3 @@
+typeattribute racoon coredomain;
+
+init_daemon_domain(racoon)

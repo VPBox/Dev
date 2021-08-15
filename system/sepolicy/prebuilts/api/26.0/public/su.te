@@ -1,0 +1,53 @@
+# All types must be defined regardless of build variant to ensure
+# policy compilation succeeds with userdebug/user combination at boot
+type su, domain;
+
+# File types must be defined for file_contexts.
+type su_exec, exec_type, file_type;
+
+userdebug_or_eng(`
+  # Domain used for su processes, as well as for adbd and adb shell
+  # after performing an adb root command.  The domain definition is
+  # wrapped to ensure that it does not exist at all on -user builds.
+  typeattribute su mlstrustedsubject;
+
+  # Add su to various domains
+  net_domain(su)
+
+  # grant su access to vndbinder
+  vndbinder_use(su)
+
+  dontaudit su self:capability_class_set *;
+  dontaudit su kernel:security *;
+  dontaudit su kernel:system *;
+  dontaudit su self:memprotect *;
+  dontaudit su domain:process *;
+  dontaudit su domain:fd *;
+  dontaudit su domain:dir *;
+  dontaudit su domain:lnk_file *;
+  dontaudit su domain:{ fifo_file file } *;
+  dontaudit su domain:socket_class_set *;
+  dontaudit su domain:ipc_class_set *;
+  dontaudit su domain:key *;
+  dontaudit su fs_type:filesystem *;
+  dontaudit su {fs_type dev_type file_type}:dir_file_class_set *;
+  dontaudit su node_type:node *;
+  dontaudit su node_type:{ tcp_socket udp_socket rawip_socket } *;
+  dontaudit su netif_type:netif *;
+  dontaudit su port_type:socket_class_set *;
+  dontaudit su port_type:{ tcp_socket dccp_socket } *;
+  dontaudit su domain:peer *;
+  dontaudit su domain:binder *;
+  dontaudit su property_type:property_service *;
+  dontaudit su property_type:file *;
+  dontaudit su service_manager_type:service_manager *;
+  dontaudit su hwservice_manager_type:hwservice_manager *;
+  dontaudit su vndservice_manager_type:service_manager *;
+  dontaudit su servicemanager:service_manager list;
+  dontaudit su hwservicemanager:hwservice_manager list;
+  dontaudit su vndservicemanager:service_manager list;
+  dontaudit su keystore:keystore_key *;
+  dontaudit su domain:drmservice *;
+  dontaudit su unlabeled:filesystem *;
+  dontaudit su postinstall_file:filesystem *;
+')

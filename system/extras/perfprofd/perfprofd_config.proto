@@ -1,0 +1,96 @@
+
+syntax = "proto2";
+
+option java_package = "android.perfprofd";
+
+package android.perfprofd;
+
+message PerfConfigElement {
+  repeated string counters = 1;
+  optional bool as_group = 2 [ default = false ];
+  optional uint32 sampling_period = 3;
+};
+
+// The configuration for a profiling session.
+message ProfilingConfig {
+  // Average number of seconds between perf profile collections (if
+  // set to 100, then over time we want to see a perf profile
+  // collected every 100 seconds). The actual time within the interval
+  // for the collection is chosen randomly.
+  optional uint32 collection_interval_in_s = 1;
+
+  // Use the specified fixed seed for random number generation (unit
+  // testing)
+  optional uint32 use_fixed_seed = 2;
+
+  // Number of times to iterate through main
+  // loop. Value of zero indicates that we should loop forever.
+  optional uint32 main_loop_iterations = 3;
+
+  // Destination directory (where to write profiles).
+  optional string destination_directory = 4;
+  // Config directory (where to read configs).
+  optional string config_directory = 5;
+  // Full path to 'perf' executable.
+  optional string perf_path = 6;
+
+  // Desired sampling period (passed to perf -c option). Small
+  // sampling periods can perturb the collected profiles, so enforce
+  // min/max. A value of 0 means perf default. sampling_frequency
+  // takes priority.
+  optional uint32 sampling_period = 7;
+  // Desired sampling frequency (passed to perf -f option). A value of 0
+  // means using sampling_period or default.
+  optional uint32 sampling_frequency = 22;
+  // Length of time to collect samples (number of seconds for 'perf
+  // record -a' run).
+  optional uint32 sample_duration_in_s = 8;
+
+  // If this parameter is non-zero it will cause perfprofd to
+  // exit immediately if the build type is not userdebug or eng.
+  // Currently defaults to 1 (true).
+  optional bool only_debug_build = 9;
+
+  // If the "mpdecision" service is running at the point we are ready
+  // to kick off a profiling run, then temporarily disable the service
+  // and hard-wire all cores on prior to the collection run, provided
+  // that the duration of the recording is less than or equal to the value of
+  // 'hardwire_cpus_max_duration'.
+  optional bool hardwire_cpus = 10;
+  optional uint32 hardwire_cpus_max_duration_in_s = 11;
+
+  // Maximum number of unprocessed profiles we can accumulate in the
+  // destination directory. Once we reach this limit, we continue
+  // to collect, but we just overwrite the most recent profile.
+  optional uint32 max_unprocessed_profiles = 12;
+
+  // If set to 1, pass the -g option when invoking 'perf' (requests
+  // stack traces as opposed to flat profile).
+  optional bool stack_profile = 13;
+
+  // Control collection of various additional profile tags
+  optional bool collect_cpu_utilization = 14;
+  optional bool collect_charging_state = 15;
+  optional bool collect_booting = 16;
+  optional bool collect_camera_active = 17;
+
+  // The pid of the process to profile. May be negative, in which case
+  // the whole system will be profiled.
+  optional int32 process = 18;
+
+  // Whether to use a symbolizer on-device.
+  optional bool use_elf_symbolizer = 19;
+  // Whether to symbolize everything. If false, objects with build ID will be skipped.
+  optional bool symbolize_everything = 25;
+
+  // Whether to send the result to dropbox.
+  optional bool send_to_dropbox = 20;
+
+  // If true, use libz to compress the output proto.
+  optional bool compress = 21;
+
+  // Whether to fail or strip unsupported events.
+  optional bool fail_on_unsupported_events = 24;
+
+  repeated PerfConfigElement event_config = 23;
+};

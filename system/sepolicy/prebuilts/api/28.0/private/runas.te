@@ -1,0 +1,4 @@
+typeattribute runas coredomain;
+
+# ndk-gdb invokes adb shell run-as.
+domain_auto_trans(shell, runas_exec, runas)

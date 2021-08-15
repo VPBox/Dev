@@ -1,0 +1,67 @@
+// Signature format: 2.0
+package simple.complex.content {
+
+  @Deprecated public class Address {
+    ctor @Deprecated public Address();
+    method @Deprecated public String getCity();
+    method @Deprecated public String getName();
+    method @Deprecated public String getStreet();
+    method @Deprecated public void setCity(String);
+    method @Deprecated public void setName(String);
+    method @Deprecated public void setStreet(String);
+  }
+
+  public class KRAddress extends simple.complex.content.Address {
+    ctor public KRAddress();
+  }
+
+  public class Person {
+    ctor public Person();
+    method public simple.complex.content.KRAddress getKRAddress();
+    method public String getName();
+    method public simple.complex.content.SubAddress getSubAddress();
+    method public simple.complex.content.USAddressP getUSAddressP();
+    method public void setKRAddress(simple.complex.content.KRAddress);
+    method public void setName(String);
+    method public void setSubAddress(simple.complex.content.SubAddress);
+    method public void setUSAddressP(simple.complex.content.USAddressP);
+  }
+
+  public class Person2 {
+    ctor public Person2();
+    method public simple.complex.content.KRAddress getKRAddress();
+    method public String getName();
+    method public simple.complex.content.SubAddress getSubAddress();
+    method public simple.complex.content.USAddressP getUSAddressP();
+    method public void setKRAddress(simple.complex.content.KRAddress);
+    method public void setName(String);
+    method public void setSubAddress(simple.complex.content.SubAddress);
+    method public void setUSAddressP(simple.complex.content.USAddressP);
+  }
+
+  public class SubAddress {
+    ctor public SubAddress();
+    method public String getChoice1_optional();
+    method public String getChoice2_optional();
+    method public void setChoice1_optional(String);
+    method public void setChoice2_optional(String);
+  }
+
+  public class USAddressP extends simple.complex.content.Address {
+    ctor public USAddressP();
+    method public String getState();
+    method public java.math.BigInteger getZipcode();
+    method public void setState(String);
+    method public void setZipcode(java.math.BigInteger);
+  }
+
+  public class XmlParser {
+    ctor public XmlParser();
+    method public static simple.complex.content.Person readPerson(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static simple.complex.content.Person2 readPerson2(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static String readText(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static void skip(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+  }
+
+}
+

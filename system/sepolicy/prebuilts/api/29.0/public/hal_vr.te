@@ -1,0 +1,5 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_vr_client, hal_vr_server)
+binder_call(hal_vr_server, hal_vr_client)
+
+hal_attribute_hwservice(hal_vr, hal_vr_hwservice)

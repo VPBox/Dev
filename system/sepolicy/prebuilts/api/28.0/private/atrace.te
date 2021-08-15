@@ -1,0 +1,46 @@
+# Domain for atrace process.
+# It is spawned either by traced_probes or by init for the boottrace service.
+
+type atrace, domain, coredomain;
+type atrace_exec, exec_type, file_type;
+
+# boottrace services uses /data/misc/boottrace/categories
+allow atrace boottrace_data_file:dir search;
+allow atrace boottrace_data_file:file r_file_perms;
+
+# Allow atrace to access tracefs.
+allow atrace debugfs_tracing:dir r_dir_perms;
+allow atrace debugfs_tracing:file rw_file_perms;
+allow atrace debugfs_trace_marker:file getattr;
+
+# atrace sets debug.atrace.* properties
+set_prop(atrace, debug_prop)
+
+# atrace pokes all the binder-enabled processes at startup with a
+# SYSPROPS_TRANSACTION, to tell them to reload the debug.atrace.* properties.
+
+binder_use(atrace)
+allow atrace healthd:binder call;
+allow atrace surfaceflinger:binder call;
+get_prop(atrace, hwservicemanager_prop)
+
+allow atrace {
+  service_manager_type
+  -incident_service
+  -netd_service
+  -stats_service
+  -dumpstate_service
+  -installd_service
+  -vold_service
+}:service_manager { find };
+allow atrace servicemanager:service_manager list;
+
+userdebug_or_eng(`
+  # atrace is generally invoked as a standalone binary from shell or perf
+  # daemons like Perfetto traced_probes. However, in userdebug builds, there is
+  # a further option to run atrace as an init daemon for boot tracing.
+  init_daemon_domain(atrace)
+
+  allow atrace debugfs_tracing_debug:dir r_dir_perms;
+  allow atrace debugfs_tracing_debug:file rw_file_perms;
+')

@@ -1,0 +1,3504 @@
+#
+# Copyright 2006, The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Time zones by country.
+#
+# This is a proto file in text format.
+#
+# Some data in this file originates from IANA's zone.tab file but
+# some of the ordering and meta-data is originated by the Android
+# project.
+#
+# The file is used to generate the on-device file used when picking
+# a time zone for an Android device.
+
+# ianaVersion: The version of the IANA rules this file matches.
+ianaVersion:"2019c"
+
+# countries:
+#
+# The ordering of country elements is not important but is kept in ASCII
+# order by ISO code for easier maintenance. There must only be one country
+# element per unique code.
+
+# Country:
+#
+# isoCode:
+# The (lower cased) ISO 3166 2-character country code used in the IANA
+# zones.tab file.
+#
+# defaultTimeZoneId:
+# The (optional) defaultTimeZoneId is used to specify which of the time
+# zones associated with the country should be used if only
+# a country code is available. If it is not specified and the country
+# has only one obvious choice then the defaultTimeZoneId can be omitted.
+#
+# timeZoneMappings:
+# Time zones associated with the country and associated metadata.
+#
+# The ordering of TimeZoneMapping elements is important because it influence
+# the order that time zones in a country are considered when the device
+# has a known local time, offset from UTC and whether the local zone is
+# currently observing DST.
+#
+# There will often be several time zones within a country that could match
+# at any given instant, but the first zone that matches a user's country,
+# offset and DST state is chosen. Therefore the IDs should be ordered so
+# that the time zones with the highest likelihood of matching the user's
+# needs are first.
+#
+# For example, a sensible ordering for TimeZoneMapping entries for a country
+# would be by population of users that observe the offset/DST to maximize
+# the probability of matching the truth for an arbitrary user in that country.
+#
+# Currently the TimeZoneMapping entries are mostly ordered by raw (non-DST)
+# offset and then an ill-defined "desirability". This ordering is an historical
+# artifact that is likely to change in future.
+
+# TimeZoneMapping:
+#
+# id:
+# The ID of the time zone.
+#
+# utcOffset:
+# The expected non-DST offset for the time zone. Used as a form of
+# redundancy check. Changes to this may influence the correct ordering
+# indicate a change to time zones that may need further attention.
+#
+# shownInPicker:
+# Whether the country -> time zone mapping should be shown in a
+# user-facing time zone picker.
+#
+# priority:
+# Used to pick an exemplar zone when two or more zones are equivalent
+# (i.e. have the same transitions, offsets, DST, name according to ICU
+# for a given time range). Zones that are identical but lower priority
+# need not be considered as all local times are representable with
+# with the higher priority zone for that period. The priority is in the
+# range >=1, the default is 1. Whether a priority needs to be
+# assigned explicitly below depends on a country's transition rules data.
+# When needed, priorities are usually chosen by looking at population data,
+# usually for the city named in the ID but occasionally by other metrics
+# where it makes sense. Different criteria can be used for different
+# countries but within a country it should be consistent.
+# Often the exact priority assigned doesn't matter and zone priorities are
+# only used when there is otherwise a tie. See comments below for details.
+
+# ANDORRA
+countries:<
+  isoCode:"ad"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Andorra"
+  >
+>
+
+# UNITED ARAB EMIRATES
+countries:<
+  isoCode:"ae"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Asia/Dubai"
+  >
+>
+
+# AFGHANISTAN
+countries:<
+  isoCode:"af"
+  timeZoneMappings:<
+    utcOffset:"4:30"
+    id:"Asia/Kabul"
+  >
+>
+
+# ANTIGUA AND BARBUDA
+countries:<
+  isoCode:"ag"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Antigua"
+  >
+>
+
+# ANGUILLA
+countries:<
+  isoCode:"ai"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Anguilla"
+  >
+>
+
+# ALBANIA
+countries:<
+  isoCode:"al"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Tirane"
+  >
+>
+
+# ARMENIA
+countries:<
+  isoCode:"am"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Asia/Yerevan"
+  >
+>
+
+# ANGOLA
+countries:<
+  isoCode:"ao"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Luanda"
+  >
+>
+
+# ANTARCTICA
+countries:<
+  isoCode:"aq"
+  defaultTimeZoneId:"Antarctica/McMurdo"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Antarctica/McMurdo"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Antarctica/DumontDUrville"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"08:00"
+    id:"Antarctica/Casey"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Antarctica/Davis"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Antarctica/Mawson"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Antarctica/Vostok"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Antarctica/Syowa"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Antarctica/Troll"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"Antarctica/Rothera"
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"Antarctica/Palmer"
+  >
+>
+
+# ARGENTINA
+#
+# Priorities assigned on 20180406 using:
+# https://en.wikipedia.org/wiki/List_of_cities_in_Argentina_by_population
+# https://en.wikipedia.org/wiki/Buenos_Aires_Province
+# ... etc.
+# Priority is related to the population of the province.
+countries:<
+  isoCode:"ar"
+  defaultTimeZoneId:"America/Argentina/Buenos_Aires"
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Buenos_Aires"
+    # 15.6M
+    priority:15600
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Cordoba"
+    # 3.31M
+    priority:3310
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Salta"
+    # 1.21M
+    priority:1210
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Jujuy"
+    # 673K
+    priority:673
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Tucuman"
+    # 1.45M
+    priority:1450
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Catamarca"
+    # 368K
+    priority:368
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/La_Rioja"
+    # 334K
+    priority:334
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/San_Juan"
+    # 681K
+    priority:681
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Mendoza"
+    # 1.74M
+    priority:1740
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/San_Luis"
+    # 432K
+    priority:432
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Rio_Gallegos"
+    # 247K (Santa Cruz Province)
+    priority:247
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Argentina/Ushuaia"
+    # 127K (Tierra del Fuego)
+    priority:127
+  >
+>
+
+# AMERICAN SAMOA
+countries:<
+  isoCode:"as"
+  timeZoneMappings:<
+    utcOffset:"-11:00"
+    id:"Pacific/Pago_Pago"
+  >
+>
+
+# AUSTRIA
+countries:<
+  isoCode:"at"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Vienna"
+  >
+>
+
+# AUSTRALIA
+#
+# Priorities assigned on 20180406 as needed using:
+# https://en.wikipedia.org/wiki/List_of_cities_in_Australia_by_population
+# Priority is related to the city/town population.
+countries:<
+  isoCode:"au"
+  defaultTimeZoneId:"Australia/Sydney"
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Australia/Sydney"
+    # 5.03M
+    priority:5030
+  >
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Australia/Melbourne"
+    # 4.73M
+    priority:4730
+  >
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Australia/Brisbane"
+    # 2.36M
+    priority:2360
+  >
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Australia/Hobart"
+    # 224K
+    priority:224
+  >
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Australia/Currie"
+    # < 1K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Australia/Lindeman"
+    # Unknown
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Antarctica/Macquarie"
+    # Unknown
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"10:30"
+    id:"Australia/Lord_Howe"
+    # < 1K
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"9:30"
+    id:"Australia/Adelaide"
+    # 1.32M
+    priority:1320
+  >
+  timeZoneMappings:<
+    utcOffset:"9:30"
+    id:"Australia/Broken_Hill"
+    # 17.8K
+    priority:18
+  >
+  timeZoneMappings:<
+    utcOffset:"9:30"
+    id:"Australia/Darwin"
+    # 146K
+    priority:146
+  >
+
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Australia/Perth"
+    # 2.02M
+    priority:2020
+  >
+
+  timeZoneMappings:<
+    utcOffset:"8:45"
+    id:"Australia/Eucla"
+    # < 1K
+    priority:1
+  >
+>
+
+# ARUBA
+countries:<
+  isoCode:"aw"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Aruba"
+  >
+>
+
+# ALAND ISLANDS
+countries:<
+  isoCode:"ax"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Mariehamn"
+  >
+>
+
+# AZERBAIJAN
+countries:<
+  isoCode:"az"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Asia/Baku"
+  >
+>
+
+# BOSNIA AND HERZEGOVINA
+countries:<
+  isoCode:"ba"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Sarajevo"
+  >
+>
+
+# BARBADOS
+countries:<
+  isoCode:"bb"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Barbados"
+  >
+>
+
+# BANGLADESH
+countries:<
+  isoCode:"bd"
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Asia/Dhaka"
+  >
+>
+
+# BELGIUM
+countries:<
+  isoCode:"be"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Brussels"
+  >
+>
+
+# BURKINA FASO
+countries:<
+  isoCode:"bf"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Ouagadougou"
+  >
+>
+
+# BULGARIA
+countries:<
+  isoCode:"bg"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Sofia"
+  >
+>
+
+# BAHRAIN
+countries:<
+  isoCode:"bh"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Asia/Bahrain"
+  >
+>
+
+# BURUNDI
+countries:<
+  isoCode:"bi"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Bujumbura"
+  >
+>
+
+# BENIN
+countries:<
+  isoCode:"bj"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Porto-Novo"
+  >
+>
+
+# Saint Barthélemy
+countries:<
+  isoCode:"bl"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/St_Barthelemy"
+  >
+>
+
+# BERMUDA
+countries:<
+  isoCode:"bm"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"Atlantic/Bermuda"
+  >
+>
+
+# BRUNEI DARUSSALAM
+countries:<
+  isoCode:"bn"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Brunei"
+  >
+>
+
+# BOLIVIA
+countries:<
+  isoCode:"bo"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/La_Paz"
+  >
+>
+
+# Caribbean Netherlands
+countries:<
+  isoCode:"bq"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Kralendijk"
+  >
+>
+
+# BRAZIL
+#
+# Priorities assigned on 20180406 as needed using:
+# https://en.wikipedia.org/wiki/List_of_largest_cities_in_Brazil
+# Score is (mostly) related to the state population.
+countries:<
+  isoCode:"br"
+  defaultTimeZoneId:"America/Noronha"
+  timeZoneMappings:<
+    utcOffset:"-2:00"
+    id:"America/Noronha"
+    # State: 2.93K
+    priority:3
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Sao_Paulo"
+    # City: 12.0M, State: 45.3M
+    priority:45300
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Belem"
+    # City: 1.44M, State: 7.78M
+    priority:7780
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Fortaleza"
+    # City: 2.61M, State: 8.61M
+    priority:8610
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Recife"
+    # City: 1.63M, State: 8.93M
+    priority:8930
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Araguaina"
+    # City: 173K, State: 1.50M
+    priority:1500
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Maceio"
+    # City: 1.02M, State:3.17M
+    priority:3170
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Bahia"
+    # City (Salvador): 2.94M, State: 15.2M
+    priority:15200
+  >
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Santarem"
+    # City: 294K, State:7.79M (Same state as Belem)
+    priority:7789
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Manaus"
+    # City: 2.13M, State: 4.00M
+    priority:4000
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Campo_Grande"
+    # City: 854K, State: 2.51M
+    priority:2510
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Cuiaba"
+    # City: 585K, State: 3.34M
+    priority:3340
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Porto_Velho"
+    # City: 511K, State: 1.59M
+    priority:1590
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Boa_Vista"
+    # City: 326K, State: 450K
+    priority: 450
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Eirunepe"
+    # City: 30.9K, State: 4.00M
+    # This is the same state as Manaus, most of which uses a different zone, so the
+    # priority is set to let Rio_Branco "win".
+    priority:758
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Rio_Branco"
+    # City: 320K, State: 759K
+    priority:759
+  >
+>
+
+# BAHAMAS
+countries:<
+  isoCode:"bs"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Nassau"
+  >
+>
+
+# BHUTAN
+countries:<
+  isoCode:"bt"
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Asia/Thimphu"
+  >
+>
+
+# BOTSWANA
+countries:<
+  isoCode:"bw"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Gaborone"
+  >
+>
+
+# BELARUS
+countries:<
+  isoCode:"by"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Europe/Minsk"
+  >
+>
+
+# BELIZE
+countries:<
+  isoCode:"bz"
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Belize"
+  >
+>
+
+# CANADA
+#
+# Priorities assigned on 20180406 using:
+# https://en.wikipedia.org/wiki/List_of_the_100_largest_population_centres_in_Canada
+# ... etc.
+# Priority is related to the city population.
+countries:<
+  isoCode:"ca"
+  defaultTimeZoneId:"America/St_Johns"
+  timeZoneMappings:<
+    utcOffset:"-3:30"
+    id:"America/St_Johns"
+    # 109K
+    priority:109
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Halifax"
+    # 316K
+    priority:316
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Glace_Bay"
+    # 19.0K
+    priority:19
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Moncton"
+    # 71.9K
+    priority:72
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Goose_Bay"
+    # 8.12K
+    priority:8
+  >
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Blanc-Sablon"
+    # 1.12K
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Toronto"
+    # 5.43M
+    priority:5430
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Nipigon"
+    # 1.63K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Thunder_Bay"
+    # 108K
+    priority:108
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Iqaluit"
+    # 7.74K
+    priority:8
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Pangnirtung"
+    # 1.48K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Atikokan"
+    # 2.75K
+    priority:3
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Winnipeg"
+    # 712K
+    priority:712
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Regina"
+    # 215K
+    priority:215
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Rankin_Inlet"
+    # 2.84K
+    priority:3
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Rainy_River"
+    # 0.84K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Swift_Current"
+    # 16.6K
+    priority:16
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Resolute"
+    # 0.20K
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Edmonton"
+    # 1.06M
+    priority:1060
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Cambridge_Bay"
+    # 1.77K
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Yellowknife"
+    # 19.6K
+    priority:20
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Inuvik"
+    # 3.24K
+    priority:3
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Dawson_Creek"
+    # 13.0K
+    priority:13
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Creston"
+    # 5.31K
+    priority:5
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Fort_Nelson"
+    # 3.90K
+    priority:4
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-8:00"
+    id:"America/Vancouver"
+    # 2.26M
+    priority:2260
+  >
+  timeZoneMappings:<
+    utcOffset:"-8:00"
+    id:"America/Whitehorse"
+    # 25.1K
+    priority:251
+  >
+  timeZoneMappings:<
+    utcOffset:"-8:00"
+    id:"America/Dawson"
+    # 1.38K
+    priority:1
+  >
+>
+
+# COCOS (KEELING) ISLANDS
+countries:<
+  isoCode:"cc"
+  timeZoneMappings:<
+    utcOffset:"6:30"
+    id:"Indian/Cocos"
+  >
+>
+
+# CONGO, THE DEMOCRATIC REPUBLIC OF THE
+countries:<
+  isoCode:"cd"
+  defaultTimeZoneId:"Africa/Kinshasa"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Lubumbashi"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Kinshasa"
+  >
+>
+
+# CENTRAL AFRICAN REPUBLIC
+countries:<
+  isoCode:"cf"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Bangui"
+  >
+>
+
+# CONGO
+countries:<
+  isoCode:"cg"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Brazzaville"
+  >
+>
+
+# SWITZERLAND
+countries:<
+  isoCode:"ch"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Zurich"
+  >
+>
+
+# COTE D'IVOIRE
+countries:<
+  isoCode:"ci"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Abidjan"
+  >
+>
+
+# COOK ISLANDS
+countries:<
+  isoCode:"ck"
+  timeZoneMappings:<
+    utcOffset:"-10:00"
+    id:"Pacific/Rarotonga"
+  >
+>
+
+# CHILE
+countries:<
+  isoCode:"cl"
+  defaultTimeZoneId:"America/Santiago"
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Punta_Arenas"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Santiago"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"Pacific/Easter"
+  >
+>
+
+# CAMEROON
+countries:<
+  isoCode:"cm"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Douala"
+  >
+>
+
+# CHINA
+countries:<
+  isoCode:"cn"
+  defaultTimeZoneId:"Asia/Shanghai"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Shanghai"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Asia/Urumqi"
+  >
+>
+
+# COLOMBIA
+countries:<
+  isoCode:"co"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Bogota"
+  >
+>
+
+# COSTA RICA
+countries:<
+  isoCode:"cr"
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Costa_Rica"
+  >
+>
+
+# CUBA
+countries:<
+  isoCode:"cu"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Havana"
+  >
+>
+
+# CAPE VERDE
+countries:<
+  isoCode:"cv"
+  timeZoneMappings:<
+    utcOffset:"-1:00"
+    id:"Atlantic/Cape_Verde"
+  >
+>
+
+# Curaçao
+countries:<
+  isoCode:"cw"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Curacao"
+  >
+>
+
+# CHRISTMAS ISLAND
+countries:<
+  isoCode:"cx"
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Indian/Christmas"
+  >
+>
+
+# CYPRUS
+countries:<
+  isoCode:"cy"
+  defaultTimeZoneId:"Asia/Nicosia"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Nicosia"
+  >
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Famagusta"
+  >
+>
+
+# CZECH REPUBLIC
+countries:<
+  isoCode:"cz"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Prague"
+  >
+>
+
+# GERMANY
+#
+# Priorities assigned on 20180309 using:
+# https://en.wikipedia.org/wiki/List_of_cities_in_Germany_by_population
+# Priority is just an abstract score.
+countries:<
+  isoCode:"de"
+  defaultTimeZoneId:"Europe/Berlin"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Berlin"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Busingen"
+    priority:1
+  >
+>
+
+# DJIBOUTI
+countries:<
+  isoCode:"dj"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Djibouti"
+  >
+>
+
+# DENMARK
+countries:<
+  isoCode:"dk"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Copenhagen"
+  >
+>
+
+# DOMINICA
+countries:<
+  isoCode:"dm"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Dominica"
+  >
+>
+
+# DOMINICAN REPUBLIC
+countries:<
+  isoCode:"do"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Santo_Domingo"
+  >
+>
+
+# ALGERIA
+countries:<
+  isoCode:"dz"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Algiers"
+  >
+>
+
+# ECUADOR
+countries:<
+  isoCode:"ec"
+  defaultTimeZoneId:"America/Guayaquil"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Guayaquil"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"Pacific/Galapagos"
+  >
+>
+
+# ESTONIA
+countries:<
+  isoCode:"ee"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Tallinn"
+  >
+>
+
+# EGYPT
+countries:<
+  isoCode:"eg"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Cairo"
+  >
+>
+
+# WESTERN SAHARA
+countries:<
+  isoCode:"eh"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/El_Aaiun"
+  >
+>
+
+# ERITREA
+countries:<
+  isoCode:"er"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Asmara"
+  >
+>
+
+# SPAIN
+#
+# Priorities assigned on 20180309 using:
+# https://en.wikipedia.org/wiki/List_of_metropolitan_areas_in_Spain
+# Priority is just an abstract score.
+countries:<
+  isoCode:"es"
+  defaultTimeZoneId:"Europe/Madrid"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Madrid"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Ceuta"
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Atlantic/Canary"
+    priority:1
+  >
+>
+
+# ETHIOPIA
+countries:<
+  isoCode:"et"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Addis_Ababa"
+  >
+>
+
+# FINLAND
+countries:<
+  isoCode:"fi"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Helsinki"
+  >
+>
+
+# FIJI
+countries:<
+  isoCode:"fj"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Fiji"
+  >
+>
+
+# FALKLAND ISLANDS (MALVINAS)
+countries:<
+  isoCode:"fk"
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"Atlantic/Stanley"
+  >
+>
+
+# MICRONESIA, FEDERATED STATES OF
+countries:<
+  isoCode:"fm"
+  defaultTimeZoneId:"Pacific/Pohnpei"
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Pacific/Pohnpei"
+  >
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Pacific/Kosrae"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Pacific/Chuuk"
+  >
+>
+
+# FAROE ISLANDS
+countries:<
+  isoCode:"fo"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Atlantic/Faroe"
+  >
+>
+
+# FRANCE
+countries:<
+  isoCode:"fr"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Paris"
+  >
+>
+
+# GABON
+countries:<
+  isoCode:"ga"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Libreville"
+  >
+>
+
+# UNITED KINGDOM
+countries:<
+  isoCode:"gb"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Europe/London"
+  >
+>
+
+# GRENADA
+countries:<
+  isoCode:"gd"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Grenada"
+  >
+>
+
+# GEORGIA
+countries:<
+  isoCode:"ge"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Asia/Tbilisi"
+  >
+>
+
+# FRENCH GUIANA
+countries:<
+  isoCode:"gf"
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Cayenne"
+  >
+>
+
+# GUERNSEY
+countries:<
+  isoCode:"gg"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Europe/Guernsey"
+  >
+>
+
+# GHANA
+countries:<
+  isoCode:"gh"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Accra"
+  >
+>
+
+# GIBRALTAR
+countries:<
+  isoCode:"gi"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Gibraltar"
+  >
+>
+
+# GREENLAND
+countries:<
+  isoCode:"gl"
+  defaultTimeZoneId:"America/Godthab"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"America/Danmarkshavn"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-1:00"
+    id:"America/Scoresbysund"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Godthab"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Thule"
+  >
+>
+
+# GAMBIA
+countries:<
+  isoCode:"gm"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Banjul"
+  >
+>
+
+# GUINEA
+countries:<
+  isoCode:"gn"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Conakry"
+  >
+>
+
+# GUADELOUPE
+countries:<
+  isoCode:"gp"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Guadeloupe"
+  >
+>
+
+# EQUATORIAL GUINEA
+countries:<
+  isoCode:"gq"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Malabo"
+  >
+>
+
+# GREECE
+countries:<
+  isoCode:"gr"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Athens"
+  >
+>
+
+# SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS
+countries:<
+  isoCode:"gs"
+  timeZoneMappings:<
+    utcOffset:"-2:00"
+    id:"Atlantic/South_Georgia"
+  >
+>
+
+# GUATEMALA
+countries:<
+  isoCode:"gt"
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Guatemala"
+  >
+>
+
+# GUAM
+countries:<
+  isoCode:"gu"
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Pacific/Guam"
+  >
+>
+
+# GUINEA-BISSAU
+countries:<
+  isoCode:"gw"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Bissau"
+  >
+>
+
+# GUYANA
+countries:<
+  isoCode:"gy"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Guyana"
+  >
+>
+
+# HONG KONG
+countries:<
+  isoCode:"hk"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Hong_Kong"
+  >
+>
+
+# HONDURAS
+countries:<
+  isoCode:"hn"
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Tegucigalpa"
+  >
+>
+
+# CROATIA
+countries:<
+  isoCode:"hr"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Zagreb"
+  >
+>
+
+# HAITI
+countries:<
+  isoCode:"ht"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Port-au-Prince"
+  >
+>
+
+# HUNGARY
+countries:<
+  isoCode:"hu"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Budapest"
+  >
+>
+
+# INDONESIA
+#
+# Priorities assigned on 20180309 using:
+# https://en.wikipedia.org/wiki/List_of_Indonesian_cities_by_population
+# Priority is just an abstract score.
+countries:<
+  isoCode:"id"
+  defaultTimeZoneId:"Asia/Jakarta"
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Jayapura"
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Makassar"
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Jakarta"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Pontianak"
+    priority:1
+  >
+>
+
+# IRELAND
+countries:<
+  isoCode:"ie"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Europe/Dublin"
+  >
+>
+
+# ISRAEL
+countries:<
+  isoCode:"il"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Jerusalem"
+  >
+>
+
+# ISLE OF MAN
+countries:<
+  isoCode:"im"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Europe/Isle_of_Man"
+  >
+>
+
+# INDIA
+countries:<
+  isoCode:"in"
+  timeZoneMappings:<
+    utcOffset:"5:30"
+    id:"Asia/Kolkata"
+  >
+>
+
+# BRITISH INDIAN OCEAN TERRITORY
+countries:<
+  isoCode:"io"
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Indian/Chagos"
+  >
+>
+
+# IRAQ
+countries:<
+  isoCode:"iq"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Asia/Baghdad"
+  >
+>
+
+# IRAN, ISLAMIC REPUBLIC OF
+countries:<
+  isoCode:"ir"
+  timeZoneMappings:<
+    utcOffset:"3:30"
+    id:"Asia/Tehran"
+  >
+>
+
+# ICELAND
+countries:<
+  isoCode:"is"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Atlantic/Reykjavik"
+  >
+>
+
+# ITALY
+countries:<
+  isoCode:"it"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Rome"
+  >
+>
+
+# JERSEY
+countries:<
+  isoCode:"je"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Europe/Jersey"
+  >
+>
+
+# JAMAICA
+countries:<
+  isoCode:"jm"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Jamaica"
+  >
+>
+
+# JORDAN
+countries:<
+  isoCode:"jo"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Amman"
+  >
+>
+
+# JAPAN
+countries:<
+  isoCode:"jp"
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Tokyo"
+  >
+>
+
+# KENYA
+countries:<
+  isoCode:"ke"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Nairobi"
+  >
+>
+
+# KYRGYZSTAN
+countries:<
+  isoCode:"kg"
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Asia/Bishkek"
+  >
+>
+
+# CAMBODIA
+countries:<
+  isoCode:"kh"
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Phnom_Penh"
+  >
+>
+
+# KIRIBATI
+countries:<
+  isoCode:"ki"
+  defaultTimeZoneId:"Pacific/Tarawa"
+  timeZoneMappings:<
+    utcOffset:"14:00"
+    id:"Pacific/Kiritimati"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"13:00"
+    id:"Pacific/Enderbury"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Tarawa"
+  >
+>
+
+# COMOROS
+countries:<
+  isoCode:"km"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Indian/Comoro"
+  >
+>
+
+# SAINT KITTS AND NEVIS
+countries:<
+  isoCode:"kn"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/St_Kitts"
+  >
+>
+
+# KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF
+countries:<
+  isoCode:"kp"
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Pyongyang"
+  >
+>
+
+# KOREA, REPUBLIC OF
+countries:<
+  isoCode:"kr"
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Seoul"
+  >
+>
+
+# KUWAIT
+countries:<
+  isoCode:"kw"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Asia/Kuwait"
+  >
+>
+
+# CAYMAN ISLANDS
+countries:<
+  isoCode:"ky"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Cayman"
+  >
+>
+
+# KAZAKHSTAN
+#
+# Priorities assigned on 20190107 using:
+# https://en.wikipedia.org/wiki/List_of_cities_in_Kazakhstan
+# Priority is just an abstract score.
+countries:<
+  isoCode:"kz"
+  defaultTimeZoneId:"Asia/Almaty"
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Asia/Almaty"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Asia/Qostanay"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Aqtau"
+  >
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Oral"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Qyzylorda"
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Aqtobe"
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Atyrau"
+    priority:1
+  >
+>
+
+# LAO PEOPLE'S DEMOCRATIC REPUBLIC
+countries:<
+  isoCode:"la"
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Vientiane"
+  >
+>
+
+# LEBANON
+countries:<
+  isoCode:"lb"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Beirut"
+  >
+>
+
+# SAINT LUCIA
+countries:<
+  isoCode:"lc"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/St_Lucia"
+  >
+>
+
+# LIECHTENSTEIN
+countries:<
+  isoCode:"li"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Vaduz"
+  >
+>
+
+# SRI LANKA
+countries:<
+  isoCode:"lk"
+  timeZoneMappings:<
+    utcOffset:"5:30"
+    id:"Asia/Colombo"
+  >
+>
+
+# LIBERIA
+countries:<
+  isoCode:"lr"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Monrovia"
+  >
+>
+
+# LESOTHO
+countries:<
+  isoCode:"ls"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Maseru"
+  >
+>
+
+# LITHUANIA
+countries:<
+  isoCode:"lt"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Vilnius"
+  >
+>
+
+# LUXEMBOURG
+countries:<
+  isoCode:"lu"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Luxembourg"
+  >
+>
+
+# LATVIA
+countries:<
+  isoCode:"lv"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Riga"
+  >
+>
+
+# LIBYAN ARAB JAMAHIRIYA
+countries:<
+  isoCode:"ly"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Tripoli"
+  >
+>
+
+# MOROCCO
+countries:<
+  isoCode:"ma"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Casablanca"
+  >
+>
+
+# MONACO
+countries:<
+  isoCode:"mc"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Monaco"
+  >
+>
+
+# MOLDOVA
+countries:<
+  isoCode:"md"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Chisinau"
+  >
+>
+
+# MONTENEGRO
+countries:<
+  isoCode:"me"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Podgorica"
+  >
+>
+
+# Collectivity of Saint Martin
+countries:<
+  isoCode:"mf"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Marigot"
+  >
+>
+
+# MADAGASCAR
+countries:<
+  isoCode:"mg"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Indian/Antananarivo"
+  >
+>
+
+# MARSHALL ISLANDS
+# Priorities assigned on 20180328 using:
+# https://en.wikipedia.org/wiki/List_of_islands_of_the_Marshall_Islands
+# Priority is just an abstract score.
+countries:<
+  isoCode:"mh"
+  defaultTimeZoneId:"Pacific/Majuro"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Majuro"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Kwajalein"
+    priority:1
+  >
+>
+
+# MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF
+countries:<
+  isoCode:"mk"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Skopje"
+  >
+>
+
+# MALI
+countries:<
+  isoCode:"ml"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Bamako"
+  >
+>
+
+# MYANMAR
+countries:<
+  isoCode:"mm"
+  timeZoneMappings:<
+    utcOffset:"6:30"
+    id:"Asia/Yangon"
+  >
+>
+
+# MONGOLIA
+countries:<
+  isoCode:"mn"
+  defaultTimeZoneId:"Asia/Ulaanbaatar"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Choibalsan"
+  >
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Ulaanbaatar"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Hovd"
+  >
+>
+
+# MACAO
+countries:<
+  isoCode:"mo"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Macau"
+  >
+>
+
+# NORTHERN MARIANA ISLANDS
+countries:<
+  isoCode:"mp"
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Pacific/Saipan"
+  >
+>
+
+# MARTINIQUE
+countries:<
+  isoCode:"mq"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Martinique"
+  >
+>
+
+# MAURITANIA
+countries:<
+  isoCode:"mr"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Nouakchott"
+  >
+>
+
+# MONTSERRAT
+countries:<
+  isoCode:"ms"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Montserrat"
+  >
+>
+
+# MALTA
+countries:<
+  isoCode:"mt"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Malta"
+  >
+>
+
+# MAURITIUS
+countries:<
+  isoCode:"mu"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Indian/Mauritius"
+  >
+>
+
+# MALDIVES
+countries:<
+  isoCode:"mv"
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Indian/Maldives"
+  >
+>
+
+# MALAWI
+countries:<
+  isoCode:"mw"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Blantyre"
+  >
+>
+
+# MEXICO
+#
+# Priorities assigned on 20180406 using:
+# https://en.wikipedia.org/wiki/List_of_cities_in_Mexico
+# Priority is based on city population.
+countries:<
+  isoCode:"mx"
+  defaultTimeZoneId:"America/Mexico_City"
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Mexico_City"
+    # 8.92M
+    priority:8920
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Merida"
+    # 892K
+    priority:892
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Monterrey"
+    # 1.12M
+    priority:1120
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Matamoros"
+    # 520K
+    priority:520
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Bahia_Banderas"
+    # 83.7K
+    priority:84
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Cancun"
+    # 744K
+    priority:744
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Chihuahua"
+    # 878K
+    priority:878
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Hermosillo"
+    # 812K
+    priority:812
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Mazatlan"
+    # 658K
+    priority:658
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Ojinaga"
+    # 28.0K
+    priority:28
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-8:00"
+    id:"America/Tijuana"
+    # 1.64M
+    priority:1640
+  >
+>
+
+# MALAYSIA
+# Priorities assigned on 20180329 using:
+# https://en.wikipedia.org/wiki/List_of_cities_and_towns_in_Malaysia_by_population
+# Priority is just an abstract score.
+countries:<
+  isoCode:"my"
+  defaultTimeZoneId:"Asia/Kuala_Lumpur"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Kuala_Lumpur"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Kuching"
+    priority:1
+  >
+>
+
+# MOZAMBIQUE
+countries:<
+  isoCode:"mz"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Maputo"
+  >
+>
+
+# NAMIBIA
+countries:<
+  isoCode:"na"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Windhoek"
+  >
+>
+
+# NEW CALEDONIA
+countries:<
+  isoCode:"nc"
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Pacific/Noumea"
+  >
+>
+
+# NIGER
+countries:<
+  isoCode:"ne"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Niamey"
+  >
+>
+
+# NORFOLK ISLAND
+countries:<
+  isoCode:"nf"
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Pacific/Norfolk"
+  >
+>
+
+# NIGERIA
+countries:<
+  isoCode:"ng"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Lagos"
+  >
+>
+
+# NICARAGUA
+countries:<
+  isoCode:"ni"
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Managua"
+  >
+>
+
+# NETHERLANDS
+countries:<
+  isoCode:"nl"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Amsterdam"
+  >
+>
+
+# NORWAY
+countries:<
+  isoCode:"no"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Oslo"
+  >
+>
+
+# NEPAL
+countries:<
+  isoCode:"np"
+  timeZoneMappings:<
+    utcOffset:"5:45"
+    id:"Asia/Kathmandu"
+  >
+>
+
+# NAURU
+countries:<
+  isoCode:"nr"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Nauru"
+  >
+>
+
+# NIUE
+countries:<
+  isoCode:"nu"
+  timeZoneMappings:<
+    utcOffset:"-11:00"
+    id:"Pacific/Niue"
+  >
+>
+
+# NEW ZEALAND
+countries:<
+  isoCode:"nz"
+  defaultTimeZoneId:"Pacific/Auckland"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Auckland"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"12:45"
+    id:"Pacific/Chatham"
+  >
+>
+
+# OMAN
+countries:<
+  isoCode:"om"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Asia/Muscat"
+  >
+>
+
+# PANAMA
+countries:<
+  isoCode:"pa"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Panama"
+  >
+>
+
+# PERU
+countries:<
+  isoCode:"pe"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Lima"
+  >
+>
+
+# FRENCH POLYNESIA
+countries:<
+  isoCode:"pf"
+  defaultTimeZoneId:"Pacific/Tahiti"
+  timeZoneMappings:<
+    utcOffset:"-9:00"
+    id:"Pacific/Gambier"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-9:30"
+    id:"Pacific/Marquesas"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-10:00"
+    id:"Pacific/Tahiti"
+  >
+>
+
+# PAPUA NEW GUINEA
+countries:<
+  isoCode:"pg"
+  defaultTimeZoneId:"Pacific/Port_Moresby"
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Pacific/Port_Moresby"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Pacific/Bougainville"
+  >
+>
+
+# PHILIPPINES
+countries:<
+  isoCode:"ph"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Manila"
+  >
+>
+
+# PAKISTAN
+countries:<
+  isoCode:"pk"
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Karachi"
+  >
+>
+
+# POLAND
+countries:<
+  isoCode:"pl"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Warsaw"
+  >
+>
+
+# SAINT PIERRE AND MIQUELON
+countries:<
+  isoCode:"pm"
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Miquelon"
+  >
+>
+
+# PITCAIRN
+countries:<
+  isoCode:"pn"
+  timeZoneMappings:<
+    utcOffset:"-8:00"
+    id:"Pacific/Pitcairn"
+  >
+>
+
+# PUERTO RICO
+countries:<
+  isoCode:"pr"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Puerto_Rico"
+  >
+>
+
+# PALESTINE
+#
+# Priorities assigned on 20180406 using:
+# https://en.wikipedia.org/wiki/List_of_cities_administered_by_the_Palestinian_Authority
+# https://en.wikipedia.org/wiki/Gaza_Strip
+# https://en.wikipedia.org/wiki/West_Bank
+# Priorities are set based on territory population.
+countries:<
+  isoCode:"ps"
+  defaultTimeZoneId:"Asia/Gaza"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Gaza"
+    # Territory: 1.85M
+    priority:1850
+  >
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Hebron"
+    # Territory: 3.28M
+    priority:3280
+  >
+>
+
+# PORTUGAL
+#
+# Priorities assigned on 20180309 using:
+# https://en.wikipedia.org/wiki/List_of_cities_in_Portugal
+# Prorities are just an abstract score.
+countries:<
+  isoCode:"pt"
+  defaultTimeZoneId:"Europe/Lisbon"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Europe/Lisbon"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Atlantic/Madeira"
+    priority:1
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-1:00"
+    id:"Atlantic/Azores"
+    priority:1
+  >
+>
+
+# PALAU
+countries:<
+  isoCode:"pw"
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Pacific/Palau"
+  >
+>
+
+# PARAGUAY
+countries:<
+  isoCode:"py"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Asuncion"
+  >
+>
+
+# QATAR
+countries:<
+  isoCode:"qa"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Asia/Qatar"
+  >
+>
+
+# REUNION
+countries:<
+  isoCode:"re"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Indian/Reunion"
+  >
+>
+
+# ROMANIA
+countries:<
+  isoCode:"ro"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Bucharest"
+  >
+>
+
+# SERBIA
+countries:<
+  isoCode:"rs"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Belgrade"
+  >
+>
+
+# RUSSIAN FEDERATION
+#
+# Priorities assigned on 20180406 using:
+# https://en.wikipedia.org/wiki/List_of_cities_and_towns_in_Russia_by_population
+# https://en.wikipedia.org/wiki/Khandyga
+# https://en.wikipedia.org/wiki/Ust-Nera
+# Priority are based on oblast / district population.
+countries:<
+  isoCode:"ru"
+  defaultTimeZoneId:"Europe/Moscow"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Asia/Kamchatka"
+    # 322K
+    priority:322
+  >
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Asia/Anadyr"
+    # 50.5K
+    priority:51
+  >
+
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Asia/Magadan"
+    # 150K
+    priority:150
+  >
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Asia/Sakhalin"
+    # 498K
+    priority:498
+  >
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Asia/Srednekolymsk"
+    # 7.90K
+    priority:8
+  >
+
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Asia/Vladivostok"
+    # 1.96M
+    priority:1960
+  >
+  timeZoneMappings:<
+    utcOffset:"10:00"
+    id:"Asia/Ust-Nera"
+    # 10.1K
+    priority:10
+  >
+
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Yakutsk"
+    # 959K (Sakha Republic)
+    priority:959
+  >
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Chita"
+    # 1.11M
+    priority:1110
+  >
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Khandyga"
+    # 959K (Sakha Republic). Priority set just below Yakutsk.
+    priority:958
+  >
+
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Irkutsk"
+    # 2.43M
+    priority:2430
+  >
+
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Krasnoyarsk"
+    # 2.83M
+    priority:2830
+  >
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Novosibirsk"
+    # 2.67M
+    priority:2670
+  >
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Barnaul"
+    # 2.42M
+    priority:2420
+  >
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Novokuznetsk"
+    # 2.76M
+    priority:2760
+  >
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Tomsk"
+    # 1.05M
+    priority:1050
+  >
+
+  timeZoneMappings:<
+    utcOffset:"6:00"
+    id:"Asia/Omsk"
+    # 1.98M
+    priority:1980
+  >
+
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Yekaterinburg"
+    # 4.30M
+    priority:4300
+  >
+
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Europe/Samara"
+    # 3.22M
+    priority:3220
+  >
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Europe/Astrakhan"
+    # 1.01M
+    priority:1010
+  >
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Europe/Ulyanovsk"
+    # 1.29M
+    priority:1290
+  >
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Europe/Saratov"
+    # 2.52M
+    priority:2520
+  >
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Europe/Volgograd"
+    # 2.61M
+    priority:2610
+  >
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Europe/Moscow"
+    # 7.10M
+    priority:7100
+  >
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Europe/Kirov"
+    # 474K
+    priority:474
+  >
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Kaliningrad"
+    # 942K
+    priority:942
+  >
+>
+
+# RWANDA
+countries:<
+  isoCode:"rw"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Kigali"
+  >
+>
+
+# SAUDI ARABIA
+countries:<
+  isoCode:"sa"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Asia/Riyadh"
+  >
+>
+
+# SOLOMON ISLANDS
+countries:<
+  isoCode:"sb"
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Pacific/Guadalcanal"
+  >
+>
+
+# SEYCHELLES
+countries:<
+  isoCode:"sc"
+  timeZoneMappings:<
+    utcOffset:"4:00"
+    id:"Indian/Mahe"
+  >
+>
+
+# SUDAN
+countries:<
+  isoCode:"sd"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Khartoum"
+  >
+>
+
+# SWEDEN
+countries:<
+  isoCode:"se"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Stockholm"
+  >
+>
+
+# SINGAPORE
+countries:<
+  isoCode:"sg"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Singapore"
+  >
+>
+
+# SAINT HELENA
+countries:<
+  isoCode:"sh"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Atlantic/St_Helena"
+  >
+>
+
+# SLOVENIA
+countries:<
+  isoCode:"si"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Ljubljana"
+  >
+>
+
+# SVALBARD AND JAN MAYEN
+countries:<
+  isoCode:"sj"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Arctic/Longyearbyen"
+  >
+>
+
+# SLOVAKIA
+countries:<
+  isoCode:"sk"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Bratislava"
+  >
+>
+
+# SIERRA LEONE
+countries:<
+  isoCode:"sl"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Freetown"
+  >
+>
+
+# SAN MARINO
+countries:<
+  isoCode:"sm"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/San_Marino"
+  >
+>
+
+# SENEGAL
+countries:<
+  isoCode:"sn"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Dakar"
+  >
+>
+
+# SOMALIA
+countries:<
+  isoCode:"so"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Mogadishu"
+  >
+>
+
+# SURINAME
+countries:<
+  isoCode:"sr"
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Paramaribo"
+  >
+>
+
+# South Sudan
+countries:<
+  isoCode:"ss"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Juba"
+  >
+>
+
+# SAO TOME AND PRINCIPE
+countries:<
+  isoCode:"st"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Sao_Tome"
+  >
+>
+
+# EL SALVADOR
+countries:<
+  isoCode:"sv"
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/El_Salvador"
+  >
+>
+
+# Sint Maarten
+countries:<
+  isoCode:"sx"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Lower_Princes"
+  >
+>
+
+# SYRIAN ARAB REPUBLIC
+countries:<
+  isoCode:"sy"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Asia/Damascus"
+  >
+>
+
+# SWAZILAND
+countries:<
+  isoCode:"sz"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Mbabane"
+  >
+>
+
+# TURKS AND CAICOS ISLANDS
+countries:<
+  isoCode:"tc"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Grand_Turk"
+  >
+>
+
+# CHAD
+countries:<
+  isoCode:"td"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Ndjamena"
+  >
+>
+
+# FRENCH SOUTHERN TERRITORIES
+countries:<
+  isoCode:"tf"
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Indian/Kerguelen"
+  >
+>
+
+# TOGO
+countries:<
+  isoCode:"tg"
+  timeZoneMappings:<
+    utcOffset:"0:00"
+    id:"Africa/Lome"
+  >
+>
+
+# THAILAND
+countries:<
+  isoCode:"th"
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Bangkok"
+  >
+>
+
+# TAJIKISTAN
+countries:<
+  isoCode:"tj"
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Dushanbe"
+  >
+>
+
+# TOKELAU
+countries:<
+  isoCode:"tk"
+  timeZoneMappings:<
+    utcOffset:"13:00"
+    id:"Pacific/Fakaofo"
+  >
+>
+
+# TIMOR-LESTE
+countries:<
+  isoCode:"tl"
+  timeZoneMappings:<
+    utcOffset:"9:00"
+    id:"Asia/Dili"
+  >
+>
+
+# TURKMENISTAN
+countries:<
+  isoCode:"tm"
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Ashgabat"
+  >
+>
+
+# TUNISIA
+countries:<
+  isoCode:"tn"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Africa/Tunis"
+  >
+>
+
+# TONGA
+countries:<
+  isoCode:"to"
+  timeZoneMappings:<
+    utcOffset:"13:00"
+    id:"Pacific/Tongatapu"
+  >
+>
+
+# TURKEY
+countries:<
+  isoCode:"tr"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Europe/Istanbul"
+  >
+>
+
+# TRINIDAD AND TOBAGO
+countries:<
+  isoCode:"tt"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Port_of_Spain"
+  >
+>
+
+# TUVALU
+countries:<
+  isoCode:"tv"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Funafuti"
+  >
+>
+
+# TAIWAN, PROVINCE OF CHINA
+countries:<
+  isoCode:"tw"
+  timeZoneMappings:<
+    utcOffset:"8:00"
+    id:"Asia/Taipei"
+  >
+>
+
+# TANZANIA, UNITED REPUBLIC OF
+countries:<
+  isoCode:"tz"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Dar_es_Salaam"
+  >
+>
+
+# UKRAINE
+#
+# Priorities assigned on 20180309 using:
+# https://en.wikipedia.org/wiki/List_of_cities_in_Ukraine
+# Priorities are just an abstract score.
+countries:<
+  isoCode:"ua"
+  defaultTimeZoneId:"Europe/Kiev"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Kiev"
+    priority:3
+  >
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Uzhgorod"
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Europe/Zaporozhye"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Europe/Simferopol"
+    # ?
+    priority:1
+    # http://b/73922616
+    shownInPicker:false
+  >
+>
+
+# UGANDA
+countries:<
+  isoCode:"ug"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Africa/Kampala"
+  >
+>
+
+# UNITED STATES MINOR OUTLYING ISLANDS
+countries:<
+  isoCode:"um"
+  defaultTimeZoneId:"Pacific/Wake"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Wake"
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-11:00"
+    id:"Pacific/Midway"
+  >
+>
+
+# UNITED STATES
+#
+# Priorities assigned on 20180309 using:
+# https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population
+# https://en.wikipedia.org/wiki/Knox,_Indiana
+# ...etc.
+# Priorities are based on city population.
+countries:<
+  isoCode:"us"
+  defaultTimeZoneId:"America/New_York"
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/New_York"
+    # 8.54M
+    priority:8540
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Detroit"
+    # 673K
+    priority:673
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Kentucky/Louisville"
+    # 760K
+    priority:760
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Kentucky/Monticello"
+    # 6.19K
+    priority:6
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Indiana/Indianapolis"
+    # 820K
+    priority:820
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Indiana/Vincennes"
+    # 18.4K
+    priority:18
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Indiana/Winamac"
+    # 2.49K
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Indiana/Marengo"
+    # 0.83K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Indiana/Petersburg"
+    # 2.38K
+    priority:3
+  >
+  timeZoneMappings:<
+    utcOffset:"-5:00"
+    id:"America/Indiana/Vevay"
+    # 1.68K
+    priority:2
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Chicago"
+    # 2.70M
+    priority:2700
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Indiana/Knox"
+    # 3.70K
+    priority:4
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Menominee"
+    # 8.60K
+    priority:9
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/North_Dakota/Center"
+    # 0.57K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/North_Dakota/New_Salem"
+    # 0.95K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/Indiana/Tell_City"
+    # 7.27K
+    priority:7
+  >
+  timeZoneMappings:<
+    utcOffset:"-6:00"
+    id:"America/North_Dakota/Beulah"
+    # 3.12K
+    priority:3
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Denver"
+    # 600K
+    priority:600
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Boise"
+    # 206K
+    priority:206
+  >
+  timeZoneMappings:<
+    utcOffset:"-7:00"
+    id:"America/Phoenix"
+    # 1.45M
+    priority:1450
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-8:00"
+    id:"America/Los_Angeles"
+    # 3.79M
+    priority:3790
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-9:00"
+    id:"America/Anchorage"
+    # 292K
+    priority:292
+  >
+  timeZoneMappings:<
+    utcOffset:"-9:00"
+    id:"America/Juneau"
+    # 31.2K
+    priority:31
+  >
+  timeZoneMappings:<
+    utcOffset:"-9:00"
+    id:"America/Yakutat"
+    # 0.66K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-9:00"
+    id:"America/Nome"
+    # 3.60K
+    priority:4
+  >
+  timeZoneMappings:<
+    utcOffset:"-9:00"
+    id:"America/Metlakatla"
+    # 1.38K
+    priority:1
+  >
+  timeZoneMappings:<
+    utcOffset:"-9:00"
+    id:"America/Sitka"
+    # 8.88K
+    priority:9
+  >
+
+  timeZoneMappings:<
+    utcOffset:"-10:00"
+    id:"Pacific/Honolulu"
+    # 337K
+    priority:337
+  >
+  timeZoneMappings:<
+    utcOffset:"-10:00"
+    id:"America/Adak"
+    # 0.33K
+    priority:1
+  >
+>
+
+# URUGUAY
+countries:<
+  isoCode:"uy"
+  timeZoneMappings:<
+    utcOffset:"-3:00"
+    id:"America/Montevideo"
+  >
+>
+
+# UZBEKISTAN
+#
+# Priorities assigned on 20180309 using:
+# https://en.wikipedia.org/wiki/Tashkent
+# https://en.wikipedia.org/wiki/Samarkand
+# Priority is just an abstract score.
+countries:<
+  isoCode:"uz"
+  defaultTimeZoneId:"Asia/Tashkent"
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Tashkent"
+    priority:2
+  >
+  timeZoneMappings:<
+    utcOffset:"5:00"
+    id:"Asia/Samarkand"
+    priority:1
+  >
+>
+
+# HOLY SEE (VATICAN CITY STATE)
+countries:<
+  isoCode:"va"
+  timeZoneMappings:<
+    utcOffset:"1:00"
+    id:"Europe/Vatican"
+  >
+>
+
+# SAINT VINCENT AND THE GRENADINES
+countries:<
+  isoCode:"vc"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/St_Vincent"
+  >
+>
+
+# VENEZUELA
+countries:<
+  isoCode:"ve"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Caracas"
+  >
+>
+
+# VIRGIN ISLANDS, BRITISH
+countries:<
+  isoCode:"vg"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/Tortola"
+  >
+>
+
+# VIRGIN ISLANDS, U.S.
+countries:<
+  isoCode:"vi"
+  timeZoneMappings:<
+    utcOffset:"-4:00"
+    id:"America/St_Thomas"
+  >
+>
+
+# VIET NAM
+countries:<
+  isoCode:"vn"
+  timeZoneMappings:<
+    utcOffset:"7:00"
+    id:"Asia/Ho_Chi_Minh"
+  >
+>
+
+# VANUATU
+countries:<
+  isoCode:"vu"
+  timeZoneMappings:<
+    utcOffset:"11:00"
+    id:"Pacific/Efate"
+  >
+>
+
+# WALLIS AND FUTUNA
+countries:<
+  isoCode:"wf"
+  timeZoneMappings:<
+    utcOffset:"12:00"
+    id:"Pacific/Wallis"
+  >
+>
+
+# SAMOA
+countries:<
+  isoCode:"ws"
+  timeZoneMappings:<
+    utcOffset:"13:00"
+    id:"Pacific/Apia"
+  >
+>
+
+# YEMEN
+countries:<
+  isoCode:"ye"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Asia/Aden"
+  >
+>
+
+# MAYOTTE
+countries:<
+  isoCode:"yt"
+  timeZoneMappings:<
+    utcOffset:"3:00"
+    id:"Indian/Mayotte"
+  >
+>
+
+# SOUTH AFRICA
+countries:<
+  isoCode:"za"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Johannesburg"
+  >
+>
+
+# ZAMBIA
+countries:<
+  isoCode:"zm"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Lusaka"
+  >
+>
+
+# ZIMBABWE
+countries:<
+  isoCode:"zw"
+  timeZoneMappings:<
+    utcOffset:"2:00"
+    id:"Africa/Harare"
+  >
+>

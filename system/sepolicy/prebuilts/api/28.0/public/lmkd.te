@@ -1,0 +1,52 @@
+# lmkd low memory killer daemon
+type lmkd, domain, mlstrustedsubject;
+type lmkd_exec, exec_type, file_type;
+
+allow lmkd self:global_capability_class_set { dac_override sys_resource kill };
+
+# lmkd locks itself in memory, to prevent it from being
+# swapped out and unable to kill other memory hogs.
+# system/core commit b28ff9131363f7b4a698990da5748b2a88c3ed35
+# b/16236289
+allow lmkd self:global_capability_class_set ipc_lock;
+
+## Open and write to /proc/PID/oom_score_adj
+## TODO: maybe scope this down?
+r_dir_file(lmkd, appdomain)
+allow lmkd appdomain:file write;
+r_dir_file(lmkd, system_server)
+allow lmkd system_server:file write;
+
+## Writes to /sys/module/lowmemorykiller/parameters/minfree
+r_dir_file(lmkd, sysfs_lowmemorykiller)
+allow lmkd sysfs_lowmemorykiller:file w_file_perms;
+
+# setsched and send kill signals
+allow lmkd appdomain:process { setsched sigkill };
+
+# Clean up old cgroups
+allow lmkd cgroup:dir { remove_name rmdir };
+
+# Allow to read memcg stats
+allow lmkd cgroup:file r_file_perms;
+
+# Set self to SCHED_FIFO
+allow lmkd self:global_capability_class_set sys_nice;
+
+allow lmkd proc_zoneinfo:file r_file_perms;
+
+# live lock watchdog process allowed to look through /proc/
+allow lmkd domain:dir { search open read };
+allow lmkd domain:file { open read };
+
+# live lock watchdog process allowed to dump process trace and
+# reboot because orderly shutdown may not be possible.
+allow lmkd proc_sysrq:file rw_file_perms;
+
+# Read /proc/meminfo
+allow lmkd proc_meminfo:file r_file_perms;
+
+### neverallow rules
+
+# never honor LD_PRELOAD
+neverallow * lmkd:process noatsecure;

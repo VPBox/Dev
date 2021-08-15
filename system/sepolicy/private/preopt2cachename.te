@@ -1,0 +1,17 @@
+# preopt2cachename executable
+#
+# This executable translates names from the preopted versions the build system
+# creates to the names the runtime expects in the data directory.
+
+type preopt2cachename, domain, coredomain;
+type preopt2cachename_exec, system_file_type, exec_type, file_type;
+
+# Allow write to stdout.
+allow preopt2cachename cppreopts:fd use;
+allow preopt2cachename cppreopts:fifo_file { getattr read write };
+
+# Allow write to logcat.
+allow preopt2cachename proc_net_type:file r_file_perms;
+userdebug_or_eng(`
+  auditallow preopt2cachename proc_net_type:{ dir file lnk_file } { getattr open read };
+')

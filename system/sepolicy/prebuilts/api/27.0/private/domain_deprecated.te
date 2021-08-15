@@ -1,0 +1,14 @@
+# rules removed from the domain attribute
+
+# Read files already opened under /data.
+allow domain_deprecated system_data_file:file { getattr read };
+allow domain_deprecated system_data_file:lnk_file r_file_perms;
+
+# Read apk files under /data/app.
+allow domain_deprecated apk_data_file:dir { getattr search };
+allow domain_deprecated apk_data_file:file r_file_perms;
+allow domain_deprecated apk_data_file:lnk_file r_file_perms;
+
+# Read access to pseudo filesystems.
+r_dir_file(domain_deprecated, proc)
+r_dir_file(domain_deprecated, sysfs)

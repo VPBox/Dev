@@ -1,0 +1,42 @@
+###
+### Untrusted v2 sandbox apps.
+###
+
+typeattribute untrusted_v2_app coredomain;
+
+app_domain(untrusted_v2_app)
+net_domain(untrusted_v2_app)
+bluetooth_domain(untrusted_v2_app)
+
+# Read and write system app data files passed over Binder.
+# Motivating case was /data/data/com.android.settings/cache/*.jpg for
+# cropping or taking user photos.
+allow untrusted_v2_app system_app_data_file:file { read write getattr };
+
+# Access to /data/media.
+allow untrusted_v2_app media_rw_data_file:dir create_dir_perms;
+allow untrusted_v2_app media_rw_data_file:file create_file_perms;
+
+# Traverse into /mnt/media_rw for bypassing FUSE daemon
+# TODO: narrow this to just MediaProvider
+allow untrusted_v2_app mnt_media_rw_file:dir search;
+
+# allow cts to query all services
+allow untrusted_v2_app servicemanager:service_manager list;
+
+allow untrusted_v2_app audioserver_service:service_manager find;
+allow untrusted_v2_app cameraserver_service:service_manager find;
+allow untrusted_v2_app drmserver_service:service_manager find;
+allow untrusted_v2_app mediaserver_service:service_manager find;
+allow untrusted_v2_app mediaextractor_service:service_manager find;
+allow untrusted_v2_app mediacodec_service:service_manager find;
+allow untrusted_v2_app mediametrics_service:service_manager find;
+allow untrusted_v2_app mediadrmserver_service:service_manager find;
+allow untrusted_v2_app nfc_service:service_manager find;
+allow untrusted_v2_app radio_service:service_manager find;
+allow untrusted_v2_app surfaceflinger_service:service_manager find;
+# TODO: potentially provide a tighter list of services here
+allow untrusted_v2_app app_api_service:service_manager find;
+
+# gdbserver for ndk-gdb ptrace attaches to app process.
+allow untrusted_v2_app self:process ptrace;

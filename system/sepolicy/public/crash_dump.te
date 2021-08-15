@@ -1,0 +1,68 @@
+type crash_dump, domain;
+type crash_dump_exec, system_file_type, exec_type, file_type;
+
+# crash_dump might inherit CAP_SYS_PTRACE from a privileged process,
+# which will result in an audit log even when it's allowed to trace.
+dontaudit crash_dump self:global_capability_class_set { sys_ptrace };
+
+userdebug_or_eng(`
+  allow crash_dump logd:process { ptrace signal sigchld sigstop sigkill };
+
+  # Let crash_dump write to /dev/kmsg_debug crashes that happen before logd comes up.
+  allow crash_dump kmsg_debug_device:chr_file { open append };
+')
+
+# Use inherited file descriptors
+allow crash_dump domain:fd use;
+
+# Read/write IPC pipes inherited from crashing processes.
+allow crash_dump domain:fifo_file { read write };
+
+# Append to pipes given to us by processes requesting dumps (e.g. dumpstate)
+allow crash_dump domain:fifo_file { append };
+
+r_dir_file(crash_dump, domain)
+allow crash_dump exec_type:file r_file_perms;
+
+# Read /data/dalvik-cache.
+allow crash_dump dalvikcache_data_file:dir { search getattr };
+allow crash_dump dalvikcache_data_file:file r_file_perms;
+
+# Read APK files.
+r_dir_file(crash_dump, apk_data_file);
+
+# Read all /vendor
+r_dir_file(crash_dump, { vendor_file same_process_hal_file })
+
+# Talk to tombstoned
+unix_socket_connect(crash_dump, tombstoned_crash, tombstoned)
+
+# Talk to ActivityManager.
+unix_socket_connect(crash_dump, system_ndebug, system_server)
+
+# Append to ANR files.
+allow crash_dump anr_data_file:file { append getattr };
+
+# Append to tombstone files.
+allow crash_dump tombstone_data_file:file { append getattr };
+
+# crash_dump writes out logcat logs at the bottom of tombstones,
+# which is super useful in some cases.
+unix_socket_connect(crash_dump, logdr, logd)
+
+# Crash dump is not intended to access the following files. Since these
+# are WAI, suppress the denials to clean up the logs.
+dontaudit crash_dump {
+  core_data_file_type
+  vendor_file_type
+}:dir search;
+dontaudit crash_dump system_data_file:file read;
+dontaudit crash_dump property_type:file read;
+
+###
+### neverallow assertions
+###
+
+# A domain transition must occur for crash_dump to get the privileges needed to trace the process.
+# Do not allow the execution of crash_dump without a domain transition.
+neverallow domain crash_dump_exec:file execute_no_trans;

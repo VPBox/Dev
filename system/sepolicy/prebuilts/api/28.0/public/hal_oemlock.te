@@ -1,0 +1,5 @@
+# HwBinder IPC from client to server
+binder_call(hal_oemlock_client, hal_oemlock_server)
+
+add_hwservice(hal_oemlock_server, hal_oemlock_hwservice)
+allow hal_oemlock_client hal_oemlock_hwservice:hwservice_manager find;

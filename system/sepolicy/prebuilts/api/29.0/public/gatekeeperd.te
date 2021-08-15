@@ -1,0 +1,41 @@
+type gatekeeperd, domain;
+type gatekeeperd_exec, system_file_type, exec_type, file_type;
+
+# gatekeeperd
+binder_service(gatekeeperd)
+binder_use(gatekeeperd)
+
+### Rules needed when Gatekeeper HAL runs inside gatekeeperd process.
+### These rules should eventually be granted only when needed.
+allow gatekeeperd ion_device:chr_file r_file_perms;
+# Load HAL implementation
+allow gatekeeperd system_file:dir r_dir_perms;
+###
+
+### Rules needed when Gatekeeper HAL runs outside of gatekeeperd process.
+### These rules should eventually be granted only when needed.
+hal_client_domain(gatekeeperd, hal_gatekeeper)
+###
+
+# need to find KeyStore and add self
+add_service(gatekeeperd, gatekeeper_service)
+
+# Need to add auth tokens to KeyStore
+use_keystore(gatekeeperd)
+allow gatekeeperd keystore:keystore_key { add_auth };
+
+# For permissions checking
+allow gatekeeperd system_server:binder call;
+allow gatekeeperd permission_service:service_manager find;
+
+# for SID file access
+allow gatekeeperd gatekeeper_data_file:dir rw_dir_perms;
+allow gatekeeperd gatekeeper_data_file:file create_file_perms;
+
+# For hardware properties retrieval
+allow gatekeeperd hardware_properties_service:service_manager find;
+
+# For checking whether GSI is running
+get_prop(gatekeeperd, gsid_prop)
+
+r_dir_file(gatekeeperd, cgroup)

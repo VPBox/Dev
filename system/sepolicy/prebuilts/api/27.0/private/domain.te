@@ -1,0 +1,18 @@
+# Transition to crash_dump when /system/bin/crash_dump* is executed.
+# This occurs when the process crashes.
+domain_auto_trans(domain, crash_dump_exec, crash_dump);
+allow domain crash_dump:process sigchld;
+
+# Limit ability to ptrace or read sensitive /proc/pid files of processes
+# with other UIDs to these whitelisted domains.
+neverallow {
+  domain
+  -vold
+  -dumpstate
+  -storaged
+  -system_server
+  userdebug_or_eng(`-perfprofd')
+} self:capability sys_ptrace;
+
+# Limit ability to generate hardware unique device ID attestations to priv_apps
+neverallow { domain -priv_app } *:keystore_key gen_unique_id;

@@ -1,0 +1,5 @@
+typeattribute otapreopt_slot coredomain;
+
+# Technically not a daemon but we do want the transition from init domain to
+# cppreopts to occur.
+init_daemon_domain(otapreopt_slot)

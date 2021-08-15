@@ -1,0 +1,6 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_bootctl_client, hal_bootctl_server)
+binder_call(hal_bootctl_server, hal_bootctl_client)
+
+add_hwservice(hal_bootctl_server, hal_bootctl_hwservice)
+allow hal_bootctl_client hal_bootctl_hwservice:hwservice_manager find;

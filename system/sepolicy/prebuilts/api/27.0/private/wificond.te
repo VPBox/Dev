@@ -1,0 +1,4 @@
+typeattribute wificond coredomain;
+
+init_daemon_domain(wificond)
+hal_client_domain(wificond, hal_wifi_offload)

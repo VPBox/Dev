@@ -1,0 +1,15 @@
+filegroup {
+    name: "BluetoothCommonSources",
+    srcs: [
+        "address.cc",
+        "class_of_device.cc",
+    ]
+}
+
+filegroup {
+    name: "BluetoothCommonTestSources",
+    srcs: [
+        "address_unittest.cc",
+        "class_of_device_unittest.cc",
+    ]
+}

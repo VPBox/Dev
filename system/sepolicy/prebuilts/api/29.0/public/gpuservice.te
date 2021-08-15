@@ -1,0 +1,2 @@
+# gpuservice - server for gpu stats and other gpu related services
+type gpuservice, domain;

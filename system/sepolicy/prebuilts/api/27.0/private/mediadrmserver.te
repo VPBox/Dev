@@ -1,0 +1,8 @@
+typeattribute mediadrmserver coredomain;
+
+init_daemon_domain(mediadrmserver)
+
+# allocate and use graphic buffers
+hal_client_domain(mediadrmserver, hal_graphics_allocator)
+auditallow mediadrmserver hal_graphics_allocator_server:binder call;
+

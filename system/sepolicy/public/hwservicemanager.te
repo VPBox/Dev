@@ -1,0 +1,22 @@
+# hwservicemanager - the Binder context manager for HAL services
+type hwservicemanager, domain, mlstrustedsubject;
+type hwservicemanager_exec, system_file_type, exec_type, file_type;
+
+# Note that we do not use the binder_* macros here.
+# hwservicemanager provides name service (aka context manager)
+# for hwbinder.
+# Additionally, it initiates binder IPC calls to
+# clients who request service notifications. The permission
+# to do this is granted in the hwbinder_use macro.
+allow hwservicemanager self:binder set_context_mgr;
+
+set_prop(hwservicemanager, hwservicemanager_prop)
+
+# Scan through /system/lib64/hw looking for installed HALs
+allow hwservicemanager system_file:dir r_dir_perms;
+
+# Read hwservice_contexts
+allow hwservicemanager hwservice_contexts_file:file r_file_perms;
+
+# Check SELinux permissions.
+selinux_check_access(hwservicemanager)

@@ -1,0 +1,11 @@
+# vendor_misc_writer
+type vendor_misc_writer, domain;
+type vendor_misc_writer_exec, vendor_file_type, exec_type, file_type;
+
+# Raw writes to misc_block_device
+allow vendor_misc_writer misc_block_device:blk_file w_file_perms;
+allow vendor_misc_writer block_device:dir r_dir_perms;
+
+# Silence the denial when calling libfstab's ReadDefaultFstab.
+dontaudit vendor_misc_writer proc_cmdline:file read;
+dontaudit vendor_misc_writer metadata_file:dir search;

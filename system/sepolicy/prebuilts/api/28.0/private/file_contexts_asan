@@ -1,0 +1,11 @@
+/data/asan/system/lib(/.*)?                u:object_r:system_file:s0
+/data/asan/system/lib64(/.*)?              u:object_r:system_file:s0
+/data/asan/vendor/lib(/.*)?                u:object_r:system_file:s0
+/data/asan/vendor/lib64(/.*)?              u:object_r:system_file:s0
+/data/asan/odm/lib(/.*)?                   u:object_r:system_file:s0
+/data/asan/odm/lib64(/.*)?                 u:object_r:system_file:s0
+/system/bin/asan_extract       u:object_r:asan_extract_exec:s0
+/system/bin/asanwrapper        u:object_r:asanwrapper_exec:s0
+/system/bin/asan/app_process   u:object_r:zygote_exec:s0
+/system/bin/asan/app_process32 u:object_r:zygote_exec:s0
+/system/bin/asan/app_process64 u:object_r:zygote_exec:s0

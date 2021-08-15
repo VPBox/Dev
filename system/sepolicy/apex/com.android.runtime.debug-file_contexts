@@ -1,0 +1,12 @@
+#############################
+# System files
+#
+(/.*)?                         u:object_r:system_file:s0
+/bin/dex2oat(d)?               u:object_r:dex2oat_exec:s0
+/bin/dexoptanalyzer(d)?        u:object_r:dexoptanalyzer_exec:s0
+/bin/profman(d)?               u:object_r:profman_exec:s0
+/bin/linker(64)?               u:object_r:system_linker_exec:s0
+/lib(64)?(/.*)?                u:object_r:system_lib_file:s0
+/etc/tz(/.*)?                  u:object_r:system_zoneinfo_file:s0
+/bin/art_preinstall_hook(.*)?  u:object_r:art_apex_preinstall_exec:s0
+/bin/art_postinstall_hook(.*)? u:object_r:art_apex_postinstall_exec:s0

@@ -1,0 +1,7 @@
+typeattribute drmserver coredomain;
+
+init_daemon_domain(drmserver)
+
+type_transition drmserver apk_data_file:sock_file drmserver_socket;
+
+typeattribute drmserver_socket coredomain_socket;

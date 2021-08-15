@@ -1,0 +1,46 @@
+ndk_headers {
+    name: "libsync_headers",
+    from: "include/ndk",
+    to: "android",
+    srcs: ["include/ndk/sync.h"],
+    license: "NOTICE",
+}
+
+ndk_library {
+    name: "libsync",
+    symbol_file: "libsync.map.txt",
+    first_version: "26",
+}
+
+cc_defaults {
+    name: "libsync_defaults",
+    srcs: ["sync.c"],
+    local_include_dirs: ["include"],
+    export_include_dirs: ["include"],
+    cflags: ["-Werror"],
+}
+
+cc_library {
+    name: "libsync",
+    recovery_available: true,
+    defaults: ["libsync_defaults"],
+}
+
+llndk_library {
+    name: "libsync",
+    symbol_file: "libsync.map.txt",
+    export_include_dirs: ["include"],
+}
+
+cc_test {
+    name: "sync-unit-tests",
+    shared_libs: ["libsync"],
+    srcs: ["tests/sync_test.cpp"],
+    cflags: [
+        "-g",
+        "-Wall",
+        "-Werror",
+        "-Wno-missing-field-initializers",
+        "-Wno-sign-compare",
+    ],
+}

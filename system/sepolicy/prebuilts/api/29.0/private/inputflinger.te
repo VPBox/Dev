@@ -1,0 +1,3 @@
+typeattribute inputflinger coredomain;
+
+init_daemon_domain(inputflinger)

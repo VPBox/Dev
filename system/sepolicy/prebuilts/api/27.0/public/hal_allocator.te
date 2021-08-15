@@ -1,0 +1,6 @@
+# HwBinder IPC from client to server
+binder_call(hal_allocator_client, hal_allocator_server)
+
+add_hwservice(hal_allocator_server, hidl_allocator_hwservice)
+allow hal_allocator_client hidl_allocator_hwservice:hwservice_manager find;
+allow hal_allocator_client hidl_memory_hwservice:hwservice_manager find;

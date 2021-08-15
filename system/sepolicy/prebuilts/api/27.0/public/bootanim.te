@@ -1,0 +1,41 @@
+# bootanimation oneshot service
+type bootanim, domain;
+type bootanim_exec, exec_type, file_type;
+
+hal_client_domain(bootanim, hal_configstore)
+hal_client_domain(bootanim, hal_graphics_allocator)
+hal_client_domain(bootanim, hal_graphics_composer)
+
+binder_use(bootanim)
+binder_call(bootanim, surfaceflinger)
+binder_call(bootanim, audioserver)
+
+hwbinder_use(bootanim)
+
+allow bootanim gpu_device:chr_file rw_file_perms;
+
+# /oem access
+allow bootanim oemfs:dir search;
+allow bootanim oemfs:file r_file_perms;
+
+allow bootanim audio_device:dir r_dir_perms;
+allow bootanim audio_device:chr_file rw_file_perms;
+
+allow bootanim audioserver_service:service_manager find;
+allow bootanim surfaceflinger_service:service_manager find;
+
+# Allow access to ion memory allocation device
+allow bootanim ion_device:chr_file rw_file_perms;
+allow bootanim hal_graphics_allocator:fd use;
+
+# Fences
+allow bootanim hal_graphics_composer:fd use;
+
+# Read access to pseudo filesystems.
+r_dir_file(bootanim, proc)
+allow bootanim proc_meminfo:file r_file_perms;
+r_dir_file(bootanim, sysfs)
+r_dir_file(bootanim, cgroup)
+
+# System file accesses.
+allow bootanim system_file:dir r_dir_perms;

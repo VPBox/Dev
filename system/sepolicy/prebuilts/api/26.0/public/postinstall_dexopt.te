@@ -1,0 +1,57 @@
+# Domain for the otapreopt executable, running under postinstall_dexopt
+#
+# Note: otapreopt is a driver for dex2oat, and reuses parts of installd. As such,
+# this is derived and adapted from installd.te.
+
+type postinstall_dexopt, domain;
+
+allow postinstall_dexopt self:capability { chown dac_override fowner setgid setuid };
+
+allow postinstall_dexopt postinstall_file:filesystem getattr;
+allow postinstall_dexopt postinstall_file:dir { getattr search };
+allow postinstall_dexopt postinstall_file:lnk_file read;
+allow postinstall_dexopt proc:file { getattr open read };
+allow postinstall_dexopt tmpfs:file read;
+
+# Note: /data/ota is created by init (see system/core/rootdir/init.rc) to avoid giving access
+# here and having to relabel the directory.
+
+# Read app data (APKs) as input to dex2oat.
+r_dir_file(postinstall_dexopt, apk_data_file)
+# Read vendor app data (APKs) as input to dex2oat.
+r_dir_file(postinstall_dexopt, vendor_app_file)
+# Access to app oat directory.
+r_dir_file(postinstall_dexopt, dalvikcache_data_file)
+
+# Read profile data.
+allow postinstall_dexopt user_profile_data_file:dir { getattr search };
+allow postinstall_dexopt user_profile_data_file:file r_file_perms;
+
+# Write to /data/ota(/*). Create symlinks in /data/ota(/*)
+allow postinstall_dexopt ota_data_file:dir create_dir_perms;
+allow postinstall_dexopt ota_data_file:file create_file_perms;
+allow postinstall_dexopt ota_data_file:lnk_file create_file_perms;
+
+# Need to write .b files, which are dalvikcache_data_file, not ota_data_file.
+# TODO: See whether we can apply ota_data_file?
+allow postinstall_dexopt dalvikcache_data_file:dir rw_dir_perms;
+allow postinstall_dexopt dalvikcache_data_file:file create_file_perms;
+
+# Allow labeling of files under /data/app/com.example/oat/
+# TODO: Restrict to .b suffix?
+allow postinstall_dexopt dalvikcache_data_file:dir relabelto;
+allow postinstall_dexopt dalvikcache_data_file:file { relabelto link };
+
+# Check validity of SELinux context before use.
+selinux_check_context(postinstall_dexopt)
+selinux_check_access(postinstall_dexopt)
+
+
+# Postinstall wants to know about our child.
+allow postinstall_dexopt postinstall:process sigchld;
+
+# Allow otapreopt to use file descriptors from otapreopt_chroot.
+# TODO: Probably we can actually close file descriptors...
+allow postinstall_dexopt otapreopt_chroot:fd use;
+
+allow postinstall_dexopt cpuctl_device:dir search;

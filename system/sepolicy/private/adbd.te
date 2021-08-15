@@ -1,0 +1,194 @@
+### ADB daemon
+
+typeattribute adbd coredomain;
+typeattribute adbd mlstrustedsubject;
+
+init_daemon_domain(adbd)
+
+domain_auto_trans(adbd, shell_exec, shell)
+
+userdebug_or_eng(`
+  allow adbd self:process setcurrent;
+  allow adbd su:process dyntransition;
+')
+
+# When 'adb shell' is executed in recovery mode, adbd explicitly
+# switches into shell domain using setcon() because the shell executable
+# is not labeled as shell but as rootfs.
+recovery_only(`
+  domain_trans(adbd, rootfs, shell)
+  allow adbd shell:process dyntransition;
+
+  # Allows reboot fastboot to enter fastboot directly
+  unix_socket_connect(adbd, recovery, recovery)
+')
+
+# Control Perfetto traced and obtain traces from it.
+# Needed to allow port forwarding directly to traced.
+unix_socket_connect(adbd, traced_consumer, traced)
+
+# Do not sanitize the environment or open fds of the shell. Allow signaling
+# created processes.
+allow adbd shell:process { noatsecure signal };
+
+# Set UID and GID to shell.  Set supplementary groups.
+allow adbd self:global_capability_class_set { setuid setgid };
+
+# Drop capabilities from bounding set on user builds.
+allow adbd self:global_capability_class_set setpcap;
+
+# ignore spurious denials for adbd when disk space is low.
+dontaudit adbd self:global_capability_class_set sys_resource;
+
+# adbd probes for vsock support. Do not generate denials when
+# this occurs. (b/123569840)
+dontaudit adbd self:{ socket vsock_socket } create;
+
+# Create and use network sockets.
+net_domain(adbd)
+
+# Access /dev/usb-ffs/adb/ep0
+allow adbd functionfs:dir search;
+allow adbd functionfs:file rw_file_perms;
+allowxperm adbd functionfs:file ioctl {
+  FUNCTIONFS_ENDPOINT_DESC
+  FUNCTIONFS_CLEAR_HALT
+};
+
+# Use a pseudo tty.
+allow adbd devpts:chr_file rw_file_perms;
+
+# adb push/pull /data/local/tmp.
+allow adbd shell_data_file:dir create_dir_perms;
+allow adbd shell_data_file:file create_file_perms;
+
+# adb pull /data/local/traces/*
+allow adbd trace_data_file:dir r_dir_perms;
+allow adbd trace_data_file:file r_file_perms;
+
+# adb pull /data/misc/profman.
+allow adbd profman_dump_data_file:dir r_dir_perms;
+allow adbd profman_dump_data_file:file r_file_perms;
+
+# adb push/pull sdcard.
+allow adbd tmpfs:dir search;
+allow adbd rootfs:lnk_file r_file_perms;  # /sdcard symlink
+allow adbd tmpfs:lnk_file r_file_perms;   # /mnt/sdcard symlink
+allow adbd sdcard_type:dir create_dir_perms;
+allow adbd sdcard_type:file create_file_perms;
+
+# adb pull /data/anr/traces.txt
+allow adbd anr_data_file:dir r_dir_perms;
+allow adbd anr_data_file:file r_file_perms;
+
+# Set service.adb.*, sys.powerctl, and sys.usb.ffs.ready properties.
+set_prop(adbd, shell_prop)
+set_prop(adbd, powerctl_prop)
+set_prop(adbd, ffs_prop)
+set_prop(adbd, exported_ffs_prop)
+
+# Access device logging gating property
+get_prop(adbd, device_logging_prop)
+
+# Read device's serial number from system properties
+get_prop(adbd, serialno_prop)
+
+# Read whether or not Test Harness Mode is enabled
+get_prop(adbd, test_harness_prop)
+
+# Read device's overlayfs related properties and files
+userdebug_or_eng(`
+  get_prop(adbd, persistent_properties_ready_prop)
+  r_dir_file(adbd, sysfs_dt_firmware_android)
+')
+
+# Run /system/bin/bu
+allow adbd system_file:file rx_file_perms;
+
+# Perform binder IPC to surfaceflinger (screencap)
+# XXX Run screencap in a separate domain?
+binder_use(adbd)
+binder_call(adbd, surfaceflinger)
+binder_call(adbd, gpuservice)
+# b/13188914
+allow adbd gpu_device:chr_file rw_file_perms;
+allow adbd ion_device:chr_file rw_file_perms;
+r_dir_file(adbd, system_file)
+
+# Needed for various screenshots
+hal_client_domain(adbd, hal_graphics_allocator)
+
+# Read /data/misc/adb/adb_keys.
+allow adbd adb_keys_file:dir search;
+allow adbd adb_keys_file:file r_file_perms;
+
+userdebug_or_eng(`
+  # Write debugging information to /data/adb
+  # when persist.adb.trace_mask is set
+  # https://code.google.com/p/android/issues/detail?id=72895
+  allow adbd adb_data_file:dir rw_dir_perms;
+  allow adbd adb_data_file:file create_file_perms;
+')
+
+# ndk-gdb invokes adb forward to forward the gdbserver socket.
+allow adbd app_data_file:dir search;
+allow adbd app_data_file:sock_file write;
+allow adbd appdomain:unix_stream_socket connectto;
+
+# ndk-gdb invokes adb pull of app_process, linker, and libc.so.
+allow adbd zygote_exec:file r_file_perms;
+allow adbd system_file:file r_file_perms;
+
+# Allow pulling the SELinux policy for CTS purposes
+allow adbd selinuxfs:dir r_dir_perms;
+allow adbd selinuxfs:file r_file_perms;
+allow adbd kernel:security read_policy;
+allow adbd service_contexts_file:file r_file_perms;
+allow adbd file_contexts_file:file r_file_perms;
+allow adbd seapp_contexts_file:file r_file_perms;
+allow adbd property_contexts_file:file r_file_perms;
+allow adbd sepolicy_file:file r_file_perms;
+
+# Allow pulling config.gz for CTS purposes
+allow adbd config_gz:file r_file_perms;
+
+allow adbd gpu_service:service_manager find;
+allow adbd surfaceflinger_service:service_manager find;
+allow adbd bootchart_data_file:dir search;
+allow adbd bootchart_data_file:file r_file_perms;
+
+# Allow access to external storage; we have several visible mount points under /storage
+# and symlinks to primary storage at places like /storage/sdcard0 and /mnt/user/0/primary
+allow adbd storage_file:dir r_dir_perms;
+allow adbd storage_file:lnk_file r_file_perms;
+allow adbd mnt_user_file:dir r_dir_perms;
+allow adbd mnt_user_file:lnk_file r_file_perms;
+
+# Access to /data/media.
+# This should be removed if sdcardfs is modified to alter the secontext for its
+# accesses to the underlying FS.
+allow adbd media_rw_data_file:dir create_dir_perms;
+allow adbd media_rw_data_file:file create_file_perms;
+
+r_dir_file(adbd, apk_data_file)
+
+allow adbd rootfs:dir r_dir_perms;
+
+# Allow to pull Perfetto traces.
+allow adbd perfetto_traces_data_file:file r_file_perms;
+allow adbd perfetto_traces_data_file:dir r_dir_perms;
+
+# Connect to shell and use a socket transferred from it.
+# Used for e.g. abb.
+allow adbd shell:unix_stream_socket { read write };
+allow adbd shell:fd use;
+
+###
+### Neverallow rules
+###
+
+# No transitions from adbd to non-shell, non-crash_dump domains. adbd only ever
+# transitions to the shell domain (except when it crashes). In particular, we
+# never want to see a transition from adbd to su (aka "adb root")
+neverallow adbd { domain -crash_dump -shell }:process transition;
+neverallow adbd { domain userdebug_or_eng(`-su') recovery_only(`-shell') }:process dyntransition;

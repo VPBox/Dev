@@ -1,0 +1,7 @@
+# audiocontrol subsystem
+type hal_audiocontrol_default, domain;
+hal_server_domain(hal_audiocontrol_default, hal_audiocontrol)
+
+# may be started by init
+type hal_audiocontrol_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_audiocontrol_default)

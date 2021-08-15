@@ -1,0 +1,52 @@
+# mediaextractor - multimedia daemon
+type mediaextractor, domain;
+type mediaextractor_exec, exec_type, file_type;
+
+typeattribute mediaextractor mlstrustedsubject;
+
+binder_use(mediaextractor)
+binder_call(mediaextractor, binderservicedomain)
+binder_call(mediaextractor, appdomain)
+binder_service(mediaextractor)
+
+add_service(mediaextractor, mediaextractor_service)
+allow mediaextractor mediametrics_service:service_manager find;
+allow mediaextractor hidl_token_hwservice:hwservice_manager find;
+
+allow mediaextractor system_server:fd use;
+
+hal_client_domain(mediaextractor, hal_cas)
+
+r_dir_file(mediaextractor, cgroup)
+allow mediaextractor proc_meminfo:file r_file_perms;
+
+crash_dump_fallback(mediaextractor)
+
+# allow mediaextractor read permissions for file sources
+allow mediaextractor media_rw_data_file:file { getattr read };
+allow mediaextractor app_data_file:file { getattr read };
+
+# Read resources from open apk files passed over Binder
+allow mediaextractor apk_data_file:file { read getattr };
+allow mediaextractor asec_apk_file:file { read getattr };
+allow mediaextractor ringtone_file:file { read getattr };
+
+###
+### neverallow rules
+###
+
+# mediaextractor should never execute any executable without a
+# domain transition
+neverallow mediaextractor { file_type fs_type }:file execute_no_trans;
+
+# The goal of the mediaserver split is to place media processing code into
+# restrictive sandboxes with limited responsibilities and thus limited
+# permissions. Example: Audioserver is only responsible for controlling audio
+# hardware and processing audio content. Cameraserver does the same for camera
+# hardware/content. Etc.
+#
+# Media processing code is inherently risky and thus should have limited
+# permissions and be isolated from the rest of the system and network.
+# Lengthier explanation here:
+# https://android-developers.googleblog.com/2016/05/hardening-media-stack.html
+neverallow mediaextractor domain:{ tcp_socket udp_socket rawip_socket } *;

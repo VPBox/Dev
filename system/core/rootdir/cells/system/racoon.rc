@@ -1,0 +1,9 @@
+service racoon /system/bin/racoon
+    class main
+    socket racoon stream 600 system system
+    # IKE uses UDP port 500.
+    user vpn
+    group vpn inet
+    capabilities NET_ADMIN NET_BIND_SERVICE NET_RAW
+    disabled
+    oneshot

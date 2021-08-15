@@ -1,0 +1,7 @@
+typeattribute mediaextractor coredomain;
+
+init_daemon_domain(mediaextractor)
+tmpfs_domain(mediaextractor)
+allow mediaextractor appdomain_tmpfs:file { getattr map read write };
+allow mediaextractor mediaserver_tmpfs:file { getattr map read write };
+allow mediaextractor system_server_tmpfs:file { getattr map read write };

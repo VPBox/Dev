@@ -1,0 +1,6 @@
+# webview_zygote is an auxiliary zygote process that is used to spawn
+# isolated_app processes for rendering untrusted web content.
+
+type webview_zygote, domain;
+type webview_zygote_exec, exec_type, file_type;
+type webview_zygote_tmpfs, file_type;

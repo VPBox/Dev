@@ -1,0 +1,58 @@
+
+syntax = "proto2";
+
+import "perf_data.proto";
+
+option java_package = "com.google.android.perfprofd";
+
+package quipper;
+
+// Symbol info for a shared library without build id.
+message SymbolInfo {
+  // A symbol, stretching the given range of the library.
+  message Symbol {
+    optional string name = 1;
+    optional uint64 name_md5_prefix = 2;
+
+    optional uint64 addr = 3;
+    optional uint64 size = 4;
+  };
+
+  optional string filename = 1;
+  optional uint64 filename_md5_prefix = 2;
+
+  optional uint64 min_vaddr = 3;
+
+  repeated Symbol symbols = 4;
+};
+
+extend PerfDataProto {
+  optional int64 id = 32;
+
+  // Extra symbol info.
+  repeated SymbolInfo symbol_info = 33;
+
+  // Stats inherited from old perf_profile.proto.
+
+  // is device screen on at point when profile is collected?
+  optional bool display_on = 34;
+
+  // system load at point when profile is collected; corresponds
+  // to first value from /proc/loadavg multiplied by 100 then
+  // converted to int32
+  optional int32 sys_load_average = 35;
+
+  // At the point when the profile was collected, was a camera active?
+  optional bool camera_active = 36;
+
+  // At the point when the profile was collected, was the device still booting?
+  optional bool booting = 37;
+
+  // At the point when the profile was collected, was the device plugged into
+  // a charger?
+  optional bool on_charger = 38;
+
+  // CPU utilization measured prior to profile collection (expressed as
+  // 100 minus the idle percentage).
+  optional int32 cpu_utilization = 39;
+};

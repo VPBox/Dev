@@ -1,0 +1,103 @@
+This directory contains the core Android SELinux policy configuration.
+It defines the domains and types for the AOSP services and apps common to
+all devices.  Device-specific policy should be placed under a
+separate device/<vendor>/<board>/sepolicy subdirectory and linked
+into the policy build as described below.
+
+Policy Generation:
+
+Additional, per device, policy files can be added into the
+policy build. These files should have each line including the
+final line terminated by a newline character (0x0A).  This
+will allow files to be concatenated and processed whenever
+the m4(1) macro processor is called by the build process.
+Adding the newline will also make the intermediate text files
+easier to read when debugging build failures.  The sets of file,
+service and property contexts files will automatically have a
+newline inserted between each file as these are common failure
+points.
+
+These device policy files can be configured through the use of
+the BOARD_SEPOLICY_DIRS variable. This variable should be set
+in the BoardConfig.mk file in the device or vendor directories.
+
+BOARD_SEPOLICY_DIRS contains a list of directories to search
+for additional policy files. Order matters in this list.
+For example, if you have 2 instances of widget.te files in the
+BOARD_SEPOLICY_DIRS search path, then the first one found (at the
+first search dir containing the file) will be concatenated first.
+Reviewing out/target/product/<device>/obj/ETC/sepolicy_intermediates/policy.conf
+will help sort out ordering issues.
+
+Example BoardConfig.mk Usage:
+From the Tuna device BoardConfig.mk, device/samsung/tuna/BoardConfig.mk
+
+BOARD_SEPOLICY_DIRS += device/samsung/tuna/sepolicy
+
+Additionally, OEMs can specify BOARD_SEPOLICY_M4DEFS to pass arbitrary m4
+definitions during the build. A definition consists of a string in the form
+of macro-name=value. Spaces must NOT be present. This is useful for building modular
+policies, policy generation, conditional file paths, etc. It is supported in
+the following file types:
+ * All *.te and SE Linux policy files as passed to checkpolicy
+ * file_contexts
+ * service_contexts
+ * property_contexts
+ * keys.conf
+
+Example BoardConfig.mk Usage:
+BOARD_SEPOLICY_M4DEFS += btmodule=foomatic \
+                         btdevice=/dev/gps
+
+SPECIFIC POLICY FILE INFORMATION
+
+mac_permissions.xml:
+  ABOUT:
+    The mac_permissions.xml file is used for controlling the mmac solutions
+    as well as mapping a public base16 signing key with an arbitrary seinfo
+    string. Details of the files contents can be found in a comment at the
+    top of that file. The seinfo string, previously mentioned, is the same string
+    that is referenced in seapp_contexts.
+
+    It is important to note the final processed version of this file
+    is stripped of comments and whitespace. This is to preserve space on the
+    system.img. If one wishes to view it in a more human friendly format,
+    the "tidy" or "xmllint" command will assist you.
+
+  TOOLING:
+    insertkeys.py
+      Is a helper script for mapping arbitrary tags in the signature stanzas of
+      mac_permissions.xml to public keys found in pem files. This script takes
+      a mac_permissions.xml file(s) and configuration file in order to operate.
+      Details of the configuration file (keys.conf) can be found in the subsection
+      keys.conf. This tool is also responsible for stripping the comments and
+      whitespace during processing.
+
+      keys.conf
+        The keys.conf file is used for controlling the mapping of "tags" found in
+        the mac_permissions.xml signature stanzas with actual public keys found in
+        pem files. The configuration file is processed via m4.
+
+        The script allows for mapping any string contained in TARGET_BUILD_VARIANT
+        with specific path to a pem file. Typically TARGET_BUILD_VARIANT is either
+        user, eng or userdebug. Additionally, one can specify "ALL" to map a path to
+        any string specified in TARGET_BUILD_VARIANT. All tags are matched verbatim
+        and all options are matched lowercase. The options are "tolowered" automatically
+        for the user, it is convention to specify tags and options in all uppercase
+        and tags start with @. The option arguments can also use environment variables
+        via the familiar $VARIABLE syntax. This is often useful for setting a location
+        to ones release keys.
+
+        Often times, one will need to integrate an application that was signed by a separate
+        organization and may need to extract the pem file for the insertkeys/keys.conf tools.
+        Extraction of the public key in the pem format is possible via openssl. First you need
+        to unzip the apk, once it is unzipped, cd into the META_INF directory and then execute
+        openssl pkcs7 -inform DER -in CERT.RSA -out CERT.pem -outform PEM  -print_certs
+        On some occasions CERT.RSA has a different name, and you will need to adjust for that.
+        After extracting the pem, you can rename it, and configure keys.conf and
+        mac_permissions.xml to pick up the change. You MUST open the generated pem file in a text
+        editor and strip out anything outside the opening and closing scissor lines. Failure to do
+        so WILL cause a compile time issue thrown by insertkeys.py
+
+        NOTE: The pem files are base64 encoded and PackageManagerService, mac_permissions.xml
+              and setool all use base16 encodings.

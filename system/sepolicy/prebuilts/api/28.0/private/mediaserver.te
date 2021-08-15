@@ -1,0 +1,11 @@
+typeattribute mediaserver coredomain;
+
+init_daemon_domain(mediaserver)
+
+# allocate and use graphic buffers
+hal_client_domain(mediaserver, hal_graphics_allocator)
+
+# TODO(b/36375899): Remove this once OMX HAL is attributized and mediaserver is marked as a client
+# of OMX HAL.
+allow mediaserver hal_codec2_hwservice:hwservice_manager find;
+allow mediaserver hal_omx_hwservice:hwservice_manager find;

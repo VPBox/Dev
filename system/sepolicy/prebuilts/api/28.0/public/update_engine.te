@@ -1,0 +1,58 @@
+# Domain for update_engine daemon.
+type update_engine, domain, update_engine_common;
+type update_engine_exec, exec_type, file_type;
+
+net_domain(update_engine);
+
+# Read/[write] to /proc/net/xt_qtaguid/ctrl and /dev/xt_qtaguid to tag network
+# sockets.
+allow update_engine qtaguid_proc:file rw_file_perms;
+allow update_engine qtaguid_device:chr_file r_file_perms;
+
+# Following permissions are needed for update_engine.
+allow update_engine self:process { setsched };
+allow update_engine self:global_capability_class_set { fowner sys_admin };
+# Note: fsetid checks are triggered when creating a file in a directory with
+# the setgid bit set to determine if the file should inherit setgid. In this
+# case, setgid on the file is undesirable so we should just suppress the
+# denial.
+dontaudit update_engine self:global_capability_class_set fsetid;
+
+allow update_engine kmsg_device:chr_file w_file_perms;
+allow update_engine update_engine_exec:file rx_file_perms;
+wakelock_use(update_engine);
+
+# Ignore these denials.
+dontaudit update_engine kernel:process setsched;
+dontaudit update_engine self:capability sys_rawio;
+
+# Allow using persistent storage in /data/misc/update_engine.
+allow update_engine update_engine_data_file:dir create_dir_perms;
+allow update_engine update_engine_data_file:file create_file_perms;
+
+# Allow using persistent storage in /data/misc/update_engine_log.
+allow update_engine update_engine_log_data_file:dir create_dir_perms;
+allow update_engine update_engine_log_data_file:file create_file_perms;
+
+# Don't allow kernel module loading, just silence the logs.
+dontaudit update_engine kernel:system module_request;
+
+# Register the service to perform Binder IPC.
+binder_use(update_engine)
+add_service(update_engine, update_engine_service)
+
+# Allow update_engine to call the callback function provided by priv_app.
+binder_call(update_engine, priv_app)
+
+# Read OTA zip file at /data/ota_package/.
+allow update_engine ota_package_file:file r_file_perms;
+allow update_engine ota_package_file:dir r_dir_perms;
+
+# Use Boot Control HAL
+hal_client_domain(update_engine, hal_bootctl)
+
+# access /proc/misc
+allow update_engine proc_misc:file r_file_perms;
+
+# read directories on /system and /vendor
+allow update_engine system_file:dir r_dir_perms;

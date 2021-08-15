@@ -1,0 +1,2 @@
+# blkid for untrusted block devices
+type blkid_untrusted, domain;

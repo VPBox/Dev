@@ -1,0 +1,291 @@
+######################################
+# Attribute declarations
+#
+
+# All types used for devices.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# in tools/checkfc.c
+attribute dev_type;
+
+# All types used for processes.
+attribute domain;
+
+# All types used for filesystems.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute fs_type;
+
+# All types used for context= mounts.
+attribute contextmount_type;
+
+# All types used for files that can exist on a labeled fs.
+# Do not use for pseudo file types.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute file_type;
+
+# All types used for domain entry points.
+attribute exec_type;
+
+# All types used for /data files.
+attribute data_file_type;
+# All types in /data, not in /data/vendor
+attribute core_data_file_type;
+# All types in /vendor
+attribute vendor_file_type;
+
+# All types use for sysfs files.
+attribute sysfs_type;
+
+# All types use for debugfs files.
+attribute debugfs_type;
+
+# Attribute used for all sdcards
+attribute sdcard_type;
+
+# All types used for nodes/hosts.
+attribute node_type;
+
+# All types used for network interfaces.
+attribute netif_type;
+
+# All types used for network ports.
+attribute port_type;
+
+# All types used for property service
+# On change, update CHECK_PC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute property_type;
+
+# All properties defined in core SELinux policy. Should not be
+# used by device specific properties
+attribute core_property_type;
+
+# All properties used to configure log filtering.
+attribute log_property_type;
+
+# All service_manager types created by system_server
+attribute system_server_service;
+
+# services which should be available to all but isolated apps
+attribute app_api_service;
+
+# services which should be available to all ephemeral apps
+attribute ephemeral_app_api_service;
+
+# services which export only system_api
+attribute system_api_service;
+
+# All types used for services managed by servicemanager.
+# On change, update CHECK_SC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute service_manager_type;
+
+# All types used for services managed by hwservicemanager
+attribute hwservice_manager_type;
+
+# All HwBinder services guaranteed to be passthrough. These services always run
+# in the process of their clients, and thus operate with the same access as
+# their clients.
+attribute same_process_hwservice;
+
+# All HwBinder services guaranteed to be offered only by core domain components
+attribute coredomain_hwservice;
+
+# All types used for services managed by vndservicemanager
+attribute vndservice_manager_type;
+
+
+# All domains that can override MLS restrictions.
+# i.e. processes that can read up and write down.
+attribute mlstrustedsubject;
+
+# All types that can override MLS restrictions.
+# i.e. files that can be read by lower and written by higher
+attribute mlstrustedobject;
+
+# All domains used for apps.
+attribute appdomain;
+
+# All third party apps.
+attribute untrusted_app_all;
+
+# All domains used for apps with network access.
+attribute netdomain;
+
+# All domains used for apps with bluetooth access.
+attribute bluetoothdomain;
+
+# All domains used for binder service domains.
+attribute binderservicedomain;
+
+# update_engine related domains that need to apply an update and run
+# postinstall. This includes the background daemon and the sideload tool from
+# recovery for A/B devices.
+attribute update_engine_common;
+
+# All core domains (as opposed to vendor/device-specific domains)
+attribute coredomain;
+
+# All socket devices owned by core domain components
+attribute coredomain_socket;
+
+# All vendor domains which violate the requirement of not using Binder
+# TODO(b/35870313): Remove this once there are no violations
+attribute binder_in_vendor_violators;
+
+# All vendor domains which violate the requirement of not using sockets for
+# communicating with core components
+# TODO(b/36577153): Remove this once there are no violations
+attribute socket_between_core_and_vendor_violators;
+
+# All vendor domains which violate the requirement of not executing
+# system processes
+# TODO(b/36463595)
+attribute vendor_executes_system_violators;
+
+# hwservices that are accessible from untrusted applications
+# WARNING: Use of this attribute should be avoided unless
+# absolutely necessary.  It is a temporary allowance to aid the
+# transition to treble and will be removed in a future platform
+# version, requiring all hwservices that are labeled with this
+# attribute to be submitted to AOSP in order to maintain their
+# app-visibility.
+attribute untrusted_app_visible_hwservice;
+
+# PDX services
+attribute pdx_endpoint_dir_type;
+attribute pdx_endpoint_socket_type;
+attribute pdx_channel_socket_type;
+
+pdx_service_attributes(display_client)
+pdx_service_attributes(display_manager)
+pdx_service_attributes(display_screenshot)
+pdx_service_attributes(display_vsync)
+pdx_service_attributes(performance_client)
+pdx_service_attributes(bufferhub_client)
+
+# All HAL servers
+attribute halserverdomain;
+# All HAL clients
+attribute halclientdomain;
+
+# HALs
+attribute hal_allocator;
+attribute hal_allocator_client;
+attribute hal_allocator_server;
+attribute hal_audio;
+attribute hal_audio_client;
+attribute hal_audio_server;
+attribute hal_bluetooth;
+attribute hal_bluetooth_client;
+attribute hal_bluetooth_server;
+attribute hal_bootctl;
+attribute hal_bootctl_client;
+attribute hal_bootctl_server;
+attribute hal_camera;
+attribute hal_camera_client;
+attribute hal_camera_server;
+attribute hal_configstore;
+attribute hal_configstore_client;
+attribute hal_configstore_server;
+attribute hal_contexthub;
+attribute hal_contexthub_client;
+attribute hal_contexthub_server;
+attribute hal_drm;
+attribute hal_drm_client;
+attribute hal_drm_server;
+attribute hal_dumpstate;
+attribute hal_dumpstate_client;
+attribute hal_dumpstate_server;
+attribute hal_fingerprint;
+attribute hal_fingerprint_client;
+attribute hal_fingerprint_server;
+attribute hal_gatekeeper;
+attribute hal_gatekeeper_client;
+attribute hal_gatekeeper_server;
+attribute hal_gnss;
+attribute hal_gnss_client;
+attribute hal_gnss_server;
+attribute hal_graphics_allocator;
+attribute hal_graphics_allocator_client;
+attribute hal_graphics_allocator_server;
+attribute hal_graphics_composer;
+attribute hal_graphics_composer_client;
+attribute hal_graphics_composer_server;
+attribute hal_health;
+attribute hal_health_client;
+attribute hal_health_server;
+attribute hal_ir;
+attribute hal_ir_client;
+attribute hal_ir_server;
+attribute hal_keymaster;
+attribute hal_keymaster_client;
+attribute hal_keymaster_server;
+attribute hal_light;
+attribute hal_light_client;
+attribute hal_light_server;
+attribute hal_memtrack;
+attribute hal_memtrack_client;
+attribute hal_memtrack_server;
+attribute hal_nfc;
+attribute hal_nfc_client;
+attribute hal_nfc_server;
+attribute hal_oemlock;
+attribute hal_oemlock_client;
+attribute hal_oemlock_server;
+attribute hal_power;
+attribute hal_power_client;
+attribute hal_power_server;
+attribute hal_sensors;
+attribute hal_sensors_client;
+attribute hal_sensors_server;
+attribute hal_telephony;
+attribute hal_telephony_client;
+attribute hal_telephony_server;
+attribute hal_tetheroffload;
+attribute hal_tetheroffload_client;
+attribute hal_tetheroffload_server;
+attribute hal_thermal;
+attribute hal_thermal_client;
+attribute hal_thermal_server;
+attribute hal_tv_cec;
+attribute hal_tv_cec_client;
+attribute hal_tv_cec_server;
+attribute hal_tv_input;
+attribute hal_tv_input_client;
+attribute hal_tv_input_server;
+attribute hal_usb;
+attribute hal_usb_client;
+attribute hal_usb_server;
+attribute hal_vibrator;
+attribute hal_vibrator_client;
+attribute hal_vibrator_server;
+attribute hal_vr;
+attribute hal_vr_client;
+attribute hal_vr_server;
+attribute hal_weaver;
+attribute hal_weaver_client;
+attribute hal_weaver_server;
+attribute hal_wifi;
+attribute hal_wifi_client;
+attribute hal_wifi_server;
+attribute hal_wifi_keystore;
+attribute hal_wifi_keystore_client;
+attribute hal_wifi_keystore_server;
+attribute hal_wifi_offload;
+attribute hal_wifi_offload_client;
+attribute hal_wifi_offload_server;
+attribute hal_wifi_supplicant;
+attribute hal_wifi_supplicant_client;
+attribute hal_wifi_supplicant_server;
+
+# HwBinder services offered across the core-vendor boundary
+#
+# We annotate server domains with x_server  to loosen the coupling between
+# system and vendor images. For example, it should be possible to move a service
+# from one core domain to another, without having to update the vendor image
+# which contains clients of this service.
+
+attribute display_service_server;
+attribute wifi_keystore_service_server;

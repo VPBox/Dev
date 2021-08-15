@@ -1,0 +1,8 @@
+typeattribute radio coredomain;
+
+app_domain(radio)
+
+read_runtime_log_tags(radio)
+
+# Telephony code contains time / time zone detection logic so it reads the associated properties.
+get_prop(radio, time_prop)

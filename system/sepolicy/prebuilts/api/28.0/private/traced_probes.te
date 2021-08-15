@@ -1,0 +1,99 @@
+# Perfetto tracing probes, has tracefs access.
+type traced_probes_exec, exec_type, file_type;
+
+# Allow init to exec the daemon.
+init_daemon_domain(traced_probes)
+
+# Write trace data to the Perfetto traced damon. This requires connecting to its
+# producer socket and obtaining a (per-process) tmpfs fd.
+allow traced_probes traced:fd use;
+allow traced_probes traced_tmpfs:file { read write getattr map };
+unix_socket_connect(traced_probes, traced_producer, traced)
+
+# Allow traced_probes to access tracefs.
+allow traced_probes debugfs_tracing:dir r_dir_perms;
+allow traced_probes debugfs_tracing:file rw_file_perms;
+allow traced_probes debugfs_trace_marker:file getattr;
+
+# TODO(primiano): temporarily I/O tracing categories are still
+# userdebug only until we nail down the blacklist/whitelist.
+userdebug_or_eng(`
+allow traced_probes debugfs_tracing_debug:file rw_file_perms;
+')
+
+# Allow traced_probes to start with a higher scheduling class and then downgrade
+# itself.
+allow traced_probes self:global_capability_class_set { sys_nice };
+
+# Allow procfs access
+r_dir_file(traced_probes, domain)
+
+# Allow to log to kernel dmesg when starting / stopping ftrace.
+allow traced_probes kmsg_device:chr_file write;
+
+# Allow traced_probes to list the system partition.
+allow traced_probes system_file:dir { open read };
+
+# Allow traced_probes to list some of the data partition.
+allow traced_probes self:capability dac_read_search;
+
+allow traced_probes apk_data_file:dir { getattr open read search };
+allow traced_probes dalvikcache_data_file:dir { getattr open read search };
+userdebug_or_eng(`
+allow traced_probes system_data_file:dir { getattr open read search };
+')
+allow traced_probes system_app_data_file:dir { getattr open read search };
+allow traced_probes backup_data_file:dir { getattr open read search };
+allow traced_probes bootstat_data_file:dir { getattr open read search };
+allow traced_probes update_engine_data_file:dir { getattr open read search };
+allow traced_probes update_engine_log_data_file:dir { getattr open read search };
+allow traced_probes user_profile_data_file:dir { getattr open read search };
+
+# Allow traced_probes to run atrace. atrace pokes at system services to enable
+# their userspace TRACE macros.
+domain_auto_trans(traced_probes, atrace_exec, atrace);
+
+# This is needed for: path="/system/bin/linker64"
+# scontext=u:r:atrace:s0 tcontext=u:r:traced_probes:s0 tclass=fd
+allow atrace traced_probes:fd use;
+
+###
+### Neverallow rules
+###
+### traced_probes should NEVER do any of this
+
+# Disallow mapping executable memory (execstack and exec are already disallowed
+# globally in domain.te).
+neverallow traced_probes self:process execmem;
+
+# Block device access.
+neverallow traced_probes dev_type:blk_file { read write };
+
+# ptrace any other app
+neverallow traced_probes domain:process ptrace;
+
+# Disallows access to /data files.
+neverallow traced_probes {
+  data_file_type
+  -apk_data_file
+  -dalvikcache_data_file
+  -system_data_file
+  -system_app_data_file
+  -backup_data_file
+  -bootstat_data_file
+  -update_engine_data_file
+  -update_engine_log_data_file
+  -user_profile_data_file
+  # TODO(b/72998741) Remove vendor_data_file exemption. Further restricted in a
+  # subsequent neverallow. Currently only getattr and search are allowed.
+  -vendor_data_file
+  -zoneinfo_data_file
+}:dir *;
+neverallow traced_probes system_data_file:dir ~{ getattr userdebug_or_eng(`open read') search };
+neverallow traced_probes zoneinfo_data_file:dir ~r_dir_perms;
+neverallow traced_probes { data_file_type -zoneinfo_data_file }:lnk_file *;
+neverallow traced_probes { data_file_type -zoneinfo_data_file }:file *;
+
+# Only init is allowed to enter the traced_probes domain via exec()
+neverallow { domain -init } traced_probes:process transition;
+neverallow * traced_probes:process dyntransition;

@@ -1,0 +1,1 @@
+add_hwservice(stats_service_server, fwk_stats_hwservice)

@@ -1,0 +1,8 @@
+# type_transition must be private policy the domain_trans rules could stay
+# public, but conceptually should go with this
+# Technically not a daemon but we do want the transition from init domain to
+# asan_extract to occur.
+with_asan(`
+typeattribute asan_extract coredomain;
+init_daemon_domain(asan_extract)
+')

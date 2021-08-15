@@ -1,0 +1,6 @@
+# HwBinder IPC from clients into server, and callbacks
+binder_call(hal_tv_input_client, hal_tv_input_server)
+binder_call(hal_tv_input_server, hal_tv_input_client)
+
+add_hwservice(hal_tv_input_server, hal_tv_input_hwservice)
+allow hal_tv_input_client hal_tv_input_hwservice:hwservice_manager find;

@@ -1,0 +1,991 @@
+
+#============= hal_audio_default ==============
+allow hal_audio_default init:fifo_file read;
+allow hal_audio_default system_data_file:file read;
+
+#============= hal_bluetooth_default ==============
+allow hal_bluetooth_default kernel:system module_request;
+allow hal_bluetooth_default self:socket create;
+allow hal_bluetooth_default system_data_file:file read;
+
+#============= hal_camera_default ==============
+
+#!!!! The file '/dev/__properties__/u:object_r:apexd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:apexd_prop:s0
+allow hal_camera_default apexd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:audio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:audio_prop:s0
+allow hal_camera_default audio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:bluetooth_a2dp_offload_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:bluetooth_a2dp_offload_prop:s0
+allow hal_camera_default bluetooth_a2dp_offload_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:bluetooth_audio_hal_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:bluetooth_audio_hal_prop:s0
+allow hal_camera_default bluetooth_audio_hal_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:bluetooth_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:bluetooth_prop:s0
+allow hal_camera_default bluetooth_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:bootloader_boot_reason_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:bootloader_boot_reason_prop:s0
+allow hal_camera_default bootloader_boot_reason_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:boottime_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:boottime_prop:s0
+allow hal_camera_default boottime_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:bpf_progs_loaded_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:bpf_progs_loaded_prop:s0
+allow hal_camera_default bpf_progs_loaded_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:cnd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:cnd_prop:s0
+allow hal_camera_default cnd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:config_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:config_prop:s0
+allow hal_camera_default config_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:cppreopt_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:cppreopt_prop:s0
+allow hal_camera_default cppreopt_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:cpu_variant_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:cpu_variant_prop:s0
+allow hal_camera_default cpu_variant_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_adbd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_adbd_prop:s0
+allow hal_camera_default ctl_adbd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_bootanim_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_bootanim_prop:s0
+allow hal_camera_default ctl_bootanim_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_bugreport_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_bugreport_prop:s0
+allow hal_camera_default ctl_bugreport_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_console_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_console_prop:s0
+allow hal_camera_default ctl_console_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_default_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_default_prop:s0
+allow hal_camera_default ctl_default_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_dumpstate_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_dumpstate_prop:s0
+allow hal_camera_default ctl_dumpstate_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_fuse_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_fuse_prop:s0
+allow hal_camera_default ctl_fuse_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_gsid_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_gsid_prop:s0
+allow hal_camera_default ctl_gsid_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_interface_restart_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_interface_restart_prop:s0
+allow hal_camera_default ctl_interface_restart_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_interface_start_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_interface_start_prop:s0
+allow hal_camera_default ctl_interface_start_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_interface_stop_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_interface_stop_prop:s0
+allow hal_camera_default ctl_interface_stop_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_mdnsd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_mdnsd_prop:s0
+allow hal_camera_default ctl_mdnsd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_restart_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_restart_prop:s0
+allow hal_camera_default ctl_restart_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_rildaemon_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_rildaemon_prop:s0
+allow hal_camera_default ctl_rildaemon_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_sigstop_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_sigstop_prop:s0
+allow hal_camera_default ctl_sigstop_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_start_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_start_prop:s0
+allow hal_camera_default ctl_start_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_stop_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_stop_prop:s0
+allow hal_camera_default ctl_stop_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_vendor_imsrcsservice_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_vendor_imsrcsservice_prop:s0
+allow hal_camera_default ctl_vendor_imsrcsservice_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ctl_vendor_rmt_storage_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ctl_vendor_rmt_storage_prop:s0
+allow hal_camera_default ctl_vendor_rmt_storage_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:dalvik_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:dalvik_prop:s0
+allow hal_camera_default dalvik_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:debuggerd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:debuggerd_prop:s0
+allow hal_camera_default debuggerd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:default_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:default_prop:s0
+allow hal_camera_default default_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_activity_manager_native_boot_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_activity_manager_native_boot_prop:s0
+allow hal_camera_default device_config_activity_manager_native_boot_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_boot_count_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_boot_count_prop:s0
+allow hal_camera_default device_config_boot_count_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_input_native_boot_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_input_native_boot_prop:s0
+allow hal_camera_default device_config_input_native_boot_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_media_native_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_media_native_prop:s0
+allow hal_camera_default device_config_media_native_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_netd_native_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_netd_native_prop:s0
+allow hal_camera_default device_config_netd_native_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_reset_performed_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_reset_performed_prop:s0
+allow hal_camera_default device_config_reset_performed_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_runtime_native_boot_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_runtime_native_boot_prop:s0
+allow hal_camera_default device_config_runtime_native_boot_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_config_runtime_native_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_config_runtime_native_prop:s0
+allow hal_camera_default device_config_runtime_native_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:device_logging_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:device_logging_prop:s0
+allow hal_camera_default device_logging_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:dhcp_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:dhcp_prop:s0
+allow hal_camera_default dhcp_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:dumpstate_options_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:dumpstate_options_prop:s0
+allow hal_camera_default dumpstate_options_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:dumpstate_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:dumpstate_prop:s0
+allow hal_camera_default dumpstate_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:dynamic_system_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:dynamic_system_prop:s0
+allow hal_camera_default dynamic_system_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported2_config_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported2_config_prop:s0
+allow hal_camera_default exported2_config_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported2_radio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported2_radio_prop:s0
+allow hal_camera_default exported2_radio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported2_system_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported2_system_prop:s0
+allow hal_camera_default exported2_system_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported2_vold_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported2_vold_prop:s0
+allow hal_camera_default exported2_vold_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported3_default_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported3_default_prop:s0
+allow hal_camera_default exported3_default_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported3_radio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported3_radio_prop:s0
+allow hal_camera_default exported3_radio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported3_system_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported3_system_prop:s0
+allow hal_camera_default exported3_system_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_audio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_audio_prop:s0
+allow hal_camera_default exported_audio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_bluetooth_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_bluetooth_prop:s0
+allow hal_camera_default exported_bluetooth_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_dalvik_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_dalvik_prop:s0
+allow hal_camera_default exported_dalvik_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_ffs_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_ffs_prop:s0
+allow hal_camera_default exported_ffs_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_overlay_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_overlay_prop:s0
+allow hal_camera_default exported_overlay_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_pm_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_pm_prop:s0
+allow hal_camera_default exported_pm_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_system_radio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_system_radio_prop:s0
+allow hal_camera_default exported_system_radio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:exported_wifi_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:exported_wifi_prop:s0
+allow hal_camera_default exported_wifi_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:factory_ota_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:factory_ota_prop:s0
+allow hal_camera_default factory_ota_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ffs_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ffs_prop:s0
+allow hal_camera_default ffs_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:fingerprint_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:fingerprint_prop:s0
+allow hal_camera_default fingerprint_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:firstboot_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:firstboot_prop:s0
+allow hal_camera_default firstboot_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:gsid_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:gsid_prop:s0
+allow hal_camera_default gsid_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:heapprofd_enabled_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:heapprofd_enabled_prop:s0
+allow hal_camera_default heapprofd_enabled_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:ims_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:ims_prop:s0
+allow hal_camera_default ims_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:last_boot_reason_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:last_boot_reason_prop:s0
+allow hal_camera_default last_boot_reason_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:llkd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:llkd_prop:s0
+allow hal_camera_default llkd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:logpersistd_logging_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:logpersistd_logging_prop:s0
+allow hal_camera_default logpersistd_logging_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:lowpan_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:lowpan_prop:s0
+allow hal_camera_default lowpan_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:lpdumpd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:lpdumpd_prop:s0
+allow hal_camera_default lpdumpd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:mmc_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:mmc_prop:s0
+allow hal_camera_default mmc_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:net_dns_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:net_dns_prop:s0
+allow hal_camera_default net_dns_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:net_radio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:net_radio_prop:s0
+allow hal_camera_default net_radio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:netd_stable_secret_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:netd_stable_secret_prop:s0
+allow hal_camera_default netd_stable_secret_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:nfc_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:nfc_prop:s0
+allow hal_camera_default nfc_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:nnapi_ext_deny_product_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:nnapi_ext_deny_product_prop:s0
+allow hal_camera_default nnapi_ext_deny_product_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:overlay_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:overlay_prop:s0
+allow hal_camera_default overlay_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:pan_result_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:pan_result_prop:s0
+allow hal_camera_default pan_result_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:per_mgr_state_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:per_mgr_state_prop:s0
+allow hal_camera_default per_mgr_state_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:persist_debug_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:persist_debug_prop:s0
+allow hal_camera_default persist_debug_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:persistent_properties_ready_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:persistent_properties_ready_prop:s0
+allow hal_camera_default persistent_properties_ready_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:pm_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:pm_prop:s0
+allow hal_camera_default pm_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:power_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:power_prop:s0
+allow hal_camera_default power_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:powerctl_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:powerctl_prop:s0
+allow hal_camera_default powerctl_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:public_vendor_system_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:public_vendor_system_prop:s0
+allow hal_camera_default public_vendor_system_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:radio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:radio_prop:s0
+allow hal_camera_default radio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:restorecon_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:restorecon_prop:s0
+allow hal_camera_default restorecon_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:safemode_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:safemode_prop:s0
+allow hal_camera_default safemode_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:serialno_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:serialno_prop:s0
+allow hal_camera_default serialno_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:shell_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:shell_prop:s0
+allow hal_camera_default shell_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:system_boot_reason_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:system_boot_reason_prop:s0
+allow hal_camera_default system_boot_reason_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:system_lmk_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:system_lmk_prop:s0
+allow hal_camera_default system_lmk_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:system_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:system_prop:s0
+allow hal_camera_default system_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:system_radio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:system_radio_prop:s0
+allow hal_camera_default system_radio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:system_trace_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:system_trace_prop:s0
+allow hal_camera_default system_trace_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:test_boot_reason_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:test_boot_reason_prop:s0
+allow hal_camera_default test_boot_reason_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:test_harness_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:test_harness_prop:s0
+allow hal_camera_default test_harness_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:theme_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:theme_prop:s0
+allow hal_camera_default theme_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:time_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:time_prop:s0
+allow hal_camera_default time_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:traced_enabled_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:traced_enabled_prop:s0
+allow hal_camera_default traced_enabled_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:traced_lazy_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:traced_lazy_prop:s0
+allow hal_camera_default traced_lazy_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_bluetooth_log_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_bluetooth_log_prop:s0
+allow hal_camera_default vendor_bluetooth_log_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_bluetooth_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_bluetooth_prop:s0
+allow hal_camera_default vendor_bluetooth_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_build_type_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_build_type_prop:s0
+allow hal_camera_default vendor_build_type_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_cnss_diag_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_cnss_diag_prop:s0
+allow hal_camera_default vendor_cnss_diag_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_device_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_device_prop:s0
+allow hal_camera_default vendor_device_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_fingerprint_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_fingerprint_prop:s0
+allow hal_camera_default vendor_fingerprint_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_modem_diag_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_modem_diag_prop:s0
+allow hal_camera_default vendor_modem_diag_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_modem_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_modem_prop:s0
+allow hal_camera_default vendor_modem_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_net_radio_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_net_radio_prop:s0
+allow hal_camera_default vendor_net_radio_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_nfc_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_nfc_prop:s0
+allow hal_camera_default vendor_nfc_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_radio_sku_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_radio_sku_prop:s0
+allow hal_camera_default vendor_radio_sku_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_ramdump_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_ramdump_prop:s0
+allow hal_camera_default vendor_ramdump_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_ramoops_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_ramoops_prop:s0
+allow hal_camera_default vendor_ramoops_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_secure_element_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_secure_element_prop:s0
+allow hal_camera_default vendor_secure_element_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_security_patch_level_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_security_patch_level_prop:s0
+allow hal_camera_default vendor_security_patch_level_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_shutdown_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_shutdown_prop:s0
+allow hal_camera_default vendor_shutdown_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_ssr_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_ssr_prop:s0
+allow hal_camera_default vendor_ssr_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_tcpdump_log_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_tcpdump_log_prop:s0
+allow hal_camera_default vendor_tcpdump_log_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_tee_listener_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_tee_listener_prop:s0
+allow hal_camera_default vendor_tee_listener_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_thermal_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_thermal_prop:s0
+allow hal_camera_default vendor_thermal_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_time_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_time_prop:s0
+allow hal_camera_default vendor_time_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_time_service_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_time_service_prop:s0
+allow hal_camera_default vendor_time_service_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_usb_config_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_usb_config_prop:s0
+allow hal_camera_default vendor_usb_config_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_usb_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_usb_prop:s0
+allow hal_camera_default vendor_usb_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_vibrator_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_vibrator_prop:s0
+allow hal_camera_default vendor_vibrator_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vendor_wifi_version:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vendor_wifi_version:s0
+allow hal_camera_default vendor_wifi_version:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:vold_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:vold_prop:s0
+allow hal_camera_default vold_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:wifi_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:wifi_prop:s0
+allow hal_camera_default wifi_prop:file { getattr open };
+
+#============= hal_gnss_qti ==============
+allow hal_gnss_qti tmpfs:lnk_file read;
+
+#============= hal_keymaster_qti ==============
+allow hal_keymaster_qti system_data_file:file read;
+allow hal_keymaster_qti init:fifo_file read;
+
+#============= hal_memtrack_default ==============
+allow hal_memtrack_default tmpfs:lnk_file read;
+
+#============= hal_neuralnetworks_paintbox ==============
+allow hal_neuralnetworks_paintbox init:fifo_file read;
+allow hal_neuralnetworks_paintbox system_data_file:file read;
+
+#============= ims ==============
+allow ims ctl_vendor_imsrcsservice_prop:property_service set;
+
+#!!!! The file '/vendor/firmware_mnt' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /vendor/firmware_mnt
+allow untrusted_app_27 vendor_firmware_file:dir getattr;
+
+allow init vendor_firmware_file:filesystem getattr;
+allow init vendor_firmware_file:filesystem unmount;
+
+#============= init-insmod-sh ==============
+allow init-insmod-sh system_data_file:file read;
+allow init-insmod-sh init:fifo_file read;
+
+#============= init-qcom-devstart-sh ==============
+
+#!!!! The file '/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qpnp,fg' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qpnp,fg
+allow init-qcom-devstart-sh sysfs_batteryinfo:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qpnp,fg/cycle_counts_bins' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qpnp,fg/cycle_counts_bins
+allow init-qcom-devstart-sh sysfs_batteryinfo:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/ac5a000.qcom,fd' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/ac5a000.qcom,fd
+allow init-qcom-devstart-sh sysfs_camera:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/ac5a000.qcom,fd/power/runtime_suspended_time' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/ac5a000.qcom,fd/power/runtime_suspended_time
+allow init-qcom-devstart-sh sysfs_camera:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/soc:qcom,l3-cdsp/devfreq' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:qcom,l3-cdsp/devfreq
+allow init-qcom-devstart-sh sysfs_devfreq:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/soc:qcom,l3-cdsp/devfreq/soc:qcom,l3-cdsp/polling_interval' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:qcom,l3-cdsp/devfreq/soc:qcom,l3-cdsp/polling_interval
+allow init-qcom-devstart-sh sysfs_devfreq:file getattr;
+
+#!!!! The file '/sys/devices/virtual/block/ram11' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/ram11
+allow init-qcom-devstart-sh sysfs_devices_block:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/soc:qcom,dsi-display@50/panel_info' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:qcom,dsi-display@50/panel_info
+allow init-qcom-devstart-sh sysfs_display:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/soc:qcom,dsi-display@50/panel_info/panel0/power/runtime_suspended_time' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:qcom,dsi-display@50/panel_info/panel0/power/runtime_suspended_time
+allow init-qcom-devstart-sh sysfs_display:file getattr;
+
+#!!!! The file '/sys/devices/virtual/block/dm-1' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/dm-1
+allow init-qcom-devstart-sh sysfs_dm:dir { open search };
+
+#!!!! The file '/sys/devices/virtual/block/dm-1/badblocks' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/dm-1/badblocks
+allow init-qcom-devstart-sh sysfs_dm:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/soc:fp_fpc1020' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:fp_fpc1020
+allow init-qcom-devstart-sh sysfs_fingerprint:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/soc:fp_fpc1020/wakeup_enable' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:fp_fpc1020/wakeup_enable
+allow init-qcom-devstart-sh sysfs_fingerprint:file getattr;
+
+#!!!! The file '/sys/devices/virtual/misc/hw_random' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/misc/hw_random
+allow init-qcom-devstart-sh sysfs_hwrandom:dir { open search };
+
+#!!!! The file '/sys/devices/virtual/misc/hw_random/rng_current' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/misc/hw_random/rng_current
+allow init-qcom-devstart-sh sysfs_hwrandom:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/soc:qcom,dsi-display@50/backlight' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:qcom,dsi-display@50/backlight
+allow init-qcom-devstart-sh sysfs_leds:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/soc:qcom,dsi-display@50/backlight/panel0-backlight/vr_mode' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/soc:qcom,dsi-display@50/backlight/panel0-backlight/vr_mode
+allow init-qcom-devstart-sh sysfs_leds:file getattr;
+
+#!!!! The file '/sys/devices/virtual/block/loop15' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/loop15
+allow init-qcom-devstart-sh sysfs_loop:dir { open search };
+
+#!!!! The file '/sys/devices/virtual/block/loop15/badblocks' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/loop15/badblocks
+allow init-qcom-devstart-sh sysfs_loop:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/7c4000.sdhci' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/7c4000.sdhci
+allow init-qcom-devstart-sh sysfs_mmc:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/7c4000.sdhci/pm_qos_cpu_groups_status' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/7c4000.sdhci/pm_qos_cpu_groups_status
+allow init-qcom-devstart-sh sysfs_mmc:file getattr;
+
+#!!!! The file '/sys/devices/virtual/net' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/net
+allow init-qcom-devstart-sh sysfs_net:dir { open search };
+
+#!!!! The file '/sys/devices/virtual/net/dummy0/netdev_group' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/net/dummy0/netdev_group
+allow init-qcom-devstart-sh sysfs_net:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-03/c440000.qcom,spmi:qcom,pm660l@3:analog-codec@f000' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-03/c440000.qcom,spmi:qcom,pm660l@3:analog-codec@f000
+allow init-qcom-devstart-sh sysfs_pixelstats:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/0.qcom,rmtfs_sharedmem' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/0.qcom,rmtfs_sharedmem
+allow init-qcom-devstart-sh sysfs_rmtfs:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/0.qcom,rmtfs_sharedmem/uio/uio0/version' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/0.qcom,rmtfs_sharedmem/uio/uio0/version
+allow init-qcom-devstart-sh sysfs_rmtfs:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,pm660_rtc/rtc' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,pm660_rtc/rtc
+allow init-qcom-devstart-sh sysfs_rtc:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,pm660_rtc/rtc/rtc0/max_user_freq' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,pm660_rtc/rtc/rtc0/max_user_freq
+allow init-qcom-devstart-sh sysfs_rtc:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/17d41000.qcom,cpucc/17d41000.qcom,cpucc:qcom,limits-dcvs@0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/17d41000.qcom,cpucc/17d41000.qcom,cpucc:qcom,limits-dcvs@0
+allow init-qcom-devstart-sh sysfs_thermal:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/17d41000.qcom,cpucc/17d41000.qcom,cpucc:qcom,limits-dcvs@0/lmh_freq_limit' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/17d41000.qcom,cpucc/17d41000.qcom,cpucc:qcom,limits-dcvs@0/lmh_freq_limit
+allow init-qcom-devstart-sh sysfs_thermal:file getattr;
+
+#!!!! The file '/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,usb-pdphy@1700/usbpd0/typec' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,usb-pdphy@1700/usbpd0/typec
+allow init-qcom-devstart-sh sysfs_usb_c:dir { open search };
+
+#!!!! The file '/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,usb-pdphy@1700/usbpd0/typec/port0/port_type' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-00/c440000.qcom,spmi:qcom,pm660@0:qcom,usb-pdphy@1700/usbpd0/typec/port0/port_type
+allow init-qcom-devstart-sh sysfs_usb_c:file getattr;
+
+#!!!! The file '/sys/devices/virtual/block/zram0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/zram0
+allow init-qcom-devstart-sh sysfs_zram:dir { open search };
+
+#!!!! The file '/sys/devices/virtual/block/zram0/mem_used_max' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/zram0/mem_used_max
+allow init-qcom-devstart-sh sysfs_zram:file getattr;
+
+#!!!! The file '/sys/devices/virtual/block/zram0/uevent' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /sys/devices/virtual/block/zram0/uevent
+allow init-qcom-devstart-sh sysfs_zram_uevent:file getattr;
+
+#============= init_radio ==============
+allow init_radio system_data_file:file read;
+
+#============= location ==============
+allow location system_data_file:file read;
+
+#============= modem_svc ==============
+allow modem_svc sysfs_msm_subsys:dir { open read };
+allow modem_svc sysfs_msm_subsys:file { open read };
+allow modem_svc vendor_default_prop:property_service set;
+
+#============= proc_irq ==============
+allow proc_irq proc:filesystem associate;
+
+#============= qlogd ==============
+allow qlogd init:fifo_file read;
+allow qlogd system_data_file:file read;
+allow qlogd init:unix_stream_socket { read write };
+
+#============= rild ==============
+allow rild tmpfs:lnk_file read;
+
+#============= tcpdump_logger ==============
+allow tcpdump_logger system_data_file:file read;
+
+allow untrusted_app time_daemon:unix_stream_socket connectto;
+
+allow untrusted_app_27 persist_file:dir getattr;
+allow untrusted_app_27 sysfs_mmc:dir search;
+allow untrusted_app_27 sysfs_mmc:file { getattr open read };
+allow untrusted_app_27 sysfs_msm_subsys:dir search;
+
+#============= hal_power_default ==============
+allow hal_power_default tmpfs:lnk_file read;
+
+#============= hal_fingerprint_default ==============
+allow hal_fingerprint_default system_data_file:file read;
+
+#============= init-fingerprint ==============
+allow init-fingerprint system_data_file:file read;
+allow init-fingerprint init:fifo_file read;
+
+#============= init-qcom-devstart-sh ==============
+allow init-qcom-devstart-sh sysfs_batteryinfo:dir { open search };
+
+#============= proc_irq ==============
+allow proc_irq proc:filesystem associate;
+
+allow init persist_block_device:lnk_file relabelto;
+allow init sysfs_display:file setattr;
+allow init sysfs_devfreq:file { open write };
+allow init init_exec:file execute_no_trans;
+allow init self:netlink_kobject_uevent_socket { bind getopt setopt };
+allow init sysfs_devfreq:file { open write };
+allow init sysfs_devfreq_l3cdsp:file setattr;
+
+#============= sensors ==============
+allow sensors tmpfs:lnk_file read;
+
+allow init sysfs_mmc:file setattr;
+allow init sysfs_msm_subsys:file { open write };
+allow init vendor_firmware_file:filesystem { getattr unmount };
+
+#============= hal_sensors_default ==============
+allow hal_sensors_default tmpfs:lnk_file read;
+
+#============= hal_tetheroffload_default ==============
+allow hal_tetheroffload_default tmpfs:lnk_file read;
+
+#============= bootstat ==============
+allow bootstat init:fifo_file read;
+
+#============= flags_health_check ==============
+allow flags_health_check init:fifo_file read;
+
+#============= gatekeeperd ==============
+allow gatekeeperd init:fifo_file read;
+
+#============= hal_bootctl_default ==============
+allow hal_bootctl_default system_data_file:file read;
+
+#============= hal_confirmationui_default ==============
+allow hal_confirmationui_default system_data_file:file read;
+
+#============= hal_contexthub_default ==============
+allow hal_contexthub_default system_data_file:file read;
+
+#============= hal_light_default ==============
+allow hal_light_default system_data_file:file read;
+
+#============= hal_usb_impl ==============
+allow hal_usb_impl device:dir read;
+
+#============= init ==============
+
+#!!!! This avc is allowed in the current policy
+allow init init_exec:file execute_no_trans;
+allow init self:netlink_kobject_uevent_socket { bind getopt setopt };
+allow init sysfs_devfreq:file { open write };
+allow init sysfs_devfreq_l3cdsp:file setattr;
+
+#============= init_radio ==============
+allow init_radio init:fifo_file read;
+
+#============= llkd ==============
+allow llkd system_data_file:file read;
+
+#============= location ==============
+allow location init:fifo_file read;
+allow location tmpfs:lnk_file read;
+
+#============= mediaswcodec ==============
+allow mediaswcodec tmpfs:lnk_file read;
+
+#============= netd ==============
+allow netd tmpfs:lnk_file read;
+
+#============= netutils_wrapper ==============
+allow netutils_wrapper init:fifo_file read;
+
+#============= ramoops ==============
+allow ramoops init:fifo_file read;
+allow ramoops system_data_file:file read;
+
+#============= recovery_refresh ==============
+allow recovery_refresh system_data_file:file read;
+
+#============= tcpdump_logger ==============
+allow tcpdump_logger init:fifo_file read;
+
+#============= untrusted_app ==============
+allow untrusted_app time_daemon:unix_stream_socket connectto;
+
+allow untrusted_app_27 vendor_firmware_file:filesystem getattr;
+
+#============= untrusted_app ==============
+allow untrusted_app time_daemon:unix_stream_socket connectto;
+
+#============= tcpdump_logger ==============
+allow tcpdump_logger init:unix_stream_socket { read write };
+
+#============= ramoops ==============
+allow ramoops init:unix_stream_socket { read write };
+
+#============= location ==============
+allow location init:unix_stream_socket { read write };
+
+#============= init-fingerprint ==============
+allow init-fingerprint init:unix_stream_socket { read write };
+
+#============= init-insmod-sh ==============
+allow init-insmod-sh init:unix_stream_socket { read write };
+
+#============= init_radio ==============
+allow init_radio init:unix_stream_socket { read write };
+
+#============= hal_keymaster_qti ==============
+allow hal_keymaster_qti init:unix_stream_socket { read write };
+
+#============= hal_bluetooth_default ==============
+allow hal_bluetooth_default init:fifo_file read;
+
+#============= hal_camera_default ==============
+allow hal_camera_default exported2_config_prop:file read;
+
+#============= hal_contexthub_default ==============
+allow hal_contexthub_default init:fifo_file read;
+
+#============= hal_drm_widevine ==============
+allow hal_drm_widevine init:fifo_file read;
+
+#============= hal_fingerprint_default ==============
+allow hal_fingerprint_default init:fifo_file read;
+
+#============= hal_gatekeeper_qti ==============
+allow hal_gatekeeper_qti init:fifo_file read;
+allow hal_gatekeeper_qti system_data_file:file read;
+
+#============= init-qcom-devstart-sh ==============
+allow init-qcom-devstart-sh init:fifo_file read;
+allow init-qcom-devstart-sh system_data_file:file read;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 cnd_prop:file open;
+allow untrusted_app_27 cnd_prop:file getattr;
+
+#============= hal_drm_clearkey ==============
+allow hal_drm_clearkey init:fifo_file read;
+
+#============= hal_dumpstate_impl ==============
+allow hal_dumpstate_impl init:fifo_file read;
+allow hal_dumpstate_impl system_data_file:file read;
+
+#============= hal_graphics_allocator_default ==============
+allow hal_graphics_allocator_default system_data_file:file read;
+
+#============= hal_graphics_composer_default ==============
+allow hal_graphics_composer_default system_data_file:file read;
+
+#============= hal_memtrack_default ==============
+allow hal_memtrack_default system_data_file:file read;
+
+#============= hal_neuralnetworks_default ==============
+allow hal_neuralnetworks_default system_data_file:file read;
+
+#============= hal_nfc_default ==============
+allow hal_nfc_default system_data_file:file read;
+
+#============= time_daemon ==============
+allow time_daemon system_data_file:file read;
+
+#============= hal_bootctl_default ==============
+allow hal_bootctl_default init:fifo_file read;
+
+#============= hal_cas_default ==============
+allow hal_cas_default init:fifo_file read;
+
+#============= hal_configstore_default ==============
+allow hal_configstore_default system_data_file:file read;
+
+#============= hal_drm_default ==============
+allow hal_drm_default init:fifo_file read;
+
+#============= per_mgr ==============
+allow per_mgr tmpfs:lnk_file read;
+
+#============= hal_configstore_default ==============
+allow hal_configstore_default init:fifo_file read;
+allow hal_configstore_default tmpfs:lnk_file read;
+
+#============= hal_confirmationui_default ==============
+allow hal_confirmationui_default init:fifo_file read;
+
+#============= hal_gnss_qti ==============
+allow hal_gnss_qti init:fifo_file read;
+allow hal_gnss_qti system_data_file:file read;
+
+#============= hal_graphics_allocator_default ==============
+allow hal_graphics_allocator_default init:fifo_file read;
+allow hal_graphics_allocator_default tmpfs:lnk_file read;
+
+#============= hal_graphics_composer_default ==============
+allow hal_graphics_composer_default init:fifo_file read;
+allow hal_graphics_composer_default tmpfs:lnk_file read;
+
+#============= hal_health_default ==============
+allow hal_health_default system_data_file:file read;
+allow hal_health_default init:fifo_file read;
+
+#============= hal_light_default ==============
+allow hal_light_default init:fifo_file read;
+
+#============= time_daemon ==============
+allow time_daemon init:fifo_file read;
+allow time_daemon tmpfs:lnk_file read;
+
+#============= per_proxy ==============
+allow per_proxy tmpfs:lnk_file read;
+
+#============= pixelstats_vendor ==============
+allow pixelstats_vendor sysfs:file open;
+allow pixelstats_vendor sysfs:file read;
+
+#============= hal_memtrack_default ==============
+allow hal_memtrack_default init:fifo_file read;
+
+#============= hal_power_stats_default ==============
+allow hal_power_stats_default system_data_file:file read;
+
+#============= hal_sensors_default ==============
+allow hal_sensors_default system_data_file:file read;
+
+#============= hal_bluetooth_default ==============
+allow hal_bluetooth_default tmpfs:lnk_file read;
+
+#============= mediacodec ==============
+allow mediacodec tmpfs:lnk_file read;

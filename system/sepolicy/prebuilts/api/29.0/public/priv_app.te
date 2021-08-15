@@ -1,0 +1,5 @@
+###
+### A domain for further sandboxing privileged apps.
+###
+
+type priv_app, domain;

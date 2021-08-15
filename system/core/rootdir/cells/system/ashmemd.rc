@@ -1,0 +1,4 @@
+service ashmemd /system/bin/ashmemd
+    class core
+    user nobody
+    group nobody

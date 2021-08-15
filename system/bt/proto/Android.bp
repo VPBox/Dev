@@ -1,0 +1,19 @@
+java_library_static {
+    name: "bluetooth-protos-lite",
+    host_supported: true,
+    proto: {
+        type: "lite",
+    },
+    srcs: ["bluetooth/metrics/bluetooth.proto"],
+}
+
+cc_library_static {
+    name: "libbt-protos-lite",
+    host_supported: true,
+    proto: {
+        export_proto_headers: true,
+        type: "lite",
+    },
+    srcs: ["bluetooth/metrics/bluetooth.proto"],
+}
+

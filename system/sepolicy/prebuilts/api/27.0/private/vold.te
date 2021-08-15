@@ -1,0 +1,20 @@
+typeattribute vold coredomain;
+typeattribute vold domain_deprecated;
+
+init_daemon_domain(vold)
+
+# Switch to more restrictive domains when executing common tools
+domain_auto_trans(vold, sgdisk_exec, sgdisk);
+domain_auto_trans(vold, sdcardd_exec, sdcardd);
+
+# For a handful of probing tools, we choose an even more restrictive
+# domain when working with untrusted block devices
+domain_trans(vold, shell_exec, blkid);
+domain_trans(vold, shell_exec, blkid_untrusted);
+domain_trans(vold, fsck_exec, fsck);
+domain_trans(vold, fsck_exec, fsck_untrusted);
+
+# Newly created storage dirs are always treated as mount stubs to prevent us
+# from accidentally writing when the mount point isn't present.
+type_transition vold storage_file:dir storage_stub_file;
+type_transition vold mnt_media_rw_file:dir mnt_media_rw_stub_file;

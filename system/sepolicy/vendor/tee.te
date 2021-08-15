@@ -1,0 +1,17 @@
+##
+# trusted execution environment (tee) daemon
+#
+type tee_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(tee)
+
+allow tee self:global_capability_class_set { dac_override };
+allow tee tee_device:chr_file rw_file_perms;
+allow tee tee_data_file:dir rw_dir_perms;
+allow tee tee_data_file:file create_file_perms;
+allow tee self:netlink_socket create_socket_perms_no_ioctl;
+allow tee self:netlink_generic_socket create_socket_perms_no_ioctl;
+allow tee ion_device:chr_file r_file_perms;
+r_dir_file(tee, sysfs_type)
+
+allow tee system_data_file:file { getattr read };
+allow tee system_data_file:lnk_file { getattr read };

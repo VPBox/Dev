@@ -1,0 +1,7 @@
+
+xsd_config {
+    name: "xsdc_purchase_simple_tests",
+    srcs: ["purchase_simple.xsd"],
+    package_name: "purchase.simple",
+}
+

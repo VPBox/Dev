@@ -1,0 +1,32 @@
+# HwBinder IPC from clients into server, and callbacks
+binder_call(hal_bluetooth_client, hal_bluetooth_server)
+binder_call(hal_bluetooth_server, hal_bluetooth_client)
+
+hal_attribute_hwservice(hal_bluetooth, hal_bluetooth_hwservice)
+
+wakelock_use(hal_bluetooth);
+
+# The HAL toggles rfkill to power the chip off/on.
+allow hal_bluetooth self:global_capability_class_set net_admin;
+
+# bluetooth factory file accesses.
+r_dir_file(hal_bluetooth, bluetooth_efs_file)
+
+allow hal_bluetooth { uhid_device hci_attach_dev }:chr_file rw_file_perms;
+
+# sysfs access.
+r_dir_file(hal_bluetooth, sysfs_type)
+allow hal_bluetooth sysfs_bluetooth_writable:file rw_file_perms;
+allow hal_bluetooth self:global_capability2_class_set wake_alarm;
+
+# Allow write access to bluetooth-specific properties
+set_prop(hal_bluetooth, bluetooth_a2dp_offload_prop)
+set_prop(hal_bluetooth, bluetooth_audio_hal_prop)
+set_prop(hal_bluetooth, bluetooth_prop)
+set_prop(hal_bluetooth, exported_bluetooth_prop)
+
+# /proc access (bluesleep etc.).
+allow hal_bluetooth proc_bluetooth_writable:file rw_file_perms;
+
+# allow to run with real-time scheduling policy
+allow hal_bluetooth self:global_capability_class_set sys_nice;

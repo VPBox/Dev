@@ -1,0 +1,2 @@
+# rss_hwm_reset resets RSS high-water mark counters for all procesess.
+type rss_hwm_reset, domain, coredomain, mlstrustedsubject;

@@ -1,0 +1,84 @@
+#
+# Copyright (C) 2017 The Android Open-Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+on property:sys.boot_completed=1
+    # Enable bus-dcvs
+    write /sys/class/devfreq/soc:qcom,cpubw/governor "bw_hwmon"
+    write /sys/class/devfreq/soc:qcom,cpubw/polling_interval 50
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/mbps_zones "1144 1720 2086 2929 3879 5931 6881"
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/sample_ms 4
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/io_percent 68
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hist_memory 20
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hyst_length 10
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/down_thres 80
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/guard_band_mbps 0
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/up_scale 250
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/idle_mbps 1600
+
+    write /sys/class/devfreq/soc:qcom,mincpubw/governor "cpufreq"
+
+    # Enable memlat governor
+    write /sys/class/devfreq/soc:qcom,memlat-cpu0/governor "mem_latency"
+    write /sys/class/devfreq/soc:qcom,memlat-cpu0/polling_interval 10
+    write /sys/class/devfreq/soc:qcom,memlat-cpu0/mem_latency/ratio_ceil 400
+    write /sys/class/devfreq/soc:qcom,memlat-cpu6/governor "mem_latency"
+    write /sys/class/devfreq/soc:qcom,memlat-cpu6/polling_interval 10
+    write /sys/class/devfreq/soc:qcom,memlat-cpu6/mem_latency/ratio_ceil 400
+
+    write /sys/class/devfreq/soc:qcom,l3-cpu0/governor "mem_latency"
+    write /sys/class/devfreq/soc:qcom,l3-cpu0/polling_interval 10
+    write /sys/class/devfreq/soc:qcom,l3-cpu0/mem_latency/ratio_ceil 400
+    write /sys/class/devfreq/soc:qcom,l3-cpu6/governor "mem_latency"
+    write /sys/class/devfreq/soc:qcom,l3-cpu6/polling_interval 10
+    write /sys/class/devfreq/soc:qcom,l3-cpu6/mem_latency/ratio_ceil 400
+
+    # Limit the min frequency of LC to 576MHz
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 576000
+
+    # Limit the min frequency of BC to 825MHz
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq 825600
+
+    # Turn on sleep modes.
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+
+    # Enable idle state listener
+    write /sys/class/drm/card0/device/idle_encoder_mask 1
+    write /sys/class/drm/card0/device/idle_timeout_ms 100
+
+    # Change l3-cdsp to userspace governor
+    write /sys/class/devfreq/soc:qcom,l3-cdsp/governor userspace
+    chown system system /sys/class/devfreq/soc:qcom,l3-cdsp/userspace/set_freq
+
+    # Disable CPU Retention
+    write /sys/module/lpm_levels/L3/cpu0/ret/idle_enabled N
+    write /sys/module/lpm_levels/L3/cpu1/ret/idle_enabled N
+    write /sys/module/lpm_levels/L3/cpu2/ret/idle_enabled N
+    write /sys/module/lpm_levels/L3/cpu3/ret/idle_enabled N
+    write /sys/module/lpm_levels/L3/cpu4/ret/idle_enabled N
+    write /sys/module/lpm_levels/L3/cpu5/ret/idle_enabled N
+    write /sys/module/lpm_levels/L3/cpu6/ret/idle_enabled N
+    write /sys/module/lpm_levels/L3/cpu7/ret/idle_enabled N
+
+# Disable console_suspend to get better logging for kernel crashes
+on boot
+    write /sys/module/printk/parameters/console_suspend N
+
+    #Enable suspend to idle mode to reduce latency during suspend/resume
+    write /sys/power/mem_sleep "s2idle"
+
+# If UART is on, enable console_suspend on boot_complete to save power
+on property:sys.boot_completed=1 && property:init.svc.console=running
+    write /sys/module/printk/parameters/console_suspend Y

@@ -1,0 +1,3 @@
+typeattribute kernel coredomain;
+
+domain_auto_trans(kernel, init_exec, init)

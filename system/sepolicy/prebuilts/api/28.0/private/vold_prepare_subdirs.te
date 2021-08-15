@@ -1,0 +1,26 @@
+domain_auto_trans(vold, vold_prepare_subdirs_exec, vold_prepare_subdirs)
+
+allow vold_prepare_subdirs system_file:file execute_no_trans;
+allow vold_prepare_subdirs shell_exec:file rx_file_perms;
+allow vold_prepare_subdirs toolbox_exec:file rx_file_perms;
+allow vold_prepare_subdirs devpts:chr_file rw_file_perms;
+allow vold_prepare_subdirs vold:fd use;
+allow vold_prepare_subdirs vold:fifo_file { read write };
+allow vold_prepare_subdirs file_contexts_file:file r_file_perms;
+allow vold_prepare_subdirs self:global_capability_class_set { chown dac_override fowner };
+allow vold_prepare_subdirs self:process setfscreate;
+allow vold_prepare_subdirs {
+  system_data_file
+  vendor_data_file
+}:dir { open read write add_name remove_name rmdir relabelfrom };
+allow vold_prepare_subdirs {
+    fingerprint_vendor_data_file
+    storaged_data_file
+    vold_data_file
+}:dir { create_dir_perms relabelto };
+allow vold_prepare_subdirs {
+    fingerprint_vendor_data_file
+    storaged_data_file
+    system_data_file
+    vold_data_file
+}:file { getattr unlink };

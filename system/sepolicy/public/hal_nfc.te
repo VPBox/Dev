@@ -1,0 +1,11 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_nfc_client, hal_nfc_server)
+binder_call(hal_nfc_server, hal_nfc_client)
+
+hal_attribute_hwservice(hal_nfc, hal_nfc_hwservice)
+
+# Set NFC properties (used by bcm2079x HAL).
+set_prop(hal_nfc, nfc_prop)
+
+# NFC device access.
+allow hal_nfc nfc_device:chr_file rw_file_perms;

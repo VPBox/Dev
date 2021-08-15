@@ -1,0 +1,5 @@
+service blank_screen /system/bin/blank_screen
+    user system
+    oneshot
+    group system
+    shutdown critical

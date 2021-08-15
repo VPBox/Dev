@@ -1,0 +1,70 @@
+###
+### Apps signed with the platform key.
+###
+
+typeattribute platform_app coredomain;
+typeattribute platform_app domain_deprecated;
+
+app_domain(platform_app)
+
+# Access the network.
+net_domain(platform_app)
+# Access bluetooth.
+bluetooth_domain(platform_app)
+# Read from /data/local/tmp or /data/data/com.android.shell.
+allow platform_app shell_data_file:dir search;
+allow platform_app shell_data_file:file { open getattr read };
+allow platform_app icon_file:file { open getattr read };
+# Populate /data/app/vmdl*.tmp, /data/app-private/vmdl*.tmp files
+# created by system server.
+allow platform_app { apk_tmp_file apk_private_tmp_file }:dir rw_dir_perms;
+allow platform_app { apk_tmp_file apk_private_tmp_file }:file rw_file_perms;
+allow platform_app apk_private_data_file:dir search;
+# ASEC
+allow platform_app asec_apk_file:dir create_dir_perms;
+allow platform_app asec_apk_file:file create_file_perms;
+
+# Access to /data/media.
+allow platform_app media_rw_data_file:dir create_dir_perms;
+allow platform_app media_rw_data_file:file create_file_perms;
+
+# Write to /cache.
+allow platform_app cache_file:dir create_dir_perms;
+allow platform_app cache_file:file create_file_perms;
+
+# Direct access to vold-mounted storage under /mnt/media_rw
+# This is a performance optimization that allows platform apps to bypass the FUSE layer
+allow platform_app mnt_media_rw_file:dir r_dir_perms;
+allow platform_app vfat:dir create_dir_perms;
+allow platform_app vfat:file create_file_perms;
+
+allow platform_app audioserver_service:service_manager find;
+allow platform_app cameraserver_service:service_manager find;
+allow platform_app drmserver_service:service_manager find;
+allow platform_app mediaserver_service:service_manager find;
+allow platform_app mediametrics_service:service_manager find;
+allow platform_app mediaextractor_service:service_manager find;
+allow platform_app mediacodec_service:service_manager find;
+allow platform_app mediadrmserver_service:service_manager find;
+allow platform_app mediacasserver_service:service_manager find;
+allow platform_app persistent_data_block_service:service_manager find;
+allow platform_app radio_service:service_manager find;
+allow platform_app surfaceflinger_service:service_manager find;
+allow platform_app app_api_service:service_manager find;
+allow platform_app system_api_service:service_manager find;
+allow platform_app vr_manager_service:service_manager find;
+
+# Access to /data/preloads
+allow platform_app preloads_data_file:file r_file_perms;
+allow platform_app preloads_data_file:dir r_dir_perms;
+allow platform_app preloads_media_file:file r_file_perms;
+allow platform_app preloads_media_file:dir r_dir_perms;
+
+read_runtime_log_tags(platform_app)
+
+###
+### Neverallow rules
+###
+
+# app domains which access /dev/fuse should not run as platform_app
+neverallow platform_app fuse_device:chr_file *;

@@ -1,0 +1,5 @@
+service btlinux-1.0 /vendor/bin/hw/android.hardware.bluetooth@1.0-service.btlinux
+    class hal
+    user bluetooth
+    group bluetooth net_admin net_bt_admin
+    capabilities NET_ADMIN

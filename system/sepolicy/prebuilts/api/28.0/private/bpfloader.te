@@ -1,0 +1,30 @@
+# bpf program loader
+type bpfloader, domain;
+type bpfloader_exec, exec_type, file_type;
+typeattribute bpfloader coredomain;
+
+# Process need CAP_NET_ADMIN to run bpf programs as cgroup filter
+allow bpfloader self:global_capability_class_set net_admin;
+
+r_dir_file(bpfloader, cgroup_bpf)
+
+# These permission is required for pin bpf program for netd.
+allow bpfloader fs_bpf:dir  create_dir_perms;
+allow bpfloader fs_bpf:file create_file_perms;
+allow bpfloader devpts:chr_file { read write };
+
+allow bpfloader netd:fd use;
+
+# Use pinned bpf map files from netd.
+allow bpfloader netd:bpf { map_read map_write };
+allow bpfloader self:bpf { prog_load prog_run };
+
+# Neverallow rules
+neverallow { domain -bpfloader } *:bpf prog_load;
+neverallow { domain -bpfloader -netd -netutils_wrapper} *:bpf prog_run;
+neverallow { domain -netd -bpfloader } bpfloader_exec:file { execute execute_no_trans };
+neverallow bpfloader domain:{ tcp_socket udp_socket rawip_socket } *;
+# only system_server, netd and bpfloader can read/write the bpf maps
+neverallow { domain -system_server -netd -bpfloader} netd:bpf { map_read map_write };
+
+dontaudit bpfloader self:capability sys_admin;

@@ -1,0 +1,166 @@
+// LINT: LEGACY_NAMES
+syntax = "proto2";
+
+package wireless.android.partner.adl.proto;
+
+option java_package = "com.google.wireless.android.partner.adl.proto";
+option java_outer_classname = "CameraDeviceInfoProto";
+
+// Content of this file is generated from $(ANDROID_ROOT)/system/media/camera/doc
+// Keep internal protocol buffer definition in sync with this one
+// Camera related device information
+// Next Id: 9
+message CameraDeviceInfo {
+  // Supported profiles from CamcorderProfile.hasProfile
+  optional bool profile_480p = 1;
+  optional bool profile_720p = 2;
+  optional bool profile_1080p = 3;
+  optional bool profile_cif = 4;
+  optional bool profile_qcif = 5;
+  optional bool profile_qvga = 6;
+  optional int32 num_of_camera = 7;
+
+  message PerCameraInfo {
+    message Rational {
+        optional int32 numerator = 1;
+        optional int32 denominator = 2;
+    }
+
+    message Size {
+        optional int32 width = 1;
+        optional int32 height = 2;
+    }
+
+    message SizeF {
+        optional float width = 1;
+        optional float height = 2;
+    }
+
+    message Rect {
+        optional int32 left = 1;
+        optional int32 right = 2;
+        optional int32 top = 3;
+        optional int32 bottom = 4;
+    }
+
+    message StreamConfigurations {
+        message StreamConfig {
+            optional int32 format = 1;
+            optional int32 width = 2;
+            optional int32 height = 3;
+            optional bool input = 4;
+            optional int64 minFrameDuration = 5;
+        }
+        repeated StreamConfig availableStreamConfigurations = 1;
+    }
+
+    message RangeInt {
+        optional int32 lower = 1;
+        optional int32 upper = 2;
+    }
+
+    message RangeLong {
+        optional int64 lower = 1;
+        optional int64 upper = 2;
+    }
+
+    message ColorSpaceTransform {
+        repeated Rational elements = 1;
+    }
+
+    message BlackLevelPattern {
+        repeated int32 black_level_pattern = 1;
+    }
+
+    optional string cameraId = 1;
+
+    // Start of codegen fields
+    repeated int32 android_colorCorrection_availableAberrationModes = 65536;
+    repeated int32 android_control_aeAvailableAntibandingModes = 131072;
+    repeated int32 android_control_aeAvailableModes = 131073;
+    repeated RangeInt android_control_aeAvailableTargetFpsRanges = 131074;
+    optional RangeInt android_control_aeCompensationRange = 131075;
+    optional Rational android_control_aeCompensationStep = 131076;
+    repeated int32 android_control_afAvailableModes = 131077;
+    repeated int32 android_control_availableEffects = 131078;
+    repeated int32 android_control_availableSceneModes = 131079;
+    repeated int32 android_control_availableVideoStabilizationModes = 131080;
+    repeated int32 android_control_awbAvailableModes = 131081;
+    optional int32 android_control_maxRegionsAe = 131082;
+    optional int32 android_control_maxRegionsAwb = 131083;
+    optional int32 android_control_maxRegionsAf = 131084;
+    optional bool android_control_aeLockAvailable = 131085;
+    optional bool android_control_awbLockAvailable = 131086;
+    repeated int32 android_control_availableModes = 131087;
+    optional RangeInt android_control_postRawSensitivityBoostRange = 131088;
+    repeated int32 android_edge_availableEdgeModes = 262144;
+    optional bool android_flash_info_available = 393216;
+    repeated int32 android_hotPixel_availableHotPixelModes = 458752;
+    repeated Size android_jpeg_availableThumbnailSizes = 524288;
+    optional int32 android_lens_facing = 589824;
+    optional int32 android_lens_poseReference = 589825;
+    repeated float android_lens_info_availableApertures = 655360;
+    repeated float android_lens_info_availableFilterDensities = 655361;
+    repeated float android_lens_info_availableFocalLengths = 655362;
+    repeated int32 android_lens_info_availableOpticalStabilization = 655363;
+    optional float android_lens_info_hyperfocalDistance = 655364;
+    optional float android_lens_info_minimumFocusDistance = 655365;
+    optional int32 android_lens_info_focusDistanceCalibration = 655366;
+    repeated int32 android_noiseReduction_availableNoiseReductionModes = 720896;
+    optional int32 android_request_maxNumOutputRaw = 851968;
+    optional int32 android_request_maxNumOutputProc = 851969;
+    optional int32 android_request_maxNumOutputProcStalling = 851970;
+    optional int32 android_request_maxNumInputStreams = 851971;
+    optional int32 android_request_pipelineMaxDepth = 851972;
+    optional int32 android_request_partialResultCount = 851973;
+    repeated int32 android_request_availableCapabilities = 851974;
+    optional float android_scaler_availableMaxDigitalZoom = 917504;
+    optional StreamConfigurations android_scaler_streamConfigurationMap = 917505;
+    optional int32 android_scaler_croppingType = 917506;
+    repeated MandatoryStreamCombination android_scaler_mandatoryStreamCombinations = 917507;
+    optional int32 android_sensor_referenceIlluminant1 = 983040;
+    optional int32 android_sensor_referenceIlluminant2 = 983041;
+    optional ColorSpaceTransform android_sensor_calibrationTransform1 = 983042;
+    optional ColorSpaceTransform android_sensor_calibrationTransform2 = 983043;
+    optional ColorSpaceTransform android_sensor_colorTransform1 = 983044;
+    optional ColorSpaceTransform android_sensor_colorTransform2 = 983045;
+    optional ColorSpaceTransform android_sensor_forwardMatrix1 = 983046;
+    optional ColorSpaceTransform android_sensor_forwardMatrix2 = 983047;
+    optional BlackLevelPattern android_sensor_blackLevelPattern = 983048;
+    optional int32 android_sensor_maxAnalogSensitivity = 983049;
+    optional int32 android_sensor_orientation = 983050;
+    repeated int32 android_sensor_availableTestPatternModes = 983051;
+    repeated Rect android_sensor_opticalBlackRegions = 983052;
+    optional Rect android_sensor_info_activeArraySize = 1048576;
+    optional RangeInt android_sensor_info_sensitivityRange = 1048577;
+    optional int32 android_sensor_info_colorFilterArrangement = 1048578;
+    optional RangeLong android_sensor_info_exposureTimeRange = 1048579;
+    optional int64 android_sensor_info_maxFrameDuration = 1048580;
+    optional SizeF android_sensor_info_physicalSize = 1048581;
+    optional Size android_sensor_info_pixelArraySize = 1048582;
+    optional int32 android_sensor_info_whiteLevel = 1048583;
+    optional int32 android_sensor_info_timestampSource = 1048584;
+    optional bool android_sensor_info_lensShadingApplied = 1048585;
+    optional Rect android_sensor_info_preCorrectionActiveArraySize = 1048586;
+    repeated int32 android_shading_availableModes = 1114112;
+    repeated int32 android_statistics_info_availableFaceDetectModes = 1245184;
+    optional int32 android_statistics_info_maxFaceCount = 1245185;
+    repeated bool android_statistics_info_availableHotPixelMapModes = 1245186;
+    repeated int32 android_statistics_info_availableLensShadingMapModes = 1245187;
+    repeated int32 android_statistics_info_availableOisDataModes = 1245188;
+    optional int32 android_tonemap_maxCurvePoints = 1310720;
+    repeated int32 android_tonemap_availableToneMapModes = 1310721;
+    optional int32 android_info_supportedHardwareLevel = 1441792;
+    optional string android_info_version = 1441793;
+    optional int32 android_sync_maxLatency = 1572864;
+    optional int32 android_reprocess_maxCaptureStall = 1638400;
+    optional bool android_depth_depthIsExclusive = 1703936;
+    optional int32 android_logicalMultiCamera_sensorSyncType = 1769472;
+    repeated int32 android_distortionCorrection_availableModes = 1835008;
+    // End of codegen fields
+  }
+
+  // Per camera (front/back) informations
+  repeated PerCameraInfo per_camera_info = 8;
+} // CameraDeviceInfo
+

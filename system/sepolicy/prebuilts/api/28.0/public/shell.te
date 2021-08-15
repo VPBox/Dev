@@ -1,0 +1,226 @@
+# Domain for shell processes spawned by ADB or console service.
+type shell, domain, mlstrustedsubject;
+type shell_exec, exec_type, file_type;
+
+# Create and use network sockets.
+net_domain(shell)
+
+# logcat
+read_logd(shell)
+control_logd(shell)
+# logcat -L (directly, or via dumpstate)
+allow shell pstorefs:dir search;
+allow shell pstorefs:file r_file_perms;
+
+# Root fs.
+allow shell rootfs:dir r_dir_perms;
+
+# read files in /data/anr
+allow shell anr_data_file:dir r_dir_perms;
+allow shell anr_data_file:file r_file_perms;
+
+# Access /data/local/tmp.
+allow shell shell_data_file:dir create_dir_perms;
+allow shell shell_data_file:file create_file_perms;
+allow shell shell_data_file:file rx_file_perms;
+allow shell shell_data_file:lnk_file create_file_perms;
+
+# Read and delete from /data/local/traces.
+allow shell trace_data_file:file { r_file_perms unlink };
+allow shell trace_data_file:dir { r_dir_perms remove_name write };
+
+# Access /data/misc/profman.
+allow shell profman_dump_data_file:dir { write remove_name r_dir_perms };
+allow shell profman_dump_data_file:file { unlink r_file_perms };
+
+# Read/execute files in /data/nativetest
+userdebug_or_eng(`
+  allow shell nativetest_data_file:dir r_dir_perms;
+  allow shell nativetest_data_file:file rx_file_perms;
+')
+
+# adb bugreport
+unix_socket_connect(shell, dumpstate, dumpstate)
+
+allow shell devpts:chr_file rw_file_perms;
+allow shell tty_device:chr_file rw_file_perms;
+allow shell console_device:chr_file rw_file_perms;
+allow shell input_device:dir r_dir_perms;
+allow shell input_device:chr_file rw_file_perms;
+r_dir_file(shell, system_file)
+allow shell system_file:file x_file_perms;
+allow shell toolbox_exec:file rx_file_perms;
+allow shell tzdatacheck_exec:file rx_file_perms;
+allow shell shell_exec:file rx_file_perms;
+allow shell zygote_exec:file rx_file_perms;
+
+r_dir_file(shell, apk_data_file)
+
+# Set properties.
+set_prop(shell, shell_prop)
+set_prop(shell, ctl_bugreport_prop)
+set_prop(shell, ctl_dumpstate_prop)
+set_prop(shell, dumpstate_prop)
+set_prop(shell, exported_dumpstate_prop)
+set_prop(shell, debug_prop)
+set_prop(shell, powerctl_prop)
+set_prop(shell, log_tag_prop)
+set_prop(shell, wifi_log_prop)
+# Allow shell to start/stop traced via the persist.traced.enable
+# property (which also takes care of /data/misc initialization).
+set_prop(shell, traced_enabled_prop)
+# adjust is_loggable properties
+userdebug_or_eng(`set_prop(shell, log_prop)')
+# logpersist script
+userdebug_or_eng(`set_prop(shell, logpersistd_logging_prop)')
+
+userdebug_or_eng(`
+  # "systrace --boot" support - allow boottrace service to run
+  allow shell boottrace_data_file:dir rw_dir_perms;
+  allow shell boottrace_data_file:file create_file_perms;
+  set_prop(shell, persist_debug_prop)
+')
+
+# Read device's serial number from system properties
+get_prop(shell, serialno_prop)
+
+# Allow shell to read the vendor security patch level for CTS
+get_prop(shell, vendor_security_patch_level_prop)
+
+# Read state of logging-related properties
+get_prop(shell, device_logging_prop)
+
+# Read state of boot reason properties
+get_prop(shell, bootloader_boot_reason_prop)
+get_prop(shell, last_boot_reason_prop)
+get_prop(shell, system_boot_reason_prop)
+
+# allow shell access to services
+allow shell servicemanager:service_manager list;
+# don't allow shell to access GateKeeper service
+# TODO: why is this so broad? Tightening candidate? It needs at list:
+# - dumpstate_service (so it can receive dumpstate progress updates)
+allow shell {
+  service_manager_type
+  -gatekeeper_service
+  -incident_service
+  -installd_service
+  -netd_service
+  -virtual_touchpad_service
+  -vold_service
+  -vr_hwc_service
+}:service_manager find;
+allow shell dumpstate:binder call;
+
+# allow shell to get information from hwservicemanager
+# for instance, listing hardware services with lshal
+hwbinder_use(shell)
+allow shell hwservicemanager:hwservice_manager list;
+
+# allow shell to look through /proc/ for lsmod, ps, top, netstat.
+r_dir_file(shell, proc_net)
+
+allow shell {
+  proc_asound
+  proc_filesystems
+  proc_interrupts
+  proc_meminfo
+  proc_modules
+  proc_pid_max
+  proc_stat
+  proc_timer
+  proc_uptime
+  proc_version
+  proc_zoneinfo
+}:file r_file_perms;
+
+# allow listing network interfaces under /sys/class/net.
+allow shell sysfs_net:dir r_dir_perms;
+
+r_dir_file(shell, cgroup)
+allow shell domain:dir { search open read getattr };
+allow shell domain:{ file lnk_file } { open read getattr };
+
+# statvfs() of /proc and other labeled filesystems
+# (yaffs2, jffs2, ext2, ext3, ext4, xfs, btrfs, f2fs, squashfs)
+allow shell { proc labeledfs }:filesystem getattr;
+
+# stat() of /dev
+allow shell device:dir getattr;
+
+# allow shell to read /proc/pid/attr/current for ps -Z
+allow shell domain:process getattr;
+
+# Allow pulling the SELinux policy for CTS purposes
+allow shell selinuxfs:dir r_dir_perms;
+allow shell selinuxfs:file r_file_perms;
+
+# enable shell domain to read/write files/dirs for bootchart data
+# User will creates the start and stop file via adb shell
+# and read other files created by init process under /data/bootchart
+allow shell bootchart_data_file:dir rw_dir_perms;
+allow shell bootchart_data_file:file create_file_perms;
+
+# Make sure strace works for the non-privileged shell user
+allow shell self:process ptrace;
+
+# allow shell to get battery info
+allow shell sysfs:dir r_dir_perms;
+allow shell sysfs_batteryinfo:dir r_dir_perms;
+allow shell sysfs_batteryinfo:file r_file_perms;
+
+# Allow access to ion memory allocation device.
+allow shell ion_device:chr_file rw_file_perms;
+
+#
+# filesystem test for insecure chr_file's is done
+# via a host side test
+#
+allow shell dev_type:dir r_dir_perms;
+allow shell dev_type:chr_file getattr;
+
+# /dev/fd is a symlink
+allow shell proc:lnk_file getattr;
+
+#
+# filesystem test for insucre blk_file's is done
+# via hostside test
+#
+allow shell dev_type:blk_file getattr;
+
+# read selinux policy files
+allow shell file_contexts_file:file r_file_perms;
+allow shell property_contexts_file:file r_file_perms;
+allow shell seapp_contexts_file:file r_file_perms;
+allow shell service_contexts_file:file r_file_perms;
+allow shell sepolicy_file:file r_file_perms;
+
+# Allow shell to start up vendor shell
+allow shell vendor_shell_exec:file rx_file_perms;
+
+###
+### Neverallow rules
+###
+
+# Do not allow shell to hard link to any files.
+# In particular, if shell hard links to app data
+# files, installd will not be able to guarantee the deletion
+# of the linked to file. Hard links also contribute to security
+# bugs, so we want to ensure the shell user never has this
+# capability.
+neverallow shell file_type:file link;
+
+# Do not allow privileged socket ioctl commands
+neverallowxperm shell domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;
+
+# limit shell access to sensitive char drivers to
+# only getattr required for host side test.
+neverallow shell {
+  fuse_device
+  hw_random_device
+  kmem_device
+  port_device
+}:chr_file ~getattr;
+
+# Limit shell to only getattr on blk devices for host side tests.
+neverallow shell dev_type:blk_file ~getattr;

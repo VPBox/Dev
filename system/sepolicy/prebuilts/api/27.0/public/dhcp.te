@@ -1,0 +1,30 @@
+type dhcp, domain;
+type dhcp_exec, exec_type, file_type;
+
+net_domain(dhcp)
+
+allow dhcp cgroup:dir { create write add_name };
+allow dhcp self:capability { setgid setuid net_admin net_raw net_bind_service };
+allow dhcp self:packet_socket create_socket_perms_no_ioctl;
+allow dhcp self:netlink_route_socket nlmsg_write;
+allow dhcp shell_exec:file rx_file_perms;
+allow dhcp system_file:file rx_file_perms;
+not_full_treble(`allow dhcp vendor_file:file rx_file_perms;')
+
+# dhcpcd runs dhcpcd-hooks/*, which runs getprop / setprop (toolbox_exec)
+allow dhcp toolbox_exec:file rx_file_perms;
+
+# For /proc/sys/net/ipv4/conf/*/promote_secondaries
+allow dhcp proc_net:file write;
+
+set_prop(dhcp, dhcp_prop)
+set_prop(dhcp, pan_result_prop)
+
+allow dhcp dhcp_data_file:dir create_dir_perms;
+allow dhcp dhcp_data_file:file create_file_perms;
+
+# PAN connections
+allow dhcp netd:fd use;
+allow dhcp netd:fifo_file rw_file_perms;
+allow dhcp netd:{ dgram_socket_class_set unix_stream_socket } { read write };
+allow dhcp netd:{ netlink_kobject_uevent_socket netlink_route_socket netlink_nflog_socket } { read write };

@@ -1,0 +1,6 @@
+typeattribute radio coredomain;
+typeattribute radio domain_deprecated;
+
+app_domain(radio)
+
+read_runtime_log_tags(radio)

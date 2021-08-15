@@ -1,0 +1,134 @@
+# zygote
+typeattribute zygote coredomain;
+typeattribute zygote domain_deprecated;
+typeattribute zygote mlstrustedsubject;
+
+init_daemon_domain(zygote)
+
+read_runtime_log_tags(zygote)
+
+# Override DAC on files and switch uid/gid.
+allow zygote self:capability { dac_override setgid setuid fowner chown };
+
+# Drop capabilities from bounding set.
+allow zygote self:capability setpcap;
+
+# Switch SELinux context to app domains.
+allow zygote self:process setcurrent;
+allow zygote system_server:process dyntransition;
+allow zygote appdomain:process dyntransition;
+
+# Allow zygote to read app /proc/pid dirs (b/10455872).
+allow zygote appdomain:dir { getattr search };
+allow zygote appdomain:file { r_file_perms };
+
+# Move children into the peer process group.
+allow zygote system_server:process { getpgid setpgid };
+allow zygote appdomain:process { getpgid setpgid };
+
+# Read system data.
+allow zygote system_data_file:dir r_dir_perms;
+allow zygote system_data_file:file r_file_perms;
+
+# Write to /data/dalvik-cache.
+allow zygote dalvikcache_data_file:dir create_dir_perms;
+allow zygote dalvikcache_data_file:file create_file_perms;
+
+# Create symlinks in /data/dalvik-cache.
+allow zygote dalvikcache_data_file:lnk_file create_file_perms;
+
+# Write to /data/resource-cache.
+allow zygote resourcecache_data_file:dir rw_dir_perms;
+allow zygote resourcecache_data_file:file create_file_perms;
+
+# When WITH_DEXPREOPT is true, the zygote does not load executable content from
+# /data/dalvik-cache.
+allow { zygote with_dexpreopt(`-zygote') } dalvikcache_data_file:file execute;
+
+# Execute idmap and dex2oat within zygote's own domain.
+# TODO:  Should either of these be transitioned to the same domain
+# used by installd or stay in-domain for zygote?
+allow zygote idmap_exec:file rx_file_perms;
+allow zygote dex2oat_exec:file rx_file_perms;
+
+# Allow apps access to /vendor/overlay
+r_dir_file(zygote, vendor_overlay_file)
+
+# Control cgroups.
+allow zygote cgroup:dir create_dir_perms;
+allow zygote cgroup:{ file lnk_file } r_file_perms;
+allow zygote self:capability sys_admin;
+
+# Allow zygote to stat the files that it opens. The zygote must
+# be able to inspect them so that it can reopen them on fork
+# if necessary: b/30963384.
+allow zygote pmsg_device:chr_file getattr;
+allow zygote debugfs_trace_marker:file getattr;
+
+# Get seapp_contexts
+allow zygote seapp_contexts_file:file r_file_perms;
+# Check validity of SELinux context before use.
+selinux_check_context(zygote)
+# Check SELinux permissions.
+selinux_check_access(zygote)
+
+# Native bridge functionality requires that zygote replaces
+# /proc/cpuinfo with /system/lib/<ISA>/cpuinfo using a bind mount
+allow zygote proc_cpuinfo:file mounton;
+
+# Allow remounting rootfs as MS_SLAVE.
+allow zygote rootfs:dir mounton;
+allow zygote tmpfs:filesystem { mount unmount };
+allow zygote fuse:filesystem { unmount };
+allow zygote sdcardfs:filesystem { unmount };
+
+# Allow creating user-specific storage source if started before vold.
+allow zygote mnt_user_file:dir create_dir_perms;
+allow zygote mnt_user_file:lnk_file create_file_perms;
+# Allowed to mount user-specific storage into place
+allow zygote storage_file:dir { search mounton };
+
+# Handle --invoke-with command when launching Zygote with a wrapper command.
+allow zygote zygote_exec:file rx_file_perms;
+
+# Read access to pseudo filesystems.
+r_dir_file(zygote, proc_net)
+
+# Root fs.
+r_dir_file(zygote, rootfs)
+
+# System file accesses.
+r_dir_file(zygote, system_file)
+
+userdebug_or_eng(`
+  # Allow zygote to create and write method traces in /data/misc/trace.
+  allow zygote method_trace_data_file:dir w_dir_perms;
+  allow zygote method_trace_data_file:file { create w_file_perms };
+')
+
+allow zygote ion_device:chr_file r_file_perms;
+allow zygote tmpfs:dir r_dir_perms;
+
+# Let the zygote access overlays so it can initialize the AssetManager.
+get_prop(zygote, overlay_prop)
+
+###
+### neverallow rules
+###
+
+# Ensure that all types assigned to app processes are included
+# in the appdomain attribute, so that all allow and neverallow rules
+# written on appdomain are applied to all app processes.
+# This is achieved by ensuring that it is impossible for zygote to
+# setcon (dyntransition) to any types other than those associated
+# with appdomain plus system_server.
+neverallow zygote ~{ appdomain system_server }:process dyntransition;
+
+# Zygote should never execute anything from /data except for /data/dalvik-cache files.
+neverallow zygote {
+  data_file_type
+  -dalvikcache_data_file # map PROT_EXEC
+}:file no_x_file_perms;
+
+# Do not allow access to Bluetooth-related system properties and files
+neverallow zygote bluetooth_prop:file create_file_perms;

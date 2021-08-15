@@ -1,0 +1,7 @@
+
+xsd_config {
+    name: "xsdc_reference_tests",
+    srcs: ["reference.xsd"],
+    package_name: "reference",
+}
+

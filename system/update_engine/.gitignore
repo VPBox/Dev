@@ -1,0 +1,11 @@
+# Build/test generated files
+/*.pub.pem
+/app.info
+/delta_generator
+/html/
+/test_http_server
+/update_engine.dbusclient.h
+/update_engine.dbusserver.h
+/update_engine_client
+/update_engine_unittests
+*.pyc

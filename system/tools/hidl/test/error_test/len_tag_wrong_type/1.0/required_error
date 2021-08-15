@@ -1,0 +1,1 @@
+len refers to struct A but should refer to an enum

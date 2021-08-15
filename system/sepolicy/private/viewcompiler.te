@@ -1,0 +1,25 @@
+# viewcompiler
+type viewcompiler, domain, coredomain, mlstrustedsubject;
+type viewcompiler_exec, system_file_type, exec_type, file_type;
+type viewcompiler_tmpfs, file_type;
+
+# Reading an APK opens a ZipArchive, which unpack to tmpfs.
+# Use tmpfs_domain() which will give tmpfs files created by viewcompiler their
+# own label, which differs from other labels created by other processes.
+# This allows to distinguish in policy files created by viewcompiler vs other
+# processes.
+tmpfs_domain(viewcompiler)
+
+allow viewcompiler installd:fd use;
+
+# Include write permission for app data files so viewcompiler can generate
+# compiled layout dex files
+allow viewcompiler app_data_file:file { getattr write };
+
+# Allow the view compiler to read resources from the apps APK.
+allow viewcompiler apk_data_file:file read;
+
+# priv-apps are moving to a world where they can only execute
+# signed code. Make sure viewcompiler never can write to privapp
+# directories to avoid introducing unsigned executable code
+neverallow viewcompiler privapp_data_file:file no_w_file_perms;

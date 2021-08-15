@@ -1,0 +1,19 @@
+// Signature format: 2.0
+package reference {
+
+  public class Class {
+    ctor public Class();
+    method public String getName();
+    method public java.util.List<java.lang.String> getStudent();
+    method public void setName(String);
+  }
+
+  public class XmlParser {
+    ctor public XmlParser();
+    method public static reference.Class read(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static String readText(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static void skip(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+  }
+
+}
+

@@ -1,0 +1,9 @@
+service bpfloader /system/bin/bpfloader
+    class main
+    capabilities SYS_ADMIN
+    # Set RLIMIT_MEMLOCK to 64MB for bpfloader
+    # Actually only 8MB is needed, but since bpfloader runs as root, it shares
+    # the global rlimit. Once bpfloader is running as its own user in the
+    # future, it will have dedicated rlimit to itself and this can be 8MB.
+    rlimit memlock 67108864 67108864
+    oneshot

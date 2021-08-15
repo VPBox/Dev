@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policy>
+
+<!--
+
+    * A signature is a hex encoded X.509 certificate or a tag defined in
+      keys.conf and is required for each signer tag. The signature can
+      either appear as a set of attached cert child tags or as an attribute.
+    * A signer tag must contain a seinfo tag XOR multiple package stanzas.
+    * Each signer/package tag is allowed to contain one seinfo tag. This tag
+      represents additional info that each app can use in setting a SELinux security
+      context on the eventual process as well as the apps data directory.
+    * seinfo assignments are made according to the following rules:
+      - Stanzas with package name refinements will be checked first.
+      - Stanzas w/o package name refinements will be checked second.
+      - The "default" seinfo label is automatically applied.
+
+    * valid stanzas can take one of the following forms:
+
+     // single cert protecting seinfo
+     <signer signature="@PLATFORM" >
+       <seinfo value="platform" />
+     </signer>
+
+     // multiple certs protecting seinfo (all contained certs must match)
+     <signer>
+       <cert signature="@PLATFORM1"/>
+       <cert signature="@PLATFORM2"/>
+       <seinfo value="platform" />
+     </signer>
+
+     // single cert protecting explicitly named app
+     <signer signature="@PLATFORM" >
+       <package name="com.android.foo">
+         <seinfo value="bar" />
+       </package>
+     </signer>
+
+     // multiple certs protecting explicitly named app (all certs must match)
+     <signer>
+       <cert signature="@PLATFORM1"/>
+       <cert signature="@PLATFORM2"/>
+       <package name="com.android.foo">
+         <seinfo value="bar" />
+       </package>
+     </signer>
+-->
+
+    <!-- Platform dev key in AOSP -->
+    <signer signature="@PLATFORM" >
+      <seinfo value="platform" />
+    </signer>
+
+    <!-- Media key in AOSP -->
+    <signer signature="@MEDIA" >
+      <seinfo value="media" />
+    </signer>
+
+</policy>

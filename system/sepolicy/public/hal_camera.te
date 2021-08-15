@@ -1,0 +1,36 @@
+# HwBinder IPC from clients to server and callbacks
+binder_call(hal_camera_client, hal_camera_server)
+binder_call(hal_camera_server, hal_camera_client)
+
+hal_attribute_hwservice(hal_camera, hal_camera_hwservice)
+
+allow hal_camera device:dir r_dir_perms;
+allow hal_camera video_device:dir r_dir_perms;
+allow hal_camera video_device:chr_file rw_file_perms;
+allow hal_camera camera_device:chr_file rw_file_perms;
+allow hal_camera ion_device:chr_file rw_file_perms;
+# Both the client and the server need to use the graphics allocator
+allow { hal_camera_client hal_camera_server } hal_graphics_allocator:fd use;
+
+# Allow hal_camera to use fd from app,gralloc,and ashmem HAL
+allow hal_camera { appdomain -isolated_app }:fd use;
+allow hal_camera surfaceflinger:fd use;
+allow hal_camera hal_allocator_server:fd use;
+
+# Needed to provide debug dump output via dumpsys' pipes.
+allow hal_camera shell:fd use;
+allow hal_camera shell:fifo_file write;
+
+###
+### neverallow rules
+###
+
+# hal_camera should never execute any executable without a
+# domain transition
+neverallow hal_camera_server { file_type fs_type }:file execute_no_trans;
+
+# hal_camera should never need network access. Disallow network sockets.
+neverallow hal_camera_server domain:{ tcp_socket udp_socket rawip_socket } *;
+
+# Only camera HAL may directly access the camera hardware
+neverallow { halserverdomain -hal_camera_server } camera_device:chr_file *;

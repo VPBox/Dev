@@ -1,0 +1,132 @@
+// Signature format: 2.0
+package compatibility.matrix {
+
+  public class Avb {
+    ctor public Avb();
+    method public String getVbmetaVersion();
+    method public void setVbmetaVersion(String);
+  }
+
+  public class CompatibilityMatrix {
+    ctor public CompatibilityMatrix();
+    method public compatibility.matrix.Avb getAvb();
+    method public java.util.List<compatibility.matrix.Hal> getHal();
+    method public java.util.List<compatibility.matrix.Kernel> getKernel();
+    method public String getLevel();
+    method public compatibility.matrix.Sepolicy getSepolicy();
+    method public compatibility.matrix.SystemSdk getSystemSdk();
+    method public String getType();
+    method public compatibility.matrix.VendorNdk getVendorNdk();
+    method public String getVersion();
+    method public compatibility.matrix.Vndk getVndk();
+    method public java.util.List<compatibility.matrix.Xmlfile> getXmlfile();
+    method public void setAvb(compatibility.matrix.Avb);
+    method public void setLevel(String);
+    method public void setSepolicy(compatibility.matrix.Sepolicy);
+    method public void setSystemSdk(compatibility.matrix.SystemSdk);
+    method public void setType(String);
+    method public void setVendorNdk(compatibility.matrix.VendorNdk);
+    method public void setVersion(String);
+    method public void setVndk(compatibility.matrix.Vndk);
+  }
+
+  public class Config {
+    ctor public Config();
+    method public String getKey();
+    method public compatibility.matrix.Config.Value getValue();
+    method public void setKey(String);
+    method public void setValue(compatibility.matrix.Config.Value);
+  }
+
+  public static class Config.Value {
+    ctor public Config.Value();
+    method public String getType();
+    method public String getValue();
+    method public void setType(String);
+    method public void setValue(String);
+  }
+
+  public class Hal {
+    ctor public Hal();
+    method public String getFormat();
+    method public java.util.List<java.lang.String> getFqname();
+    method public String getName();
+    method public String getOptional();
+    method public java.util.List<java.lang.String> getVersion();
+    method public java.util.List<compatibility.matrix.Interface> get_interface();
+    method public void setFormat(String);
+    method public void setName(String);
+    method public void setOptional(String);
+  }
+
+  public class Interface {
+    ctor public Interface();
+    method public java.util.List<java.lang.String> getInstance();
+    method public String getName();
+    method public java.util.List<java.lang.String> getRegexInstance();
+    method public void setName(String);
+  }
+
+  public class Kernel {
+    ctor public Kernel();
+    method public compatibility.matrix.Kernel.Conditions getConditions();
+    method public java.util.List<compatibility.matrix.Config> getConfig();
+    method public String getVersion();
+    method public void setConditions(compatibility.matrix.Kernel.Conditions);
+    method public void setVersion(String);
+  }
+
+  public static class Kernel.Conditions {
+    ctor public Kernel.Conditions();
+    method public java.util.List<compatibility.matrix.Config> getConfig();
+  }
+
+  public class Sepolicy {
+    ctor public Sepolicy();
+    method public String getKernelSepolicyVersion();
+    method public java.util.List<java.lang.String> getSepolicyVersion();
+    method public void setKernelSepolicyVersion(String);
+  }
+
+  public class SystemSdk {
+    ctor public SystemSdk();
+    method public java.util.List<java.lang.String> getVersion();
+  }
+
+  public class VendorNdk {
+    ctor public VendorNdk();
+    method public java.util.List<java.lang.String> getLibrary();
+    method public String getVersion();
+    method public void setVersion(String);
+  }
+
+  public class Vndk {
+    ctor public Vndk();
+    method public java.util.List<java.lang.String> getLibrary();
+    method public String getVersion();
+    method public void setVersion(String);
+  }
+
+  public class XmlParser {
+    ctor public XmlParser();
+    method public static compatibility.matrix.CompatibilityMatrix read(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static String readText(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static void skip(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+  }
+
+  public class Xmlfile {
+    ctor public Xmlfile();
+    method public String getFormat();
+    method public String getName();
+    method public String getOptional();
+    method public String getPath();
+    method public String getVersion();
+    method public void setFormat(String);
+    method public void setName(String);
+    method public void setOptional(String);
+    method public void setPath(String);
+    method public void setVersion(String);
+  }
+
+}
+

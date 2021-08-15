@@ -1,0 +1,34 @@
+# nfc subsystem
+typeattribute nfc coredomain;
+app_domain(nfc)
+net_domain(nfc)
+
+binder_service(nfc)
+add_service(nfc, nfc_service)
+
+hal_client_domain(nfc, hal_nfc)
+
+# Data file accesses.
+allow nfc nfc_data_file:dir create_dir_perms;
+allow nfc nfc_data_file:notdevfile_class_set create_file_perms;
+
+# SoundPool loading and playback
+allow nfc audioserver_service:service_manager find;
+allow nfc drmserver_service:service_manager find;
+allow nfc mediacodec_service:service_manager find;
+allow nfc mediametrics_service:service_manager find;
+allow nfc mediaextractor_service:service_manager find;
+allow nfc mediaserver_service:service_manager find;
+
+allow nfc radio_service:service_manager find;
+allow nfc surfaceflinger_service:service_manager find;
+allow nfc app_api_service:service_manager find;
+allow nfc system_api_service:service_manager find;
+allow nfc vr_manager_service:service_manager find;
+
+set_prop(nfc, nfc_prop);
+
+# already open bugreport file descriptors may be shared with
+# the nfc process, from a file in
+# /data/data/com.android.shell/files/bugreports/bugreport-*.
+allow nfc shell_data_file:file read;

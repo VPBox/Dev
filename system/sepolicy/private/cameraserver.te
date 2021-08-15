@@ -1,0 +1,6 @@
+typeattribute cameraserver coredomain;
+
+typeattribute cameraserver camera_service_server;
+
+init_daemon_domain(cameraserver)
+tmpfs_domain(cameraserver)

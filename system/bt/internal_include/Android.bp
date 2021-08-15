@@ -1,0 +1,6 @@
+cc_library_headers {
+    name: "internal_include_headers",
+    export_include_dirs: ["./"],
+    vendor_available: true,
+    host_supported: true,
+}

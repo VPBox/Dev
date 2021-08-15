@@ -1,0 +1,53 @@
+// Signature format: 2.0
+package nested.type {
+
+  public class Employee {
+    ctor public Employee();
+    method public nested.type.Employee.Address getAddress();
+    method public java.util.List<java.lang.String> getAssets();
+    method public byte getId();
+    method public String getName();
+    method public void setAddress(nested.type.Employee.Address);
+    method public void setId(byte);
+    method public void setName(String);
+  }
+
+  public static class Employee.Address {
+    ctor public Employee.Address();
+    method public String getCountry();
+    method public nested.type.Employee.Address.Extra getExtra();
+    method public nested.type.Employee.Address.ExtraAddress getExtra_address();
+    method public String getState();
+    method public short getZip();
+    method public void setCountry(String);
+    method public void setExtra(nested.type.Employee.Address.Extra);
+    method public void setExtra_address(nested.type.Employee.Address.ExtraAddress);
+    method public void setState(String);
+    method public void setZip(short);
+  }
+
+  public static class Employee.Address.Extra {
+    ctor public Employee.Address.Extra();
+    method public String getLine1();
+    method public String getLine2();
+    method public void setLine1(String);
+    method public void setLine2(String);
+  }
+
+  public static class Employee.Address.ExtraAddress {
+    ctor public Employee.Address.ExtraAddress();
+    method public String getLine1_all();
+    method public String getLine2_all();
+    method public void setLine1_all(String);
+    method public void setLine2_all(String);
+  }
+
+  public class XmlParser {
+    ctor public XmlParser();
+    method public static nested.type.Employee read(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static String readText(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static void skip(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+  }
+
+}
+

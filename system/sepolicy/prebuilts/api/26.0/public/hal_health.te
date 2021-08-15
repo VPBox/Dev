@@ -1,0 +1,11 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_health_client, hal_health_server)
+binder_call(hal_health_server, hal_health_client)
+
+add_hwservice(hal_health_server, hal_health_hwservice)
+allow hal_health_client hal_health_hwservice:hwservice_manager find;
+
+# Read access to system files for HALs in
+# /{system,vendor,odm}/lib[64]/hw/ in order
+# to be able to open the hal implementation .so files
+r_dir_file(hal_health, system_file)

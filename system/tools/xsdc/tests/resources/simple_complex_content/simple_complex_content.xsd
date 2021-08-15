@@ -1,0 +1,58 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="simple_complex_content" xmlns="simple_complex_content" elementFormDefault="qualified">
+    <xs:complexType name="address">
+        <xs:annotation name="Deprecated"/>
+        <xs:sequence>
+            <xs:element name="name"   type="xs:string"/>
+            <xs:element name="street" type="xs:string"/>
+            <xs:element name="city"   type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="USAddressP">
+        <xs:complexContent>
+            <xs:extension base="address">
+                <xs:sequence>
+                    <xs:element name="state" type="xs:string"/>
+                    <xs:element name="zipcode" type="xs:positiveInteger"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="KRAddress">
+        <xs:complexContent>
+            <xs:restriction base="address">
+                <xs:sequence>
+                    <xs:element name="name1"   type="xs:string"/>
+                    <xs:element name="street2" type="xs:string"/>
+                    <xs:element name="city3"   type="xs:string" fixed="Seoul"/>
+                </xs:sequence>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="subAddress">
+        <xs:choice>
+            <xs:element name="choice1" type="xs:string"/>
+            <xs:element name="choice2" type="xs:string"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="person">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="USAddressP" type="USAddressP"/>
+                <xs:element name="KRAddress" type="KRAddress"/>
+                <xs:element name="subAddress" type="subAddress"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="person2">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="USAddressP" type="USAddressP"/>
+                <xs:element name="KRAddress" type="KRAddress"/>
+                <xs:element name="subAddress" type="subAddress"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

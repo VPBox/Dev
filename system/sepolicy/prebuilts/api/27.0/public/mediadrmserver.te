@@ -1,0 +1,31 @@
+# mediadrmserver - mediadrm daemon
+type mediadrmserver, domain;
+type mediadrmserver_exec, exec_type, file_type;
+
+typeattribute mediadrmserver mlstrustedsubject;
+
+net_domain(mediadrmserver)
+binder_use(mediadrmserver)
+binder_call(mediadrmserver, binderservicedomain)
+binder_call(mediadrmserver, appdomain)
+binder_service(mediadrmserver)
+hal_client_domain(mediadrmserver, hal_drm)
+
+add_service(mediadrmserver, mediadrmserver_service)
+allow mediadrmserver mediaserver_service:service_manager find;
+allow mediadrmserver mediametrics_service:service_manager find;
+allow mediadrmserver processinfo_service:service_manager find;
+allow mediadrmserver surfaceflinger_service:service_manager find;
+allow mediadrmserver system_file:dir r_dir_perms;
+
+binder_call(mediadrmserver, mediacodec)
+###
+### neverallow rules
+###
+
+# mediadrmserver should never execute any executable without a
+# domain transition
+neverallow mediadrmserver { file_type fs_type }:file execute_no_trans;
+
+# do not allow privileged socket ioctl commands
+neverallowxperm mediadrmserver domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;

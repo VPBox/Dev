@@ -1,0 +1,16 @@
+type virtual_touchpad, domain;
+type virtual_touchpad_exec, system_file_type, exec_type, file_type;
+
+binder_use(virtual_touchpad)
+binder_service(virtual_touchpad)
+add_service(virtual_touchpad, virtual_touchpad_service)
+
+# Needed to check app permissions.
+binder_call(virtual_touchpad, system_server)
+
+# Requires access to /dev/uinput to create and feed the virtual device.
+allow virtual_touchpad uhid_device:chr_file { w_file_perms ioctl };
+
+# Requires access to the permission service to validate that clients have the
+# appropriate VR permissions.
+allow virtual_touchpad permission_service:service_manager find;

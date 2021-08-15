@@ -1,0 +1,9 @@
+cc_binary {
+    name: "sound",
+    srcs: ["playwav.c"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}

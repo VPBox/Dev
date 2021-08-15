@@ -1,0 +1,81 @@
+{
+  "postsubmit" : [
+    {
+      "name" : "bluetooth_test_common"
+    },
+    {
+      "name" : "bluetoothtbd_test"
+    },
+    {
+      "name" : "net_test_audio_a2dp_hw"
+    },
+    {
+      "name" : "net_test_avrcp"
+    },
+    {
+      "name" : "net_test_btcore"
+    },
+    {
+      "name" : "net_test_btif"
+    },
+    {
+      "name" : "net_test_btif_profile_queue"
+    },
+    {
+      "name" : "net_test_btpackets"
+    },
+    {
+      "name" : "net_test_device"
+    },
+    {
+      "name" : "net_test_hci"
+    },
+    {
+      "name" : "net_test_performance"
+    },
+    {
+      "name" : "net_test_stack"
+    },
+    {
+      "name" : "net_test_stack_ad_parser"
+    },
+    {
+      "name" : "net_test_stack_multi_adv"
+    },
+    {
+      "name" : "net_test_stack_rfcomm"
+    },
+    {
+      "name" : "net_test_stack_smp"
+    },
+    {
+      "name" : "net_test_types"
+    }
+  ],
+  "presubmit" : [
+    {
+      "name" : "bluetooth_test_common",
+      "host" : true
+    },
+    {
+      "name" : "bluetoothtbd_test",
+      "host" : true
+    },
+    {
+      "name" : "net_test_avrcp",
+      "host" : true
+    },
+    {
+      "name" : "net_test_btcore",
+      "host" : true
+    },
+    {
+      "name" : "net_test_btpackets",
+      "host" : true
+    },
+    {
+      "name" : "net_test_types",
+      "host" : true
+    }
+  ]
+}

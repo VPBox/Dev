@@ -1,0 +1,3 @@
+typeattribute sdcardd coredomain;
+
+type_transition sdcardd system_data_file:{ dir file } media_rw_data_file;

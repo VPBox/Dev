@@ -1,0 +1,187 @@
+//
+// Copyright (C) 2014 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+cc_defaults {
+    name: "libbacktrace_common",
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+
+    target: {
+        darwin: {
+            enabled: false,
+        },
+    },
+}
+
+libbacktrace_sources = [
+    "Backtrace.cpp",
+    "BacktraceCurrent.cpp",
+    "BacktracePtrace.cpp",
+    "ThreadEntry.cpp",
+    "UnwindStack.cpp",
+    "UnwindStackMap.cpp",
+]
+
+cc_library_headers {
+    name: "libbacktrace_headers",
+    vendor_available: true,
+    recovery_available: true,
+    export_include_dirs: ["include"],
+}
+
+cc_library {
+    name: "libbacktrace",
+    vendor_available: false,
+    recovery_available: true,
+    vndk: {
+        enabled: true,
+        support_system_process: true,
+    },
+    defaults: ["libbacktrace_common"],
+    host_supported: true,
+
+    cflags: [
+        "-Wexit-time-destructors",
+    ],
+
+    srcs: [
+        "BacktraceMap.cpp",
+    ],
+
+    export_include_dirs: ["include"],
+
+    target: {
+        darwin: {
+            enabled: true,
+            shared_libs: [
+                "libbase",
+            ],
+        },
+        linux: {
+            srcs: libbacktrace_sources,
+
+            shared_libs: [
+                "libbase",
+                "liblog",
+                "libunwindstack",
+            ],
+
+            static_libs: [
+                "libprocinfo",
+            ],
+        },
+        android: {
+            static_libs: ["libasync_safe"],
+        },
+        vendor: {
+            cflags: ["-DNO_LIBDEXFILE_SUPPORT"],
+        },
+        recovery: {
+            cflags: ["-DNO_LIBDEXFILE_SUPPORT"],
+        },
+    },
+    whole_static_libs: ["libdemangle"],
+}
+
+cc_test_library {
+    name: "libbacktrace_test",
+    defaults: ["libbacktrace_common"],
+    host_supported: true,
+    strip: {
+        none: true,
+    },
+    cflags: ["-O0"],
+    srcs: ["backtrace_testlib.cpp"],
+
+    shared_libs: [
+        "libunwindstack",
+    ],
+    relative_install_path: "backtrace_test_libs",
+
+    target: {
+        linux_glibc: {
+            // This forces the creation of eh_frame with unwind information
+            // for host.
+            cflags: [
+                "-fcxx-exceptions"
+            ],
+        },
+    },
+}
+
+//-------------------------------------------------------------------------
+// The backtrace_test executable.
+//-------------------------------------------------------------------------
+cc_test {
+    name: "backtrace_test",
+    isolated: true,
+    defaults: ["libbacktrace_common"],
+    host_supported: true,
+    srcs: [
+        "backtrace_offline_test.cpp",
+        "backtrace_test.cpp",
+    ],
+
+    cflags: [
+        "-fno-builtin",
+        "-O0",
+        "-g",
+    ],
+
+    shared_libs: [
+        "libbacktrace",
+        "libbase",
+        "liblog",
+        "libunwindstack",
+    ],
+
+    group_static_libs: true,
+
+    // So that the dlopen can find the libbacktrace_test.so.
+    ldflags: [
+        "-Wl,--rpath,${ORIGIN}/../backtrace_test_libs",
+    ],
+
+    test_suites: ["device-tests"],
+    data: [
+        "testdata/arm/*",
+        "testdata/arm64/*",
+        "testdata/x86/*",
+        "testdata/x86_64/*",
+    ],
+    required: [
+        "libbacktrace_test",
+    ],
+}
+
+cc_benchmark {
+    name: "backtrace_benchmarks",
+    defaults: ["libbacktrace_common"],
+
+    srcs: [
+        "backtrace_benchmarks.cpp",
+        "backtrace_read_benchmarks.cpp",
+    ],
+
+    shared_libs: [
+        "libbacktrace",
+        "libbase",
+        "libunwindstack",
+    ],
+}

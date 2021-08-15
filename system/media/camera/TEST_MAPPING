@@ -1,0 +1,7 @@
+{
+  "presubmit": [
+    {
+       "name": "camera_metadata_tests"
+    }
+  ]
+}

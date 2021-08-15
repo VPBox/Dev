@@ -1,0 +1,6 @@
+###
+### A domain for android.process.media, which contains both
+### MediaProvider and DownloadProvider and associated services.
+###
+
+type mediaprovider, domain;

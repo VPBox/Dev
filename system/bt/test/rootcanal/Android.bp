@@ -1,0 +1,96 @@
+//
+// Copyright 2017 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+cc_binary {
+    name: "android.hardware.bluetooth@1.0-service.sim",
+    proprietary: true,
+    relative_install_path: "hw",
+    srcs: [
+        "bluetooth_hci.cc",
+        "service.cc",
+    ],
+
+    header_libs: ["libbluetooth_headers"],
+    shared_libs: [
+        "android.hardware.bluetooth@1.0",
+        "libbase",
+        "libchrome",
+        "libcutils",
+        "libhwbinder",
+        "libhidlbase",
+        "libhidltransport",
+        "liblog",
+        "libutils",
+    ],
+    cflags: [
+        "-fvisibility=hidden",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-DHAS_NO_BDROID_BUILDCFG",
+    ],
+    static_libs: [
+        "android.hardware.bluetooth-async",
+        "android.hardware.bluetooth-hci",
+        "libbt-rootcanal",
+        "libbt-rootcanal-types",
+    ],
+    include_dirs: [
+        "system/bt",
+        "system/bt/hci/include",
+        "system/bt/internal_include",
+        "system/bt/stack/include",
+    ],
+    init_rc: ["android.hardware.bluetooth@1.0-service.sim.rc"],
+}
+
+cc_library_shared {
+    name: "android.hardware.bluetooth@1.0-impl-sim",
+    proprietary: true,
+    relative_install_path: "hw",
+    srcs: [
+        "bluetooth_hci.cc",
+    ],
+
+    header_libs: ["libbluetooth_headers"],
+    shared_libs: [
+        "android.hardware.bluetooth@1.0",
+        "libbase",
+        "libchrome",
+        "libcutils",
+        "libhidlbase",
+        "libhidltransport",
+        "liblog",
+        "libutils",
+    ],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-DHAS_NO_BDROID_BUILDCFG",
+    ],
+    static_libs: [
+        "android.hardware.bluetooth-async",
+        "android.hardware.bluetooth-hci",
+        "libbt-rootcanal",
+        "libbt-rootcanal-types",
+    ],
+    include_dirs: [
+        "system/bt",
+        "system/bt/hci/include",
+        "system/bt/internal_include",
+        "system/bt/stack/include",
+    ],
+}

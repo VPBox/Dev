@@ -1,0 +1,140 @@
+function usage() {
+    echo "runs $TEST_NAME"
+    echo "\t -h help"
+    echo "\t -c [CLIENT64_SERVER64 | CLIENT32_SERVER32 | CLIENT64_SERVER32 | CLIENT32_SERVER64] configures whether to run 32-bit or 64-bit versions of the servers and client"
+    echo "\t -x [/ld/library/path32] set the LD_LIBRARY_PATH for servers32 and client32"
+    echo "\t -y [/ld/library/path64] set the LD_LIBRARY_PATH for servers64 and client64"
+}
+
+failed_test_cases=()
+
+function run_test() {
+    if [ $1 -eq 32 ]; then
+        CLIENT_PATH=$CLIENT_PATH32
+        LD_LIB_PATH_CLIENT=$LD_LIB_PATH32
+    else
+        CLIENT_PATH=$CLIENT_PATH64
+        LD_LIB_PATH_CLIENT=$LD_LIB_PATH64
+    fi
+
+    if [ $2 -eq 32 ]; then
+        SERVER_PATH=$SERVER_PATH32
+        LD_LIB_PATH_SERVER=$LD_LIB_PATH32
+    else
+        SERVER_PATH=$SERVER_PATH64
+        LD_LIB_PATH_SERVER=$LD_LIB_PATH64
+    fi
+
+    echo "Running $1-bit client with $2-bit servers"
+    echo "$LD_LIB_PATH_SERVER=$LD_LIB_PATH_SERVER"
+    LD_LIBRARY_PATH=$LD_LIB_PATH_SERVER:$LD_LIBRARY_PATH $SERVER_PATH &
+    SERVER_PID=$!
+    LD_LIBRARY_PATH=$LD_LIB_PATH_CLIENT:$LD_LIBRARY_PATH $CLIENT_PATH
+    if [ $? -ne 0 ]; then
+        failed_test_cases+=("$1-bit client with $2-bit servers")
+    fi
+    kill $SERVER_PID
+}
+
+function check_env() {
+    if [ -z ${TEST_NAME+x} ]; then
+        echo "TEST_NAME is unset";
+        exit 1
+    fi
+
+    if [ -z ${CLIENT_PATH32+x} ]; then
+        echo "CLIENT_PATH32 is unset";
+        exit 1
+    fi
+
+    if [ -z ${CLIENT_PATH64+x} ]; then
+        echo "CLIENT_PATH64 is unset";
+        exit 1
+    fi
+
+    if [ -z ${SERVER_PATH32+x} ]; then
+        echo "SERVER_PATH32 is unset";
+        exit 1
+    fi
+
+    if [ -z ${SERVER_PATH64+x} ]; then
+        echo "SERVER_PATH64 is unset";
+        exit 1
+    fi
+}
+
+#usage: run_all_tests server_path32 server_path64 client_path32 client_path64 test_name [-h/-c config/-x lib32/-y ldlib64]
+function run_all_tests() {
+    SERVER_PATH32=$1
+    SERVER_PATH64=$2
+    CLIENT_PATH32=$3
+    CLIENT_PATH64=$4
+    TEST_NAME=$5
+    check_env
+    shift 5
+
+    while getopts hc:x:y: opt;
+    do
+        case $opt in
+            h)
+                usage
+                exit 0
+                ;;
+            c)
+                case $OPTARG in
+                    CLIENT64_SERVER64)
+                        run_test 64 64
+                        ;;
+                    CLIENT32_SERVER32)
+                        run_test 32 32
+                        ;;
+                    CLIENT64_SERVER32)
+                        run_test 64 32
+                        ;;
+                    CLIENT32_SERVER64)
+                        run_test 32 64
+                        ;;
+                    *)
+                        echo "Error: unknown config value \"$OPTARG\""
+                        exit 1
+                        ;;
+                esac
+                exit 0
+                ;;
+            x)
+                LD_LIB_PATH32=$OPTARG
+                ;;
+            y)
+                LD_LIB_PATH64=$OPTARG
+                ;;
+            *)
+                echo "Error: unknown param \"$opt\""
+                usage
+                exit 1
+                ;;
+        esac
+    done
+
+    for i in 32 64
+        do
+            for j in 32 64
+                do
+                    run_test $i $j
+                done
+        done
+    count_failed_tests=${#failed_test_cases[@]}
+    echo "*********************************************************"
+    echo "    $TEST_NAME Final Summary:\n"
+    if [ $count_failed_tests -gt 0 ]; then
+        echo "    $TEST_NAME failed for the following cases:\n\t"
+        for each in "${failed_test_cases[@]}"
+            do
+                echo "\t$each"
+            done
+    else
+        echo "    $TEST_NAME passed for all cases!"
+    fi
+    echo "*********************************************************"
+
+    exit ${#failed_test_cases[@]}
+}

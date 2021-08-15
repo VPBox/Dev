@@ -1,0 +1,75 @@
+# update_engine payload application permissions. These are shared between the
+# background daemon and the recovery tool to sideload an update.
+
+# Allow update_engine to reach block devices in /dev/block.
+allow update_engine_common block_device:dir search;
+
+# Allow read/write on system and boot partitions.
+allow update_engine_common boot_block_device:blk_file rw_file_perms;
+allow update_engine_common system_block_device:blk_file rw_file_perms;
+
+# Where ioctls are granted via standard allow rules to block devices,
+# automatically allow common ioctls that are generally needed by
+# update_engine.
+allowxperm update_engine_common dev_type:blk_file ioctl {
+  BLKDISCARD
+  BLKDISCARDZEROES
+  BLKROGET
+  BLKROSET
+  BLKSECDISCARD
+  BLKZEROOUT
+};
+
+# Allow to set recovery options in the BCB. Used to trigger factory reset when
+# the update to an older version (channel change) or incompatible version
+# requires it.
+allow update_engine_common misc_block_device:blk_file rw_file_perms;
+
+# read fstab
+allow update_engine_common rootfs:dir getattr;
+allow update_engine_common rootfs:file r_file_perms;
+
+# Allow update_engine_common to mount on the /postinstall directory and reset the
+# labels on the mounted filesystem to postinstall_file.
+allow update_engine_common postinstall_mnt_dir:dir { mounton getattr search };
+allow update_engine_common postinstall_file:filesystem { mount unmount relabelfrom relabelto };
+allow update_engine_common labeledfs:filesystem relabelfrom;
+
+# Allow update_engine_common to read and execute postinstall_file.
+allow update_engine_common postinstall_file:file rx_file_perms;
+allow update_engine_common postinstall_file:lnk_file r_file_perms;
+allow update_engine_common postinstall_file:dir r_dir_perms;
+
+# install update.zip from cache
+r_dir_file(update_engine_common, cache_file)
+
+# A postinstall program is typically a shell script (with a #!), so we allow
+# to execute those.
+allow update_engine_common shell_exec:file rx_file_perms;
+
+# Allow update_engine_common to suspend, resume and kill the postinstall program.
+allow update_engine_common postinstall:process { signal sigstop sigkill };
+
+# access /proc/cmdline
+allow update_engine_common proc_cmdline:file r_file_perms;
+
+# Read files in /sys/firmware/devicetree/base/firmware/android/
+r_dir_file(update_engine_common, sysfs_dt_firmware_android)
+
+# read / write on /dev/device-mapper to map / unmap devices
+allow update_engine_common dm_device:chr_file rw_file_perms;
+
+# apply / verify updates on devices mapped via device mapper
+allow update_engine_common dm_device:blk_file rw_file_perms;
+
+# read / write metadata on super device to resize partitions
+allow update_engine_common super_block_device_type:blk_file rw_file_perms;
+
+# ioctl on super device to get block device alignment and alignment offset
+allowxperm update_engine_common super_block_device_type:blk_file ioctl { BLKIOMIN BLKALIGNOFF };
+
+# get physical block device to map logical partitions on device mapper
+allow update_engine_common block_device:dir r_dir_perms;
+
+# Allow update_engine_common to write to statsd socket.
+unix_socket_send(update_engine_common, statsdw, statsd)

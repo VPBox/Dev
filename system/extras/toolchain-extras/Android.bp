@@ -1,0 +1,41 @@
+cc_defaults {
+    name: "libprofile-defaults",
+    srcs: [
+        "profile-extras.cpp",
+    ],
+    native_coverage: false,
+}
+
+cc_library_static {
+    name: "libprofile-extras",
+    defaults: ["libprofile-defaults",],
+
+    vendor_available: true,
+    vndk: {
+        enabled: true,
+    },
+    recovery_available: true,
+
+    stl: "none",
+    system_shared_libs: [],
+    header_libs: ["libc_headers"],
+}
+
+cc_library_static {
+    name: "libprofile-extras_ndk",
+    defaults: ["libprofile-defaults",],
+
+    sdk_version: "minimum",
+}
+
+cc_test {
+    name: "libprofile-extras-test",
+    srcs: [
+        "profile-extras-test.cpp"
+    ],
+    static_libs: [
+        "libprofile-extras",
+    ],
+    ldflags: ["-uinit_profile_extras"],
+    native_coverage: false,
+}

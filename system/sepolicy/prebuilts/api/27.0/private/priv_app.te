@@ -1,0 +1,159 @@
+###
+### A domain for further sandboxing privileged apps.
+###
+
+typeattribute priv_app coredomain;
+app_domain(priv_app)
+
+# Access the network.
+net_domain(priv_app)
+# Access bluetooth.
+bluetooth_domain(priv_app)
+
+# Allow the allocation and use of ptys
+# Used by: https://play.privileged.com/store/apps/details?id=jackpal.androidterm
+create_pty(priv_app)
+
+# webview crash handling depends on self ptrace (b/27697529, b/20150694, b/19277529#comment7)
+allow priv_app self:process ptrace;
+
+# Some apps ship with shared libraries that they write out
+# to their sandbox directory and then dlopen().
+allow priv_app app_data_file:file execute;
+
+allow priv_app audioserver_service:service_manager find;
+allow priv_app cameraserver_service:service_manager find;
+allow priv_app drmserver_service:service_manager find;
+allow priv_app mediacodec_service:service_manager find;
+allow priv_app mediametrics_service:service_manager find;
+allow priv_app mediadrmserver_service:service_manager find;
+allow priv_app mediaextractor_service:service_manager find;
+allow priv_app mediaserver_service:service_manager find;
+allow priv_app nfc_service:service_manager find;
+allow priv_app oem_lock_service:service_manager find;
+allow priv_app radio_service:service_manager find;
+allow priv_app surfaceflinger_service:service_manager find;
+allow priv_app app_api_service:service_manager find;
+allow priv_app system_api_service:service_manager find;
+allow priv_app persistent_data_block_service:service_manager find;
+allow priv_app recovery_service:service_manager find;
+
+# Write to /cache.
+allow priv_app { cache_file cache_recovery_file }:dir create_dir_perms;
+allow priv_app { cache_file cache_recovery_file }:file create_file_perms;
+# /cache is a symlink to /data/cache on some devices. Allow reading the link.
+allow priv_app cache_file:lnk_file r_file_perms;
+
+# Write to /data/ota_package for OTA packages.
+allow priv_app ota_package_file:dir rw_dir_perms;
+allow priv_app ota_package_file:file create_file_perms;
+
+# Access to /data/media.
+allow priv_app media_rw_data_file:dir create_dir_perms;
+allow priv_app media_rw_data_file:file create_file_perms;
+
+# Used by Finsky / Android "Verify Apps" functionality when
+# running "adb install foo.apk".
+allow priv_app shell_data_file:file r_file_perms;
+allow priv_app shell_data_file:dir r_dir_perms;
+
+# Allow verifier to access staged apks.
+allow priv_app { apk_tmp_file apk_private_tmp_file }:dir r_dir_perms;
+allow priv_app { apk_tmp_file apk_private_tmp_file }:file r_file_perms;
+
+# b/18504118: Allow reads from /data/anr/traces.txt
+allow priv_app anr_data_file:file r_file_perms;
+
+# Allow GMS core to access perfprofd output, which is stored
+# in /data/misc/perfprofd/. GMS core will need to list all
+# data stored in that directory to process them one by one.
+userdebug_or_eng(`
+  allow priv_app perfprofd_data_file:file r_file_perms;
+  allow priv_app perfprofd_data_file:dir r_dir_perms;
+')
+
+# For AppFuse.
+allow priv_app vold:fd use;
+allow priv_app fuse_device:chr_file { read write };
+
+# /sys and /proc access
+r_dir_file(priv_app, sysfs_type)
+r_dir_file(priv_app, proc)
+r_dir_file(priv_app, rootfs)
+
+# Allow GMS core to open kernel config for OTA matching through libvintf
+allow priv_app config_gz:file { open read getattr };
+
+# access the mac address
+allowxperm priv_app self:udp_socket ioctl SIOCGIFHWADDR;
+
+# Allow GMS core to communicate with update_engine for A/B update.
+binder_call(priv_app, update_engine)
+allow priv_app update_engine_service:service_manager find;
+
+# Allow GMS core to communicate with dumpsys storaged.
+binder_call(priv_app, storaged)
+allow priv_app storaged_service:service_manager find;
+
+# Allow Phone to read/write cached ringtones (opened by system).
+allow priv_app ringtone_file:file { getattr read write };
+
+# Access to /data/preloads
+allow priv_app preloads_data_file:file r_file_perms;
+allow priv_app preloads_data_file:dir r_dir_perms;
+allow priv_app preloads_media_file:file r_file_perms;
+allow priv_app preloads_media_file:dir r_dir_perms;
+
+# Allow privileged apps (e.g. GMS core) to generate unique hardware IDs
+allow priv_app keystore:keystore_key gen_unique_id;
+
+# Allow GMS core to access /sys/fs/selinux/policyvers for compatibility check
+allow priv_app selinuxfs:file r_file_perms;
+
+read_runtime_log_tags(priv_app)
+
+# suppress denials when safetynet scans /system
+dontaudit priv_app exec_type:file getattr;
+
+###
+### neverallow rules
+###
+
+# Receive or send uevent messages.
+neverallow priv_app domain:netlink_kobject_uevent_socket *;
+
+# Receive or send generic netlink messages
+neverallow priv_app domain:netlink_socket *;
+
+# Too much leaky information in debugfs. It's a security
+# best practice to ensure these files aren't readable.
+neverallow priv_app debugfs:file read;
+
+# Do not allow privileged apps to register services.
+# Only trusted components of Android should be registering
+# services.
+neverallow priv_app service_manager_type:service_manager add;
+
+# Do not allow privileged apps to connect to the property service
+# or set properties. b/10243159
+neverallow priv_app property_socket:sock_file write;
+neverallow priv_app init:unix_stream_socket connectto;
+neverallow priv_app property_type:property_service set;
+
+# Do not allow priv_app to be assigned mlstrustedsubject.
+# This would undermine the per-user isolation model being
+# enforced via levelFrom=user in seapp_contexts and the mls
+# constraints.  As there is no direct way to specify a neverallow
+# on attribute assignment, this relies on the fact that fork
+# permission only makes sense within a domain (hence should
+# never be granted to any other domain within mlstrustedsubject)
+# and priv_app is allowed fork permission to itself.
+neverallow priv_app mlstrustedsubject:process fork;
+
+# Do not allow priv_app to hard link to any files.
+# In particular, if priv_app links to other app data
+# files, installd will not be able to guarantee the deletion
+# of the linked to file. Hard links also contribute to security
+# bugs, so we want to ensure priv_app never has this
+# capability.
+neverallow priv_app file_type:file link;

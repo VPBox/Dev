@@ -1,0 +1,151 @@
+###
+### Apps that run with the system UID, e.g. com.android.system.ui,
+### com.android.settings.  These are not as privileged as the system
+### server.
+###
+
+typeattribute system_app coredomain;
+
+app_domain(system_app)
+net_domain(system_app)
+binder_service(system_app)
+
+# android.ui and system.ui
+allow system_app rootfs:dir getattr;
+
+# Read and write /data/data subdirectory.
+allow system_app system_app_data_file:dir create_dir_perms;
+allow system_app system_app_data_file:{ file lnk_file } create_file_perms;
+
+# Read and write to /data/misc/user.
+allow system_app misc_user_data_file:dir create_dir_perms;
+allow system_app misc_user_data_file:file create_file_perms;
+
+# Access to vold-mounted storage for measuring free space
+allow system_app mnt_media_rw_file:dir search;
+
+# Access to apex files stored on /data (b/136063500)
+# Needed so that Settings can access NOTICE files inside apex
+# files located in the assets/ directory.
+allow system_app apex_data_file:dir search;
+allow system_app staging_data_file:file r_file_perms;
+
+# Read wallpaper file.
+allow system_app wallpaper_file:file r_file_perms;
+
+# Read icon file.
+allow system_app icon_file:file r_file_perms;
+
+# Write to properties
+set_prop(system_app, bluetooth_a2dp_offload_prop)
+set_prop(system_app, bluetooth_audio_hal_prop)
+set_prop(system_app, bluetooth_prop)
+set_prop(system_app, debug_prop)
+set_prop(system_app, system_prop)
+set_prop(system_app, exported_bluetooth_prop)
+set_prop(system_app, exported_system_prop)
+set_prop(system_app, exported2_system_prop)
+set_prop(system_app, exported3_system_prop)
+set_prop(system_app, logd_prop)
+set_prop(system_app, net_radio_prop)
+set_prop(system_app, system_radio_prop)
+set_prop(system_app, exported_system_radio_prop)
+set_prop(system_app, log_tag_prop)
+userdebug_or_eng(`set_prop(system_app, logpersistd_logging_prop)')
+auditallow system_app net_radio_prop:property_service set;
+auditallow system_app system_radio_prop:property_service set;
+auditallow system_app exported_system_radio_prop:property_service set;
+# Allow Settings to enable Dynamic System Update
+set_prop(system_app, dynamic_system_prop)
+
+# ctl interface
+set_prop(system_app, ctl_default_prop)
+set_prop(system_app, ctl_bugreport_prop)
+
+# Create /data/anr/traces.txt.
+allow system_app anr_data_file:dir ra_dir_perms;
+allow system_app anr_data_file:file create_file_perms;
+
+# Settings need to access app name and icon from asec
+allow system_app asec_apk_file:file r_file_perms;
+
+# Allow system apps (like Settings) to interact with statsd
+binder_call(system_app, statsd)
+
+# Allow system apps to interact with incidentd
+binder_call(system_app, incidentd)
+
+# Allow system apps to interact with gpuservice
+binder_call(system_app, gpuservice)
+
+allow system_app servicemanager:service_manager list;
+# TODO: scope this down? Too broad?
+allow system_app {
+  service_manager_type
+  -apex_service
+  -dnsresolver_service
+  -dumpstate_service
+  -installd_service
+  -iorapd_service
+  -lpdump_service
+  -netd_service
+  -system_suspend_control_service
+  -virtual_touchpad_service
+  -vold_service
+  -vr_hwc_service
+}:service_manager find;
+# suppress denials for services system_app should not be accessing.
+dontaudit system_app {
+  dnsresolver_service
+  dumpstate_service
+  installd_service
+  iorapd_service
+  netd_service
+  virtual_touchpad_service
+  vold_service
+  vr_hwc_service
+}:service_manager find;
+
+allow system_app keystore:keystore_key {
+    get_state
+    get
+    insert
+    delete
+    exist
+    list
+    reset
+    password
+    lock
+    unlock
+    is_empty
+    sign
+    verify
+    grant
+    duplicate
+    clear_uid
+    user_changed
+};
+
+# settings app reads /proc/version
+allow system_app {
+  proc_version
+}:file r_file_perms;
+
+# Settings app writes to /dev/stune/foreground/tasks.
+allow system_app cgroup:file w_file_perms;
+
+control_logd(system_app)
+read_runtime_log_tags(system_app)
+get_prop(system_app, device_logging_prop)
+
+# allow system apps to use UDP sockets provided by the system server but not
+# modify them other than to connect
+allow system_app system_server:udp_socket {
+        connect getattr read recvfrom sendto write getopt setopt };
+
+###
+### Neverallow rules
+###
+
+# app domains which access /dev/fuse should not run as system_app
+neverallow system_app fuse_device:chr_file *;

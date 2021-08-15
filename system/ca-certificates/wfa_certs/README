@@ -1,0 +1,4 @@
+These CA certs are Wi-Fi Alliance Root certificates. They are
+used to validate the certificates of Online Sign-up Servers.
+For details refer to Hotspot 2.0 Technical Specifications.
+

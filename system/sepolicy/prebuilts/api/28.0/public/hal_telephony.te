@@ -1,0 +1,46 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_telephony_client, hal_telephony_server)
+binder_call(hal_telephony_server, hal_telephony_client)
+
+add_hwservice(hal_telephony_server, hal_telephony_hwservice)
+allow hal_telephony_client hal_telephony_hwservice:hwservice_manager find;
+
+allowxperm hal_telephony_server self:udp_socket ioctl priv_sock_ioctls;
+
+allow hal_telephony_server self:netlink_route_socket nlmsg_write;
+allow hal_telephony_server kernel:system module_request;
+allow hal_telephony_server self:global_capability_class_set { setpcap setgid setuid net_admin net_raw };
+allow hal_telephony_server alarm_device:chr_file rw_file_perms;
+allow hal_telephony_server cgroup:dir create_dir_perms;
+allow hal_telephony_server cgroup:{ file lnk_file } r_file_perms;
+allow hal_telephony_server radio_device:chr_file rw_file_perms;
+allow hal_telephony_server radio_device:blk_file r_file_perms;
+allow hal_telephony_server mtd_device:dir search;
+allow hal_telephony_server efs_file:dir create_dir_perms;
+allow hal_telephony_server efs_file:file create_file_perms;
+allow hal_telephony_server vendor_shell_exec:file rx_file_perms;
+allow hal_telephony_server bluetooth_efs_file:file r_file_perms;
+allow hal_telephony_server bluetooth_efs_file:dir r_dir_perms;
+
+# property service
+set_prop(hal_telephony_server, radio_prop)
+set_prop(hal_telephony_server, exported_radio_prop)
+set_prop(hal_telephony_server, exported2_radio_prop)
+set_prop(hal_telephony_server, exported3_radio_prop)
+
+allow hal_telephony_server tty_device:chr_file rw_file_perms;
+
+# Allow hal_telephony_server to create and use netlink sockets.
+allow hal_telephony_server self:netlink_socket create_socket_perms_no_ioctl;
+allow hal_telephony_server self:netlink_generic_socket create_socket_perms_no_ioctl;
+allow hal_telephony_server self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+
+# Access to wake locks
+wakelock_use(hal_telephony_server)
+
+r_dir_file(hal_telephony_server, proc_net)
+r_dir_file(hal_telephony_server, sysfs_type)
+r_dir_file(hal_telephony_server, system_file)
+
+# granting the ioctl permission for hal_telephony_server should be device specific
+allow hal_telephony_server self:socket create_socket_perms_no_ioctl;

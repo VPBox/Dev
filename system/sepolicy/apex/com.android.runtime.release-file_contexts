@@ -1,0 +1,10 @@
+#############################
+# System files
+#
+(/.*)?                   u:object_r:system_file:s0
+/bin/dex2oat             u:object_r:dex2oat_exec:s0
+/bin/dexoptanalyzer      u:object_r:dexoptanalyzer_exec:s0
+/bin/profman             u:object_r:profman_exec:s0
+/bin/linker(64)?         u:object_r:system_linker_exec:s0
+/lib(64)?(/.*)?          u:object_r:system_lib_file:s0
+/etc/tz(/.*)?            u:object_r:system_zoneinfo_file:s0

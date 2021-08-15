@@ -1,0 +1,8 @@
+userdebug_or_eng(`
+  typeattribute perfprofd coredomain;
+  init_daemon_domain(perfprofd)
+')
+
+# Only servicemanager, statsd, su and systemserver can communicate.
+neverallow { domain userdebug_or_eng(`-statsd') } perfprofd:binder call;
+neverallow perfprofd { domain userdebug_or_eng(`-servicemanager -statsd -su -system_server') }:binder call;

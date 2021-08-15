@@ -1,0 +1,15 @@
+header #api-info-block {
+  float: right;
+  font-size: 0.9em;
+  color: #999;
+}
+
+header #api-info-block code {
+  font-size: 0.8em;
+  color: #37474f;
+}
+
+header code {
+  padding: 0;
+  background-color: transparent;
+}

@@ -1,0 +1,59 @@
+# perfprofd - perf profile collection daemon
+type perfprofd, domain;
+type perfprofd_exec, exec_type, file_type;
+
+userdebug_or_eng(`
+
+  typeattribute perfprofd coredomain;
+  typeattribute perfprofd mlstrustedsubject;
+
+  # perfprofd needs to control CPU hot-plug in order to avoid kernel
+  # perfevents problems in cases where CPU goes on/off during measurement;
+  # this means read access to /sys/devices/system/cpu/possible
+  # and read/write access to /sys/devices/system/cpu/cpu*/online
+  allow perfprofd sysfs_devices_system_cpu:file rw_file_perms;
+
+  # perfprofd checks for the existence of and then invokes simpleperf;
+  # simpleperf retains perfprofd domain after exec
+  allow perfprofd system_file:file rx_file_perms;
+
+  # perfprofd reads a config file from /data/data/com.google.android.gms/files
+  allow perfprofd app_data_file:file r_file_perms;
+  allow perfprofd app_data_file:dir search;
+  allow perfprofd self:capability { dac_override };
+
+  # perfprofd opens a file for writing in /data/misc/perfprofd
+  allow perfprofd perfprofd_data_file:file create_file_perms;
+  allow perfprofd perfprofd_data_file:dir rw_dir_perms;
+
+  # perfprofd uses the system log
+  read_logd(perfprofd);
+  write_logd(perfprofd);
+
+  # perfprofd inspects /sys/power/wake_unlock
+  wakelock_use(perfprofd);
+
+  # simpleperf uses ioctl() to turn on kernel perf events measurements
+  allow perfprofd self:capability sys_admin;
+
+  # simpleperf needs to examine /proc to collect task/thread info
+  r_dir_file(perfprofd, domain)
+
+  # simpleperf needs to access /proc/<pid>/exec
+  allow perfprofd self:capability { sys_resource sys_ptrace };
+  neverallow perfprofd domain:process ptrace;
+
+  # simpleperf needs open/read any file that turns up in a profile
+  # to see whether it has a build ID
+  allow perfprofd exec_type:file r_file_perms;
+
+  # simpleperf examines debugfs on startup to collect tracepoint event types
+  allow perfprofd debugfs_tracing:file r_file_perms;
+
+  # simpleperf is going to execute "sleep"
+  allow perfprofd toolbox_exec:file rx_file_perms;
+
+  # needed for simpleperf on some kernels
+  allow perfprofd self:capability ipc_lock;
+
+')

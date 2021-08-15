@@ -1,0 +1,12 @@
+# mdns daemon
+
+typeattribute mdnsd coredomain;
+typeattribute mdnsd mlstrustedsubject;
+
+type mdnsd_exec, exec_type, file_type;
+init_daemon_domain(mdnsd)
+
+net_domain(mdnsd)
+
+# Read from /proc/net
+r_dir_file(mdnsd, proc_net)

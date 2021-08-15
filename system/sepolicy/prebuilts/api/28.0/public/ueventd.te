@@ -1,0 +1,57 @@
+# ueventd seclabel is specified in init.rc since
+# it lives in the rootfs and has no unique file type.
+type ueventd, domain;
+
+# Write to /dev/kmsg.
+allow ueventd kmsg_device:chr_file rw_file_perms;
+
+allow ueventd self:global_capability_class_set { chown mknod net_admin setgid fsetid sys_rawio dac_override fowner };
+allow ueventd device:file create_file_perms;
+
+r_dir_file(ueventd, rootfs)
+
+# ueventd needs write access to files in /sys to regenerate uevents
+allow ueventd sysfs_type:file w_file_perms;
+r_dir_file(ueventd, sysfs_type)
+allow ueventd sysfs_type:{ file lnk_file } { relabelfrom relabelto setattr };
+allow ueventd sysfs_type:dir { relabelfrom relabelto setattr };
+allow ueventd tmpfs:chr_file rw_file_perms;
+allow ueventd dev_type:dir create_dir_perms;
+allow ueventd dev_type:lnk_file { create unlink };
+allow ueventd dev_type:chr_file { getattr create setattr unlink };
+allow ueventd dev_type:blk_file { getattr relabelfrom relabelto create setattr unlink };
+allow ueventd self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+allow ueventd efs_file:dir search;
+allow ueventd efs_file:file r_file_perms;
+
+# Get SELinux enforcing status.
+r_dir_file(ueventd, selinuxfs)
+
+# Access for /vendor/ueventd.rc and /vendor/firmware
+r_dir_file(ueventd, { vendor_file_type -vendor_app_file -vendor_overlay_file })
+
+# Get file contexts for new device nodes
+allow ueventd file_contexts_file:file r_file_perms;
+
+# Use setfscreatecon() to label /dev directories and files.
+allow ueventd self:process setfscreate;
+
+# Allow ueventd to read androidboot.android_dt_dir from kernel cmdline.
+allow ueventd proc_cmdline:file r_file_perms;
+
+#####
+##### neverallow rules
+#####
+
+# ueventd must never set properties, otherwise deadlocks may occur.
+# https://android-review.googlesource.com/#/c/133120/6/init/devices.cpp@941
+# No writing to the property socket, connecting to init, or setting properties.
+neverallow ueventd property_socket:sock_file write;
+neverallow ueventd init:unix_stream_socket connectto;
+neverallow ueventd property_type:property_service set;
+
+# Restrict ueventd access on block devices to maintenence operations.
+neverallow ueventd dev_type:blk_file ~{ getattr relabelfrom relabelto create setattr unlink };
+
+# Only relabelto as we would never want to relabelfrom kmem_device or port_device
+neverallow ueventd { kmem_device port_device }:chr_file ~{ getattr create setattr unlink relabelto };

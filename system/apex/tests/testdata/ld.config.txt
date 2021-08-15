@@ -1,0 +1,58 @@
+dir.myapex = /apex/com.android.apex.test/bin
+
+[myapex]
+additional.namespaces = sphal,vndk
+
+namespace.default.search.paths  = /apex/com.android.apex.test/${LIB}
+
+
+
+namespace.sphal.isolated = true
+namespace.sphal.visible = true
+
+namespace.sphal.search.paths  = /odm/${LIB}
+namespace.sphal.search.paths += /vendor/${LIB}
+
+namespace.sphal.permitted.paths  = /odm/${LIB}
+namespace.sphal.permitted.paths += /vendor/${LIB}
+
+# Once in this namespace, access to libraries in /system/lib is restricted. Only
+# libs listed here can be used.
+namespace.sphal.links = default,vndk
+
+namespace.sphal.link.default.shared_libs  = libEGL.so:libGLESv1_CM.so:libGLESv2.so:libGLESv3.so:libRS.so:libandroid_net.so:libc.so:libclang_rt.asan-aarch64-android.so:libclang_rt.asan-arm-android.so:libclang_rt.hwasan-aarch64-android.so:libdl.so:liblog.so:libm.so:libmediandk.so:libnativewindow.so:libneuralnetworks.so:libsync.so:libvndksupport.so:libvulkan.so
+namespace.sphal.link.default.shared_libs += libclang_rt.asan-aarch64-android.so:libclang_rt.ubsan_standalone-aarch64-android.so:libclang_rt.tsan-aarch64-android.so:libclang_rt.asan-arm-android.so:libclang_rt.ubsan_standalone-arm-android.so:libclang_rt.tsan-arm-android.so
+
+namespace.sphal.link.vndk.shared_libs = android.hardware.graphics.common@1.0.so:android.hardware.graphics.common@1.1.so:android.hardware.graphics.mapper@2.0.so:android.hardware.graphics.mapper@2.1.so:android.hardware.renderscript@1.0.so:android.hidl.memory.token@1.0.so:android.hidl.memory@1.0.so:android.hidl.memory@1.0-impl.so:libRSCpuRef.so:libRSDriver.so:libRS_internal.so:libbase.so:libbcinfo.so:libc++.so:libcutils.so:libhardware.so:libhidlbase.so:libhidlmemory.so:libhidltransport.so:libhwbinder.so:libhwbinder_noltopgo.so:libion.so:liblzma.so:libunwindstack.so:libutils.so:libutilscallstack.so:libz.so
+
+
+
+namespace.vndk.isolated = true
+namespace.vndk.visible = true
+
+namespace.vndk.search.paths  = /odm/${LIB}/vndk-sp
+namespace.vndk.search.paths += /vendor/${LIB}/vndk-sp
+namespace.vndk.search.paths += /system/${LIB}/vndk-sp-Q
+
+namespace.vndk.permitted.paths  = /odm/${LIB}/hw
+namespace.vndk.permitted.paths += /odm/${LIB}/egl
+namespace.vndk.permitted.paths += /vendor/${LIB}/hw
+namespace.vndk.permitted.paths += /vendor/${LIB}/egl
+# This is exceptionally required since android.hidl.memory@1.0-impl.so is here
+namespace.vndk.permitted.paths += /system/${LIB}/vndk-sp-Q/hw
+
+
+# The "vndk" namespace links to "default" namespace for LLNDK libs and links to
+# "sphal" namespace for vendor libs.  The ordering matters.  The "default"
+# namespace has higher priority than the "sphal" namespace.
+namespace.vndk.links = default,sphal
+
+# When these NDK libs are required inside this namespace, then it is redirected
+# to the default namespace. This is possible since their ABI is stable across
+# Android releases.
+namespace.vndk.link.default.shared_libs  = libEGL.so:libGLESv1_CM.so:libGLESv2.so:libGLESv3.so:libRS.so:libandroid_net.so:libc.so:libclang_rt.asan-aarch64-android.so:libclang_rt.asan-arm-android.so:libclang_rt.hwasan-aarch64-android.so:libdl.so:liblog.so:libm.so:libmediandk.so:libnativewindow.so:libneuralnetworks.so:libsync.so:libvndksupport.so:libvulkan.so
+namespace.vndk.link.default.shared_libs += libclang_rt.asan-aarch64-android.so:libclang_rt.ubsan_standalone-aarch64-android.so:libclang_rt.tsan-aarch64-android.so:libclang_rt.asan-arm-android.so:libclang_rt.ubsan_standalone-arm-android.so:libclang_rt.tsan-arm-android.so
+
+# Allow VNDK-SP extensions to use vendor libraries
+namespace.vndk.link.sphal.allow_all_shared_libs = true
+

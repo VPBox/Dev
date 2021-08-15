@@ -1,0 +1,10 @@
+# Process which creates/updates shared RELRO files to be used by other apps.
+type shared_relro, domain;
+
+# Grant write access to the shared relro files/directory.
+allow shared_relro shared_relro_file:dir rw_dir_perms;
+allow shared_relro shared_relro_file:file create_file_perms;
+
+# Needs to contact the "webviewupdate" and "activity" services
+allow shared_relro activity_service:service_manager find;
+allow shared_relro webviewupdate_service:service_manager find;

@@ -1,0 +1,7 @@
+Tests in this directory can be run with vogar:
+
+make -j30 vogar tzlookup_generator
+
+cd system/timezone/tzlookup_generator
+vogar --mode=jvm --classpath ${ANDROID_HOST_OUT}/../common/obj/JAVA_LIBRARIES/tzlookup_generator_intermediates/javalib.jar src/test/
+

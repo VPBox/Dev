@@ -1,0 +1,34 @@
+# sgdisk called from vold
+type sgdisk, domain;
+type sgdisk_exec, system_file_type, exec_type, file_type;
+
+# Allowed to read/write low-level partition tables
+allow sgdisk block_device:dir search;
+allow sgdisk vold_device:blk_file rw_file_perms;
+# HDIO_GETGEO needed to get the number of disk heads
+# on vold_device. How quaint.
+allowxperm sgdisk vold_device:blk_file ioctl { HDIO_GETGEO };
+# sgdisk also uses BLKGETSIZE and BLKGETSIZE64. BLKGETSIZE64
+# is granted to all block device users in domain.te, so
+# no need to mention it here. sgdisk should not be
+# using the BLKGETSIZE ioctl as it is useless for devices over
+# 2T in size, but we allow it for now and hope that sgdisk
+# will fix their bug.
+allowxperm sgdisk vold_device:blk_file ioctl { BLKGETSIZE };
+# Force a re-read of the partition table.
+allowxperm sgdisk vold_device:blk_file ioctl { BLKRRPART };
+
+# Inherit and use pty created by android_fork_execvp()
+allow sgdisk devpts:chr_file { read write ioctl getattr };
+
+# Allow stdin/out back to vold
+allow sgdisk vold:fd use;
+allow sgdisk vold:fifo_file { read write getattr };
+
+# Used to probe kernel to reload partition tables
+allow sgdisk self:global_capability_class_set sys_admin;
+
+# Only allow entry from vold
+neverallow { domain -vold } sgdisk:process transition;
+neverallow * sgdisk:process dyntransition;
+neverallow sgdisk { file_type fs_type -sgdisk_exec }:file entrypoint;

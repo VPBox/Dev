@@ -1,0 +1,15 @@
+#
+# Common neverallow permissions
+define(`no_w_file_perms', `{ append create link unlink relabelfrom rename setattr write }')
+define(`no_rw_file_perms', `{ no_w_file_perms open read ioctl lock }')
+define(`no_x_file_perms', `{ execute execute_no_trans }')
+define(`no_w_dir_perms',  `{ add_name create link relabelfrom remove_name rename reparent rmdir setattr write }')
+
+#####################################
+# neverallow_establish_socket_comms(src, dst)
+# neverallow src domain establishing socket connections to dst domain.
+#
+define(`neverallow_establish_socket_comms', `
+  neverallow $1 $2:socket_class_set { connect sendto };
+  neverallow $1 $2:unix_stream_socket connectto;
+')

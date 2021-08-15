@@ -1,0 +1,6 @@
+{
+  "name": "com.android.apex.test_package.prepostinstall.fail",
+  "version": 1,
+  "preInstallHook": "bin/apex_test_prePostInstallHookFail",
+  "postInstallHook": "bin/apex_test_prePostInstallHookFail"
+}

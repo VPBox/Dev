@@ -1,0 +1,6 @@
+// Checkpointing GC script
+sh_binary {
+    name: "checkpoint_gc",
+    src: "checkpoint_gc.sh",
+    vendor: true,
+}

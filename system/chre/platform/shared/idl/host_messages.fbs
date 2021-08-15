@@ -1,0 +1,281 @@
+// Copyright (C) 2017 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+namespace chre.fbs;
+
+/// Represents a message sent to/from a nanoapp from/to a client on the host
+table NanoappMessage {
+  app_id:ulong = 0;
+  message_type:uint = 0;
+
+  /// Identifies the host-side endpoint on the host that sent or should receive
+  /// this message. The default value is a special value defined in the HAL and
+  /// elsewhere that indicates that the endpoint is unspecified.
+  host_endpoint:ushort = 0xfffe;
+
+  /// Vector containing arbitrary application-specific message data
+  message:[ubyte] (required);
+}
+
+table HubInfoRequest {}
+table HubInfoResponse {
+  /// The name of the hub. Nominally a UTF-8 string, but note that we're not
+  /// using the built-in "string" data type from FlatBuffers here, because the
+  /// generated C++ uses std::string which is not well-supported in CHRE. This
+  /// applies for vendor and toolchain as well.
+  name:[byte];
+  vendor:[byte];
+  toolchain:[byte];
+
+  /// Legacy platform version reported in the HAL; semantics not strictly
+  /// defined
+  platform_version:uint;
+
+  /// Toolchain version reported in the HAL; semantics not strictly defined
+  toolchain_version:uint;
+
+  peak_mips:float;
+  stopped_power:float;
+  sleep_power:float;
+  peak_power:float;
+
+  /// Maximum size message that can be sent to a nanoapp
+  max_msg_len:uint;
+
+  /// @see chreGetPlatformId()
+  platform_id:ulong;
+
+  /// @see chreGetVersion()
+  chre_platform_version:uint;
+
+  // TODO: list of connected sensors
+}
+
+table NanoappListRequest {}
+
+table NanoappListEntry {
+  app_id:ulong;
+  version:uint;
+  enabled:bool = true;
+
+  /// Whether the nanoapp is a pre-loaded "system" nanoapp, i.e. one that should
+  /// not show up in the list of nanoapps in the context hub HAL. System
+  /// nanoapps are typically used to leverage CHRE for some device functionality
+  /// and do not interact via the context hub HAL.
+  is_system:bool = false;
+
+  // TODO: memory usage
+}
+
+table NanoappListResponse {
+  nanoapps:[NanoappListEntry] (required);
+}
+
+/// Represents a request for loading a nanoapp.
+/// The nanaopp can either be requested to be loaded via a file or via a buffer.
+/// For loading via a file, the following steps will be taken:
+/// 1. The loader sends a LoadNanoappRequest message to CHRE. app_binary must
+///    be set for legacy purposes, but should be empty. Additionally,
+///    fragment_id and total_app_size are unused in this request. The loading
+///    that happens as part of this request is serialized, but asynchronous
+///    meaning that load requests will be processed in the order they are sent
+///    but multiple requests can be outstanding at any given time.
+/// 2. CHRE stores the filename and waits until its event loop is able to
+///    process the request.
+/// 3. Once ready, the nanoapp will be loaded from the file specified in the
+///    original request and will send a callback indicating the
+///    completion/failure of the request.
+/// For loading via a buffer, loading may optionally be fragmented into multiple
+/// sequential requests, which will follow the following steps:
+/// 1. The loader sends a LoadNanoappRequest message to CHRE. If the request
+///    is fragmented, then the fields fragment_id and total_app_size must
+///    be defined. Once the first fragment is sent to CHRE, all subsequent
+///    fragments must be delivered before a new LoadNanoappRequest can be
+///    issued. If a new request is received while a current request has
+///    outstanding fragments, the current request will be overridden with the
+///    new one.
+/// 2. CHRE preallocates the required amount of memory, and loads app_binary,
+///    appending to already loaded fragments as appropriate.
+/// 3. If the request is fragmented, then the requestor must sequentially send
+///    multiple LoadNanoappRequest with incremental nanoapp binary fragments.
+///    CHRE will respond with LoadNanoappResponse for each request. For
+///    requests starting from the second fragment, all fields except
+///    fragment_id and app_binary should be ignored by CHRE.
+///
+///    Once the LoadNanoappRepsonse for the last fragment is received
+///    by the HAL, the HAL client will receive a callback indicating the
+///    completion/failure of a load request.
+///
+/// If any request fragment is lost, then the entire load request will be
+/// considered to have failed. If the request times out (e.g. the requestor
+/// process crashes), then the load request will be cancelled at CHRE and fail.
+table LoadNanoappRequest {
+  transaction_id:uint;
+
+  app_id:ulong;
+  app_version:uint;
+  target_api_version:uint;
+
+  app_binary:[ubyte] (required);
+
+  /// Fields that are relevant for fragmented loading
+  /// The framgent count starts at 1 and should end at the total number of
+  /// fragments. For clients that do not support fragmented loading, the
+  /// default behavior should be to assume one fragment.
+  fragment_id:uint = 0;
+  total_app_size:uint;
+
+  /// Null-terminated ASCII string containing the file name that contains the
+  /// app binary to be loaded.
+  app_binary_file_name:[byte];
+}
+
+table LoadNanoappResponse {
+  transaction_id:uint;
+
+  /// Denotes whether a load request succeeded or failed.
+  /// If any fragment of a load request fails, the entire load request for
+  /// the same transaction will fail.
+  success:bool;
+
+  /// The fragment count of the load reponse is for.
+  fragment_id:uint = 0;
+
+  // TODO: detailed error code?
+}
+
+table UnloadNanoappRequest {
+  transaction_id:uint;
+
+  app_id:ulong;
+
+  /// Set to true to allow this request to unload nanoapps identified as "system
+  /// nanoapps", i.e. ones with is_system set to true in NanoappListResponse.
+  allow_system_nanoapp_unload:bool;
+}
+
+table UnloadNanoappResponse {
+  transaction_id:uint;
+  success:bool;
+}
+
+/// Represents log messages from CHRE.
+table LogMessage {
+  /// A buffer containing formatted log data. A flat array is used here to avoid
+  /// overhead in serializing and deserializing. The format is as follows:
+  ///
+  /// uint8_t                 - log level (1 = error, 2 = warning,
+  ///                                      3 = info, 4 = debug)
+  /// uint64_t, little-endian - timestamp in nanoseconds
+  /// char[]                  - message to log
+  /// char, \0                - null-terminator
+  ///
+  /// This pattern repeats until the end of the buffer for multiple log
+  /// messages. The last byte will always be a null-terminator. There are no
+  /// padding bytes between these fields. Treat this like a packed struct and be
+  /// cautious with unaligned access when reading/writing this buffer.
+  buffer:[byte];
+}
+
+/// Represents a message sent to CHRE to indicate AP timestamp for time sync
+table TimeSyncMessage {
+  /// Offset between AP and CHRE timestamp
+  offset:long;
+}
+
+/// A request to gather and return debugging information. Only one debug dump
+/// session can be active at a time. Upon accepting a request, zero or more
+/// DebugDumpData messages are generated, followed by a DebugDumpResponse
+/// indicating the completion of the operation.
+table DebugDumpRequest {}
+
+table DebugDumpData {
+  /// Null-terminated ASCII string containing debugging information
+  debug_str:[byte];
+}
+
+table DebugDumpResponse {
+  /// true if the request was accepted and a dump was performed, false if it was
+  /// rejected or failed to complete for some reason
+  success:bool;
+
+  /// The number of DebugDumpData messages sent in this session
+  data_count:uint;
+}
+
+/// A request from CHRE for host to initiate a time sync message
+/// (system feature, platform-specific - not all platforms necessarily use this)
+table TimeSyncRequest {}
+
+/// Request from CHRE to enable direct access to data from the low-power
+/// microphone. On some systems, coordination via the AP (e.g. with
+/// SoundTrigger HAL) is needed to ensure this capability is powered up when
+/// CHRE needs it. The host does not send a response.
+table LowPowerMicAccessRequest {}
+
+/// Notification from CHRE that it no longer needs direct access to low-power
+/// microphone data.
+table LowPowerMicAccessRelease {}
+
+/// A union that joins together all possible messages. Note that in FlatBuffers,
+/// unions have an implicit type
+union ChreMessage {
+  NanoappMessage,
+
+  HubInfoRequest,
+  HubInfoResponse,
+
+  NanoappListRequest,
+  NanoappListResponse,
+
+  LoadNanoappRequest,
+  LoadNanoappResponse,
+
+  UnloadNanoappRequest,
+  UnloadNanoappResponse,
+
+  LogMessage,
+
+  TimeSyncMessage,
+
+  DebugDumpRequest,
+  DebugDumpData,
+  DebugDumpResponse,
+
+  TimeSyncRequest,
+
+  LowPowerMicAccessRequest,
+  LowPowerMicAccessRelease,
+}
+
+struct HostAddress {
+  client_id:ushort;
+}
+
+/// The top-level container that encapsulates all possible messages. Note that
+/// per FlatBuffers requirements, we can't use a union as the top-level
+/// structure (root type), so we must wrap it in a table.
+table MessageContainer {
+  message:ChreMessage (required);
+
+  /// The originating or destination client ID on the host side, used to direct
+  /// responses only to the client that sent the request. Although initially
+  /// populated by the requesting client, this is enforced to be the correct
+  /// value by the entity guarding access to CHRE.
+  /// This is wrapped in a struct to ensure that it is always included when
+  /// encoding the message, so it can be mutated by the host daemon.
+  host_addr:HostAddress (required);
+}
+
+root_type MessageContainer;

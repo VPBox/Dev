@@ -1,0 +1,72 @@
+This directory contains a number of tools related to policy, some of
+which are used in building and validating the policy and others are
+available for help in auditing and analyzing policy.  The tools are
+described further below.
+
+build_policies.sh
+   A tool to build SELinux policy for multiple targets in parallel.
+   This is useful for quickly testing a new test or neverallow rule
+   on multiple targets.
+
+   Usage:
+   ./build_policies.sh ~/android/master ~/tmp/build_policies
+   ./build_policies.sh ~/android/master ~/tmp/build_policies sailfish-eng walleye-eng
+
+checkfc
+   A utility for checking the validity of a file_contexts or a
+   property_contexts configuration file.  Used as part of the policy
+   build to validate both files.  Requires the sepolicy file as an
+   argument in order to check the validity of the security contexts
+   in the file_contexts or property_contexts file.
+
+   Usage1:
+   checkfc sepolicy file_contexts
+   checkfc -p sepolicy property_contexts
+
+   Also used to compare two file_contexts or file_contexts.bin files.
+   Displays one of subset, equal, superset, or incomparable.
+
+   Usage2:
+   checkfc -c file_contexts1 file_contexts2
+
+   Example:
+   $ checkfc -c out/target/product/shamu/system/etc/general_file_contexts out/target/product/shamu/root/file_contexts.bin
+   subset
+
+checkseapp
+    A utility for merging together the main seapp_contexts
+    configuration and the device-specific one, and simultaneously
+    checking the validity of the configurations. Used as part of the
+    policy build process to merge and validate the configuration.
+
+    Usage:
+    checkseapp -p sepolicy input_seapp_contexts0 [input_seapp_contexts1...] -o seapp_contexts
+
+insertkeys.py
+    A helper script for mapping tags in the signature stanzas of
+    mac_permissions.xml to public keys found in pem files.  This
+    script is described further in the top-level sepolicy/README.
+
+post_process_mac_perms
+    A tool to help modify an existing mac_permissions.xml with additional app
+    certs not already found in that policy. This becomes useful when a directory
+    containing apps is searched and the certs from those apps are added to the
+    policy not already explicitly listed.
+
+    Usage:
+    post_process_mac_perms [-h] -s SEINFO -d DIR -f POLICY
+
+      -s SEINFO, --seinfo SEINFO  seinfo tag for each generated stanza
+      -d DIR, --dir DIR           Directory to search for apks
+      -f POLICY, --file POLICY    mac_permissions.xml policy file
+
+sepolicy-check
+    A tool for auditing a sepolicy file for any allow rule that grants
+    a given permission.
+
+    Usage:
+    sepolicy-check -s <domain> -t <type> -c <class> -p <permission> -P out/target/product/<board>/root/sepolicy
+
+sepolicy-analyze
+    A tool for performing various kinds of analysis on a sepolicy
+    file.

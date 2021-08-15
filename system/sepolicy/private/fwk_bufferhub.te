@@ -1,0 +1,8 @@
+type fwk_bufferhub, domain, coredomain;
+type fwk_bufferhub_exec, system_file_type, exec_type, file_type;
+
+hal_client_domain(fwk_bufferhub, hal_graphics_allocator)
+allow fwk_bufferhub ion_device:chr_file r_file_perms;
+
+hal_server_domain(fwk_bufferhub, hal_bufferhub)
+init_daemon_domain(fwk_bufferhub)

@@ -1,0 +1,140 @@
+This directory contains code, tools and data related to time zone rules data
+and updates.
+
+Directory structure
+===================
+
+distro
+  - Code related to "distros", the collection of files that can be used to
+    update time zone rules on Android devices. See distro/README for details.
+
+input_data
+  - Contains files that provide inputs to the time zone rules update process.
+    Some files come from external sources and some are mastered in Android.
+    See also download-iana-data.py.
+
+output_data
+  - Contains some derived files from the time zone rules update process and
+    used in the Android system image and distros. Some files are also held by
+    ICU - see also update-tzdata.py
+
+testing
+  - Contains tools and scripts related to testing time zone update code. See
+    testing/data/README for details.
+
+tzdatacheck
+  - Source code for a binary executed during boot and used to ensure that a
+    device doesn't boot with incompatible/outdated time zone data installed
+    /data (as could happen if the device has just received an OTA upgrade).
+    It is also responsible for committing staged install/uninstalls.
+
+zone_compactor
+  - Used to create Android's native tzdata file format from the files
+    produced by the zic tool. See also update-tzdata.py.
+
+
+Data file update tools
+======================
+
+download-iana-data.py
+  - A helper script run before update-tzdata.py.
+    It downloads the latest tzdata update from IANA and puts it in
+    the system/timezone/input_data/iana directory for use by the
+    update-tzdata.py script.
+
+update-tzdata.py
+  - Regenerates the external/icu and system/timezone/output_data timezone
+    data files.
+
+See update instructions below for how these tools are used.
+
+IANA rules data changes
+=======================
+
+When IANA release new time zone rules, the update process is:
+
+1) Run download-iana-data.py to update the system/timezone/input_data/iana
+  file.
+2) Make manual modifications to system/timezone/input_data/android files as
+  needed.
+3) There are sometimes code and metadata changes associated with tzdata updates
+  that should be applied to Android's copy of ICU.
+  e.g. see http://bugs.icu-project.org/trac/search?q=2015d
+4) Run update-tzdata.py to regenerate the system/timezone/output_data,
+  system/timezone/testing/data, external/icu runtime files and testing equivalents.
+5) Build/flash a device image with the changes and run CTS:
+    cts-tradefed
+    run cts -m CtsLibcoreTestCases
+    run cts -m CtsIcuTestCases
+   (And any others that you think may have been affected)
+6) Upload, review, submit the changes from external/icu and system/timezone.
+
+REMINDER: Any prebuilt apks of OEM-specific time zone data apps .apk files
+(i.e. ones that that contain distro files) will also need to be regenerated
+with a new version code / string and any OEM-specific tests should be run.
+
+
+Distro Versioning
+=================
+
+The Android time zone "distro" is a zip archive containing the files needed
+to update a device's time zone rules by overlaying files into locations in /
+data. See distro/ for details.
+
+The distro format (i.e. the files contained within the zip file) can change
+between major releases as Android evolves or makes updates to components that
+use the time zone data.
+
+Distros have a major and minor format version number:
+
+- Major format version numbers are mutually incompatible. e.g. v2 is not
+  compatible with a v1 or a v3 device.
+- Minor format version numbers are backwards compatible. e.g. a v2.2 distro
+  will work on a v2.1 device but not a v2.3 device.
+- The minor version is reset to 1 when the major version is incremented.
+
+The most obvious/common change that can occur between Android releases is an
+ICU upgrade, which currently requires a major format version increment: Android
+uses the ICU4C's native format for both ICU4C and ICU4J time zone code which is
+tied to the ICU major version. The main .dat file used by ICU is held in
+external/icu and will naturally be updated when ICU is updated. Less obviously,
+the distro code and files must be updated as well.
+
+Other examples of changes that affect format versioning:
+
+Major version increment:
+- A non-backwards compatible change to the tzdata or tzlookup.xml files used
+  by bionic / libcore.
+- Removal of an existing file from the distro.
+
+Minor version increment:
+- Backwards compatible changes:
+  - A new file in the distro.
+  - Additional required data in an existing file (e.g. a backwards compatible
+    change to tzdata / tzlookup.xml).
+
+
+Changing the distro format version
+----------------------------------
+
+1) Modify libcore/luni/src/main/java/libcore/timezone/TzDataSetVersion.java
+  - CURRENT_FORMAT_MAJOR_VERSION, CURRENT_FORMAT_MINOR_VERSION
+2) Run update-tzdata.py to regenerate the system/timezone/output_data,
+  system/timezone/testing/data, external/icu runtime files and testing equivalents.
+3) Build/flash a device image with the changes and run CTS:
+    cts-tradefed
+    run cts -m CtsHostTzDataTests
+    run cts -m CtsLibcoreTestCases
+4) Run non-CTS test cases:
+    make -j30 FrameworksServicesTests
+    adb install -r -g \
+        "${ANDROID_PRODUCT_OUT}/data/app/FrameworksServicesTests/FrameworksServicesTests.apk"
+    adb shell am instrument -e package com.android.server.timezone -w \
+        com.android.frameworks.servicestests \
+        "com.android.frameworks.servicestests/androidx.test.runner.AndroidJUnitRunner"
+5) Upload, review, submit the changes from system/timezone, libcore and external/icu.
+
+REMINDER: Any prebuilt apks of OEM-specific time zone data apps .apk files
+(i.e. ones that that contain distro files) will also need to be regenerated
+with a new version code / string and any OEM-specific tests should be run.
+

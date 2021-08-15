@@ -1,0 +1,30 @@
+# idmap, when executed by installd
+type idmap, domain;
+type idmap_exec, system_file_type, exec_type, file_type;
+
+# TODO remove /system/bin/idmap and the link between idmap and installd (b/118711077)
+# Use open file to /data/resource-cache file inherited from installd.
+allow idmap installd:fd use;
+allow idmap resourcecache_data_file:file create_file_perms;
+allow idmap resourcecache_data_file:dir rw_dir_perms;
+
+# Ignore reading /proc/<pid>/maps after a fork.
+dontaudit idmap installd:file read;
+
+# Open and read from target and overlay apk files passed by argument.
+allow idmap apk_data_file:file r_file_perms;
+allow idmap apk_data_file:dir search;
+
+# Allow /data/app/vmdl*.tmp, /data/app-private/vmdl*.tmp files
+allow idmap { apk_tmp_file apk_private_tmp_file }:file r_file_perms;
+allow idmap { apk_tmp_file apk_private_tmp_file }:dir search;
+
+# Allow apps access to /vendor/app
+r_dir_file(idmap, vendor_app_file)
+
+# Allow apps access to /vendor/overlay
+r_dir_file(idmap, vendor_overlay_file)
+
+# Allow the idmap2d binary to register as a service and communicate via AIDL
+binder_use(idmap)
+add_service(idmap, idmap_service)

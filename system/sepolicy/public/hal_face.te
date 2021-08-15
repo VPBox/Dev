@@ -1,0 +1,12 @@
+# Allow HwBinder IPC from client to server, and vice versa for callbacks.
+binder_call(hal_face_client, hal_face_server)
+binder_call(hal_face_server, hal_face_client)
+
+hal_attribute_hwservice(hal_face, hal_face_hwservice)
+
+# Allow access to the ion memory allocation device.
+allow hal_face ion_device:chr_file r_file_perms;
+
+# Allow read/write access to the face template directory.
+allow hal_face face_vendor_data_file:file create_file_perms;
+allow hal_face face_vendor_data_file:dir rw_dir_perms;

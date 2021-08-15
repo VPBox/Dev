@@ -1,0 +1,5 @@
+type usbd, domain;
+type usbd_exec, system_file_type, exec_type, file_type;
+
+# Start/stop adbd via ctl.start adbd
+set_prop(usbd, ctl_adbd_prop)

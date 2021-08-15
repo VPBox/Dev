@@ -1,0 +1,11 @@
+on post-fs-data
+    # Modem Remote FS
+    mkdir /data/vendor/rfs      0770 vendor_rfs vendor_rfs
+    mkdir /data/vendor/rfs/mpss 0770 vendor_rfs vendor_rfs
+    mkdir /data/vendor/tombstones/rfs      0770 vendor_rfs vendor_rfs
+    write /data/vendor/rfs/mpss/mcfg_nv_list_flag "1"
+    chown vendor_rfs vendor_rfs /data/vendor/rfs/mpss/mcfg_nv_list_flag
+    chmod 0700 /data/vendor/rfs/mpss/mcfg_nv_list_flag
+
+on property:vendor.sys.modem.diag.efsdump=true
+    chmod 0660 /data/vendor/rfs/mpss/modem_efs

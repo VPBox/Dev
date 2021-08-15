@@ -1,0 +1,52 @@
+typeattribute dumpstate coredomain;
+
+init_daemon_domain(dumpstate)
+
+# Execute and transition to the vdc domain
+domain_auto_trans(dumpstate, vdc_exec, vdc)
+
+# Acquire advisory lock on /system/etc/xtables.lock from ip[6]tables
+allow dumpstate system_file:file lock;
+
+allow dumpstate storaged_exec:file rx_file_perms;
+
+# /data/misc/wmtrace for wm traces
+userdebug_or_eng(`
+  allow dumpstate wm_trace_data_file:dir r_dir_perms;
+  allow dumpstate wm_trace_data_file:file r_file_perms;
+')
+
+# Allow dumpstate to make binder calls to incidentd
+binder_call(dumpstate, incidentd)
+
+# Allow dumpstate to make binder calls to storaged service
+binder_call(dumpstate, storaged)
+
+# Allow dumpstate to make binder calls to statsd
+binder_call(dumpstate, statsd)
+
+# Allow dumpstate to talk to gpuservice over binder
+binder_call(dumpstate, gpuservice);
+
+# Allow dumpstate to talk to idmap over binder
+binder_call(dumpstate, idmap);
+
+# Collect metrics on boot time created by init
+get_prop(dumpstate, boottime_prop)
+
+# Signal native processes to dump their stack.
+allow dumpstate {
+  statsd
+  netd
+}:process signal;
+
+# For collecting bugreports.
+allow dumpstate debugfs_wakeup_sources:file r_file_perms;
+allow dumpstate dev_type:blk_file getattr;
+allow dumpstate webview_zygote:process signal;
+dontaudit dumpstate perfprofd:binder call;
+dontaudit dumpstate update_engine:binder call;
+allow dumpstate proc_net_tcp_udp:file r_file_perms;
+
+# For comminucating with the system process to do confirmation ui.
+binder_call(dumpstate, incidentcompanion_service)

@@ -1,0 +1,9 @@
+# wait_for_keymaster service
+type wait_for_keymaster, domain, coredomain;
+type wait_for_keymaster_exec, exec_type, file_type;
+
+init_daemon_domain(wait_for_keymaster)
+
+hal_client_domain(wait_for_keymaster, hal_keymaster)
+
+allow wait_for_keymaster kmsg_device:chr_file w_file_perms;

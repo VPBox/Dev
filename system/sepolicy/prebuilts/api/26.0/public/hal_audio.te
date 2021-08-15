@@ -1,0 +1,38 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_audio_client, hal_audio_server)
+binder_call(hal_audio_server, hal_audio_client)
+
+add_hwservice(hal_audio_server, hal_audio_hwservice)
+allow hal_audio_client hal_audio_hwservice:hwservice_manager find;
+
+allow hal_audio ion_device:chr_file r_file_perms;
+
+userdebug_or_eng(`
+  # used for pcm capture for debug.
+  allow hal_audio audiohal_data_file:dir create_dir_perms;
+  allow hal_audio audiohal_data_file:file create_file_perms;
+')
+
+r_dir_file(hal_audio, proc)
+allow hal_audio audio_device:dir r_dir_perms;
+allow hal_audio audio_device:chr_file rw_file_perms;
+
+# Needed to provide debug dump output via dumpsys' pipes.
+allow hal_audio shell:fd use;
+allow hal_audio shell:fifo_file write;
+allow hal_audio dumpstate:fd use;
+allow hal_audio dumpstate:fifo_file write;
+
+###
+### neverallow rules
+###
+
+# Should never execute any executable without a domain transition
+neverallow hal_audio { file_type fs_type }:file execute_no_trans;
+
+# Should never need network access.
+# Disallow network sockets.
+neverallow hal_audio domain:{ tcp_socket udp_socket rawip_socket } *;
+
+# Only audio HAL may directly access the audio hardware
+neverallow { halserverdomain -hal_audio_server } audio_device:chr_file *;

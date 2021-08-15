@@ -1,0 +1,872 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2015 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Script to generate a Brillo update for use by the update engine.
+#
+# usage: brillo_update_payload COMMAND [ARGS]
+# The following commands are supported:
+#  generate    generate an unsigned payload
+#  hash        generate a payload or metadata hash
+#  sign        generate a signed payload
+#  properties  generate a properties file from a payload
+#  verify      verify a payload by recreating a target image.
+#  check       verify a payload using paycheck (static testing)
+#
+#  Generate command arguments:
+#  --payload             generated unsigned payload output file
+#  --source_image        if defined, generate a delta payload from the specified
+#                        image to the target_image
+#  --target_image        the target image that should be sent to clients
+#  --metadata_size_file  if defined, generate a file containing the size of the
+#                        payload metadata in bytes to the specified file
+#
+#  Hash command arguments:
+#  --unsigned_payload    the input unsigned payload to generate the hash from
+#  --signature_size      signature sizes in bytes in the following format:
+#                        "size1:size2[:...]"
+#  --payload_hash_file   if defined, generate a payload hash and output to the
+#                        specified file
+#  --metadata_hash_file  if defined, generate a metadata hash and output to the
+#                        specified file
+#
+#  Sign command arguments:
+#  --unsigned_payload        the input unsigned payload to insert the signatures
+#  --payload                 the output signed payload
+#  --signature_size          signature sizes in bytes in the following format:
+#                            "size1:size2[:...]"
+#  --payload_signature_file  the payload signature files in the following
+#                            format:
+#                            "payload_signature1:payload_signature2[:...]"
+#  --metadata_signature_file the metadata signature files in the following
+#                            format:
+#                            "metadata_signature1:metadata_signature2[:...]"
+#  --metadata_size_file      if defined, generate a file containing the size of
+#                            the signed payload metadata in bytes to the
+#                            specified file
+#  Note that the number of signature sizes and payload signatures have to match.
+#
+#  Properties command arguments:
+#  --payload                 the input signed or unsigned payload
+#  --properties_file         the output path where to write the properties, or
+#                            '-' for stdout.
+#  Verify command arguments:
+#  --payload             payload input file
+#  --source_image        verify payload to the specified source image.
+#  --target_image        the target image to verify upon.
+#
+#  Check command arguments:
+#     Symmetrical with the verify command.
+
+
+# Exit codes:
+EX_UNSUPPORTED_DELTA=100
+
+warn() {
+  echo "brillo_update_payload: warning: $*" >&2
+}
+
+die() {
+  echo "brillo_update_payload: error: $*" >&2
+  exit 1
+}
+
+# Loads shflags. We first look at the default install location; then look for
+# crosutils (chroot); finally check our own directory.
+load_shflags() {
+  local my_dir="$(dirname "$(readlink -f "$0")")"
+  local path
+  for path in /usr/share/misc "${my_dir}"/lib/shflags; do
+    if [[ -r "${path}/shflags" ]]; then
+      . "${path}/shflags" || die "Could not load ${path}/shflags."
+      return
+    fi
+  done
+  die "Could not find shflags."
+}
+
+load_shflags
+
+HELP_GENERATE="generate: Generate an unsigned update payload."
+HELP_HASH="hash: Generate the hashes of the unsigned payload and metadata used \
+for signing."
+HELP_SIGN="sign: Insert the signatures into the unsigned payload."
+HELP_PROPERTIES="properties: Extract payload properties to a file."
+HELP_VERIFY="verify: Verify a (signed) update payload using delta_generator."
+HELP_CHECK="check: Check a (signed) update payload using paycheck (static \
+testing)."
+
+usage() {
+  echo "Supported commands:"
+  echo
+  echo "${HELP_GENERATE}"
+  echo "${HELP_HASH}"
+  echo "${HELP_SIGN}"
+  echo "${HELP_PROPERTIES}"
+  echo "${HELP_VERIFY}"
+  echo "${HELP_CHECK}"
+  echo
+  echo "Use: \"$0 <command> --help\" for more options."
+}
+
+# Check that a command is specified.
+if [[ $# -lt 1 ]]; then
+  echo "Please specify a command [generate|hash|sign|properties|verify|check]"
+  exit 1
+fi
+
+# Parse command.
+COMMAND="${1:-}"
+shift
+
+case "${COMMAND}" in
+  generate)
+    FLAGS_HELP="${HELP_GENERATE}"
+    ;;
+
+  hash)
+    FLAGS_HELP="${HELP_HASH}"
+    ;;
+
+  sign)
+    FLAGS_HELP="${HELP_SIGN}"
+    ;;
+
+  properties)
+    FLAGS_HELP="${HELP_PROPERTIES}"
+    ;;
+
+  verify)
+    FLAGS_HELP="${HELP_VERIFY}"
+    ;;
+
+  check)
+    FLAGS_HELP="${HELP_CHECK}"
+    ;;
+
+  *)
+    echo "Unrecognized command: \"${COMMAND}\"" >&2
+    usage >&2
+    exit 1
+    ;;
+esac
+
+# Flags
+FLAGS_HELP="Usage: $0 ${COMMAND} [flags]
+${FLAGS_HELP}"
+
+if [[ "${COMMAND}" == "generate" ]]; then
+  DEFINE_string payload "" \
+    "Path to output the generated unsigned payload file."
+  DEFINE_string target_image "" \
+    "Path to the target image that should be sent to clients."
+  DEFINE_string source_image "" \
+    "Optional: Path to a source image. If specified, this makes a delta update."
+  DEFINE_string metadata_size_file "" \
+    "Optional: Path to output metadata size."
+  DEFINE_string max_timestamp "" \
+    "Optional: The maximum unix timestamp of the OS allowed to apply this \
+payload, should be set to a number higher than the build timestamp of the \
+system running on the device, 0 if not specified."
+fi
+if [[ "${COMMAND}" == "hash" || "${COMMAND}" == "sign" ]]; then
+  DEFINE_string unsigned_payload "" "Path to the input unsigned payload."
+  DEFINE_string signature_size "" \
+    "Signature sizes in bytes in the following format: size1:size2[:...]"
+fi
+if [[ "${COMMAND}" == "hash" ]]; then
+  DEFINE_string metadata_hash_file "" \
+    "Optional: Path to output metadata hash file."
+  DEFINE_string payload_hash_file "" \
+    "Optional: Path to output payload hash file."
+fi
+if [[ "${COMMAND}" == "sign" ]]; then
+  DEFINE_string payload "" \
+    "Path to output the generated unsigned payload file."
+  DEFINE_string metadata_signature_file "" \
+    "The metatada signatures in the following format: \
+metadata_signature1:metadata_signature2[:...]"
+  DEFINE_string payload_signature_file "" \
+    "The payload signatures in the following format: \
+payload_signature1:payload_signature2[:...]"
+  DEFINE_string metadata_size_file "" \
+    "Optional: Path to output metadata size."
+fi
+if [[ "${COMMAND}" == "properties" ]]; then
+  DEFINE_string payload "" \
+    "Path to the input signed or unsigned payload file."
+  DEFINE_string properties_file "-" \
+    "Path to output the extracted property files. If '-' is passed stdout will \
+be used."
+fi
+if [[ "${COMMAND}" == "verify" || "${COMMAND}" == "check" ]]; then
+  DEFINE_string payload "" \
+    "Path to the input payload file."
+  DEFINE_string target_image "" \
+    "Path to the target image to verify upon."
+  DEFINE_string source_image "" \
+    "Optional: Path to a source image. If specified, the delta update is \
+applied to this."
+fi
+
+DEFINE_string work_dir "${TMPDIR:-/tmp}" "Where to dump temporary files."
+
+# Parse command line flag arguments
+FLAGS "$@" || exit 1
+eval set -- "${FLAGS_ARGV}"
+set -e
+
+# Override the TMPDIR with the passed work_dir flags, which anyway defaults to
+# ${TMPDIR}.
+TMPDIR="${FLAGS_work_dir}"
+export TMPDIR
+
+# Associative arrays from partition name to file in the source and target
+# images. The size of the updated area must be the size of the file.
+declare -A SRC_PARTITIONS
+declare -A DST_PARTITIONS
+
+# Associative arrays for the .map files associated with each src/dst partition
+# file in SRC_PARTITIONS and DST_PARTITIONS.
+declare -A SRC_PARTITIONS_MAP
+declare -A DST_PARTITIONS_MAP
+
+# List of partition names in order.
+declare -a PARTITIONS_ORDER
+
+# A list of PIDs of the extract_image workers.
+EXTRACT_IMAGE_PIDS=()
+
+# A list of temporary files to remove during cleanup.
+CLEANUP_FILES=()
+
+# Global options to force the version of the payload.
+FORCE_MAJOR_VERSION=""
+FORCE_MINOR_VERSION=""
+
+# Path to the postinstall config file in target image if exists.
+POSTINSTALL_CONFIG_FILE=""
+
+# Path to the dynamic partition info file in target image if exists.
+DYNAMIC_PARTITION_INFO_FILE=""
+
+# read_option_int <file.txt> <option_key> [default_value]
+#
+# Reads the unsigned integer value associated with |option_key| in a key=value
+# file |file.txt|. Prints the read value if found and valid, otherwise prints
+# the |default_value|.
+read_option_uint() {
+  local file_txt="$1"
+  local option_key="$2"
+  local default_value="${3:-}"
+  local value
+  if value=$(look "${option_key}=" "${file_txt}" | tail -n 1); then
+    if value=$(echo "${value}" | cut -f 2- -d "=" | grep -E "^[0-9]+$"); then
+      echo "${value}"
+      return
+    fi
+  fi
+  echo "${default_value}"
+}
+
+# truncate_file <file_path> <file_size>
+#
+# Truncate the given |file_path| to |file_size| using python.
+# The truncate binary might not be available.
+truncate_file() {
+  local file_path="$1"
+  local file_size="$2"
+  python -c "open(\"${file_path}\", 'a').truncate(${file_size})"
+}
+
+# Create a temporary file in the work_dir with an optional pattern name.
+# Prints the name of the newly created file.
+create_tempfile() {
+  local pattern="${1:-tempfile.XXXXXX}"
+  mktemp --tmpdir="${FLAGS_work_dir}" "${pattern}"
+}
+
+cleanup() {
+  local err=""
+  rm -f "${CLEANUP_FILES[@]}" || err=1
+
+  # If we are cleaning up after an error, or if we got an error during
+  # cleanup (even if we eventually succeeded) return a non-zero exit
+  # code. This triggers additional logging in most environments that call
+  # this script.
+  if [[ -n "${err}" ]]; then
+    die "Cleanup encountered an error."
+  fi
+}
+
+cleanup_on_error() {
+  trap - INT TERM ERR EXIT
+  cleanup
+  die "Cleanup success after an error."
+}
+
+cleanup_on_exit() {
+  trap - INT TERM ERR EXIT
+  cleanup
+}
+
+trap cleanup_on_error INT TERM ERR
+trap cleanup_on_exit EXIT
+
+
+# extract_image <image> <partitions_array> [partitions_order]
+#
+# Detect the format of the |image| file and extract its updatable partitions
+# into new temporary files. Add the list of partition names and its files to the
+# associative array passed in |partitions_array|. If |partitions_order| is
+# passed, set it to list of partition names in order.
+extract_image() {
+  local image="$1"
+
+  # Brillo images are zip files. We detect the 4-byte magic header of the zip
+  # file.
+  local magic=$(xxd -p -l4 "${image}")
+  if [[ "${magic}" == "504b0304" ]]; then
+    echo "Detected .zip file, extracting Brillo image."
+    extract_image_brillo "$@"
+    return
+  fi
+
+  # Chrome OS images are GPT partitioned disks. We should have the cgpt binary
+  # bundled here and we will use it to extract the partitions, so the GPT
+  # headers must be valid.
+  if cgpt show -q -n "${image}" >/dev/null; then
+    echo "Detected GPT image, extracting Chrome OS image."
+    extract_image_cros "$@"
+    return
+  fi
+
+  die "Couldn't detect the image format of ${image}"
+}
+
+# extract_image_cros <image.bin> <partitions_array> [partitions_order]
+#
+# Extract Chromium OS recovery images into new temporary files.
+extract_image_cros() {
+  local image="$1"
+  local partitions_array="$2"
+  local partitions_order="${3:-}"
+
+  local kernel root
+  kernel=$(create_tempfile "kernel.bin.XXXXXX")
+  CLEANUP_FILES+=("${kernel}")
+  root=$(create_tempfile "root.bin.XXXXXX")
+  CLEANUP_FILES+=("${root}")
+
+  cros_generate_update_payload --extract \
+    --image "${image}" \
+    --kern_path "${kernel}" --root_path "${root}"
+
+  # Chrome OS now uses major_version 2 payloads for all boards.
+  # See crbug.com/794404 for more information.
+  FORCE_MAJOR_VERSION="2"
+
+  eval ${partitions_array}[kernel]=\""${kernel}"\"
+  eval ${partitions_array}[root]=\""${root}"\"
+
+  if [[ -n "${partitions_order}" ]]; then
+    eval "${partitions_order}=( \"root\" \"kernel\" )"
+  fi
+
+  local part varname
+  for part in kernel root; do
+    varname="${partitions_array}[${part}]"
+    printf "md5sum of %s: " "${varname}"
+    md5sum "${!varname}"
+  done
+}
+
+# extract_partition_brillo <target_files.zip> <partitions_array> <partition>
+#     <part_file> <part_map_file>
+#
+# Extract the <partition> from target_files zip file into <part_file> and its
+# map file into <part_map_file>.
+extract_partition_brillo() {
+  local image="$1"
+  local partitions_array="$2"
+  local part="$3"
+  local part_file="$4"
+  local part_map_file="$5"
+
+  # For each partition, we in turn look for its image file under IMAGES/ and
+  # RADIO/ in the given target_files zip file.
+  local path path_in_zip
+  for path in IMAGES RADIO; do
+    if unzip -l "${image}" "${path}/${part}.img" >/dev/null; then
+      path_in_zip="${path}"
+      break
+    fi
+  done
+  [[ -n "${path_in_zip}" ]] || die "Failed to find ${part}.img"
+  unzip -p "${image}" "${path_in_zip}/${part}.img" >"${part_file}"
+
+  # If the partition is stored as an Android sparse image file, we need to
+  # convert them to a raw image for the update.
+  local magic=$(xxd -p -l4 "${part_file}")
+  if [[ "${magic}" == "3aff26ed" ]]; then
+    local temp_sparse=$(create_tempfile "${part}.sparse.XXXXXX")
+    echo "Converting Android sparse image ${part}.img to RAW."
+    mv "${part_file}" "${temp_sparse}"
+    simg2img "${temp_sparse}" "${part_file}"
+    rm -f "${temp_sparse}"
+  fi
+
+  # Extract the .map file (if one is available).
+  unzip -p "${image}" "${path_in_zip}/${part}.map" >"${part_map_file}" \
+    2>/dev/null || true
+
+  # delta_generator only supports images multiple of 4 KiB. For target images
+  # we pad the data with zeros if needed, but for source images we truncate
+  # down the data since the last block of the old image could be padded on
+  # disk with unknown data.
+  local filesize=$(stat -c%s "${part_file}")
+  if [[ $(( filesize % 4096 )) -ne 0 ]]; then
+    if [[ "${partitions_array}" == "SRC_PARTITIONS" ]]; then
+      echo "Rounding DOWN partition ${part}.img to a multiple of 4 KiB."
+      : $(( filesize = filesize & -4096 ))
+    else
+      echo "Rounding UP partition ${part}.img to a multiple of 4 KiB."
+      : $(( filesize = (filesize + 4095) & -4096 ))
+    fi
+    truncate_file "${part_file}" "${filesize}"
+  fi
+
+  echo "Extracted ${partitions_array}[${part}]: ${filesize} bytes"
+}
+
+# extract_image_brillo <target_files.zip> <partitions_array> [partitions_order]
+#
+# Extract the A/B updated partitions from a Brillo target_files zip file into
+# new temporary files.
+extract_image_brillo() {
+  local image="$1"
+  local partitions_array="$2"
+  local partitions_order="${3:-}"
+
+  local partitions=( "boot" "system" )
+  local ab_partitions_list
+  ab_partitions_list=$(create_tempfile "ab_partitions_list.XXXXXX")
+  CLEANUP_FILES+=("${ab_partitions_list}")
+  if unzip -p "${image}" "META/ab_partitions.txt" >"${ab_partitions_list}"; then
+    if grep -v -E '^[a-zA-Z0-9_-]*$' "${ab_partitions_list}" >&2; then
+      die "Invalid partition names found in the partition list."
+    fi
+    # Get partition list without duplicates.
+    partitions=($(awk '!seen[$0]++' "${ab_partitions_list}"))
+    if [[ ${#partitions[@]} -eq 0 ]]; then
+      die "The list of partitions is empty. Can't generate a payload."
+    fi
+  else
+    warn "No ab_partitions.txt found. Using default."
+  fi
+  echo "List of A/B partitions for ${partitions_array}: ${partitions[@]}"
+
+  if [[ -n "${partitions_order}" ]]; then
+    eval "${partitions_order}=(${partitions[@]})"
+  fi
+
+  # All Brillo updaters support major version 2.
+  FORCE_MAJOR_VERSION="2"
+
+  if [[ "${partitions_array}" == "SRC_PARTITIONS" ]]; then
+    # Source image
+    local ue_config=$(create_tempfile "ue_config.XXXXXX")
+    CLEANUP_FILES+=("${ue_config}")
+    if ! unzip -p "${image}" "META/update_engine_config.txt" \
+        >"${ue_config}"; then
+      warn "No update_engine_config.txt found. Assuming pre-release image, \
+using payload minor version 2"
+    fi
+    # For delta payloads, we use the major and minor version supported by the
+    # old updater.
+    FORCE_MINOR_VERSION=$(read_option_uint "${ue_config}" \
+      "PAYLOAD_MINOR_VERSION" 2)
+    FORCE_MAJOR_VERSION=$(read_option_uint "${ue_config}" \
+      "PAYLOAD_MAJOR_VERSION" 2)
+
+    # Brillo support for deltas started with minor version 3.
+    if [[ "${FORCE_MINOR_VERSION}" -le 2 ]]; then
+      warn "No delta support from minor version ${FORCE_MINOR_VERSION}. \
+Disabling deltas for this source version."
+      exit ${EX_UNSUPPORTED_DELTA}
+    fi
+  else
+    # Target image
+    local postinstall_config=$(create_tempfile "postinstall_config.XXXXXX")
+    CLEANUP_FILES+=("${postinstall_config}")
+    if unzip -p "${image}" "META/postinstall_config.txt" \
+        >"${postinstall_config}"; then
+      POSTINSTALL_CONFIG_FILE="${postinstall_config}"
+    fi
+    local dynamic_partitions_info=$(create_tempfile "dynamic_partitions_info.XXXXXX")
+    CLEANUP_FILES+=("${dynamic_partitions_info}")
+    if unzip -p "${image}" "META/dynamic_partitions_info.txt" \
+        >"${dynamic_partitions_info}"; then
+      DYNAMIC_PARTITION_INFO_FILE="${dynamic_partitions_info}"
+    fi
+  fi
+
+  local part
+  for part in "${partitions[@]}"; do
+    local part_file=$(create_tempfile "${part}.img.XXXXXX")
+    local part_map_file=$(create_tempfile "${part}.map.XXXXXX")
+    CLEANUP_FILES+=("${part_file}" "${part_map_file}")
+    # Extract partitions in background.
+    extract_partition_brillo "${image}" "${partitions_array}" "${part}" \
+        "${part_file}" "${part_map_file}" &
+    EXTRACT_IMAGE_PIDS+=("$!")
+    eval "${partitions_array}[\"${part}\"]=\"${part_file}\""
+    eval "${partitions_array}_MAP[\"${part}\"]=\"${part_map_file}\""
+  done
+}
+
+# cleanup_partition_array <partitions_array>
+#
+# Remove all empty files in <partitions_array>.
+cleanup_partition_array() {
+  local partitions_array="$1"
+  # Have to use eval to iterate over associative array keys with variable array
+  # names, we should change it to use nameref once bash 4.3 is available
+  # everywhere.
+  for part in $(eval "echo \${!${partitions_array}[@]}"); do
+    local path="${partitions_array}[$part]"
+    if [[ ! -s "${!path}" ]]; then
+      eval "unset ${partitions_array}[${part}]"
+    fi
+  done
+}
+
+extract_payload_images() {
+  local payload_type=$1
+  echo "Extracting images for ${payload_type} update."
+
+  if [[ "${payload_type}" == "delta" ]]; then
+    extract_image "${FLAGS_source_image}" SRC_PARTITIONS
+  fi
+  extract_image "${FLAGS_target_image}" DST_PARTITIONS PARTITIONS_ORDER
+  # Wait for all subprocesses to finish. Not using `wait` since it doesn't die
+  # on non-zero subprocess exit code. Not using `wait ${EXTRACT_IMAGE_PIDS[@]}`
+  # as it gives the status of the last process it has waited for.
+  for pid in ${EXTRACT_IMAGE_PIDS[@]}; do
+    wait ${pid}
+  done
+  cleanup_partition_array SRC_PARTITIONS
+  cleanup_partition_array SRC_PARTITIONS_MAP
+  cleanup_partition_array DST_PARTITIONS
+  cleanup_partition_array DST_PARTITIONS_MAP
+}
+
+get_payload_type() {
+  if [[ -z "${FLAGS_source_image}" ]]; then
+    echo "full"
+  else
+    echo "delta"
+  fi
+}
+
+validate_generate() {
+  [[ -n "${FLAGS_payload}" ]] ||
+    die "You must specify an output filename with --payload FILENAME"
+
+  [[ -n "${FLAGS_target_image}" ]] ||
+    die "You must specify a target image with --target_image FILENAME"
+}
+
+cmd_generate() {
+  local payload_type=$(get_payload_type)
+  extract_payload_images ${payload_type}
+
+  echo "Generating ${payload_type} update."
+  # Common payload args:
+  GENERATOR_ARGS=( --out_file="${FLAGS_payload}" )
+
+  local part old_partitions="" new_partitions="" partition_names=""
+  local old_mapfiles="" new_mapfiles=""
+  for part in "${PARTITIONS_ORDER[@]}"; do
+    if [[ -n "${partition_names}" ]]; then
+      partition_names+=":"
+      new_partitions+=":"
+      old_partitions+=":"
+      new_mapfiles+=":"
+      old_mapfiles+=":"
+    fi
+    partition_names+="${part}"
+    new_partitions+="${DST_PARTITIONS[${part}]}"
+    old_partitions+="${SRC_PARTITIONS[${part}]:-}"
+    new_mapfiles+="${DST_PARTITIONS_MAP[${part}]:-}"
+    old_mapfiles+="${SRC_PARTITIONS_MAP[${part}]:-}"
+  done
+
+  # Target image args:
+  GENERATOR_ARGS+=(
+    --partition_names="${partition_names}"
+    --new_partitions="${new_partitions}"
+    --new_mapfiles="${new_mapfiles}"
+  )
+
+  if [[ "${payload_type}" == "delta" ]]; then
+    # Source image args:
+    GENERATOR_ARGS+=(
+      --old_partitions="${old_partitions}"
+      --old_mapfiles="${old_mapfiles}"
+    )
+    if [[ -n "${FORCE_MINOR_VERSION}" ]]; then
+      GENERATOR_ARGS+=( --minor_version="${FORCE_MINOR_VERSION}" )
+    fi
+  fi
+
+  if [[ -n "${FORCE_MAJOR_VERSION}" ]]; then
+    GENERATOR_ARGS+=( --major_version="${FORCE_MAJOR_VERSION}" )
+  fi
+
+  if [[ -n "${FLAGS_metadata_size_file}" ]]; then
+    GENERATOR_ARGS+=( --out_metadata_size_file="${FLAGS_metadata_size_file}" )
+  fi
+
+  if [[ -n "${FLAGS_max_timestamp}" ]]; then
+    GENERATOR_ARGS+=( --max_timestamp="${FLAGS_max_timestamp}" )
+  fi
+
+  if [[ -n "${POSTINSTALL_CONFIG_FILE}" ]]; then
+    GENERATOR_ARGS+=(
+      --new_postinstall_config_file="${POSTINSTALL_CONFIG_FILE}"
+    )
+  fi
+
+  if [[ -n "{DYNAMIC_PARTITION_INFO_FILE}" ]]; then
+    GENERATOR_ARGS+=(
+      --dynamic_partition_info_file="${DYNAMIC_PARTITION_INFO_FILE}"
+    )
+  fi
+
+  echo "Running delta_generator with args: ${GENERATOR_ARGS[@]}"
+  "${GENERATOR}" "${GENERATOR_ARGS[@]}"
+
+  echo "Done generating ${payload_type} update."
+}
+
+validate_hash() {
+  [[ -n "${FLAGS_signature_size}" ]] ||
+    die "You must specify signature size with --signature_size SIZES"
+
+  [[ -n "${FLAGS_unsigned_payload}" ]] ||
+    die "You must specify the input unsigned payload with \
+--unsigned_payload FILENAME"
+
+  [[ -n "${FLAGS_payload_hash_file}" ]] ||
+    die "You must specify --payload_hash_file FILENAME"
+
+  [[ -n "${FLAGS_metadata_hash_file}" ]] ||
+    die "You must specify --metadata_hash_file FILENAME"
+}
+
+cmd_hash() {
+  "${GENERATOR}" \
+      --in_file="${FLAGS_unsigned_payload}" \
+      --signature_size="${FLAGS_signature_size}" \
+      --out_hash_file="${FLAGS_payload_hash_file}" \
+      --out_metadata_hash_file="${FLAGS_metadata_hash_file}"
+
+  echo "Done generating hash."
+}
+
+validate_sign() {
+  [[ -n "${FLAGS_signature_size}" ]] ||
+    die "You must specify signature size with --signature_size SIZES"
+
+  [[ -n "${FLAGS_unsigned_payload}" ]] ||
+    die "You must specify the input unsigned payload with \
+--unsigned_payload FILENAME"
+
+  [[ -n "${FLAGS_payload}" ]] ||
+    die "You must specify the output signed payload with --payload FILENAME"
+
+  [[ -n "${FLAGS_payload_signature_file}" ]] ||
+    die "You must specify the payload signature file with \
+--payload_signature_file SIGNATURES"
+
+  [[ -n "${FLAGS_metadata_signature_file}" ]] ||
+    die "You must specify the metadata signature file with \
+--metadata_signature_file SIGNATURES"
+}
+
+cmd_sign() {
+  GENERATOR_ARGS=(
+    --in_file="${FLAGS_unsigned_payload}"
+    --signature_size="${FLAGS_signature_size}"
+    --payload_signature_file="${FLAGS_payload_signature_file}"
+    --metadata_signature_file="${FLAGS_metadata_signature_file}"
+    --out_file="${FLAGS_payload}"
+  )
+
+  if [[ -n "${FLAGS_metadata_size_file}" ]]; then
+    GENERATOR_ARGS+=( --out_metadata_size_file="${FLAGS_metadata_size_file}" )
+  fi
+
+  "${GENERATOR}" "${GENERATOR_ARGS[@]}"
+  echo "Done signing payload."
+}
+
+validate_properties() {
+  [[ -n "${FLAGS_payload}" ]] ||
+    die "You must specify the payload file with --payload FILENAME"
+
+  [[ -n "${FLAGS_properties_file}" ]] ||
+    die "You must specify a non empty --properties_file FILENAME"
+}
+
+cmd_properties() {
+  "${GENERATOR}" \
+      --in_file="${FLAGS_payload}" \
+      --properties_file="${FLAGS_properties_file}"
+}
+
+validate_verify_and_check() {
+  [[ -n "${FLAGS_payload}" ]] ||
+    die "Error: you must specify an input filename with --payload FILENAME"
+
+  [[ -n "${FLAGS_target_image}" ]] ||
+    die "Error: you must specify a target image with --target_image FILENAME"
+}
+
+cmd_verify() {
+  local payload_type=$(get_payload_type)
+  extract_payload_images ${payload_type}
+
+  declare -A TMP_PARTITIONS
+  for part in "${PARTITIONS_ORDER[@]}"; do
+    local tmp_part=$(create_tempfile "tmp_part.bin.XXXXXX")
+    echo "Creating temporary target partition ${tmp_part} for ${part}"
+    CLEANUP_FILES+=("${tmp_part}")
+    TMP_PARTITIONS[${part}]=${tmp_part}
+    local FILESIZE=$(stat -c%s "${DST_PARTITIONS[${part}]}")
+    echo "Truncating ${TMP_PARTITIONS[${part}]} to ${FILESIZE}"
+    truncate_file "${TMP_PARTITIONS[${part}]}" "${FILESIZE}"
+  done
+
+  echo "Verifying ${payload_type} update."
+  # Common payload args:
+  GENERATOR_ARGS=( --in_file="${FLAGS_payload}" )
+
+  local part old_partitions="" new_partitions="" partition_names=""
+  for part in "${PARTITIONS_ORDER[@]}"; do
+    if [[ -n "${partition_names}" ]]; then
+      partition_names+=":"
+      new_partitions+=":"
+      old_partitions+=":"
+    fi
+    partition_names+="${part}"
+    new_partitions+="${TMP_PARTITIONS[${part}]}"
+    old_partitions+="${SRC_PARTITIONS[${part}]:-}"
+  done
+
+  # Target image args:
+  GENERATOR_ARGS+=(
+    --partition_names="${partition_names}"
+    --new_partitions="${new_partitions}"
+  )
+
+  if [[ "${payload_type}" == "delta" ]]; then
+    # Source image args:
+    GENERATOR_ARGS+=(
+      --old_partitions="${old_partitions}"
+    )
+  fi
+
+  if [[ -n "${FORCE_MAJOR_VERSION}" ]]; then
+    GENERATOR_ARGS+=( --major_version="${FORCE_MAJOR_VERSION}" )
+  fi
+
+  echo "Running delta_generator to verify ${payload_type} payload with args: \
+${GENERATOR_ARGS[@]}"
+  "${GENERATOR}" "${GENERATOR_ARGS[@]}" || true
+
+  echo "Done applying ${payload_type} update."
+  echo "Checking the newly generated partitions against the target partitions"
+  local need_pause=false
+  for part in "${PARTITIONS_ORDER[@]}"; do
+    local not_str=""
+    if ! cmp "${TMP_PARTITIONS[${part}]}" "${DST_PARTITIONS[${part}]}"; then
+      not_str="in"
+      need_pause=true
+    fi
+    echo "The new partition (${part}) is ${not_str}valid."
+  done
+  # All images will be cleaned up when script exits, pause here to give a chance
+  # to inspect the images.
+  if [[ "$need_pause" == true ]]; then
+    read -n1 -r -s -p "Paused to investigate invalid partitions, \
+press any key to exit."
+  fi
+}
+
+cmd_check() {
+  local payload_type=$(get_payload_type)
+  extract_payload_images ${payload_type}
+
+  local part dst_partitions="" src_partitions=""
+  for part in "${PARTITIONS_ORDER[@]}"; do
+    if [[ -n "${dst_partitions}" ]]; then
+      dst_partitions+=" "
+      src_partitions+=" "
+    fi
+    dst_partitions+="${DST_PARTITIONS[${part}]}"
+    src_partitions+="${SRC_PARTITIONS[${part}]:-}"
+  done
+
+  # Common payload args:
+  PAYCHECK_ARGS=( "${FLAGS_payload}" --type ${payload_type} \
+    --part_names ${PARTITIONS_ORDER[@]} \
+    --dst_part_paths ${dst_partitions} )
+
+  if [[ ! -z "${SRC_PARTITIONS[@]}" ]]; then
+    PAYCHECK_ARGS+=( --src_part_paths ${src_partitions} )
+  fi
+
+  echo "Checking ${payload_type} update."
+  check_update_payload ${PAYCHECK_ARGS[@]} --check
+}
+
+# Sanity check that the real generator exists:
+GENERATOR="$(which delta_generator || true)"
+[[ -x "${GENERATOR}" ]] || die "can't find delta_generator"
+
+case "$COMMAND" in
+  generate) validate_generate
+            cmd_generate
+            ;;
+  hash) validate_hash
+        cmd_hash
+        ;;
+  sign) validate_sign
+        cmd_sign
+        ;;
+  properties) validate_properties
+              cmd_properties
+              ;;
+  verify) validate_verify_and_check
+          cmd_verify
+          ;;
+  check) validate_verify_and_check
+         cmd_check
+         ;;
+esac

@@ -1,0 +1,7 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_audiocontrol_client, hal_audiocontrol_server)
+binder_call(hal_audiocontrol_server, hal_audiocontrol_client)
+
+add_hwservice(hal_audiocontrol_server, hal_audiocontrol_hwservice)
+
+allow hal_audiocontrol_client hal_audiocontrol_hwservice:hwservice_manager find;

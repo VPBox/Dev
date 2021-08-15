@@ -1,0 +1,4 @@
+service vendor.configstore-hal /vendor/bin/hw/android.hardware.configstore@1.1-service
+    class hal animation
+    user system
+    group system

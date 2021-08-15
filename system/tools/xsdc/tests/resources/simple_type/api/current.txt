@@ -1,0 +1,47 @@
+// Signature format: 2.0
+package simple.type {
+
+  public enum EnumType {
+    method public String getRawName();
+    enum_constant public static final simple.type.EnumType NO;
+    enum_constant @Deprecated public static final simple.type.EnumType YES;
+  }
+
+  public class MultiChoice {
+    ctor public MultiChoice();
+    method public java.util.List<java.lang.String> getExample1_optional();
+    method public java.util.List<java.lang.String> getExample2_optional();
+    method public java.util.List<java.lang.String> getExample3_optional();
+  }
+
+  public class SimpleTypes {
+    ctor public SimpleTypes();
+    method public java.util.List<java.lang.Integer> getListInt();
+    method public java.util.List<java.lang.String> getUnionTest();
+    method public simple.type.EnumType getYesOrNo();
+    method public void setListInt(java.util.List<java.lang.Integer>);
+    method public void setUnionTest(java.util.List<java.lang.String>);
+    method public void setYesOrNo(simple.type.EnumType);
+  }
+
+  public class SingleChoice {
+    ctor public SingleChoice();
+    method public String getExample1_optional();
+    method public String getExample2_optional();
+    method public String getExample3_optional();
+    method public void setExample1_optional(String);
+    method public void setExample2_optional(String);
+    method public void setExample3_optional(String);
+  }
+
+  public class XmlParser {
+    ctor public XmlParser();
+    method public static simple.type.MultiChoice readMultiChoice(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static simple.type.SimpleTypes readSimpleTypes(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static simple.type.SingleChoice readSingleChoice(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static String readText(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static void skip(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+  }
+
+}
+

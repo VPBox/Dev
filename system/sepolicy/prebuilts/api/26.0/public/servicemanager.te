@@ -1,0 +1,25 @@
+# servicemanager - the Binder context manager
+type servicemanager, domain, mlstrustedsubject;
+type servicemanager_exec, exec_type, file_type;
+
+# Note that we do not use the binder_* macros here.
+# servicemanager is unique in that it only provides
+# name service (aka context manager) for Binder.
+# As such, it only ever receives and transfers other references
+# created by other domains.  It never passes its own references
+# or initiates a Binder IPC.
+allow servicemanager self:binder set_context_mgr;
+allow servicemanager {
+  domain
+  -init
+  -hwservicemanager
+  -vndservicemanager
+}:binder transfer;
+
+# Access to all (system and vendor) service_contexts
+# TODO(b/36866029) access to nonplat_service_contexts
+#                  should not be allowed on full treble devices
+allow servicemanager service_contexts_file:file r_file_perms;
+
+# Check SELinux permissions.
+selinux_check_access(servicemanager)

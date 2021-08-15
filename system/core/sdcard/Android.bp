@@ -1,0 +1,18 @@
+cc_binary {
+    srcs: ["sdcard.cpp","fuse.cpp"],
+    name: "sdcard",
+    cflags: [
+        "-Wall",
+        "-Wno-unused-parameter",
+        "-Werror",
+    ],
+    shared_libs: [
+        "libbase",
+        "libcutils",
+        "libminijail",
+        "libpackagelistparser",
+    ],
+    sanitize: {
+        misc_undefined: ["integer"],
+    },
+}

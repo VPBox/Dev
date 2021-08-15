@@ -1,0 +1,5 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_secure_element_client, hal_secure_element_server)
+binder_call(hal_secure_element_server, hal_secure_element_client)
+
+hal_attribute_hwservice(hal_secure_element, hal_secure_element_hwservice)

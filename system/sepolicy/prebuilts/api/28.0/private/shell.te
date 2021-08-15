@@ -1,0 +1,53 @@
+typeattribute shell coredomain;
+
+# allow shell input injection
+allow shell uhid_device:chr_file rw_file_perms;
+
+# systrace support - allow atrace to run
+allow shell debugfs_tracing_debug:dir r_dir_perms;
+allow shell debugfs_tracing:dir r_dir_perms;
+allow shell debugfs_tracing:file rw_file_perms;
+allow shell debugfs_trace_marker:file getattr;
+allow shell atrace_exec:file rx_file_perms;
+
+userdebug_or_eng(`
+  allow shell debugfs_tracing_debug:file rw_file_perms;
+')
+
+# read config.gz for CTS purposes
+allow shell config_gz:file r_file_perms;
+
+# Run app_process.
+# XXX Transition into its own domain?
+app_domain(shell)
+
+# allow shell to call dumpsys storaged
+binder_call(shell, storaged)
+
+# Perform SELinux access checks, needed for CTS
+selinux_check_access(shell)
+selinux_check_context(shell)
+
+# Control Perfetto traced and obtain traces from it.
+# Needed for Studio and debugging.
+unix_socket_connect(shell, traced_consumer, traced)
+
+# Allow shell binaries to write trace data to Perfetto. Used for testing and
+# cmdline utils.
+allow shell traced:fd use;
+allow shell traced_tmpfs:file { read write getattr map };
+unix_socket_connect(shell, traced_producer, traced)
+
+domain_auto_trans(shell, vendor_shell_exec, vendor_shell)
+
+# Allow shell binaries to exec the perfetto cmdline util and have that
+# transition into its own domain, so that it behaves consistently to
+# when exec()-d by statsd.
+domain_auto_trans(shell, perfetto_exec, perfetto)
+
+# Allow shell to run adb shell cmd stats commands. Needed for CTS.
+binder_call(shell, statsd);
+
+# Allow shell to read and unlink traces stored in /data/misc/perfetto-traces.
+allow shell perfetto_traces_data_file:dir rw_dir_perms;
+allow shell perfetto_traces_data_file:file r_file_perms;

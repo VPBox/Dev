@@ -1,0 +1,6 @@
+typeattribute healthd coredomain;
+
+init_daemon_domain(healthd)
+
+# Allow callback to storaged batteryproperties listener
+binder_call(healthd, storaged)

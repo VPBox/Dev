@@ -1,0 +1,2 @@
+This directory contains the public half of the payload signing key. This is
+baked into the system image as part of update_engine install.

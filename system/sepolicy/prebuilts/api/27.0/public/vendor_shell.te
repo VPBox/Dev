@@ -1,0 +1,4 @@
+# vendor shell MUST never run as interactive or login shell.
+# vendor shell CAN never be traisitioned to by any process, so it is
+# only intended by shell script interpreter.
+type vendor_shell_exec, exec_type, vendor_file_type, file_type;

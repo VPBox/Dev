@@ -1,0 +1,11 @@
+##
+# trusted execution environment (tee) daemon
+#
+type tee, domain;
+
+# Device(s) for communicating with the TEE
+type tee_device, dev_type;
+
+allow tee fingerprint_vendor_data_file:dir rw_dir_perms;
+allow tee fingerprint_vendor_data_file:file create_file_perms;
+

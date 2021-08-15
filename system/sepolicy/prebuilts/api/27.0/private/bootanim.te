@@ -1,0 +1,3 @@
+typeattribute bootanim coredomain;
+
+init_daemon_domain(bootanim)

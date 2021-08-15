@@ -1,0 +1,14 @@
+source /data/nativetest64/hidl_test_helper &&
+
+chmod a+x /data/nativetest/hidl_test_servers/hidl_test_servers &&
+chmod a+x /data/nativetest64/hidl_test_servers/hidl_test_servers &&
+chmod a+x /data/nativetest/hidl_test_client/hidl_test_client &&
+chmod a+x /data/nativetest64/hidl_test_client/hidl_test_client &&
+
+run_all_tests \
+    "/data/nativetest/hidl_test_servers/hidl_test_servers" \
+    "/data/nativetest64/hidl_test_servers/hidl_test_servers" \
+    "/data/nativetest/hidl_test_client/hidl_test_client" \
+    "/data/nativetest64/hidl_test_client/hidl_test_client" \
+    "hidl_test" \
+    "$@"

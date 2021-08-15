@@ -1,0 +1,10 @@
+typeattribute recovery_refresh coredomain;
+
+init_daemon_domain(recovery_refresh)
+
+# recovery_refresh is not allowed to write anywhere
+neverallow recovery_refresh {
+  file_type
+  userdebug_or_eng(`-coredump_file')
+  with_native_coverage(`-method_trace_data_file')
+}:file write;

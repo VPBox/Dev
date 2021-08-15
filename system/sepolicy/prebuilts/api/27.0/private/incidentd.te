@@ -1,0 +1,110 @@
+typeattribute incidentd coredomain;
+
+init_daemon_domain(incidentd)
+type incidentd_exec, exec_type, file_type;
+binder_use(incidentd)
+wakelock_use(incidentd)
+
+# Allow setting process priority, protect from OOM killer, and dropping
+# privileges by switching UID / GID
+# TODO allow incidentd self:capability { setuid setgid sys_resource };
+
+# Allow incidentd to scan through /proc/pid for all processes
+r_dir_file(incidentd, domain)
+
+allow incidentd self:capability {
+    # Send signals to processes
+    kill
+};
+
+# Allow executing files on system, such as:
+#   /system/bin/toolbox
+#   /system/bin/logcat
+#   /system/bin/dumpsys
+allow incidentd system_file:file execute_no_trans;
+allow incidentd toolbox_exec:file rx_file_perms;
+
+# Create and write into /data/misc/incidents
+allow incidentd incident_data_file:dir rw_dir_perms;
+allow incidentd incident_data_file:file create_file_perms;
+
+# Get process attributes
+# TODO allow incidentd domain:process getattr;
+
+# Signal java processes to dump their stack and get the results
+# TODO allow incidentd { appdomain ephemeral_app system_server }:process signal;
+# TODO allow incidentd anr_data_file:dir rw_dir_perms;
+# TODO allow incidentd anr_data_file:file create_file_perms;
+
+# Signal native processes to dump their stack.
+# This list comes from native_processes_to_dump in incidentd/utils.c
+allow incidentd {
+  audioserver
+  cameraserver
+  drmserver
+  inputflinger
+  mediacodec
+  mediadrmserver
+  mediaextractor
+  mediaserver
+  sdcardd
+  surfaceflinger
+}:process signal;
+
+# Allow incidentd to make binder calls to any binder service
+binder_call(incidentd, binderservicedomain)
+binder_call(incidentd, appdomain)
+
+# Reading /proc/PID/maps of other processes
+# TODO allow incidentd self:capability sys_ptrace;
+
+# Run a shell.
+allow incidentd shell_exec:file rx_file_perms;
+
+# logd access - work to be done is a PII safe log (possibly an event log?)
+# TODO read_logd(incidentd)
+# TODO control_logd(incidentd)
+
+# Allow incidentd to find these standard groups of services.
+# Others can be whitelisted individually.
+allow incidentd {
+  system_server_service
+  app_api_service
+  system_api_service
+}:service_manager find;
+
+# Only incidentd can publish the binder service
+add_service(incidentd, incident_service)
+
+# Allow pipes from (and only from) incident
+allow incidentd incident:fd use;
+allow incidentd incident:fifo_file write;
+
+# Allow incident to call back to incident with status updates.
+binder_call(incidentd, incident)
+
+###
+### neverallow rules
+###
+
+# only system_server, system_app and incident command can find the incident service
+neverallow { domain -system_server -system_app -incident -incidentd } incident_service:service_manager find;
+
+# only incidentd and the other root services in limited circumstances
+# can get to the files in /data/misc/incidents
+#
+# write, execute, append are forbidden almost everywhere
+neverallow { domain -incidentd -init -vold } incident_data_file:file {
+  w_file_perms
+  x_file_perms
+  create
+  rename
+  setattr
+  unlink
+  append
+};
+# read is also allowed by system_server, for when the file is handed to dropbox
+neverallow { domain -incidentd -init -vold -system_server } incident_data_file:file r_file_perms;
+# limited access to the directory itself
+neverallow { domain -incidentd -init -vold } incident_data_file:dir create_dir_perms;
+

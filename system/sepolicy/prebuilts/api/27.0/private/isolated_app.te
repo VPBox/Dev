@@ -1,0 +1,108 @@
+###
+### Services with isolatedProcess=true in their manifest.
+###
+### This file defines the rules for isolated apps. An "isolated
+### app" is an APP with UID between AID_ISOLATED_START (99000)
+### and AID_ISOLATED_END (99999).
+###
+
+typeattribute isolated_app coredomain;
+
+app_domain(isolated_app)
+
+# Access already open app data files received over Binder or local socket IPC.
+allow isolated_app app_data_file:file { append read write getattr lock };
+
+allow isolated_app activity_service:service_manager find;
+allow isolated_app display_service:service_manager find;
+allow isolated_app webviewupdate_service:service_manager find;
+
+# Google Breakpad (crash reporter for Chrome) relies on ptrace
+# functionality. Without the ability to ptrace, the crash reporter
+# tool is broken.
+# b/20150694
+# https://code.google.com/p/chromium/issues/detail?id=475270
+allow isolated_app self:process ptrace;
+
+# b/32896414: Allow accessing sdcard file descriptors passed to isolated_apps
+# by other processes. Open should never be allowed, and is blocked by
+# neverallow rules below.
+# TODO: consider removing write/append. We want to limit isolated_apps
+# ability to mutate files of any type.
+# media_rw_data_file is included for sdcardfs, and can be removed if sdcardfs
+# is modified to change the secontext when accessing the lower filesystem.
+allow isolated_app { sdcard_type media_rw_data_file }:file { read write append getattr lock };
+auditallow isolated_app { sdcard_type media_rw_data_file }:file { write append };
+
+# For webviews, isolated_app processes can be forked from the webview_zygote
+# in addition to the zygote. Allow access to resources inherited from the
+# webview_zygote process. These rules are specialized copies of the ones in app.te.
+# Inherit FDs from the webview_zygote.
+allow isolated_app webview_zygote:fd use;
+# Notify webview_zygote of child death.
+allow isolated_app webview_zygote:process sigchld;
+# Inherit logd write socket.
+allow isolated_app webview_zygote:unix_dgram_socket write;
+# Read system properties managed by webview_zygote.
+allow isolated_app webview_zygote_tmpfs:file read;
+
+# TODO (b/63631799) fix this access
+# suppress denials to /data/local/tmp
+dontaudit isolated_app shell_data_file:dir search;
+
+#####
+##### Neverallow
+#####
+
+# Do not allow isolated_app to directly open tun_device
+neverallow isolated_app tun_device:chr_file open;
+
+# Isolated apps should not directly open app data files themselves.
+neverallow isolated_app app_data_file:file open;
+
+# Only allow appending to /data/anr/traces.txt (b/27853304, b/18340553)
+# TODO: are there situations where isolated_apps write to this file?
+# TODO: should we tighten these restrictions further?
+neverallow isolated_app anr_data_file:file ~{ open append };
+neverallow isolated_app anr_data_file:dir ~search;
+
+# Isolated apps must not be permitted to use HwBinder
+neverallow isolated_app hwbinder_device:chr_file *;
+neverallow isolated_app *:hwservice_manager *;
+
+# Isolated apps must not be permitted to use VndBinder
+neverallow isolated_app vndbinder_device:chr_file *;
+
+# Isolated apps must not be permitted to perform actions on Binder and VndBinder service_manager
+# except the find actions for services whitelisted below.
+neverallow isolated_app *:service_manager ~find;
+
+# b/17487348
+# Isolated apps can only access three services,
+# activity_service, display_service and webviewupdate_service.
+neverallow isolated_app {
+    service_manager_type
+    -activity_service
+    -display_service
+    -webviewupdate_service
+}:service_manager find;
+
+# Isolated apps shouldn't be able to access the driver directly.
+neverallow isolated_app gpu_device:chr_file { rw_file_perms execute };
+
+# Do not allow isolated_app access to /cache
+neverallow isolated_app cache_file:dir ~{ r_dir_perms };
+neverallow isolated_app cache_file:file ~{ read getattr };
+
+# Do not allow isolated_app to access external storage, except for files passed
+# via file descriptors (b/32896414).
+neverallow isolated_app { storage_file mnt_user_file sdcard_type }:dir ~getattr;
+neverallow isolated_app { storage_file mnt_user_file }:file_class_set *;
+neverallow isolated_app sdcard_type:{ devfile_class_set lnk_file sock_file fifo_file } *;
+neverallow isolated_app sdcard_type:file ~{ read write append getattr lock };
+
+# Do not allow USB access
+neverallow isolated_app { usb_device usbaccessory_device }:chr_file *;
+
+# Restrict the webview_zygote control socket.
+neverallow isolated_app webview_zygote_socket:sock_file write;

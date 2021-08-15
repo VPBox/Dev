@@ -1,0 +1,149 @@
+#
+#  Copyright 2015 Google, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at:
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+static_library("bta") {
+  sources = [
+    "ag/bta_ag_act.cc",
+    "ag/bta_ag_api.cc",
+    "ag/bta_ag_at.cc",
+    "ag/bta_ag_cfg.cc",
+    "ag/bta_ag_cmd.cc",
+    "ag/bta_ag_main.cc",
+    "ag/bta_ag_rfc.cc",
+    "ag/bta_ag_sco.cc",
+    "ag/bta_ag_sdp.cc",
+    "ar/bta_ar.cc",
+    "av/bta_av_aact.cc",
+    "av/bta_av_act.cc",
+    "av/bta_av_api.cc",
+    "av/bta_av_cfg.cc",
+    "av/bta_av_ci.cc",
+    "av/bta_av_main.cc",
+    "av/bta_av_ssm.cc",
+    "dm/bta_dm_act.cc",
+    "dm/bta_dm_api.cc",
+    "dm/bta_dm_cfg.cc",
+    "dm/bta_dm_ci.cc",
+    "dm/bta_dm_main.cc",
+    "dm/bta_dm_pm.cc",
+    "gatt/bta_gattc_act.cc",
+    "gatt/bta_gattc_api.cc",
+    "gatt/bta_gattc_cache.cc",
+    "gatt/bta_gattc_main.cc",
+    "gatt/bta_gattc_utils.cc",
+    "gatt/bta_gattc_queue.cc",
+    "gatt/bta_gatts_act.cc",
+    "gatt/bta_gatts_api.cc",
+    "gatt/bta_gatts_main.cc",
+    "gatt/bta_gatts_utils.cc",
+    "gatt/database.cc",
+    "gatt/database_builder.cc",
+    "hearing_aid/hearing_aid.cc",
+    "hearing_aid/hearing_aid_audio_source.cc",
+    "hf_client/bta_hf_client_act.cc",
+    "hf_client/bta_hf_client_api.cc",
+    "hf_client/bta_hf_client_at.cc",
+    "hf_client/bta_hf_client_main.cc",
+    "hf_client/bta_hf_client_rfc.cc",
+    "hf_client/bta_hf_client_sdp.cc",
+    "hf_client/bta_hf_client_sco.cc",
+    "hh/bta_hh_act.cc",
+    "hh/bta_hh_api.cc",
+    "hh/bta_hh_cfg.cc",
+    "hh/bta_hh_le.cc",
+    "hh/bta_hh_main.cc",
+    "hh/bta_hh_utils.cc",
+    "hd/bta_hd_act.cc",
+    "hd/bta_hd_api.cc",
+    "hd/bta_hd_main.cc",
+    "jv/bta_jv_act.cc",
+    "jv/bta_jv_api.cc",
+    "jv/bta_jv_cfg.cc",
+    "mce/bta_mce_act.cc",
+    "mce/bta_mce_api.cc",
+    "mce/bta_mce_cfg.cc",
+    "mce/bta_mce_main.cc",
+    "pan/bta_pan_act.cc",
+    "pan/bta_pan_api.cc",
+    "pan/bta_pan_ci.cc",
+    "pan/bta_pan_main.cc",
+    "sdp/bta_sdp.cc",
+    "sdp/bta_sdp_act.cc",
+    "sdp/bta_sdp_api.cc",
+    "sdp/bta_sdp_cfg.cc",
+    "sys/bta_sys_conn.cc",
+    "sys/bta_sys_main.cc",
+    "sys/utl.cc",
+  ]
+
+  include_dirs = [
+    "closure",
+    "dm",
+    "hh",
+    "hd",
+    "include",
+    "sys",
+    "//",
+    "//linux_include",
+    "//bta",
+    "//internal_include",
+    "//btcore/include",
+    "//hci/include",
+    "//internal_include",
+    "//stack/include",
+    "//stack/btm",
+    "//udrv/include",
+    "//utils/include",
+    "//vnd/include",
+    "//btif/include",
+    "//btif/avrcp",
+    "//include/hardware/avrcp",
+    "//profile/avrcp",
+    "//packet/avrcp",
+    "//packet/base",
+  ]
+
+  deps = [
+    "//third_party/libchrome:base"
+  ]
+}
+
+executable("net_test_bta") {
+  testonly = true
+  sources = [
+    "gatt/database_builder.cc",
+    "test/gatt/database_builder_test.cc",
+    "test/gatt/database_builder_sample_device_test.cc",
+    "test/gatt/database_test.cc",
+  ]
+
+  include_dirs = [
+    "include",
+    "//",
+    "//bta",
+    "//btcore/include",
+    "//hci/include",
+    "//internal_include",
+    "//stack/btm",
+  ]
+
+  deps = [
+    "//bta",
+    "//types",
+    "//third_party/googletest:gmock_main",
+    "//third_party/libchrome:base",
+  ]
+}

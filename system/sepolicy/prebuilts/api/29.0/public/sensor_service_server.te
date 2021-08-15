@@ -1,0 +1,1 @@
+add_hwservice(sensor_service_server, fwk_sensor_hwservice)

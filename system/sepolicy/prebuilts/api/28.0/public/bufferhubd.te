@@ -1,0 +1,20 @@
+# bufferhubd
+type bufferhubd, domain, mlstrustedsubject;
+type bufferhubd_exec, exec_type, file_type;
+
+hal_client_domain(bufferhubd, hal_graphics_allocator)
+
+pdx_server(bufferhubd, bufferhub_client)
+pdx_client(bufferhubd, performance_client)
+
+# Access the GPU.
+allow bufferhubd gpu_device:chr_file rw_file_perms;
+
+# Access /dev/ion
+allow bufferhubd ion_device:chr_file r_file_perms;
+
+# Receive sync fence FDs from mediacodec. Note that mediacodec never directly
+# connects to bufferhubd via PDX. Instead, a VR app acts as a bridge between
+# those two: it talks to mediacodec via Binder and talks to bufferhubd via PDX.
+# Thus, there is no need to use pdx_client macro.
+allow bufferhubd mediacodec:fd use;

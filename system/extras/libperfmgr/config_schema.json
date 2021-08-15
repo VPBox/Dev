@@ -1,0 +1,126 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "id": "config_schema.json",
+  "required": [
+    "Nodes",
+    "Actions"
+  ],
+  "properties": {
+    "Nodes": {
+      "type": "array",
+      "id": "/properties/Nodes",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "id": "/properties/Nodes/items",
+        "required": [
+          "Name",
+          "Path",
+          "Values"
+        ],
+        "properties": {
+          "Name": {
+            "type": "string",
+            "id": "/properties/Nodes/items/properties/Name",
+            "title": "The Name Schema.",
+            "description": "The name of the node.",
+            "minLength": 1
+          },
+          "Path": {
+            "type": "string",
+            "id": "/properties/Nodes/items/properties/Path",
+            "title": "The Path Schema.",
+            "description": "For File type node, it is filesystem path of the file; for Property type node, it is the key of the property.",
+            "minLength": 1
+          },
+          "Values": {
+            "type": "array",
+            "id": "/properties/Nodes/items/properties/Values",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "id": "/properties/Nodes/items/properties/Values/items",
+              "title": "The Values Schema.",
+              "description": "The Values array lists all possible values that can be set in the Actions section, and the list of values is sorted based on their priority, with the highest priority first."
+            }
+          },
+          "DefaultIndex": {
+            "type": "integer",
+            "id": "/properties/Nodes/items/properties/DefaultIndex",
+            "title": "The Default Index Schema.",
+            "description": "The default index of the node, if not present, it will be set to max index of Values.",
+            "minimum": 0
+          },
+          "ResetOnInit": {
+            "type": "boolean",
+            "id": "/properties/Nodes/items/properties/ResetOnInit",
+            "title": "The Reset On Init Schema.",
+            "description": "Flag if node will be set to default value on initialization; if not present, it will be set to false."
+          },
+          "Type": {
+            "type": "string",
+            "id": "/properties/Nodes/items/properties/Type",
+            "title": "The type Schema.",
+            "description": "Type of Node (File or Property), if not present, it will be set to File."
+          },
+          "HoldFd": {
+            "type": "boolean",
+            "id": "/properties/Nodes/items/properties/HoldFd",
+            "title": "The Hold Fd Schema.",
+            "description": "Flag if node will hold the file descriptor on non-default values; if not present, it will be set to false. This is only honoured for File type node."
+          }
+        }
+      }
+    },
+    "Actions": {
+      "type": "array",
+      "id": "/properties/Actions",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "id": "/properties/Actions/items",
+        "required": [
+          "PowerHint",
+          "Node",
+          "ValueIndex",
+          "Duration"
+        ],
+        "properties": {
+          "PowerHint": {
+            "type": "string",
+            "id": "/properties/Actions/items/properties/PowerHint",
+            "title": "The PowerHint Schema.",
+            "description": "The PowerHint name of the action.",
+            "minLength": 1
+          },
+          "Node": {
+            "type": "string",
+            "id": "/properties/Actions/items/properties/Node",
+            "title": "The Node Schema.",
+            "description": "The Node name of the action, which is defined in Nodes.",
+            "minLength": 1
+          },
+          "Value": {
+            "type": "string",
+            "id": "/properties/Actions/items/properties/Value",
+            "title": "The Value Index Schema.",
+            "description": "The value of action, which is defined in Nodes.",
+            "minLength": 1
+          },
+          "Duration": {
+            "type": "integer",
+            "id": "/properties/Actions/items/properties/Duration",
+            "title": "The Duration Schema.",
+            "description": "The number of milliseconds that this action will be active (zero means forever).",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

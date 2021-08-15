@@ -1,0 +1,103 @@
+###
+### Apps signed with the platform key.
+###
+
+typeattribute platform_app coredomain;
+
+app_domain(platform_app)
+
+# Access the network.
+net_domain(platform_app)
+# Access bluetooth.
+bluetooth_domain(platform_app)
+# Read from /data/local/tmp or /data/data/com.android.shell.
+allow platform_app shell_data_file:dir search;
+allow platform_app shell_data_file:file { open getattr read };
+allow platform_app icon_file:file { open getattr read };
+# Populate /data/app/vmdl*.tmp, /data/app-private/vmdl*.tmp files
+# created by system server.
+allow platform_app { apk_tmp_file apk_private_tmp_file }:dir rw_dir_perms;
+allow platform_app { apk_tmp_file apk_private_tmp_file }:file rw_file_perms;
+allow platform_app apk_private_data_file:dir search;
+# ASEC
+allow platform_app asec_apk_file:dir create_dir_perms;
+allow platform_app asec_apk_file:file create_file_perms;
+
+# Access to /data/media.
+allow platform_app media_rw_data_file:dir create_dir_perms;
+allow platform_app media_rw_data_file:file create_file_perms;
+
+# Write to /cache.
+allow platform_app cache_file:dir create_dir_perms;
+allow platform_app cache_file:file create_file_perms;
+
+# Direct access to vold-mounted storage under /mnt/media_rw
+# This is a performance optimization that allows platform apps to bypass the FUSE layer
+allow platform_app mnt_media_rw_file:dir r_dir_perms;
+allow platform_app sdcard_type:dir create_dir_perms;
+allow platform_app sdcard_type:file create_file_perms;
+
+# com.android.systemui
+allow platform_app rootfs:dir getattr;
+
+# com.android.captiveportallogin reads /proc/vmstat
+allow platform_app {
+  proc_vmstat
+}:file r_file_perms;
+
+# /proc/net access.
+# TODO(b/9496886) Audit access for removal.
+r_dir_file(platform_app, proc_net_type)
+userdebug_or_eng(`
+  auditallow platform_app proc_net_type:{ dir file lnk_file } { getattr open read };
+')
+
+allow platform_app audioserver_service:service_manager find;
+allow platform_app cameraserver_service:service_manager find;
+allow platform_app drmserver_service:service_manager find;
+allow platform_app mediaserver_service:service_manager find;
+allow platform_app mediametrics_service:service_manager find;
+allow platform_app mediaextractor_service:service_manager find;
+allow platform_app mediacodec_service:service_manager find;
+allow platform_app mediadrmserver_service:service_manager find;
+allow platform_app persistent_data_block_service:service_manager find;
+allow platform_app radio_service:service_manager find;
+allow platform_app thermal_service:service_manager find;
+allow platform_app timezone_service:service_manager find;
+allow platform_app app_api_service:service_manager find;
+allow platform_app system_api_service:service_manager find;
+allow platform_app vr_manager_service:service_manager find;
+allow platform_app gpu_service:service_manager find;
+allow platform_app stats_service:service_manager find;
+
+# Allow platform apps to interact with gpuservice
+binder_call(platform_app, gpuservice)
+
+# Allow platform apps to log via statsd.
+allow platform_app statsd:binder call;
+
+# Access to /data/preloads
+allow platform_app preloads_data_file:file r_file_perms;
+allow platform_app preloads_data_file:dir r_dir_perms;
+allow platform_app preloads_media_file:file r_file_perms;
+allow platform_app preloads_media_file:dir r_dir_perms;
+
+read_runtime_log_tags(platform_app)
+
+# allow platform apps to use UDP sockets provided by the system server but not
+# modify them other than to connect
+allow platform_app system_server:udp_socket {
+        connect getattr read recvfrom sendto write getopt setopt };
+
+# allow platform apps to connect to the property service
+set_prop(platform_app, test_boot_reason_prop)
+
+# allow platform apps to create symbolic link
+allow platform_app app_data_file:lnk_file create_file_perms;
+
+###
+### Neverallow rules
+###
+
+# app domains which access /dev/fuse should not run as platform_app
+neverallow platform_app fuse_device:chr_file *;

@@ -1,0 +1,10 @@
+type hal_audio_default, domain;
+hal_server_domain(hal_audio_default, hal_audio)
+
+type hal_audio_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_audio_default)
+
+hal_client_domain(hal_audio_default, hal_allocator)
+
+# allow audioserver to call hal_audio dump with its own fd to retrieve status
+allow hal_audio_default audioserver:fifo_file write;

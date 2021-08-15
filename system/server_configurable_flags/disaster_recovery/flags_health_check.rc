@@ -1,0 +1,11 @@
+on load_persist_props_action
+    # check server configurable flags(which is based on persistent properties) related
+    # disaster recovery
+    mkdir /data/server_configurable_flags 0775 system system
+    exec - system system -- /system/bin/flags_health_check BOOT_FAILURE
+
+on property:sys.boot_completed=1
+    setprop persist.device_config.attempted_boot_count 0
+
+on property:ro.init.updatable_crashing=1
+    exec - system system -- /system/bin/flags_health_check UPDATABLE_CRASHING

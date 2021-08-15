@@ -1,0 +1,14 @@
+###
+### Ephemeral apps.
+###
+### This file defines the security policy for apps with the ephemeral
+### feature.
+###
+### The ephemeral_app domain is a reduced permissions sandbox allowing
+### ephemeral applications to be safely installed and run. Non ephemeral
+### applications may also opt-in to ephemeral to take advantage of the
+### additional security features.
+###
+### PackageManager flags an app as ephemeral at install time.
+
+type ephemeral_app, domain;

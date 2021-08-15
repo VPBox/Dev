@@ -1,0 +1,28 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+ "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node name="/org/chromium/SessionManager"
+      xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+
+  <!--
+      org.fluoride.BluetoothAdapter:
+      @short_description: Bluetooth adapter manager.
+
+      Interface for user bluetooth adapter. Right now allows only to enable
+      and disable the adapter.
+  -->
+  <interface name="org.fluoride.BluetoothAdapter">
+    <!--
+        Enable:
+
+        Enable the bluetooth adapter.
+    -->
+    <method name="Enable"></method>
+
+    <!--
+        Disable:
+
+        Disable the bluetooth adapter.
+    -->
+    <method name="Disable"></method>
+  </interface>
+</node>

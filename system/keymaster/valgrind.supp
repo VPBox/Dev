@@ -1,0 +1,40 @@
+{
+   BoringSSLErrorLeak
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:err_get_state
+   ...
+}
+{
+   EcKeyErrorLeak
+   Memcheck:Leak
+   fun:malloc
+   fun:err_add_error_vdata
+   fun:ERR_add_error_data
+   fun:ASN1_item_ex_d2i
+   fun:ASN1_item_d2i
+   fun:d2i_EC_PRIVATEKEY
+   fun:d2i_ECPrivateKey
+   fun:old_ec_priv_decode
+   fun:d2i_PrivateKey
+   ...
+}
+{
+   BoringSSLGetNewIndexLeak1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   fun:CRYPTO_get_ex_new_index
+   ...
+}
+{
+   BoringSSLGetNewIndexLeak2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   ...
+   fun:CRYPTO_get_ex_new_index
+   ...
+}

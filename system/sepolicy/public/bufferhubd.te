@@ -1,0 +1,25 @@
+# bufferhubd
+type bufferhubd, domain, mlstrustedsubject;
+type bufferhubd_exec, system_file_type, exec_type, file_type;
+
+hal_client_domain(bufferhubd, hal_graphics_allocator)
+
+# TODO(b/112338294): remove these after migrate to Binder
+pdx_server(bufferhubd, bufferhub_client)
+pdx_client(bufferhubd, performance_client)
+
+# Access the GPU.
+allow bufferhubd gpu_device:chr_file rw_file_perms;
+
+# Access /dev/ion
+allow bufferhubd ion_device:chr_file r_file_perms;
+
+# Receive sync fence FDs from hal_omx_server. Note that hal_omx_server never directly
+# connects to bufferhubd via PDX. Instead, a VR app acts as a bridge between
+# those two: it talks to hal_omx_server via Binder and talks to bufferhubd via PDX.
+# Thus, there is no need to use pdx_client macro.
+allow bufferhubd hal_omx_server:fd use;
+
+# Codec2 is similar to OMX
+allow bufferhubd hal_codec2_server:fd use;
+

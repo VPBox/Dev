@@ -1,0 +1,61 @@
+# storaged daemon
+type storaged, domain, coredomain, mlstrustedsubject;
+type storaged_exec, exec_type, file_type;
+
+init_daemon_domain(storaged)
+
+# Read access to pseudo filesystems
+r_dir_file(storaged, proc_net)
+r_dir_file(storaged, domain)
+
+# Read /proc/uid_io/stats
+allow storaged proc_uid_io_stats:file r_file_perms;
+
+# Read /data/system/packages.list
+allow storaged system_data_file:file r_file_perms;
+
+# Store storaged proto file
+allow storaged storaged_data_file:dir rw_dir_perms;
+allow storaged storaged_data_file:file create_file_perms;
+
+userdebug_or_eng(`
+  # Read access to debugfs
+  allow storaged debugfs_mmc:dir search;
+  allow storaged debugfs_mmc:file r_file_perms;
+')
+
+# Needed to provide debug dump output via dumpsys pipes.
+allow storaged shell:fd use;
+allow storaged shell:fifo_file write;
+
+# Needed for GMScore to call dumpsys storaged
+allow storaged priv_app:fd use;
+allow storaged app_data_file:file write;
+allow storaged permission_service:service_manager find;
+
+# Binder permissions
+add_service(storaged, storaged_service)
+
+binder_use(storaged)
+binder_call(storaged, system_server)
+
+hal_client_domain(storaged, hal_health)
+
+# Implements a dumpsys interface.
+allow storaged dumpstate:fd use;
+
+# use a subset of the package manager service
+allow storaged package_native_service:service_manager find;
+
+# Kernel does extra check on CAP_DAC_OVERRIDE for libbinder when storaged is
+# running as root. See b/35323867 #3.
+dontaudit storaged self:global_capability_class_set dac_override;
+
+# For collecting bugreports.
+allow storaged dumpstate:fifo_file write;
+
+###
+### neverallow
+###
+neverallow storaged domain:process ptrace;
+neverallow storaged self:capability_class_set *;

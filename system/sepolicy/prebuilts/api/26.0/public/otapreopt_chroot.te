@@ -1,0 +1,20 @@
+# otapreopt_chroot executable
+type otapreopt_chroot, domain;
+type otapreopt_chroot_exec, exec_type, file_type;
+
+# Chroot preparation and execution.
+# We need to create an unshared mount namespace, and then mount /data.
+allow otapreopt_chroot postinstall_file:dir { search mounton };
+allow otapreopt_chroot self:capability { sys_admin sys_chroot };
+
+# This is required to mount /vendor.
+allow otapreopt_chroot block_device:dir search;
+allow otapreopt_chroot labeledfs:filesystem mount;
+# Mounting /vendor can have this side-effect. Ignore denial.
+dontaudit otapreopt_chroot kernel:process setsched;
+
+# Allow otapreopt to use file descriptors from update-engine. It will
+# close them immediately.
+allow otapreopt_chroot postinstall:fd use;
+allow otapreopt_chroot update_engine:fd use;
+allow otapreopt_chroot update_engine:fifo_file write;

@@ -1,0 +1,19 @@
+// Copyright 2013 The Android Open Source Project
+
+cc_binary {
+    name: "opentest",
+    srcs: ["opentest.c"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}
+
+cc_binary {
+    name: "wipe_blkdev",
+    srcs: ["wipe_blkdev.c"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}

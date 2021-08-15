@@ -1,0 +1,20 @@
+userdebug_or_eng(`
+  typeattribute su coredomain;
+
+  domain_auto_trans(shell, su_exec, su)
+  # Allow dumpstate to call su on userdebug / eng builds to collect
+  # additional information.
+  domain_auto_trans(dumpstate, su_exec, su)
+
+  # Make sure that dumpstate runs the same from the "su" domain as
+  # from the "init" domain.
+  domain_auto_trans(su, dumpstate_exec, dumpstate)
+
+  # Put the incident command into its domain so it is the same on user, userdebug and eng.
+  domain_auto_trans(su, incident_exec, incident)
+
+# su is also permissive to permit setenforce.
+  permissive su;
+
+  app_domain(su)
+')

@@ -1,0 +1,117 @@
+# fastbootd (used in recovery init.rc for /sbin/fastbootd)
+
+# Declare the domain unconditionally so we can always reference it
+# in neverallow rules.
+type fastbootd, domain;
+
+# But the allow rules are only included in the recovery policy.
+# Otherwise fastbootd is only allowed the domain rules.
+recovery_only(`
+  # fastbootd can only use HALs in passthrough mode
+  passthrough_hal_client_domain(fastbootd, hal_bootctl)
+
+  # Access /dev/usb-ffs/fastbootd/ep0
+  allow fastbootd functionfs:dir search;
+  allow fastbootd functionfs:file rw_file_perms;
+
+  allowxperm fastbootd functionfs:file ioctl { FUNCTIONFS_ENDPOINT_DESC };
+  # Log to serial
+  allow fastbootd kmsg_device:chr_file { open getattr write };
+
+  # battery info
+  allow fastbootd sysfs_batteryinfo:file r_file_perms;
+
+  allow fastbootd device:dir r_dir_perms;
+
+  # Reboot the device
+  set_prop(fastbootd, powerctl_prop)
+
+  # Read serial number of the device from system properties
+  get_prop(fastbootd, serialno_prop)
+
+  # For dev/block/by-name dir
+  allow fastbootd block_device:dir r_dir_perms;
+
+  # Needed for DM_DEV_CREATE ioctl call
+  allow fastbootd self:capability sys_admin;
+
+  # Set sys.usb.ffs.ready.
+  set_prop(fastbootd, ffs_prop)
+  set_prop(fastbootd, exported_ffs_prop)
+
+  unix_socket_connect(fastbootd, recovery, recovery)
+
+  # Required for flashing
+  allow fastbootd dm_device:chr_file rw_file_perms;
+  allow fastbootd dm_device:blk_file rw_file_perms;
+
+  allow fastbootd super_block_device_type:blk_file rw_file_perms;
+  allow fastbootd {
+    boot_block_device
+    metadata_block_device
+    system_block_device
+    userdata_block_device
+  }:blk_file { w_file_perms getattr ioctl };
+
+  # For disabling/wiping GSI.
+  allow fastbootd metadata_block_device:blk_file r_file_perms;
+  allow fastbootd {rootfs tmpfs}:dir mounton;
+  allow fastbootd metadata_file:dir search;
+  allow fastbootd gsi_metadata_file:dir r_dir_perms;
+  allow fastbootd gsi_metadata_file:file rw_file_perms;
+
+  allowxperm fastbootd super_block_device_type:blk_file ioctl { BLKIOMIN BLKALIGNOFF };
+
+  allowxperm fastbootd {
+    metadata_block_device
+    userdata_block_device
+    dm_device
+  }:blk_file ioctl { BLKSECDISCARD BLKDISCARD };
+
+  allow fastbootd misc_block_device:blk_file rw_file_perms;
+
+  allow fastbootd proc_cmdline:file r_file_perms;
+  allow fastbootd rootfs:dir r_dir_perms;
+
+  # Needed to read fstab node from device tree.
+  allow fastbootd sysfs_dt_firmware_android:file r_file_perms;
+  allow fastbootd sysfs_dt_firmware_android:dir r_dir_perms;
+
+  # Needed for realpath() call to resolve symlinks.
+  allow fastbootd block_device:dir getattr;
+  userdebug_or_eng(`
+    # Refined manipulation of /mnt/scratch, without these perms resorts
+    # to deleting scratch partition when partition(s) are flashed.
+    allow fastbootd self:process setfscreate;
+    allow fastbootd cache_file:dir search;
+    allow fastbootd proc_filesystems:file { getattr open read };
+    allow fastbootd self:capability sys_rawio;
+    dontaudit fastbootd kernel:system module_request;
+    allowxperm fastbootd dev_type:blk_file ioctl BLKROSET;
+    allow fastbootd overlayfs_file:dir { create_dir_perms mounton };
+    allow fastbootd {
+      system_file_type
+      unlabeled
+      vendor_file_type
+    }:dir { remove_name rmdir search write };
+    allow fastbootd {
+      overlayfs_file
+      system_file_type
+      unlabeled
+      vendor_file_type
+    }:{ file lnk_file } unlink;
+    allow fastbootd tmpfs:dir rw_dir_perms;
+    allow fastbootd labeledfs:filesystem { mount unmount };
+    get_prop(fastbootd, persistent_properties_ready_prop)
+  ')
+')
+
+###
+### neverallow rules
+###
+
+# Write permission is required to wipe userdata
+# until recovery supports vold.
+neverallow fastbootd {
+   data_file_type
+}:file { no_x_file_perms };

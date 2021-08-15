@@ -1,0 +1,17 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_fingerprint_client, hal_fingerprint_server)
+binder_call(hal_fingerprint_server, hal_fingerprint_client)
+
+add_hwservice(hal_fingerprint_server, hal_fingerprint_hwservice)
+allow hal_fingerprint_client hal_fingerprint_hwservice:hwservice_manager find;
+
+# For memory allocation
+allow hal_fingerprint ion_device:chr_file r_file_perms;
+
+allow hal_fingerprint fingerprint_vendor_data_file:file { create_file_perms };
+allow hal_fingerprint fingerprint_vendor_data_file:dir rw_dir_perms;
+
+r_dir_file(hal_fingerprint, cgroup)
+r_dir_file(hal_fingerprint, sysfs)
+
+

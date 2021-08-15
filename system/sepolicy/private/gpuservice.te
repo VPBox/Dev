@@ -1,0 +1,41 @@
+# gpuservice - server for gpu stats and other gpu related services
+typeattribute gpuservice coredomain;
+type gpuservice_exec, system_file_type, exec_type, file_type;
+
+init_daemon_domain(gpuservice)
+
+binder_call(gpuservice, adbd)
+binder_call(gpuservice, shell)
+binder_use(gpuservice)
+
+# Access the GPU.
+allow gpuservice gpu_device:chr_file rw_file_perms;
+
+# GPU service will need to load GPU driver, for example Vulkan driver in order
+# to get the capability of the driver.
+allow gpuservice same_process_hal_file:file { open read getattr execute map };
+allow gpuservice ion_device:chr_file r_file_perms;
+get_prop(gpuservice, hwservicemanager_prop)
+hwbinder_use(gpuservice)
+
+# Access /dev/graphics/fb0.
+allow gpuservice graphics_device:dir search;
+allow gpuservice graphics_device:chr_file rw_file_perms;
+
+# Needed for dumpsys pipes.
+allow gpuservice shell:fifo_file write;
+
+# Use socket supplied by adbd, for cmd gpu vkjson etc.
+allow gpuservice adbd:unix_stream_socket { read write getattr };
+
+# Needed for interactive shell
+allow gpuservice devpts:chr_file { read write getattr };
+
+# Needed for dumpstate to dumpsys gpu.
+allow gpuservice dumpstate:fd use;
+allow gpuservice dumpstate:fifo_file write;
+
+add_service(gpuservice, gpu_service)
+
+# Only uncomment below line when in development
+# userdebug_or_eng(`permissive gpuservice;')

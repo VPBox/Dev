@@ -1,0 +1,7 @@
+on init
+    start vendor.perfstatsd
+
+service vendor.perfstatsd /vendor/bin/perfstatsd -s
+    priority 10
+    user root
+    group system readproc

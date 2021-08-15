@@ -1,0 +1,11 @@
+{
+  "presubmit": [
+    {
+      "name": "aidl_unittests"
+    },
+    {
+      "name": "CtsNdkBinderTestCases"
+    }
+  ]
+}
+

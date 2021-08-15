@@ -1,0 +1,66 @@
+# dex2oat
+type dex2oat, domain;
+type dex2oat_exec, exec_type, file_type;
+
+r_dir_file(dex2oat, apk_data_file)
+# Access to /vendor/app
+r_dir_file(dex2oat, vendor_app_file)
+# Access /vendor/framework
+allow dex2oat vendor_framework_file:dir { getattr search };
+allow dex2oat vendor_framework_file:file { getattr open read };
+
+allow dex2oat tmpfs:file { read getattr };
+
+r_dir_file(dex2oat, dalvikcache_data_file)
+allow dex2oat dalvikcache_data_file:file write;
+# Read symlinks in /data/dalvik-cache. This is required for PIC mode boot images, where
+# the oat file is symlinked to the original file in /system.
+allow dex2oat dalvikcache_data_file:lnk_file read;
+allow dex2oat installd:fd use;
+
+# Acquire advisory lock on /system/framework/arm/*
+allow dex2oat system_file:file lock;
+
+# Read already open asec_apk_file file descriptors passed by installd.
+# Also allow reading unlabeled files, to allow for upgrading forward
+# locked APKs.
+allow dex2oat asec_apk_file:file read;
+allow dex2oat unlabeled:file read;
+allow dex2oat oemfs:file read;
+allow dex2oat apk_tmp_file:dir search;
+allow dex2oat apk_tmp_file:file r_file_perms;
+allow dex2oat user_profile_data_file:file { getattr read lock };
+
+# Allow dex2oat to compile app's secondary dex files which were reported back to
+# the framework.
+allow dex2oat app_data_file:file { getattr read write lock };
+
+##################
+# A/B OTA Dexopt #
+##################
+
+# Allow dex2oat to use file descriptors from otapreopt.
+allow dex2oat postinstall_dexopt:fd use;
+
+allow dex2oat postinstall_file:dir { getattr search };
+allow dex2oat postinstall_file:filesystem getattr;
+allow dex2oat postinstall_file:lnk_file read;
+
+# Allow dex2oat access to files in /data/ota.
+allow dex2oat ota_data_file:dir ra_dir_perms;
+allow dex2oat ota_data_file:file r_file_perms;
+
+# Create and read symlinks in /data/ota/dalvik-cache. This is required for PIC mode boot images,
+# where the oat file is symlinked to the original file in /system.
+allow dex2oat ota_data_file:lnk_file { create read };
+
+# It would be nice to tie this down, but currently, because of how images are written, we can't
+# pass file descriptors for the preopted boot image to dex2oat. So dex2oat needs to be able to
+# create them itself (and make them world-readable).
+allow dex2oat ota_data_file:file { create w_file_perms setattr };
+
+##############
+# Neverallow #
+##############
+
+neverallow dex2oat app_data_file:notdevfile_class_set open;

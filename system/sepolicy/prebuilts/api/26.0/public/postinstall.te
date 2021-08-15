@@ -1,0 +1,36 @@
+# Domain where the postinstall program runs during the update.
+# Extend the permissions in this domain to allow this program to access other
+# files needed by the specific device on your device's sepolicy directory.
+type postinstall, domain;
+
+# Allow postinstall to write to its stdout/stderr when redirected via pipes to
+# update_engine.
+allow postinstall update_engine_common:fd use;
+allow postinstall update_engine_common:fifo_file rw_file_perms;
+
+# Allow postinstall to read and execute directories and files in the same
+# mounted location.
+allow postinstall postinstall_file:file rx_file_perms;
+allow postinstall postinstall_file:lnk_file r_file_perms;
+allow postinstall postinstall_file:dir r_dir_perms;
+
+# Allow postinstall to execute the shell or other system executables.
+allow postinstall shell_exec:file rx_file_perms;
+allow postinstall system_file:file rx_file_perms;
+allow postinstall toolbox_exec:file rx_file_perms;
+
+#
+# For OTA dexopt.
+#
+
+# Allow postinstall scripts to talk to the system server.
+binder_use(postinstall)
+binder_call(postinstall, system_server)
+
+# Need to talk to the otadexopt service.
+allow postinstall otadexopt_service:service_manager find;
+
+# No domain other than update_engine and recovery (via update_engine_sideload)
+# should transition to postinstall, as it is only meant to run during the
+# update.
+neverallow { domain -update_engine -recovery } postinstall:process { transition dyntransition };

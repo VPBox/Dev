@@ -1,0 +1,1 @@
+allow binder_in_vendor_violators binder_device:chr_file rw_file_perms;

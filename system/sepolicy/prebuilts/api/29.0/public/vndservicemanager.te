@@ -1,0 +1,2 @@
+# vndservicemanager - the Binder context manager for vendor processes
+type vndservicemanager, domain;

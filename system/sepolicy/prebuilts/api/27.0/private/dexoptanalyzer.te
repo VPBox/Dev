@@ -1,0 +1,30 @@
+# dexoptanalyzer
+type dexoptanalyzer, domain, coredomain, mlstrustedsubject;
+type dexoptanalyzer_exec, exec_type, file_type;
+
+# Reading an APK opens a ZipArchive, which unpack to tmpfs.
+# Use tmpfs_domain() which will give tmpfs files created by dexoptanalyzer their
+# own label, which differs from other labels created by other processes.
+# This allows to distinguish in policy files created by dexoptanalyzer vs other
+#processes.
+tmpfs_domain(dexoptanalyzer)
+
+# Read symlinks in /data/dalvik-cache. This is required for PIC mode boot
+# app_data_file the oat file is symlinked to the original file in /system.
+allow dexoptanalyzer dalvikcache_data_file:dir { getattr search };
+allow dexoptanalyzer dalvikcache_data_file:file r_file_perms;
+allow dexoptanalyzer dalvikcache_data_file:lnk_file read;
+
+allow dexoptanalyzer installd:fd use;
+
+# Allow reading secondary dex files that were reported by the app to the
+# package manager.
+allow dexoptanalyzer app_data_file:dir { getattr search };
+allow dexoptanalyzer app_data_file:file r_file_perms;
+# dexoptanalyzer calls access(2) with W_OK flag on app data. We can use the
+# "dontaudit...audit_access" policy line to suppress the audit access without
+# suppressing denial on actual access.
+dontaudit dexoptanalyzer app_data_file:dir audit_access;
+
+# Allow testing /data/user/0 which symlinks to /data/data
+allow dexoptanalyzer system_data_file:lnk_file { getattr };

@@ -1,0 +1,19 @@
+typeattribute installd coredomain;
+typeattribute installd domain_deprecated;
+
+init_daemon_domain(installd)
+
+# Run dex2oat in its own sandbox.
+domain_auto_trans(installd, dex2oat_exec, dex2oat)
+
+# Run dexoptanalyzer in its own sandbox.
+domain_auto_trans(installd, dexoptanalyzer_exec, dexoptanalyzer)
+
+# Run profman in its own sandbox.
+domain_auto_trans(installd, profman_exec, profman)
+
+# Run idmap in its own sandbox.
+domain_auto_trans(installd, idmap_exec, idmap)
+
+# Create /data/.layout_version.* file
+type_transition installd system_data_file:file install_data_file;

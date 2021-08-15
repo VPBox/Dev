@@ -1,0 +1,2 @@
+# Allow clients to use a socket provided by the bluetooth app.
+allow bluetoothdomain bluetooth:unix_stream_socket { getopt setopt getattr read write ioctl shutdown };

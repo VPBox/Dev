@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<link rel="import" href="/tracing/base/base.html">
+<link rel="import" href="/tracing/extras/importer/linux_perf/ftrace_importer.html">
+<link rel="import" href="/tracing/extras/importer/android/event_log_importer.html">
+<link rel="import" href="/tracing/extras/android/android_auditor.html">
+<link rel="import" href="/tracing/importer/import.html">
+<link rel="import" href="/tracing/model/model.html">
+<script>
+'use strict';
+
+(function() {
+  var FRAME_PERF_CLASS = tr.model.FRAME_PERF_CLASS;
+
+  if (!tr.isHeadless) {
+    throw new Error('Can only run in headless mode.');
+  }
+
+  function printFrameStats(process, range) {
+    var goodFrames = 0;
+    var badFrames = 0;
+    var neutralFrames = 0;
+    var terribleFrames = 0;
+
+    process.frames.forEach(function(frame) {
+      // Check if frame belongs to any activity
+      if (frame.start >= range.min && (frame.end <= range.max)) {
+        if (frame.perfClass == FRAME_PERF_CLASS.NEUTRAL) neutralFrames++;
+        if (frame.perfClass == FRAME_PERF_CLASS.GOOD) goodFrames++;
+        if (frame.perfClass == FRAME_PERF_CLASS.BAD) badFrames++;
+        if (frame.perfClass == FRAME_PERF_CLASS.TERRIBLE) terribleFrames++;
+      }
+    });
+
+    var totalFrames = goodFrames + badFrames + neutralFrames;
+    if (totalFrames > 0) {
+      console.log("  Frame stats:");
+      console.log("    # Total frames: " + totalFrames);
+      console.log("    # Terrible frames: " + terribleFrames);
+      console.log("    # Bad frames: " + badFrames);
+      console.log("    # Neutral frames: " + neutralFrames);
+      console.log("    # Good frames: " + goodFrames);
+    }
+  };
+
+  function printMemoryStats(process, range) {
+    var numDirectReclaim = 0;
+    for (var tid in process.threads) {
+      if (!process.threads[tid].timeSlices) continue;
+      process.threads[tid].sliceGroup.slices.forEach(function(slice) {
+        if (slice.title.startsWith('direct reclaim')) {
+          if (slice.start >= range.min &&
+              slice.start + slice.duration <= range.max) {
+            numDirectReclaim++;
+          }
+        }
+      });
+    }
+    console.log("  Memory stats:");
+    console.log("    # of direct reclaims: " + numDirectReclaim);
+  };
+
+  function printCpuStatsForThread(thread, range) {
+    var stats = thread.getCpuStatsForRange(range);
+    // Sum total CPU duration
+    console.log('    ' + thread.name + ' CPU allocation: ');
+    for (var cpu in stats) {
+      var percentage = (stats[cpu] / stats.total * 100).toFixed(2);
+
+      console.log("      CPU " + cpu + ": " + percentage + "% (" +
+          stats[cpu].toFixed(2) + " ms.)");
+    }
+  };
+
+  function printCpuStatsForProcess(process, range) {
+    var total_runtime = 0;
+    for (var tid in process.threads) {
+      var stats = process.threads[tid].getCpuStatsForRange(range);
+      total_runtime += stats.total;
+    }
+    console.log("  CPU stats:");
+    console.log("    Total CPU runtime: " + total_runtime.toFixed(2) + " ms.");
+    var uiThread = process.getThread(process.pid);
+    var renderThreads = process.findAllThreadsNamed('RenderThread');
+    var renderThread = renderThreads.length == 1 ? renderThreads[0] : undefined;
+    if (uiThread)
+      printCpuStatsForThread(uiThread, range);
+    if (renderThread)
+      printCpuStatsForThread(renderThread, range);
+    printCpuFreqStats(range);
+  };
+
+  function printCpuFreqStats(range) {
+    for (var i = 0; i < 8; i++) {
+      var cpu = model.kernel.getOrCreateCpu(i);
+      if (cpu !== undefined) {
+        var stats = cpu.getFreqStatsForRange(range);
+
+        console.log('    CPU ' + i + ' frequency distribution:');
+        for (var freq in stats) {
+          var percentage = (stats[freq] / range.duration * 100).toFixed(2);
+          console.log('      ' + freq + ' ' + percentage + "% (" +
+              stats[freq].toFixed(2)  + ' ms.)');
+        }
+      }
+    }
+  };
+
+  function printBinderStats(process, range) {
+    var outgoing_transactions = 0;
+    var incoming_transactions = 0;
+    for (var tid in process.threads) {
+      var outgoing_slices = process.threads[tid].sliceGroup.getSlicesOfName('binder transaction');
+      var outgoing_async_slices = process.threads[tid].sliceGroup.getSlicesOfName('binder transaction async');
+      var incoming_slices = process.threads[tid].sliceGroup.getSlicesOfName('binder reply');
+      var incoming_async_slices = process.threads[tid].sliceGroup.getSlicesOfName('binder Async recv');
+      outgoing_transactions += outgoing_slices.length + outgoing_async_slices.length;
+      incoming_transactions += incoming_slices.length + incoming_async_slices.length;
+    }
+    console.log('  Binder transaction stats:');
+    console.log('    # Outgoing binder transactions: ' + outgoing_transactions);
+    console.log('    # Incoming binder transactions: ' + incoming_transactions);
+  };
+
+  function pagesInMBString(pages) {
+    if (isNaN(pages))
+      return '0 (0.00 MB)';
+    return pages + ' (' + (pages * 4096 / 1024 / 1024).toFixed(2) + ' MB)';
+  };
+
+  function printPageCacheStats(process) {
+    console.log('  Page cache stats:');
+    var totalAccess = 0;
+    var totalMiss = 0;
+    var totalAdd = 0;
+    for (var file in process.pageCacheAccesses) {
+      totalAccess += process.pageCacheAccesses[file];
+      totalMiss += process.pageCacheMisses[file];
+      totalAdd += process.pageCacheAdd[file];
+      console.log('    File: ' + file);
+      console.log('        # of pages accessed: ' + pagesInMBString(process.pageCacheAccesses[file]));
+      console.log('        # of pages missed: ' + pagesInMBString(process.pageCacheMisses[file]));
+      console.log('        # of pages added to cache: ' + pagesInMBString(process.pageCacheAdd[file]));
+    }
+    console.log('    TOTALS:');
+    console.log('        # of pages accessed: ' + pagesInMBString(totalAccess));
+    console.log('        # of pages missed: ' + pagesInMBString(totalMiss));
+    console.log('        # of pages added to cache: ' + pagesInMBString(totalAdd));
+  };
+
+  function printProcessStats(process, opt_range) {
+    var range = opt_range;
+    if (range === undefined) {
+      // Use the process range
+      range = process.bounds;
+    }
+    printCpuStatsForProcess(process, range);
+    printPageCacheStats(process);
+    printMemoryStats(process, range);
+    printBinderStats(process, range);
+    printFrameStats(process, range);
+  };
+
+  if (sys.argv.length < 2)
+    console.log('First argument needs to be a systrace file.');
+
+  // Import model
+  var systrace = read(sys.argv[1]);
+  var traces = [systrace];
+  if (sys.argv.length >= 3) {
+    // Add event log file if we got it
+    var events = read(sys.argv[2]);
+    traces.push(events);
+  }
+  var model = new tr.Model();
+  var i = new tr.importer.Import(model);
+  console.log("Starting import...");
+  i.importTraces(traces);
+  console.log("Done.");
+  model.getAllProcesses().forEach(function(process) {
+    if (process.name === undefined) return;
+    console.log('Stats for process ' + process.name + ' (' + process.pid + ')');
+    // Check if process has activity starts
+    if (process.activities && process.activities.length > 0) {
+      process.activities.forEach(function(activity) {
+        console.log('Activity ' + activity.name + ' foreground from ' +
+            activity.start + ' until ' + activity.end);
+        var activityRange = tr.b.Range.fromExplicitRange(activity.start,
+            activity.start + activity.duration);
+        printProcessStats(process, activityRange);
+      }, this);
+    } else {
+      printProcessStats(process);
+    }
+    console.log('');
+  });
+})();
+</script>

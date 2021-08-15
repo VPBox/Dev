@@ -1,0 +1,4 @@
+typeattribute ppp coredomain;
+typeattribute ppp domain_deprecated;
+
+domain_auto_trans(mtp, ppp_exec, ppp)

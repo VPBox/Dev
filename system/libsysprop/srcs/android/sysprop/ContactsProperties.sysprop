@@ -1,0 +1,67 @@
+# Copyright (C) 2018 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+module: "android.sysprop.ContactsProperties"
+owner: Platform
+
+prop {
+    api_name: "aggregate_contacts"
+    type: Boolean
+    scope: Internal
+    access: Readonly
+    prop_name: "sync.contacts.aggregate"
+}
+
+prop {
+    api_name: "debug_scan_all_packages"
+    type: Boolean
+    scope: Internal
+    access: Readonly
+    prop_name: "debug.cp2.scan_all_packages"
+}
+
+# If present, overrides the size determined for the display photo
+prop {
+    api_name: "display_photo_size"
+    type: Integer
+    scope: Internal
+    access: Readonly
+    prop_name: "contacts.display_photo_size"
+}
+
+#
+# If set to true, we don't remove account data when accounts have been removed.
+#
+# This should be used sparingly; even though there are data still available, the UI
+# don't know anything about them, so they won't show up in the contact filter screen, and
+# the contact card/editor may get confused to see unknown custom mimetypes.
+#
+# We can't spell it out because a property name must be less than 32 chars.
+#
+prop {
+    api_name: "keep_stale_account_data"
+    type: Boolean
+    scope: Internal
+    access: Readonly
+    prop_name: "debug.contacts.ksad"
+}
+
+# If present, overrides the size given in DEFAULT_THUMBNAIL
+prop {
+    api_name: "thumbnail_size"
+    type: Integer
+    scope: Internal
+    access: Readonly
+    prop_name: "contacts.thumbnail_size"
+}

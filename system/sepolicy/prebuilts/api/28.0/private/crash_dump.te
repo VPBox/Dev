@@ -1,0 +1,14 @@
+typeattribute crash_dump coredomain;
+
+allow crash_dump {
+  domain
+  -bpfloader
+  -crash_dump
+  -init
+  -kernel
+  -keystore
+  -logd
+  -ueventd
+  -vendor_init
+  -vold
+}:process { ptrace signal sigchld sigstop sigkill };

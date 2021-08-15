@@ -1,0 +1,116 @@
+/*
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace wifi_offload.fbs;
+
+/* SSID of the Access Point, maximum 32 characters */
+table Ssid {
+  ssid:[ubyte];
+}
+
+/**
+ * Preferred network information
+ * SSID and associated security mode(s)
+ */
+table PreferredNetwork {
+  ssid:Ssid;
+  /* SecurityMode flags that are associated with this SSID
+   * More than one security mode can be supported */
+  security_modes:ubyte;
+}
+
+/**
+ * Scan Results returned by offload nanoapp
+ */
+table ScanResult {
+  ssid:Ssid;
+  security_modes:ubyte;
+  bssid:[ubyte];
+  capability:ushort;  // Multiple bits may be set
+  frequency_scanned_mhz:uint;
+  rssi_dbm:byte;  // Signal strength
+  tsf:ulong;  // TSF found in beacon/probe response
+}
+
+/**
+ * Message to send scan result(s) from nanoapp to host
+ */
+table ScanResultMessage {
+  scan_results:[ScanResult];
+}
+
+/**
+ * Parameters for performing offload scans
+ */
+table ScanParams {
+  ssids_to_scan:[Ssid];
+  frequencies_to_scan_mhz:[uint];
+  disconnected_mode_scan_interval_ms:uint;  // 0 means disable
+}
+
+/**
+ * Instruction on how to filter scan results before waking up the applications
+ * processor.
+ */
+table ScanFilter {
+  networks_to_match:[PreferredNetwork];  // emtpy means match all
+  min_rssi_threshold_dbm:byte;
+}
+
+/**
+ * Structure to send scan params and filter from host to nanoapp
+ */
+table ScanConfig {
+  scan_params:ScanParams;
+  scan_filter:ScanFilter;
+}
+
+/**
+ * Defines the structure of each scan record
+ */
+table ScanRecord {
+  time_spent_scanning_ms:uint;
+  num_channels_scanned:uint;
+  /* Number of ScanRecords aggregated into this record. Multiple ScanRecords
+   * may be combined together into a single ScanRecord by adding up values to
+   * save space if needed */
+  num_entries_aggregated:uint;
+}
+
+/**
+ * Defines the structure of each log record
+ */
+table RpcLogRecord {
+  record_type:ubyte;
+  timestamp_chre_ms:uint;  // See chreGetTime()
+}
+
+/**
+ * Structure to keep and send scan statistics from nanoapp to host
+ */
+table ScanStats {
+  num_scans_requested_by_nanoapp:uint;
+  num_scans_serviced_by_hardware:uint;
+  num_scans_serviced_by_cache:uint;
+  updated_at_chre_ms:uint;
+  sent_at_chre_ms:uint;
+  /* The duration between when the framework subscribed for scan results to min
+   * of time when the framework unsubscribed vs. current time */
+  last_subscription_duration_ms:uint;
+  channel_scan_count:[ubyte];
+  scan_records:[ScanRecord];
+  rpc_log_records:[RpcLogRecord];
+}

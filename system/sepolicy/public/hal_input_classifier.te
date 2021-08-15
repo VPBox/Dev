@@ -1,0 +1,4 @@
+# HwBinder IPC from client to server
+binder_call(hal_input_classifier_client, hal_input_classifier_server)
+
+hal_attribute_hwservice(hal_input_classifier, hal_input_classifier_hwservice)

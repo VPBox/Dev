@@ -1,0 +1,4 @@
+binder_call(hal_bufferhub_client, hal_bufferhub_server)
+binder_call(hal_bufferhub_server, hal_bufferhub_client)
+
+hal_attribute_hwservice(hal_bufferhub, fwk_bufferhub_hwservice)

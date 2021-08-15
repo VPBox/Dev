@@ -1,0 +1,5 @@
+#############################
+# System files
+#
+(/.*)?                   u:object_r:system_file:s0
+/lib(64)?(/.*)?          u:object_r:system_lib_file:s0

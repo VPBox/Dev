@@ -1,0 +1,5 @@
+# type_transition must be private policy the domain_trans rules could stay
+# public, but conceptually should go with this
+# The postinstall program is run by update_engine_common and will always be tagged as a
+# postinstall_file regardless of its attributes in the new system.
+domain_auto_trans(update_engine_common, postinstall_file, postinstall)

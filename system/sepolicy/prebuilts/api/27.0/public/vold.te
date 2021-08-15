@@ -1,0 +1,190 @@
+# volume manager
+type vold, domain;
+type vold_exec, exec_type, file_type;
+
+# Read already opened /cache files.
+allow vold cache_file:dir r_dir_perms;
+allow vold cache_file:file { getattr read };
+allow vold cache_file:lnk_file r_file_perms;
+
+# Read access to pseudo filesystems.
+r_dir_file(vold, proc)
+r_dir_file(vold, proc_net)
+r_dir_file(vold, sysfs_type)
+# XXX Label sysfs files with a specific type?
+allow vold sysfs:file w_file_perms;
+allow vold sysfs_usb:file w_file_perms;
+allow vold sysfs_zram_uevent:file w_file_perms;
+
+r_dir_file(vold, rootfs)
+allow vold proc_meminfo:file r_file_perms;
+
+#Get file contexts
+allow vold file_contexts_file:file r_file_perms;
+
+# Allow us to jump into execution domains of above tools
+allow vold self:process setexec;
+
+# For sgdisk launched through popen()
+allow vold shell_exec:file rx_file_perms;
+
+# For formatting adoptable storage devices
+allow vold e2fs_exec:file rx_file_perms;
+
+typeattribute vold mlstrustedsubject;
+allow vold self:process setfscreate;
+allow vold system_file:file x_file_perms;
+not_full_treble(`allow vold vendor_file:file x_file_perms;')
+allow vold block_device:dir create_dir_perms;
+allow vold device:dir write;
+allow vold devpts:chr_file rw_file_perms;
+allow vold rootfs:dir mounton;
+allow vold sdcard_type:dir mounton; # TODO: deprecated in M
+allow vold sdcard_type:filesystem { mount remount unmount }; # TODO: deprecated in M
+allow vold sdcard_type:dir create_dir_perms; # TODO: deprecated in M
+allow vold sdcard_type:file create_file_perms; # TODO: deprecated in M
+
+# Manage locations where storage is mounted
+allow vold { mnt_media_rw_file storage_file sdcard_type }:dir create_dir_perms;
+allow vold { mnt_media_rw_file storage_file sdcard_type }:file create_file_perms;
+
+# Access to storage that backs emulated FUSE daemons for migration optimization
+allow vold media_rw_data_file:dir create_dir_perms;
+allow vold media_rw_data_file:file create_file_perms;
+
+# Allow mounting of storage devices
+allow vold { mnt_media_rw_stub_file storage_stub_file }:dir { mounton create rmdir getattr setattr };
+
+# Manage per-user primary symlinks
+allow vold mnt_user_file:dir create_dir_perms;
+allow vold mnt_user_file:lnk_file create_file_perms;
+
+# Allow to create and mount expanded storage
+allow vold mnt_expand_file:dir { create_dir_perms mounton };
+allow vold apk_data_file:dir { create getattr setattr };
+allow vold shell_data_file:dir { create getattr setattr };
+
+allow vold tmpfs:filesystem { mount unmount };
+allow vold tmpfs:dir create_dir_perms;
+allow vold tmpfs:dir mounton;
+allow vold self:capability { net_admin dac_override mknod sys_admin chown fowner fsetid };
+allow vold self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+allow vold app_data_file:dir search;
+allow vold app_data_file:file rw_file_perms;
+allow vold loop_control_device:chr_file rw_file_perms;
+allow vold loop_device:blk_file { create setattr unlink rw_file_perms };
+allow vold vold_device:blk_file { create setattr unlink rw_file_perms };
+allow vold dm_device:chr_file rw_file_perms;
+allow vold dm_device:blk_file rw_file_perms;
+# For vold Process::killProcessesWithOpenFiles function.
+allow vold domain:dir r_dir_perms;
+allow vold domain:{ file lnk_file } r_file_perms;
+allow vold domain:process { signal sigkill };
+allow vold self:capability { sys_ptrace kill };
+
+# XXX Label sysfs files with a specific type?
+allow vold sysfs:file rw_file_perms;
+
+allow vold kmsg_device:chr_file rw_file_perms;
+
+# Run fsck in the fsck domain.
+allow vold fsck_exec:file { r_file_perms execute };
+
+# Log fsck results
+allow vold fscklogs:dir rw_dir_perms;
+allow vold fscklogs:file create_file_perms;
+
+#
+# Rules to support encrypted fs support.
+#
+
+# Unmount and mount the fs.
+allow vold labeledfs:filesystem { mount unmount };
+
+# Access /efs/userdata_footer.
+# XXX Split into a separate type?
+allow vold efs_file:file rw_file_perms;
+
+# Create and mount on /data/tmp_mnt and management of expansion mounts
+allow vold system_data_file:dir { create rw_dir_perms mounton setattr rmdir };
+
+# Set scheduling policy of kernel processes
+allow vold kernel:process setsched;
+
+# Property Service
+set_prop(vold, vold_prop)
+set_prop(vold, powerctl_prop)
+set_prop(vold, ctl_fuse_prop)
+set_prop(vold, restorecon_prop)
+
+# ASEC
+allow vold asec_image_file:file create_file_perms;
+allow vold asec_image_file:dir rw_dir_perms;
+allow vold asec_apk_file:dir { create_dir_perms mounton relabelfrom relabelto };
+allow vold asec_public_file:dir { relabelto setattr };
+allow vold asec_apk_file:file { r_file_perms setattr relabelfrom relabelto };
+allow vold asec_public_file:file { relabelto setattr };
+# restorecon files in asec containers created on 4.2 or earlier.
+allow vold unlabeled:dir { r_dir_perms setattr relabelfrom };
+allow vold unlabeled:file { r_file_perms setattr relabelfrom };
+
+# Handle wake locks (used for device encryption)
+wakelock_use(vold)
+
+# talk to batteryservice
+binder_use(vold)
+binder_call(vold, healthd)
+
+# talk to keymaster
+hal_client_domain(vold, hal_keymaster)
+
+# Access userdata block device.
+allow vold userdata_block_device:blk_file rw_file_perms;
+
+# Access metadata block device used for encryption meta-data.
+allow vold metadata_block_device:blk_file rw_file_perms;
+
+# Allow vold to manipulate /data/unencrypted
+allow vold unencrypted_data_file:{ file } create_file_perms;
+allow vold unencrypted_data_file:dir create_dir_perms;
+
+# Write to /proc/sys/vm/drop_caches
+allow vold proc_drop_caches:file w_file_perms;
+
+# Give vold a place where only vold can store files; everyone else is off limits
+allow vold vold_data_file:dir create_dir_perms;
+allow vold vold_data_file:file create_file_perms;
+
+# linux keyring configuration
+allow vold init:key { write search setattr };
+allow vold vold:key { write search setattr };
+
+# vold temporarily changes its priority when running benchmarks
+allow vold self:capability sys_nice;
+
+# vold needs to chroot into app namespaces to remount when runtime permissions change
+allow vold self:capability sys_chroot;
+allow vold storage_file:dir mounton;
+
+# For AppFuse.
+allow vold fuse_device:chr_file rw_file_perms;
+allow vold fuse:filesystem { relabelfrom };
+allow vold app_fusefs:filesystem { relabelfrom relabelto };
+allow vold app_fusefs:filesystem { mount unmount };
+
+# MoveTask.cpp executes cp and rm
+allow vold toolbox_exec:file rx_file_perms;
+
+# Prepare profile dir for users.
+allow vold user_profile_data_file:dir create_dir_perms;
+
+# Raw writes to misc block device
+allow vold misc_block_device:blk_file w_file_perms;
+
+neverallow { domain -vold } vold_data_file:dir ~{ open create read getattr setattr search relabelto ioctl };
+neverallow { domain -vold -kernel } vold_data_file:notdevfile_class_set ~{ relabelto getattr };
+neverallow { domain -vold -init } vold_data_file:dir *;
+neverallow { domain -vold -init -kernel } vold_data_file:notdevfile_class_set *;
+neverallow { domain -vold -init } restorecon_prop:property_service set;
+
+neverallow vold fsck_exec:file execute_no_trans;

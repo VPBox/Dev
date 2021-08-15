@@ -1,0 +1,18 @@
+# Configuration file for the update-manager component of update_engine.
+#
+# Normally this file is loaded from /etc/update_manager.conf. If
+# running update_engine in developer mode (and only if running in
+# developer mode), we attempt to load
+#
+#  /mnt/stateful_partition/etc/update_manager.conf
+#
+# and use it if it exists. If it doesn't exist, we fall back to
+# /etc/update_manager.conf.
+#
+# Note: changes to this file are not automatically applied. Use the
+# command "restart update-engine" from a root shell to make your
+# changes take effect.
+
+# Set to true if the device supports the concept of OOBE
+# (Out-Of-the-Box-Experience), false if it doesn't.
+is_oobe_enabled=true

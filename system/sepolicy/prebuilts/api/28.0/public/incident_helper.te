@@ -1,0 +1,5 @@
+# The incident_helper is called by incidentd and
+# can only read/write data from/to incidentd
+
+# incident_helper
+type incident_helper, domain;

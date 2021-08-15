@@ -1,0 +1,24 @@
+typeattribute logpersist coredomain;
+
+# android debug log storage in logpersist domains (eng and userdebug only)
+userdebug_or_eng(`
+
+  r_dir_file(logpersist, cgroup)
+
+  allow logpersist misc_logd_file:file create_file_perms;
+  allow logpersist misc_logd_file:dir rw_dir_perms;
+
+  allow logpersist self:capability sys_nice;
+  allow logpersist pstorefs:dir search;
+  allow logpersist pstorefs:file r_file_perms;
+
+  control_logd(logpersist)
+  unix_socket_connect(logpersist, logdr, logd)
+  read_runtime_log_tags(logpersist)
+
+')
+
+# logpersist is allowed to write to /data/misc/log for userdebug and eng builds
+neverallow logpersist { file_type userdebug_or_eng(`-misc_logd_file -coredump_file') }:file { create write append };
+neverallow { domain -init userdebug_or_eng(`-logpersist -logd -dumpstate') } misc_logd_file:file no_rw_file_perms;
+neverallow { domain -init userdebug_or_eng(`-logpersist -logd') } misc_logd_file:dir { add_name link relabelfrom remove_name rename reparent rmdir write };

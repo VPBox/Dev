@@ -1,0 +1,10 @@
+typeattribute mediaserver coredomain;
+
+init_daemon_domain(mediaserver)
+tmpfs_domain(mediaserver)
+
+# allocate and use graphic buffers
+hal_client_domain(mediaserver, hal_graphics_allocator)
+hal_client_domain(mediaserver, hal_omx)
+hal_client_domain(mediaserver, hal_codec2)
+

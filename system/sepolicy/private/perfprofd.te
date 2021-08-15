@@ -1,0 +1,28 @@
+userdebug_or_eng(`
+  typeattribute perfprofd coredomain;
+  init_daemon_domain(perfprofd)
+')
+
+neverallow {
+  domain
+  userdebug_or_eng(`
+    -statsd
+    -system_server
+    -system_suspend_server
+    -hal_health_server
+    -hwservicemanager
+  ')
+} perfprofd:binder call;
+
+neverallow perfprofd {
+  domain
+  userdebug_or_eng(`
+    -servicemanager
+    -statsd
+    -su
+    -system_server
+    -system_suspend_server
+    -hal_health_server
+    -hwservicemanager
+  ')
+}:binder call;

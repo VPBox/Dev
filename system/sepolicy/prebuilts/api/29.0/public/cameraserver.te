@@ -1,0 +1,74 @@
+# cameraserver - camera daemon
+type cameraserver, domain;
+type cameraserver_exec, system_file_type, exec_type, file_type;
+type cameraserver_tmpfs, file_type;
+
+binder_use(cameraserver)
+binder_call(cameraserver, binderservicedomain)
+binder_call(cameraserver, appdomain)
+binder_service(cameraserver)
+
+hal_client_domain(cameraserver, hal_camera)
+
+hal_client_domain(cameraserver, hal_graphics_allocator)
+
+allow cameraserver ion_device:chr_file rw_file_perms;
+
+# Talk with graphics composer fences
+allow cameraserver hal_graphics_composer:fd use;
+
+add_service(cameraserver, cameraserver_service)
+add_hwservice(cameraserver, fwk_camera_hwservice)
+
+allow cameraserver activity_service:service_manager find;
+allow cameraserver appops_service:service_manager find;
+allow cameraserver audioserver_service:service_manager find;
+allow cameraserver batterystats_service:service_manager find;
+allow cameraserver cameraproxy_service:service_manager find;
+allow cameraserver mediaserver_service:service_manager find;
+allow cameraserver processinfo_service:service_manager find;
+allow cameraserver scheduling_policy_service:service_manager find;
+allow cameraserver sensor_privacy_service:service_manager find;
+allow cameraserver surfaceflinger_service:service_manager find;
+
+allow cameraserver hidl_token_hwservice:hwservice_manager find;
+
+###
+### neverallow rules
+###
+
+# cameraserver should never execute any executable without a
+# domain transition
+neverallow cameraserver { file_type fs_type }:file execute_no_trans;
+
+# The goal of the mediaserver split is to place media processing code into
+# restrictive sandboxes with limited responsibilities and thus limited
+# permissions. Example: Audioserver is only responsible for controlling audio
+# hardware and processing audio content. Cameraserver does the same for camera
+# hardware/content. Etc.
+#
+# Media processing code is inherently risky and thus should have limited
+# permissions and be isolated from the rest of the system and network.
+# Lengthier explanation here:
+# https://android-developers.googleblog.com/2016/05/hardening-media-stack.html
+neverallow cameraserver domain:{ tcp_socket udp_socket rawip_socket } *;
+
+# Allow shell commands from ADB for CTS testing/dumping
+allow cameraserver adbd:fd use;
+allow cameraserver adbd:unix_stream_socket { read write };
+allow cameraserver shell:fd use;
+allow cameraserver shell:unix_stream_socket { read write };
+allow cameraserver shell:fifo_file { read write };
+
+# Allow to talk with media codec
+allow cameraserver mediametrics_service:service_manager find;
+hal_client_domain(cameraserver, hal_codec2)
+hal_client_domain(cameraserver, hal_omx)
+hal_client_domain(cameraserver, hal_allocator)
+
+# Allow shell commands from ADB for CTS testing/dumping
+userdebug_or_eng(`
+  allow cameraserver su:fd use;
+  allow cameraserver su:fifo_file { read write };
+  allow cameraserver su:unix_stream_socket { read write };
+')

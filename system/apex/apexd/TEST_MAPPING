@@ -1,0 +1,21 @@
+{
+  "presubmit": [
+    {
+      "name": "apex_database_test"
+    },
+    {
+      "name": "apex_file_test"
+    },
+    {
+      "name": "apex_manifest_test"
+    },
+    {
+      "name": "apexservice_test"
+    }
+  ],
+  "imports": [
+    {
+      "path": "system/apex/tests"
+    }
+  ]
+}

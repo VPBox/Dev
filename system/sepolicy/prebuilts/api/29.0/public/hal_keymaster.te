@@ -1,0 +1,7 @@
+# HwBinder IPC from client to server
+binder_call(hal_keymaster_client, hal_keymaster_server)
+
+hal_attribute_hwservice(hal_keymaster, hal_keymaster_hwservice)
+
+allow hal_keymaster tee_device:chr_file rw_file_perms;
+allow hal_keymaster ion_device:chr_file r_file_perms;

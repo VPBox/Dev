@@ -1,0 +1,4 @@
+typeattribute sdcardd coredomain;
+typeattribute sdcardd domain_deprecated;
+
+type_transition sdcardd system_data_file:{ dir file } media_rw_data_file;

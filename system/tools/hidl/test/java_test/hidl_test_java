@@ -1,0 +1,41 @@
+export CLASSPATH=/data/framework/hidl_test_java_java.jar
+export TREBLE_TESTING_OVERRIDE=true
+
+e=0
+for SIZE in 64 32; do
+    native=/data/nativetest${SIZE/32}/hidl_test_java_native/hidl_test_java_native
+
+    if [ -f $native ]; then
+        echo "Testing $SIZE bit native client/server"
+
+        # Test native server with Java client
+        $native -s &
+        sleep 1
+        NATIVE_PID=$!
+        app_process /data/framework com.android.commands.hidl_test_java.HidlTestJava -c \
+            && echo "Java client => native server PASSED" \
+            || (echo "Java client => native server FAILED" && false) || e=1
+
+        kill $NATIVE_PID 2>/dev/null
+
+        # Test Java server with native client
+        app_process /data/framework com.android.commands.hidl_test_java.HidlTestJava -s &
+        NATIVE_PID=$!
+        $native -c \
+            && echo "native client => Java server PASSED" \
+            || (echo "native client => Java server FAILED" && false) || e=1
+
+        kill $NATIVE_PID 2>/dev/null
+    else
+        echo "FAILED: Not running $native because it doesn't exist."
+        e=1
+    fi
+done
+
+echo
+echo "Summary: $e"
+[ $e -eq 0 ] && echo "All tests PASSED." || echo "Test(s) FAILED."
+
+export TREBLE_TESTING_OVERRIDE=false
+
+exit $e

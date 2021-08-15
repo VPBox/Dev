@@ -1,0 +1,148 @@
+// Signature format: 2.0
+package predefined.types {
+
+  public class DateTypes {
+    ctor public DateTypes();
+    method public javax.xml.datatype.XMLGregorianCalendar getDate();
+    method public javax.xml.datatype.XMLGregorianCalendar getDateTime();
+    method public javax.xml.datatype.Duration getDuration();
+    method public javax.xml.datatype.XMLGregorianCalendar getGDay();
+    method public javax.xml.datatype.XMLGregorianCalendar getGMonth();
+    method public javax.xml.datatype.XMLGregorianCalendar getGMonthDay();
+    method public javax.xml.datatype.XMLGregorianCalendar getGYear();
+    method public javax.xml.datatype.XMLGregorianCalendar getGYearMonth();
+    method public javax.xml.datatype.XMLGregorianCalendar getTime();
+    method public void setDate(javax.xml.datatype.XMLGregorianCalendar);
+    method public void setDateTime(javax.xml.datatype.XMLGregorianCalendar);
+    method public void setDuration(javax.xml.datatype.Duration);
+    method public void setGDay(javax.xml.datatype.XMLGregorianCalendar);
+    method public void setGMonth(javax.xml.datatype.XMLGregorianCalendar);
+    method public void setGMonthDay(javax.xml.datatype.XMLGregorianCalendar);
+    method public void setGYear(javax.xml.datatype.XMLGregorianCalendar);
+    method public void setGYearMonth(javax.xml.datatype.XMLGregorianCalendar);
+    method public void setTime(javax.xml.datatype.XMLGregorianCalendar);
+  }
+
+  public class ListPrimitiveTypes {
+    ctor public ListPrimitiveTypes();
+    method public java.util.List<java.lang.Boolean> getListBoolean();
+    method public java.util.List<java.lang.Byte> getListByte();
+    method public java.util.List<java.lang.Double> getListDouble();
+    method public java.util.List<java.lang.Float> getListFloat();
+    method public java.util.List<java.lang.Integer> getListInt();
+    method public java.util.List<java.lang.Long> getListLong();
+    method public java.util.List<java.lang.Short> getListShort();
+    method public void setListBoolean(java.util.List<java.lang.Boolean>);
+    method public void setListByte(java.util.List<java.lang.Byte>);
+    method public void setListDouble(java.util.List<java.lang.Double>);
+    method public void setListFloat(java.util.List<java.lang.Float>);
+    method public void setListInt(java.util.List<java.lang.Integer>);
+    method public void setListLong(java.util.List<java.lang.Long>);
+    method public void setListShort(java.util.List<java.lang.Short>);
+  }
+
+  public class MiscTypes {
+    ctor public MiscTypes();
+    method public String getAnyType();
+    method public String getAnyURI();
+    method public byte[] getBase64Binary();
+    method public java.math.BigInteger getHexBinary();
+    method public String getIDREF();
+    method public java.util.List<java.lang.String> getIDREFS();
+    method public String getQName();
+    method public boolean get_boolean();
+    method public double get_double();
+    method public float get_float();
+    method public void setAnyType(String);
+    method public void setAnyURI(String);
+    method public void setBase64Binary(byte[]);
+    method public void setHexBinary(java.math.BigInteger);
+    method public void setIDREF(String);
+    method public void setIDREFS(java.util.List<java.lang.String>);
+    method public void setQName(String);
+    method public void set_boolean(boolean);
+    method public void set_double(double);
+    method public void set_float(float);
+  }
+
+  public class NumericTypes {
+    ctor public NumericTypes();
+    method public java.math.BigDecimal getDecimal();
+    method public java.math.BigInteger getInteger();
+    method public java.math.BigInteger getNegativeInteger();
+    method public java.math.BigInteger getNonNegativeInteger();
+    method public java.math.BigInteger getNonPositiveInteger();
+    method public java.math.BigInteger getPositiveInteger();
+    method public short getUnsignedByte();
+    method public long getUnsignedInt();
+    method public java.math.BigInteger getUnsignedLong();
+    method public int getUnsignedShort();
+    method public byte get_byte();
+    method public int get_int();
+    method public long get_long();
+    method public short get_short();
+    method public void setDecimal(java.math.BigDecimal);
+    method public void setInteger(java.math.BigInteger);
+    method public void setNegativeInteger(java.math.BigInteger);
+    method public void setNonNegativeInteger(java.math.BigInteger);
+    method public void setNonPositiveInteger(java.math.BigInteger);
+    method public void setPositiveInteger(java.math.BigInteger);
+    method public void setUnsignedByte(short);
+    method public void setUnsignedInt(long);
+    method public void setUnsignedLong(java.math.BigInteger);
+    method public void setUnsignedShort(int);
+    method public void set_byte(byte);
+    method public void set_int(int);
+    method public void set_long(long);
+    method public void set_short(short);
+  }
+
+  public class StringTypes {
+    ctor public StringTypes();
+    method public java.util.List<java.lang.String> getEntities();
+    method public String getEntity();
+    method public String getId();
+    method public String getLanguage();
+    method public String getName();
+    method public String getNcname();
+    method public String getNmtoken();
+    method public java.util.List<java.lang.String> getNmtokens();
+    method public String getNormalizedString();
+    method public String getString();
+    method public String getToken();
+    method public void setEntities(java.util.List<java.lang.String>);
+    method public void setEntity(String);
+    method public void setId(String);
+    method public void setLanguage(String);
+    method public void setName(String);
+    method public void setNcname(String);
+    method public void setNmtoken(String);
+    method public void setNmtokens(java.util.List<java.lang.String>);
+    method public void setNormalizedString(String);
+    method public void setString(String);
+    method public void setToken(String);
+  }
+
+  public class Types {
+    ctor public Types();
+    method public predefined.types.DateTypes getDateTypes();
+    method public predefined.types.ListPrimitiveTypes getListPrimitiveTypes();
+    method public predefined.types.MiscTypes getMiscTypes();
+    method public predefined.types.NumericTypes getNumericTypes();
+    method public predefined.types.StringTypes getStringTypes();
+    method public void setDateTypes(predefined.types.DateTypes);
+    method public void setListPrimitiveTypes(predefined.types.ListPrimitiveTypes);
+    method public void setMiscTypes(predefined.types.MiscTypes);
+    method public void setNumericTypes(predefined.types.NumericTypes);
+    method public void setStringTypes(predefined.types.StringTypes);
+  }
+
+  public class XmlParser {
+    ctor public XmlParser();
+    method public static predefined.types.Types read(java.io.InputStream) throws javax.xml.datatype.DatatypeConfigurationException, java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static String readText(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+    method public static void skip(org.xmlpull.v1.XmlPullParser) throws java.io.IOException, org.xmlpull.v1.XmlPullParserException;
+  }
+
+}
+

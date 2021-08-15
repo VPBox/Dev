@@ -1,0 +1,27 @@
+# HwBinder IPC from client to server
+binder_call(hal_wifi_hostapd_client, hal_wifi_hostapd_server)
+binder_call(hal_wifi_hostapd_server, hal_wifi_hostapd_client)
+
+hal_attribute_hwservice(hal_wifi_hostapd, hal_wifi_hostapd_hwservice)
+
+allow hal_wifi_hostapd_server self:global_capability_class_set { net_admin net_raw };
+
+allow hal_wifi_hostapd_server sysfs_net:dir search;
+
+# Allow hal_wifi_hostapd to access /proc/net/psched
+allow hal_wifi_hostapd_server proc_net_type:file { getattr open read };
+
+# Various socket permissions.
+allowxperm hal_wifi_hostapd_server self:udp_socket ioctl priv_sock_ioctls;
+allow hal_wifi_hostapd_server self:netlink_socket create_socket_perms_no_ioctl;
+allow hal_wifi_hostapd_server self:netlink_generic_socket create_socket_perms_no_ioctl;
+allow hal_wifi_hostapd_server self:packet_socket create_socket_perms_no_ioctl;
+allow hal_wifi_hostapd_server self:netlink_route_socket nlmsg_write;
+
+###
+### neverallow rules
+###
+
+# hal_wifi_hostapd should not trust any data from sdcards
+neverallow hal_wifi_hostapd_server sdcard_type:dir ~getattr;
+neverallow hal_wifi_hostapd_server sdcard_type:file *;

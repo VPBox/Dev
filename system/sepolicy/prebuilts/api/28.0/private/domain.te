@@ -1,0 +1,118 @@
+# Transition to crash_dump when /system/bin/crash_dump* is executed.
+# This occurs when the process crashes.
+domain_auto_trans(domain, crash_dump_exec, crash_dump);
+allow domain crash_dump:process sigchld;
+
+# Limit ability to ptrace or read sensitive /proc/pid files of processes
+# with other UIDs to these whitelisted domains.
+neverallow {
+  domain
+  -vold
+  -dumpstate
+  userdebug_or_eng(`-incidentd')
+  -storaged
+  -system_server
+  userdebug_or_eng(`-perfprofd')
+} self:global_capability_class_set sys_ptrace;
+
+# Limit ability to generate hardware unique device ID attestations to priv_apps
+neverallow { domain -priv_app } *:keystore_key gen_unique_id;
+
+neverallow {
+  domain
+  -init
+  -vendor_init
+  userdebug_or_eng(`-domain')
+} debugfs_tracing_debug:file no_rw_file_perms;
+
+# Core domains are not permitted to use kernel interfaces which are not
+# explicitly labeled.
+# TODO(b/65643247): Apply these neverallow rules to all coredomain.
+full_treble_only(`
+  # /proc
+  neverallow {
+    coredomain
+    -vold
+  } proc:file no_rw_file_perms;
+
+  # /sys
+  neverallow {
+    coredomain
+    -init
+    -ueventd
+    -vold
+  } sysfs:file no_rw_file_perms;
+
+  # /dev
+  neverallow {
+    coredomain
+    -fsck
+    -init
+    -ueventd
+  } device:{ blk_file file } no_rw_file_perms;
+
+  # debugfs
+  neverallow {
+    coredomain
+    -dumpstate
+    -init
+    -system_server
+  } debugfs:file no_rw_file_perms;
+
+  # tracefs
+  neverallow {
+    coredomain
+    -atrace
+    -dumpstate
+    -init
+    userdebug_or_eng(`-perfprofd')
+    -traced_probes
+    -shell
+    -traceur_app
+  } debugfs_tracing:file no_rw_file_perms;
+
+  # inotifyfs
+  neverallow {
+    coredomain
+    -init
+  } inotify:file no_rw_file_perms;
+
+  # pstorefs
+  neverallow {
+    coredomain
+    -bootstat
+    -charger
+    -dumpstate
+    -healthd
+    userdebug_or_eng(`-incidentd')
+    -init
+    -logd
+    -logpersist
+    -recovery_persist
+    -recovery_refresh
+    -shell
+    -system_server
+  } pstorefs:file no_rw_file_perms;
+
+  # configfs
+  neverallow {
+    coredomain
+    -init
+    -system_server
+  } configfs:file no_rw_file_perms;
+
+  # functionfs
+  neverallow {
+    coredomain
+    -adbd
+    -init
+    -mediaprovider
+    -system_server
+  } functionfs:file no_rw_file_perms;
+
+  # usbfs and binfmt_miscfs
+  neverallow {
+    coredomain
+    -init
+  }{ usbfs binfmt_miscfs }:file no_rw_file_perms;
+')

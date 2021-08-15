@@ -1,0 +1,17 @@
+# idmap, when executed by installd
+type idmap, domain;
+type idmap_exec, exec_type, file_type;
+
+# Use open file to /data/resource-cache file inherited from installd.
+allow idmap installd:fd use;
+allow idmap resourcecache_data_file:file { getattr read write };
+
+# Open and read from target and overlay apk files passed by argument.
+allow idmap apk_data_file:file r_file_perms;
+allow idmap apk_data_file:dir search;
+
+# Allow apps access to /vendor/app
+r_dir_file(idmap, vendor_app_file)
+
+# Allow apps access to /vendor/overlay
+r_dir_file(idmap, vendor_overlay_file)

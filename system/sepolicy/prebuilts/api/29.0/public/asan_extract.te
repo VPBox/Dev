@@ -1,0 +1,36 @@
+# asan_extract
+#
+# This command set moves the artifact corresponding to the current slot
+# from /data/ota to /data/dalvik-cache.
+
+with_asan(`
+  type asan_extract, domain, coredomain;
+  type asan_extract_exec, exec_type, file_type;
+
+  # Allow asan_extract to execute itself using #!/system/bin/sh
+  allow asan_extract shell_exec:file rx_file_perms;
+
+  # We execute log, rm, gzip and tar.
+  allow asan_extract toolbox_exec:file rx_file_perms;
+  allow asan_extract system_file:file execute_no_trans;
+
+  # asan_extract deletes old /data/lib.
+  allow asan_extract system_file:dir { open read remove_name rmdir write };
+  allow asan_extract system_file:file unlink;
+
+  # asan_extract untars ASAN libraries into /data.
+  allow asan_extract system_data_file:dir create_dir_perms ;
+  allow asan_extract system_data_file:{ file lnk_file } create_file_perms ;
+
+  # Relabel the libraries with restorecon.
+  allow asan_extract file_contexts_file:file r_file_perms;
+  allow asan_extract system_data_file:{ dir file } relabelfrom;
+  allow asan_extract system_file:dir { relabelto setattr };
+  allow asan_extract system_file:file relabelto;
+
+  # Restorecon will actually already try to run with sanitized libraries (libpackagelistparser).
+  allow asan_extract system_data_file:file execute;
+
+  # We need to signal a reboot when done.
+  set_prop(asan_extract, powerctl_prop)
+')

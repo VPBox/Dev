@@ -1,0 +1,43 @@
+type mediacodec, domain, mlstrustedsubject;
+type mediacodec_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(mediacodec)
+
+not_full_treble(`
+    # on legacy devices, continue to allow /dev/binder traffic
+    binder_use(mediacodec)
+    binder_service(mediacodec)
+    add_service(mediacodec, mediacodec_service)
+    allow mediacodec mediametrics_service:service_manager find;
+    allow mediacodec surfaceflinger_service:service_manager find;
+')
+
+# can route /dev/binder traffic to /dev/vndbinder
+vndbinder_use(mediacodec)
+
+hal_server_domain(mediacodec, hal_codec2)
+hal_server_domain(mediacodec, hal_omx)
+
+# mediacodec may use an input surface from a different Codec2 or OMX service
+hal_client_domain(mediacodec, hal_codec2)
+hal_client_domain(mediacodec, hal_omx)
+
+hal_client_domain(mediacodec, hal_allocator)
+hal_client_domain(mediacodec, hal_graphics_allocator)
+
+allow mediacodec gpu_device:chr_file rw_file_perms;
+allow mediacodec ion_device:chr_file rw_file_perms;
+allow mediacodec video_device:chr_file rw_file_perms;
+allow mediacodec video_device:dir search;
+
+crash_dump_fallback(mediacodec)
+
+# mediacodec should never execute any executable without a domain transition
+neverallow mediacodec { file_type fs_type }:file execute_no_trans;
+
+# Media processing code is inherently risky and thus should have limited
+# permissions and be isolated from the rest of the system and network.
+# Lengthier explanation here:
+# https://android-developers.googleblog.com/2016/05/hardening-media-stack.html
+neverallow mediacodec domain:{ tcp_socket udp_socket rawip_socket } *;
+

@@ -1,0 +1,105 @@
+# Life begins with the kernel.
+type kernel, domain, mlstrustedsubject;
+
+allow kernel self:global_capability_class_set sys_nice;
+
+# Root fs.
+r_dir_file(kernel, rootfs)
+allow kernel proc_cmdline:file r_file_perms;
+
+# Get SELinux enforcing status.
+allow kernel selinuxfs:dir r_dir_perms;
+allow kernel selinuxfs:file r_file_perms;
+
+# Get file contexts during first stage
+allow kernel file_contexts_file:file r_file_perms;
+
+# Allow init relabel itself.
+allow kernel rootfs:file relabelfrom;
+allow kernel init_exec:file relabelto;
+# TODO: investigate why we need this.
+allow kernel init:process share;
+
+# cgroup filesystem initialization prior to setting the cgroup root directory label.
+allow kernel unlabeled:dir search;
+
+# Mount usbfs.
+allow kernel usbfs:filesystem mount;
+allow kernel usbfs:dir search;
+
+# Initial setenforce by init prior to switching to init domain.
+# We use dontaudit instead of allow to prevent a kernel spawned userspace
+# process from turning off SELinux once enabled.
+dontaudit kernel self:security setenforce;
+
+# Write to /proc/1/oom_adj prior to switching to init domain.
+allow kernel self:global_capability_class_set sys_resource;
+
+# Init reboot before switching selinux domains under certain error
+# conditions. Allow it.
+# As part of rebooting, init writes "u" to /proc/sysrq-trigger to
+# remount filesystems read-only. /data is not mounted at this point,
+# so we could ignore this. For now, we allow it.
+allow kernel self:global_capability_class_set sys_boot;
+allow kernel proc_sysrq:file w_file_perms;
+
+# Allow writing to /dev/kmsg which was created prior to loading policy.
+allow kernel tmpfs:chr_file write;
+
+# Set checkreqprot by init.rc prior to switching to init domain.
+allow kernel selinuxfs:file write;
+allow kernel self:security setcheckreqprot;
+
+# kernel thread "loop0", used by the loop block device, for ASECs (b/17158723)
+allow kernel sdcard_type:file { read write };
+
+# f_mtp driver accesses files from kernel context.
+allow kernel mediaprovider:fd use;
+
+# Allow the kernel to read OBB files from app directories. (b/17428116)
+# Kernel thread "loop0" reads a vold supplied file descriptor.
+# Fixes CTS tests:
+#  * android.os.storage.cts.StorageManagerTest#testMountAndUnmountObbNormal
+#  * android.os.storage.cts.StorageManagerTest#testMountAndUnmountTwoObbs
+allow kernel vold:fd use;
+allow kernel app_data_file:file read;
+allow kernel asec_image_file:file read;
+
+# Allow reading loop device in update_engine_unittests. (b/28319454)
+# and for LTP kernel tests (b/73220071)
+userdebug_or_eng(`
+  allow kernel update_engine_data_file:file read;
+  allow kernel nativetest_data_file:file { read write };
+')
+
+# Access to /data/media.
+# This should be removed if sdcardfs is modified to alter the secontext for its
+# accesses to the underlying FS.
+allow kernel media_rw_data_file:dir create_dir_perms;
+allow kernel media_rw_data_file:file create_file_perms;
+
+# Access to /data/misc/vold/virtual_disk.
+allow kernel vold_data_file:file read;
+
+###
+### neverallow rules
+###
+
+# The initial task starts in the kernel domain (assigned via
+# initial_sid_contexts), but nothing ever transitions to it.
+neverallow * kernel:process { transition dyntransition };
+
+# The kernel domain is never entered via an exec, nor should it
+# ever execute a program outside the rootfs without changing to another domain.
+# If you encounter an execute_no_trans denial on the kernel domain, then
+# possible causes include:
+# - The program is a kernel usermodehelper.  In this case, define a domain
+#   for the program and domain_auto_trans() to it.
+# - You are running an exploit which switched to the init task credentials
+#   and is then trying to exec a shell or other program.  You lose!
+neverallow kernel *:file { entrypoint execute_no_trans };
+
+# the kernel should not be accessing files owned by other users.
+# Instead of adding dac_{read_search,override}, fix the unix permissions
+# on files being accessed.
+neverallow kernel self:global_capability_class_set { dac_override dac_read_search };

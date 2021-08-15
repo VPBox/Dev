@@ -1,0 +1,54 @@
+#
+#  Copyright 2015 Google, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at:
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+set_default_toolchain("//build/toolchain/clang")
+toolchain_config="//build/toolchain/clang:clang_config"
+
+set_defaults("executable") {
+  configs = [
+    "//build:linux",
+    "//build:gc",
+    "//build:default_include_dirs",
+    toolchain_config,
+  ]
+}
+
+set_defaults("shared_library") {
+  configs = [
+    "//build:linux",
+    "//build:gc",
+    "//build:default_include_dirs",
+    toolchain_config,
+  ]
+}
+
+set_defaults("source_set") {
+  configs = [
+    "//build:linux",
+    "//build:gc",
+    "//build:default_include_dirs",
+    toolchain_config,
+  ]
+}
+
+set_defaults("static_library") {
+  configs = [
+    "//build:linux",
+    "//build:gc",
+    "//build:default_include_dirs",
+    toolchain_config,
+  ]
+}

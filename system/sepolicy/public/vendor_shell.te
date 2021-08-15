@@ -1,0 +1,19 @@
+type vendor_shell, domain;
+type vendor_shell_exec, exec_type, vendor_file_type, file_type;
+
+allow vendor_shell vendor_shell_exec:file rx_file_perms;
+allow vendor_shell vendor_toolbox_exec:file rx_file_perms;
+
+# Use fd from shell when vendor_shell is started from shell
+allow vendor_shell shell:fd use;
+
+# adbd: allow `adb shell /vendor/bin/sh` and `adb shell` then `/vendor/bin/sh`
+allow vendor_shell adbd:fd use;
+allow vendor_shell adbd:process sigchld;
+allow vendor_shell adbd:unix_stream_socket { getattr ioctl read write };
+
+allow vendor_shell devpts:chr_file rw_file_perms;
+allow vendor_shell tty_device:chr_file rw_file_perms;
+allow vendor_shell console_device:chr_file rw_file_perms;
+allow vendor_shell input_device:dir r_dir_perms;
+allow vendor_shell input_device:chr_file rw_file_perms;

@@ -1,0 +1,80 @@
+type default_android_hwservice, hwservice_manager_type;
+type fwk_bufferhub_hwservice, hwservice_manager_type, coredomain_hwservice;
+type fwk_camera_hwservice, hwservice_manager_type, coredomain_hwservice;
+type fwk_display_hwservice, hwservice_manager_type, coredomain_hwservice;
+type fwk_scheduler_hwservice, hwservice_manager_type, coredomain_hwservice;
+type fwk_sensor_hwservice, hwservice_manager_type, coredomain_hwservice;
+type fwk_stats_hwservice, hwservice_manager_type, coredomain_hwservice;
+type hal_atrace_hwservice, hwservice_manager_type;
+type hal_audiocontrol_hwservice, hwservice_manager_type;
+type hal_audio_hwservice, hwservice_manager_type;
+type hal_authsecret_hwservice, hwservice_manager_type;
+type hal_bluetooth_hwservice, hwservice_manager_type;
+type hal_bootctl_hwservice, hwservice_manager_type;
+type hal_broadcastradio_hwservice, hwservice_manager_type;
+type hal_camera_hwservice, hwservice_manager_type;
+type hal_codec2_hwservice, hwservice_manager_type;
+type hal_configstore_ISurfaceFlingerConfigs, hwservice_manager_type;
+type hal_confirmationui_hwservice, hwservice_manager_type;
+type hal_contexthub_hwservice, hwservice_manager_type;
+type hal_drm_hwservice, hwservice_manager_type;
+type hal_cas_hwservice, hwservice_manager_type;
+type hal_dumpstate_hwservice, hwservice_manager_type;
+type hal_evs_hwservice, hwservice_manager_type;
+type hal_face_hwservice, hwservice_manager_type;
+type hal_fingerprint_hwservice, hwservice_manager_type;
+type hal_gatekeeper_hwservice, hwservice_manager_type;
+type hal_gnss_hwservice, hwservice_manager_type;
+type hal_graphics_allocator_hwservice, hwservice_manager_type;
+type hal_graphics_composer_hwservice, hwservice_manager_type;
+type hal_graphics_mapper_hwservice, hwservice_manager_type, same_process_hwservice;
+type hal_health_hwservice, hwservice_manager_type;
+type hal_health_storage_hwservice, hwservice_manager_type;
+type hal_input_classifier_hwservice, hwservice_manager_type;
+type hal_ir_hwservice, hwservice_manager_type;
+type hal_keymaster_hwservice, hwservice_manager_type;
+type hal_light_hwservice, hwservice_manager_type;
+type hal_lowpan_hwservice, hwservice_manager_type;
+type hal_memtrack_hwservice, hwservice_manager_type;
+type hal_neuralnetworks_hwservice, hwservice_manager_type;
+type hal_nfc_hwservice, hwservice_manager_type;
+type hal_oemlock_hwservice, hwservice_manager_type;
+type hal_omx_hwservice, hwservice_manager_type;
+type hal_power_hwservice, hwservice_manager_type;
+type hal_power_stats_hwservice, hwservice_manager_type;
+type hal_renderscript_hwservice, hwservice_manager_type, same_process_hwservice;
+type hal_secure_element_hwservice, hwservice_manager_type;
+type hal_sensors_hwservice, hwservice_manager_type;
+type hal_telephony_hwservice, hwservice_manager_type;
+type hal_tetheroffload_hwservice, hwservice_manager_type;
+type hal_thermal_hwservice, hwservice_manager_type;
+type hal_tv_cec_hwservice, hwservice_manager_type;
+type hal_tv_input_hwservice, hwservice_manager_type;
+type hal_usb_hwservice, hwservice_manager_type;
+type hal_usb_gadget_hwservice, hwservice_manager_type;
+type hal_vehicle_hwservice, hwservice_manager_type;
+type hal_vibrator_hwservice, hwservice_manager_type;
+type hal_vr_hwservice, hwservice_manager_type;
+type hal_weaver_hwservice, hwservice_manager_type;
+type hal_wifi_hwservice, hwservice_manager_type;
+type hal_wifi_hostapd_hwservice, hwservice_manager_type;
+type hal_wifi_offload_hwservice, hwservice_manager_type;
+type hal_wifi_supplicant_hwservice, hwservice_manager_type;
+type hidl_allocator_hwservice, hwservice_manager_type, coredomain_hwservice;
+type hidl_base_hwservice, hwservice_manager_type;
+type hidl_manager_hwservice, hwservice_manager_type, coredomain_hwservice;
+type hidl_memory_hwservice, hwservice_manager_type, coredomain_hwservice;
+type hidl_token_hwservice, hwservice_manager_type, coredomain_hwservice;
+type system_net_netd_hwservice, hwservice_manager_type, coredomain_hwservice;
+type system_suspend_hwservice, hwservice_manager_type, coredomain_hwservice;
+type system_wifi_keystore_hwservice, hwservice_manager_type, coredomain_hwservice;
+type thermalcallback_hwservice, hwservice_manager_type;
+
+###
+### Neverallow rules
+###
+
+# hwservicemanager handles registering or looking up named services.
+# It does not make sense to register or lookup something which is not a
+# hwservice. Trigger a compile error if this occurs.
+neverallow domain ~hwservice_manager_type:hwservice_manager { add find };

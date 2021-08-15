@@ -1,0 +1,37 @@
+# blkid for untrusted block devices
+
+typeattribute blkid_untrusted coredomain;
+
+# Allowed read-only access to vold block devices to extract UUID/label
+allow blkid_untrusted block_device:dir search;
+allow blkid_untrusted vold_device:blk_file r_file_perms;
+
+# Allow stdin/out back to vold
+allow blkid_untrusted vold:fd use;
+allow blkid_untrusted vold:fifo_file { read write getattr };
+
+# For blkid launched through popen()
+allow blkid_untrusted blkid_exec:file rx_file_perms;
+
+###
+### neverallow rules
+###
+
+# Untrusted blkid should never be run on block devices holding sensitive data
+neverallow blkid_untrusted {
+  boot_block_device
+  frp_block_device
+  metadata_block_device
+  recovery_block_device
+  root_block_device
+  swap_block_device
+  system_block_device
+  userdata_block_device
+  cache_block_device
+  dm_device
+}:blk_file no_rw_file_perms;
+
+# Only allow entry from vold via blkid binary
+neverallow { domain -vold } blkid_untrusted:process transition;
+neverallow * blkid_untrusted:process dyntransition;
+neverallow blkid_untrusted { file_type fs_type -blkid_exec -shell_exec }:file entrypoint;

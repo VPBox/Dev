@@ -1,0 +1,3 @@
+# adbd seclabel is specified in init.rc since
+# it lives in the rootfs and has no unique file type.
+type adbd, domain;

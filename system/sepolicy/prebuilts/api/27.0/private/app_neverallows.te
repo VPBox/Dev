@@ -1,0 +1,230 @@
+###
+### neverallow rules for untrusted app domains
+###
+
+define(`all_untrusted_apps',`{
+  ephemeral_app
+  isolated_app
+  mediaprovider
+  untrusted_app
+  untrusted_app_25
+  untrusted_app_all
+  untrusted_v2_app
+}')
+# Receive or send uevent messages.
+neverallow all_untrusted_apps domain:netlink_kobject_uevent_socket *;
+
+# Receive or send generic netlink messages
+neverallow all_untrusted_apps domain:netlink_socket *;
+
+# Too much leaky information in debugfs. It's a security
+# best practice to ensure these files aren't readable.
+neverallow all_untrusted_apps debugfs_type:file read;
+
+# Do not allow untrusted apps to register services.
+# Only trusted components of Android should be registering
+# services.
+neverallow all_untrusted_apps service_manager_type:service_manager add;
+
+# Do not allow untrusted apps to use VendorBinder
+neverallow all_untrusted_apps vndbinder_device:chr_file *;
+neverallow all_untrusted_apps vndservice_manager_type:service_manager *;
+
+# Do not allow untrusted apps to connect to the property service
+# or set properties. b/10243159
+neverallow { all_untrusted_apps -mediaprovider } property_socket:sock_file write;
+neverallow { all_untrusted_apps -mediaprovider } init:unix_stream_socket connectto;
+neverallow { all_untrusted_apps -mediaprovider } property_type:property_service set;
+
+# Do not allow untrusted apps to be assigned mlstrustedsubject.
+# This would undermine the per-user isolation model being
+# enforced via levelFrom=user in seapp_contexts and the mls
+# constraints.  As there is no direct way to specify a neverallow
+# on attribute assignment, this relies on the fact that fork
+# permission only makes sense within a domain (hence should
+# never be granted to any other domain within mlstrustedsubject)
+# and an untrusted app is allowed fork permission to itself.
+neverallow all_untrusted_apps mlstrustedsubject:process fork;
+
+# Do not allow untrusted apps to hard link to any files.
+# In particular, if an untrusted app links to other app data
+# files, installd will not be able to guarantee the deletion
+# of the linked to file. Hard links also contribute to security
+# bugs, so we want to ensure untrusted apps never have this
+# capability.
+neverallow all_untrusted_apps file_type:file link;
+
+# Do not allow untrusted apps to access network MAC address file
+neverallow all_untrusted_apps sysfs_mac_address:file no_rw_file_perms;
+
+# Restrict socket ioctls. Either 1. disallow privileged ioctls, 2. disallow the
+# ioctl permission, or 3. disallow the socket class.
+neverallowxperm all_untrusted_apps domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;
+neverallow all_untrusted_apps *:{ netlink_route_socket netlink_selinux_socket } ioctl;
+neverallow all_untrusted_apps *:{
+  socket netlink_socket packet_socket key_socket appletalk_socket
+  netlink_tcpdiag_socket netlink_nflog_socket
+  netlink_xfrm_socket netlink_audit_socket
+  netlink_dnrt_socket netlink_kobject_uevent_socket tun_socket
+  netlink_iscsi_socket netlink_fib_lookup_socket netlink_connector_socket
+  netlink_netfilter_socket netlink_generic_socket netlink_scsitransport_socket
+  netlink_rdma_socket netlink_crypto_socket
+} *;
+
+# Do not allow untrusted apps access to /cache
+neverallow { all_untrusted_apps -mediaprovider } { cache_file cache_recovery_file }:dir ~{ r_dir_perms };
+neverallow { all_untrusted_apps -mediaprovider } { cache_file cache_recovery_file }:file ~{ read getattr };
+
+# Do not allow untrusted apps to create/unlink files outside of its sandbox,
+# internal storage or sdcard.
+# World accessible data locations allow application to fill the device
+# with unaccounted for data. This data will not get removed during
+# application un-installation.
+neverallow { all_untrusted_apps -mediaprovider } {
+  fs_type
+  -fuse                     # sdcard
+  -sdcardfs                 # sdcard
+  -vfat
+  file_type
+  -app_data_file            # The apps sandbox itself
+  -media_rw_data_file       # Internal storage. Known that apps can
+                            # leave artfacts here after uninstall.
+  -user_profile_data_file   # Access to profile files
+  userdebug_or_eng(`
+    -method_trace_data_file # only on ro.debuggable=1
+    -coredump_file          # userdebug/eng only
+  ')
+}:dir_file_class_set { create unlink };
+
+# No untrusted component should be touching /dev/fuse
+neverallow all_untrusted_apps fuse_device:chr_file *;
+
+# Do not allow untrusted apps to directly open tun_device
+neverallow all_untrusted_apps tun_device:chr_file open;
+
+# Only allow appending to /data/anr/traces.txt (b/27853304, b/18340553)
+neverallow all_untrusted_apps anr_data_file:file ~{ open append };
+neverallow all_untrusted_apps anr_data_file:dir ~search;
+
+# Avoid reads from generically labeled /proc files
+# Create a more specific label if needed
+neverallow all_untrusted_apps proc:file { no_rw_file_perms no_x_file_perms };
+
+# Avoid all access to kernel configuration
+neverallow all_untrusted_apps config_gz:file { no_rw_file_perms no_x_file_perms };
+
+# Do not allow untrusted apps access to preloads data files
+neverallow all_untrusted_apps preloads_data_file:file no_rw_file_perms;
+
+# Locking of files on /system could lead to denial of service attacks
+# against privileged system components
+neverallow all_untrusted_apps system_file:file lock;
+
+# Do not permit untrusted apps to perform actions on HwBinder service_manager
+# other than find actions for services listed below
+neverallow all_untrusted_apps *:hwservice_manager ~find;
+
+# Do not permit access from apps which host arbitrary code to HwBinder services,
+# except those considered sufficiently safe for access from such apps.
+# The two main reasons for this are:
+# 1. HwBinder servers do not perform client authentication because HIDL
+#    currently does not expose caller UID information and, even if it did, many
+#    HwBinder services either operate at a level below that of apps (e.g., HALs)
+#    or must not rely on app identity for authorization. Thus, to be safe, the
+#    default assumption is that every HwBinder service treats all its clients as
+#    equally authorized to perform operations offered by the service.
+# 2. HAL servers (a subset of HwBinder services) contain code with higher
+#    incidence rate of security issues than system/core components and have
+#    access to lower layes of the stack (all the way down to hardware) thus
+#    increasing opportunities for bypassing the Android security model.
+#
+# Safe services include:
+# - same process services: because they by definition run in the process
+#   of the client and thus have the same access as the client domain in which
+#   the process runs
+# - coredomain_hwservice: are considered safe because they do not pose risks
+#   associated with reason #2 above.
+# - hal_configstore_ISurfaceFlingerConfigs:  becuase it has specifically been
+#   designed for use by any domain.
+# - hal_graphics_allocator_hwservice: because these operations are also offered
+#   by surfaceflinger Binder service, which apps are permitted to access
+# - hal_omx_hwservice: because this is a HwBinder version of the mediacodec
+#   Binder service which apps were permitted to access.
+neverallow all_untrusted_apps {
+  hwservice_manager_type
+  -same_process_hwservice
+  -coredomain_hwservice
+  -hal_configstore_ISurfaceFlingerConfigs
+  -hal_graphics_allocator_hwservice
+  -hal_omx_hwservice
+  -hal_cas_hwservice
+  -untrusted_app_visible_hwservice
+}:hwservice_manager find;
+
+# Make sure that the following services are never accessible by untrusted_apps
+neverallow all_untrusted_apps {
+  default_android_hwservice
+  hal_audio_hwservice
+  hal_bluetooth_hwservice
+  hal_bootctl_hwservice
+  hal_camera_hwservice
+  hal_contexthub_hwservice
+  hal_drm_hwservice
+  hal_dumpstate_hwservice
+  hal_fingerprint_hwservice
+  hal_gatekeeper_hwservice
+  hal_gnss_hwservice
+  hal_graphics_composer_hwservice
+  hal_health_hwservice
+  hal_ir_hwservice
+  hal_keymaster_hwservice
+  hal_light_hwservice
+  hal_memtrack_hwservice
+  hal_neuralnetworks_hwservice
+  hal_nfc_hwservice
+  hal_oemlock_hwservice
+  hal_power_hwservice
+  hal_sensors_hwservice
+  hal_telephony_hwservice
+  hal_thermal_hwservice
+  hal_tv_cec_hwservice
+  hal_tv_input_hwservice
+  hal_usb_hwservice
+  hal_vibrator_hwservice
+  hal_vr_hwservice
+  hal_weaver_hwservice
+  hal_wifi_hwservice
+  hal_wifi_offload_hwservice
+  hal_wifi_supplicant_hwservice
+  hidl_base_hwservice
+  system_net_netd_hwservice
+  thermalcallback_hwservice
+}:hwservice_manager find;
+# HwBinder services offered by core components (as opposed to vendor components)
+# are considered somewhat safer due to point #2 above.
+neverallow all_untrusted_apps {
+  coredomain_hwservice
+  -same_process_hwservice
+  -hidl_allocator_hwservice # Designed for use by any domain
+  -hidl_manager_hwservice # Designed for use by any domain
+  -hidl_memory_hwservice # Designed for use by any domain
+  -hidl_token_hwservice # Designed for use by any domain
+}:hwservice_manager find;
+
+# SELinux is not an API for untrusted apps to use
+neverallow all_untrusted_apps selinuxfs:file no_rw_file_perms;
+
+# Restrict *Binder access from apps to HAL domains. We can only do this on full
+# Treble devices where *Binder communications between apps and HALs are tightly
+# restricted.
+full_treble_only(`
+  neverallow all_untrusted_apps {
+    halserverdomain
+    -coredomain
+    -hal_configstore_server
+    -hal_graphics_allocator_server
+    -hal_cas_server
+    -binder_in_vendor_violators # TODO(b/35870313): Remove once all violations are gone
+    -untrusted_app_visible_halserver
+  }:binder { call transfer };
+')

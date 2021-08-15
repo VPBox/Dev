@@ -1,0 +1,10 @@
+type hal_cas_default, domain;
+hal_server_domain(hal_cas_default, hal_cas)
+
+type hal_cas_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_cas_default)
+
+# Allow CAS HAL's default implementation to use vendor-binder service
+vndbinder_use(hal_cas_default);
+
+allow hal_cas_default hal_allocator:fd use;

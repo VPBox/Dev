@@ -1,0 +1,36 @@
+# 464xlat daemon
+type clatd, domain;
+type clatd_exec, system_file_type, exec_type, file_type;
+
+net_domain(clatd)
+
+r_dir_file(clatd, proc_net_type)
+userdebug_or_eng(`
+  auditallow clatd proc_net_type:{ dir file lnk_file } { getattr open read };
+')
+
+# Access objects inherited from netd.
+allow clatd netd:fd use;
+allow clatd netd:fifo_file { read write };
+# TODO: Check whether some or all of these sockets should be close-on-exec.
+allow clatd netd:netlink_kobject_uevent_socket { read write };
+allow clatd netd:netlink_nflog_socket { read write };
+allow clatd netd:netlink_route_socket { read write };
+allow clatd netd:udp_socket { read write };
+allow clatd netd:unix_stream_socket { read write };
+allow clatd netd:unix_dgram_socket { read write };
+
+allow clatd self:global_capability_class_set { net_admin net_raw setuid setgid };
+
+# clatd calls mmap(MAP_LOCKED) with a 1M buffer. MAP_LOCKED first checks
+# capable(CAP_IPC_LOCK), and then checks to see the requested amount is
+# under RLIMIT_MEMLOCK. If the latter check succeeds clatd won't have
+# needed CAP_IPC_LOCK. But this is not guaranteed to succeed on all devices
+# so we permit any requests we see from clatd asking for this capability.
+# See https://android-review.googlesource.com/127940 and
+# https://b.corp.google.com/issues/21736319
+allow clatd self:global_capability_class_set ipc_lock;
+
+allow clatd self:netlink_route_socket nlmsg_write;
+allow clatd self:{ packet_socket rawip_socket } create_socket_perms_no_ioctl;
+allow clatd tun_device:chr_file rw_file_perms;

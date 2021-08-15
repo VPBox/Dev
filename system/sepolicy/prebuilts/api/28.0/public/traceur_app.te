@@ -1,0 +1,21 @@
+type traceur_app, domain;
+
+allow traceur_app servicemanager:service_manager list;
+allow traceur_app hwservicemanager:hwservice_manager list;
+
+set_prop(traceur_app, debug_prop)
+
+allow traceur_app {
+  service_manager_type
+  -gatekeeper_service
+  -incident_service
+  -installd_service
+  -netd_service
+  -virtual_touchpad_service
+  -vold_service
+  -vr_hwc_service
+}:service_manager find;
+
+dontaudit traceur_app service_manager_type:service_manager find;
+dontaudit traceur_app hwservice_manager_type:hwservice_manager find;
+dontaudit traceur_app domain:binder call;

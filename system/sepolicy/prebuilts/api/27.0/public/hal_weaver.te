@@ -1,0 +1,5 @@
+# HwBinder IPC from client to server
+binder_call(hal_weaver_client, hal_weaver_server)
+
+add_hwservice(hal_weaver_server, hal_weaver_hwservice)
+allow hal_weaver_client hal_weaver_hwservice:hwservice_manager find;

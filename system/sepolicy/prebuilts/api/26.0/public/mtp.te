@@ -1,0 +1,11 @@
+# vpn tunneling protocol manager
+type mtp, domain;
+type mtp_exec, exec_type, file_type;
+
+net_domain(mtp)
+
+# pptp policy
+allow mtp self:socket create_socket_perms_no_ioctl;
+allow mtp self:capability net_raw;
+allow mtp ppp:process signal;
+allow mtp vpn_data_file:dir search;

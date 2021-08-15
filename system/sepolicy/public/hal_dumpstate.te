@@ -1,0 +1,10 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_dumpstate_client, hal_dumpstate_server)
+binder_call(hal_dumpstate_server, hal_dumpstate_client)
+
+hal_attribute_hwservice(hal_dumpstate, hal_dumpstate_hwservice)
+
+# write bug reports in /data/data/com.android.shell/files/bugreports/bugreport
+allow hal_dumpstate shell_data_file:file write;
+# allow reading /proc/interrupts for all hal impls
+allow hal_dumpstate proc_interrupts:file r_file_perms;

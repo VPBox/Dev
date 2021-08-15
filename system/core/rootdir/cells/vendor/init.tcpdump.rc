@@ -1,0 +1,51 @@
+# Copyright 2018 Google Inc. All Rights Reserved.
+
+on post-fs-data
+    # Tcpdump log
+    mkdir /data/vendor/tcpdump_logger 0770 system system
+    mkdir /data/vendor/tcpdump_logger/logs 0770 system system
+
+service tcpdump_logger_ondemand_start /vendor/bin/tcpdump_logger -so
+    class late_start
+    capabilities NET_RAW
+    user system
+    group system
+    disabled
+    oneshot
+
+service tcpdump_logger_ondemand_stop /vendor/bin/tcpdump_logger -ko
+    class late_start
+    user system
+    group system
+    disabled
+    oneshot
+
+service tcpdump_logger_alwayson_start /vendor/bin/tcpdump_logger -sa
+    class late_start
+    capabilities NET_RAW
+    user system
+    group system
+    disabled
+    oneshot
+
+service tcpdump_logger_alwayson_stop /vendor/bin/tcpdump_logger -ka
+    class late_start
+    user system
+    group system
+    disabled
+    oneshot
+
+on boot && property:persist.vendor.tcpdump.log.alwayson=*
+    setprop vendor.tcpdump.log.alwayson ${persist.vendor.tcpdump.log.alwayson}
+
+on property:vendor.tcpdump.log.ondemand=true
+    start tcpdump_logger_ondemand_start
+
+on property:vendor.tcpdump.log.ondemand=false
+    start tcpdump_logger_ondemand_stop
+
+on property:vendor.tcpdump.log.alwayson=true
+    start tcpdump_logger_alwayson_start
+
+on property:vendor.tcpdump.log.alwayson=false
+    start tcpdump_logger_alwayson_stop

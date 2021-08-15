@@ -1,0 +1,112 @@
+#
+# Copyright (C) 2016 The Android Open-Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+on init
+    chmod 666 /dev/diag
+
+on post-fs-data
+    # Modem logging collection
+    mkdir /data/vendor/radio 0777 radio radio
+    mkdir /data/vendor/radio/diag_logs 0777 system system
+    rm /data/vendor/radio/diag_logs/logs/diag_poweron_log.qmdl
+    # WLAN logging collection
+    mkdir /data/vendor/wifi 0777 system system
+    mkdir /data/vendor/wifi/cnss_diag 0777 system system
+	mkdir /data/vendor/wifi/wlan_logs 0770 wifi wifi
+
+service diag_mdlog_start /vendor/bin/diag_mdlog
+    class late_start
+    user shell
+    group system diag media_rw
+    socket diag_router stream 0666 system system
+    disabled
+    oneshot
+
+service diag_mdlog_stop /vendor/bin/diag_mdlog -k
+    class late_start
+    user shell
+    group system diag media_rw
+    disabled
+    oneshot
+
+on boot && property:persist.vendor.sys.modem.diag.mdlog=*
+    rm /data/vendor/radio/diag_logs/diag_mdlog_pid
+    setprop vendor.sys.modem.diag.mdlog ${persist.vendor.sys.modem.diag.mdlog}
+
+on property:vendor.sys.modem.diag.mdlog=true
+    start diag_mdlog_start
+
+on property:vendor.sys.modem.diag.mdlog=false
+    start diag_mdlog_stop
+
+on property:persist.vendor.sys.cnss.diag_qxdm=true
+    start vendor.cnss_diag
+
+on property:persist.vendor.sys.cnss.diag_qxdm=false
+    stop vendor.cnss_diag
+
+on property:persist.vendor.sys.cnss.diag_txt=true
+    start vendor.cnss_diag_txt
+
+on property:persist.vendor.sys.cnss.diag_txt=false
+    stop vendor.cnss_diag_txt
+
+service vendor.cnss_diag /vendor/bin/cnss_diag -q -u -w
+    class late_start
+    user system
+    group system
+    disabled
+    oneshot
+
+service vendor.cnss_diag_txt /vendor/bin/cnss_diag -s -f -m /data/vendor/wifi/cnss_diag/cnss_diag.conf
+    class late_start
+    user system
+    group system
+    disabled
+    oneshot
+
+on property:vendor.debug.ramdump.force_crash=true
+    write /proc/sysrq-trigger "c"
+
+on property:ro.vendor.bluetooth.ftm_enabled=true
+    start ftmd
+
+service ftmd /vendor/bin/ftmdaemon
+    class late_start
+    user root
+    group bluetooth net_bt_admin misc diag net_bt
+    disabled
+    oneshot
+
+on property:vendor.sys.logger.bluetooth=true
+   setprop persist.vendor.service.bdroid.snooplog true
+   setprop persist.vendor.service.bdroid.fwsnoop true
+
+on property:vendor.sys.logger.bluetooth=false
+   setprop persist.vendor.service.bdroid.snooplog false
+   setprop persist.vendor.service.bdroid.fwsnoop false
+
+on property:persist.bluetooth.btsnoopenable=true
+   setprop persist.vendor.service.bdroid.soclog true
+
+on property:persist.bluetooth.btsnoopenable=false
+   setprop persist.vendor.service.bdroid.soclog false
+
+on property:vendor.usb.config=*
+   start usbd
+
+on property:persist.vendor.usb.usbradio.config=*
+   start usbd

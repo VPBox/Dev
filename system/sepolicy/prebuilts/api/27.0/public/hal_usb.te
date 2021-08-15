@@ -1,0 +1,18 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_usb_client, hal_usb_server)
+binder_call(hal_usb_server, hal_usb_client)
+
+add_hwservice(hal_usb_server, hal_usb_hwservice)
+allow hal_usb_client hal_usb_hwservice:hwservice_manager find;
+
+allow hal_usb self:netlink_kobject_uevent_socket create;
+allow hal_usb self:netlink_kobject_uevent_socket setopt;
+allow hal_usb self:netlink_kobject_uevent_socket bind;
+allow hal_usb self:netlink_kobject_uevent_socket read;
+allow hal_usb sysfs:dir open;
+allow hal_usb sysfs:dir read;
+allow hal_usb sysfs:file read;
+allow hal_usb sysfs:file open;
+allow hal_usb sysfs:file write;
+allow hal_usb sysfs:file getattr;
+

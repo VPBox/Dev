@@ -1,0 +1,102 @@
+###
+### Ephemeral apps.
+###
+### This file defines the security policy for apps with the ephemeral
+### feature.
+###
+### The ephemeral_app domain is a reduced permissions sandbox allowing
+### ephemeral applications to be safely installed and run. Non ephemeral
+### applications may also opt-in to ephemeral to take advantage of the
+### additional security features.
+###
+### PackageManager flags an app as ephemeral at install time.
+
+typeattribute ephemeral_app coredomain;
+
+net_domain(ephemeral_app)
+app_domain(ephemeral_app)
+
+# Allow ephemeral apps to read/write files in visible storage if provided fds
+allow ephemeral_app { sdcard_type media_rw_data_file }:file {read write getattr ioctl lock append};
+
+# Some apps ship with shared libraries and binaries that they write out
+# to their sandbox directory and then execute.
+allow ephemeral_app privapp_data_file:file { r_file_perms execute };
+allow ephemeral_app app_data_file:file     { r_file_perms execute };
+
+# Follow priv-app symlinks. This is used for dynamite functionality.
+allow ephemeral_app privapp_data_file:lnk_file r_file_perms;
+
+# Allow the renderscript compiler to be run.
+domain_auto_trans(ephemeral_app, rs_exec, rs)
+
+# Allow loading and deleting shared libraries created by trusted system
+# components within an application home directory.
+allow ephemeral_app app_exec_data_file:file { r_file_perms execute unlink };
+
+# services
+allow ephemeral_app audioserver_service:service_manager find;
+allow ephemeral_app cameraserver_service:service_manager find;
+allow ephemeral_app mediaserver_service:service_manager find;
+allow ephemeral_app mediaextractor_service:service_manager find;
+allow ephemeral_app mediacodec_service:service_manager find;
+allow ephemeral_app mediametrics_service:service_manager find;
+allow ephemeral_app mediadrmserver_service:service_manager find;
+allow ephemeral_app drmserver_service:service_manager find;
+allow ephemeral_app radio_service:service_manager find;
+allow ephemeral_app ephemeral_app_api_service:service_manager find;
+allow ephemeral_app gpu_service:service_manager find;
+
+# Allow ephemeral apps to interact with gpuservice
+binder_call(ephemeral_app, gpuservice)
+
+# Write app-specific trace data to the Perfetto traced damon. This requires
+# connecting to its producer socket and obtaining a (per-process) tmpfs fd.
+allow ephemeral_app traced:fd use;
+allow ephemeral_app traced_tmpfs:file { read write getattr map };
+unix_socket_connect(ephemeral_app, traced_producer, traced)
+
+# Allow heap profiling if the app opts in by being marked
+# profileable/debuggable.
+can_profile_heap(ephemeral_app)
+
+# allow ephemeral apps to use UDP sockets provided by the system server but not
+# modify them other than to connect
+allow ephemeral_app system_server:udp_socket {
+        connect getattr read recvfrom sendto write getopt setopt };
+
+allow ephemeral_app ashmem_device:chr_file rw_file_perms;
+
+###
+### neverallow rules
+###
+
+neverallow ephemeral_app { app_data_file privapp_data_file }:file execute_no_trans;
+
+# Receive or send uevent messages.
+neverallow ephemeral_app domain:netlink_kobject_uevent_socket *;
+
+# Receive or send generic netlink messages
+neverallow ephemeral_app domain:netlink_socket *;
+
+# Too much leaky information in debugfs. It's a security
+# best practice to ensure these files aren't readable.
+neverallow ephemeral_app debugfs:file read;
+
+# execute gpu_device
+neverallow ephemeral_app gpu_device:chr_file execute;
+
+# access files in /sys with the default sysfs label
+neverallow ephemeral_app sysfs:file *;
+
+# Avoid reads from generically labeled /proc files
+# Create a more specific label if needed
+neverallow ephemeral_app proc:file { no_rw_file_perms no_x_file_perms };
+
+# Directly access external storage
+neverallow ephemeral_app { sdcard_type media_rw_data_file }:file {open create};
+neverallow ephemeral_app { sdcard_type media_rw_data_file }:dir search;
+
+# Avoid reads to proc_net, it contains too much device wide information about
+# ongoing connections.
+neverallow ephemeral_app proc_net:file no_rw_file_perms;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strictly speaking, we don't need this. However, without something in
+     resources/ the build rebuilds the APK despite having no changes to the
+     source code.  This seems to be because it fails to generate some
+     resources metafile (R.stamp?) -->
+<resources>
+  <string
+    name="application_title"
+    >AIDL Test Services</string>
+</resources>

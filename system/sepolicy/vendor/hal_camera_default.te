@@ -1,0 +1,11 @@
+type hal_camera_default, domain;
+hal_server_domain(hal_camera_default, hal_camera)
+
+type hal_camera_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_camera_default)
+
+allow hal_camera_default fwk_sensor_hwservice:hwservice_manager find;
+
+# For collecting bugreports.
+allow hal_camera_default dumpstate:fd use;
+allow hal_camera_default dumpstate:fifo_file write;

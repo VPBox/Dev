@@ -1,0 +1,301 @@
+/*
+ * Copyright (C) 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+option optimize_for = LITE_RUNTIME;
+
+// C++ namespace: bluetooth::metrics::BluetoothMetricsProto
+package bluetooth.metrics.BluetoothMetricsProto;
+
+option java_package = "com.android.bluetooth";
+option java_outer_classname = "BluetoothMetricsProto";
+
+message BluetoothLog {
+  // Session information that gets logged for every BT connection.
+  repeated BluetoothSession session = 1;
+
+  // Session information that gets logged for every Pair event.
+  repeated PairEvent pair_event = 2;
+
+  // Information for Wake locks.
+  repeated WakeEvent wake_event = 3;
+
+  // Scan event information.
+  repeated ScanEvent scan_event = 4;
+
+  // Number of bonded devices.
+  optional int32 num_bonded_devices = 5;
+
+  // Number of BluetoothSession including discarded ones beyond capacity
+  optional int64 num_bluetooth_session = 6;
+
+  // Number of PairEvent including discarded ones beyond capacity
+  optional int64 num_pair_event = 7;
+
+  // Number of WakeEvent including discarded ones beyond capacity
+  optional int64 num_wake_event = 8;
+
+  // Number of ScanEvent including discarded ones beyond capacity
+  optional int64 num_scan_event = 9;
+
+  // Statistics about Bluetooth profile connections
+  repeated ProfileConnectionStats profile_connection_stats = 10;
+
+  // Statistics about Headset profile connections
+  repeated HeadsetProfileConnectionStats headset_profile_connection_stats = 11;
+}
+
+// The information about the device.
+message DeviceInfo {
+  // Device type.
+  enum DeviceType {
+    // Type is unknown.
+    DEVICE_TYPE_UNKNOWN = 0;
+
+    DEVICE_TYPE_BREDR = 1;
+
+    DEVICE_TYPE_LE = 2;
+
+    DEVICE_TYPE_DUMO = 3;
+  }
+
+  // Device class
+  // https://cs.corp.google.com/#android/system/bt/stack/include/btm_api.h&q=major_computer.
+  optional int32 device_class = 1;
+
+  // Device type.
+  optional DeviceType device_type = 2;
+}
+
+// Information that gets logged for every Bluetooth connection.
+message BluetoothSession {
+  // Type of technology used in the connection.
+  enum ConnectionTechnologyType {
+    CONNECTION_TECHNOLOGY_TYPE_UNKNOWN = 0;
+
+    CONNECTION_TECHNOLOGY_TYPE_LE = 1;
+
+    CONNECTION_TECHNOLOGY_TYPE_BREDR = 2;
+  }
+
+  enum DisconnectReasonType {
+    UNKNOWN = 0;
+
+    // A metrics dump takes a snapshot of current Bluetooth session and thus
+    // is not a real disconnect, but a discontinuation in metrics logging.
+    // This enum indicates this situation.
+    METRICS_DUMP = 1;
+
+    NEXT_START_WITHOUT_END_PREVIOUS = 2;
+  }
+
+  // Duration of the session.
+  optional int64 session_duration_sec = 2;
+
+  // Technology type.
+  optional ConnectionTechnologyType connection_technology_type = 3;
+
+  // Reason for disconnecting.
+  optional string disconnect_reason = 4 [deprecated = true];
+
+  // The information about the device which it is connected to.
+  optional DeviceInfo device_connected_to = 5;
+
+  // The information about the RFComm session.
+  optional RFCommSession rfcomm_session = 6;
+
+  // The information about the A2DP audio session.
+  optional A2DPSession a2dp_session = 7;
+
+  // Numeric reason for disconnecting as defined in metrics.h
+  optional DisconnectReasonType disconnect_reason_type = 8;
+}
+
+message RFCommSession {
+  // bytes transmitted.
+  optional int32 rx_bytes = 1;
+
+  // bytes transmitted.
+  optional int32 tx_bytes = 2;
+}
+
+enum A2dpSourceCodec {
+  A2DP_SOURCE_CODEC_UNKNOWN = 0;
+  A2DP_SOURCE_CODEC_SBC = 1;
+  A2DP_SOURCE_CODEC_AAC = 2;
+  A2DP_SOURCE_CODEC_APTX = 3;
+  A2DP_SOURCE_CODEC_APTX_HD = 4;
+  A2DP_SOURCE_CODEC_LDAC = 5;
+}
+
+// Session information that gets logged for A2DP session.
+message A2DPSession {
+  // Media timer in milliseconds.
+  optional int32 media_timer_min_millis = 1;
+
+  // Media timer in milliseconds.
+  optional int32 media_timer_max_millis = 2;
+
+  // Media timer in milliseconds.
+  optional int32 media_timer_avg_millis = 3;
+
+  // Buffer overruns count.
+  optional int32 buffer_overruns_max_count = 4;
+
+  // Buffer overruns total.
+  optional int32 buffer_overruns_total = 5;
+
+  // Buffer underruns average.
+  optional float buffer_underruns_average = 6;
+
+  // Buffer underruns count.
+  optional int32 buffer_underruns_count = 7;
+
+  // Total audio time in this A2DP session
+  optional int64 audio_duration_millis = 8;
+
+  // Audio codec used in this A2DP session in A2DP source role
+  optional A2dpSourceCodec source_codec = 9;
+
+  // Whether A2DP offload is enabled in this A2DP session
+  optional bool is_a2dp_offload = 10;
+}
+
+message PairEvent {
+  // The reason for disconnecting
+  // See: system/bt/stack/include/hcidefs.h, HCI_ERR_CONN_FAILED_ESTABLISHMENT
+  optional int32 disconnect_reason = 1;
+
+  // Pair event time
+  optional int64 event_time_millis =
+      2;  // [(datapol.semantic_type) = ST_TIMESTAMP];
+
+  // The information about the device which it is paired to.
+  optional DeviceInfo device_paired_with = 3;
+}
+
+message WakeEvent {
+  // Information about the wake event type.
+  enum WakeEventType {
+    UNKNOWN = 0;
+    // WakeLock was acquired.
+    ACQUIRED = 1;
+    // WakeLock was released.
+    RELEASED = 2;
+  }
+
+  // Information about the wake event type.
+  optional WakeEventType wake_event_type = 1;
+
+  // Initiator of the scan. Only the first three names will be stored.
+  // e.g. com.company.app
+  optional string requestor = 2;
+
+  // Name of the wakelock (e.g. bluedroid_timer).
+  optional string name = 3;
+
+  // Time of the event.
+  optional int64 event_time_millis =
+      4;  // [(datapol.semantic_type) = ST_TIMESTAMP];
+}
+
+message ScanEvent {
+  // Scan type.
+  enum ScanTechnologyType {
+    SCAN_TYPE_UNKNOWN = 0;
+
+    SCAN_TECH_TYPE_LE = 1;
+
+    SCAN_TECH_TYPE_BREDR = 2;
+
+    SCAN_TECH_TYPE_BOTH = 3;
+  }
+
+  // Scan event type.
+  enum ScanEventType {
+    // Scan started.
+    SCAN_EVENT_START = 0;
+    // Scan stopped.
+    SCAN_EVENT_STOP = 1;
+  }
+
+  // Scan event type.
+  optional ScanEventType scan_event_type = 1;
+
+  // Initiator of the scan. Only the first three names will be stored.
+  // e.g. com.company.app
+  optional string initiator = 2;
+
+  // Technology used for scanning.
+  optional ScanTechnologyType scan_technology_type = 3;
+
+  // Number of results returned.
+  optional int32 number_results = 4;
+
+  // Time of the event.
+  optional int64 event_time_millis =
+      5;  // [(datapol.semantic_type) = ST_TIMESTAMP];
+}
+
+// Profile IDs defined in BluetoothProfile API class
+// Values must match API class values
+enum ProfileId {
+  PROFILE_UNKNOWN = 0;
+  HEADSET = 1;
+  A2DP = 2;
+  HEALTH = 3;
+  HID_HOST = 4;
+  PAN = 5;
+  PBAP = 6;
+  GATT = 7;
+  GATT_SERVER = 8;
+  MAP = 9;
+  SAP = 10;
+  A2DP_SINK = 11;
+  AVRCP_CONTROLLER = 12;
+  AVRCP = 13;
+  HEADSET_CLIENT = 16;
+  PBAP_CLIENT = 17;
+  MAP_CLIENT = 18;
+  HID_DEVICE = 19;
+  OPP = 20;
+  HEARING_AID = 21;
+}
+
+// Statistics about Bluetooth profile connections
+message ProfileConnectionStats {
+  // Profile id defined in BluetoothProfile.java
+  optional ProfileId profile_id = 1;
+
+  // Number of times that this profile is connected since last metrics dump
+  optional int32 num_times_connected = 2;
+}
+
+enum HeadsetProfileType {
+  HEADSET_PROFILE_UNKNOWN = 0;
+  HSP = 1;
+  HFP = 2;
+}
+
+// Statistics about headset profile connections
+message HeadsetProfileConnectionStats {
+  // Type of headset profile connected
+  optional HeadsetProfileType headset_profile_type = 1;
+
+  // Number of times this type of headset profile is connected
+  optional int32 num_times_connected = 2;
+}

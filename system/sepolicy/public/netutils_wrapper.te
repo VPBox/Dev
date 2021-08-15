@@ -1,0 +1,4 @@
+type netutils_wrapper, domain;
+type netutils_wrapper_exec, system_file_type, exec_type, file_type;
+
+neverallow domain netutils_wrapper_exec:file execute_no_trans;

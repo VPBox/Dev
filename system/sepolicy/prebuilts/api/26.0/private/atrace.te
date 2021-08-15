@@ -1,0 +1,24 @@
+# Domain for atrace process spawned by boottrace service.
+
+type atrace_exec, exec_type, file_type;
+
+userdebug_or_eng(`
+  type atrace, domain, coredomain, domain_deprecated;
+
+  init_daemon_domain(atrace)
+
+  # boottrace services uses /data/misc/boottrace/categories
+  allow atrace boottrace_data_file:dir search;
+  allow atrace boottrace_data_file:file r_file_perms;
+
+  # atrace reads the files in /sys/kernel/debug/tracing/
+  allow atrace debugfs_tracing:file r_file_perms;
+
+  # atrace sets debug.atrace.* properties
+  set_prop(atrace, debug_prop)
+
+  # atrace pokes all the binder-enabled processes at startup.
+  binder_use(atrace)
+  allow atrace healthd:binder call;
+  allow atrace surfaceflinger:binder call;
+')

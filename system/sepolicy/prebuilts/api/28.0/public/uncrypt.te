@@ -1,0 +1,45 @@
+# uncrypt
+type uncrypt, domain, mlstrustedsubject;
+type uncrypt_exec, exec_type, file_type;
+
+allow uncrypt self:global_capability_class_set dac_override;
+
+# Read OTA zip file from /data/data/com.google.android.gsf/app_download
+r_dir_file(uncrypt, app_data_file)
+
+userdebug_or_eng(`
+  # For debugging, allow /data/local/tmp access
+  r_dir_file(uncrypt, shell_data_file)
+')
+
+# Read /cache/recovery/command
+# Read /cache/recovery/uncrypt_file
+allow uncrypt cache_file:dir search;
+allow uncrypt cache_recovery_file:dir rw_dir_perms;
+allow uncrypt cache_recovery_file:file create_file_perms;
+
+# Read OTA zip file at /data/ota_package/.
+allow uncrypt ota_package_file:dir r_dir_perms;
+allow uncrypt ota_package_file:file r_file_perms;
+
+# Write to /dev/socket/uncrypt
+unix_socket_connect(uncrypt, uncrypt, uncrypt)
+
+# Set a property to reboot the device.
+set_prop(uncrypt, powerctl_prop)
+
+# Raw writes to block device
+allow uncrypt self:global_capability_class_set sys_rawio;
+allow uncrypt misc_block_device:blk_file w_file_perms;
+allow uncrypt block_device:dir r_dir_perms;
+
+# Access userdata block device.
+allow uncrypt userdata_block_device:blk_file w_file_perms;
+
+r_dir_file(uncrypt, rootfs)
+
+# uncrypt reads /proc/cmdline
+allow uncrypt proc_cmdline:file r_file_perms;
+
+# Read files in /sys
+r_dir_file(uncrypt, sysfs_dt_firmware_android)

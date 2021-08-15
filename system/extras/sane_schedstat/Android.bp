@@ -1,0 +1,11 @@
+cc_binary {
+    name: "sane_schedstat",
+
+    srcs: ["sane_schedstat.c"],
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}

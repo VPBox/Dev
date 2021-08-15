@@ -1,0 +1,6 @@
+typeattribute healthd coredomain;
+
+init_daemon_domain(healthd)
+
+# Allow healthd to serve health HAL
+hal_server_domain(healthd, hal_health)

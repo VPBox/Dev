@@ -1,0 +1,4 @@
+# HwBinder IPC from client to server
+binder_call(hal_confirmationui_client, hal_confirmationui_server)
+
+hal_attribute_hwservice(hal_confirmationui, hal_confirmationui_hwservice)

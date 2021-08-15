@@ -1,0 +1,4 @@
+typeattribute thermalserviced coredomain;
+
+init_daemon_domain(thermalserviced)
+

@@ -1,0 +1,13 @@
+# To use this config with your editor, follow the instructions at:
+# https://editorconfig.org
+
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+end_of_line = lf
+
+[*.{c,h,cpp,hpp,cc,sh,bp}]
+indent_style = space
+indent_size = 4

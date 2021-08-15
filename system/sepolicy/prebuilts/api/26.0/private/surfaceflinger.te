@@ -1,0 +1,110 @@
+# surfaceflinger - display compositor service
+
+typeattribute surfaceflinger coredomain;
+
+type surfaceflinger_exec, exec_type, file_type;
+init_daemon_domain(surfaceflinger)
+
+typeattribute surfaceflinger mlstrustedsubject;
+typeattribute surfaceflinger display_service_server;
+
+read_runtime_log_tags(surfaceflinger)
+
+# Perform HwBinder IPC.
+hal_client_domain(surfaceflinger, hal_graphics_allocator)
+hal_client_domain(surfaceflinger, hal_graphics_composer)
+hal_client_domain(surfaceflinger, hal_configstore)
+allow surfaceflinger hal_configstore_ISurfaceFlingerConfigs:hwservice_manager find;
+allow surfaceflinger hidl_token_hwservice:hwservice_manager find;
+
+# Perform Binder IPC.
+binder_use(surfaceflinger)
+binder_call(surfaceflinger, binderservicedomain)
+binder_call(surfaceflinger, appdomain)
+binder_call(surfaceflinger, bootanim)
+binder_service(surfaceflinger)
+
+# Binder IPC to bu, presently runs in adbd domain.
+binder_call(surfaceflinger, adbd)
+
+# Read /proc/pid files for Binder clients.
+r_dir_file(surfaceflinger, binderservicedomain)
+r_dir_file(surfaceflinger, appdomain)
+
+# Access the GPU.
+allow surfaceflinger gpu_device:chr_file rw_file_perms;
+
+# Access /dev/graphics/fb0.
+allow surfaceflinger graphics_device:dir search;
+allow surfaceflinger graphics_device:chr_file rw_file_perms;
+
+# Access /dev/video1.
+allow surfaceflinger video_device:dir r_dir_perms;
+allow surfaceflinger video_device:chr_file rw_file_perms;
+
+# Create and use netlink kobject uevent sockets.
+allow surfaceflinger self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+
+# Set properties.
+set_prop(surfaceflinger, system_prop)
+set_prop(surfaceflinger, ctl_bootanim_prop)
+
+# Use open files supplied by an app.
+allow surfaceflinger appdomain:fd use;
+allow surfaceflinger app_data_file:file { read write };
+
+# Use socket supplied by adbd, for cmd gpu vkjson etc.
+allow surfaceflinger adbd:unix_stream_socket { read write getattr };
+
+# Allow a dumpstate triggered screenshot
+binder_call(surfaceflinger, dumpstate)
+binder_call(surfaceflinger, shell)
+r_dir_file(surfaceflinger, dumpstate)
+
+# Needed on some devices for playing DRM protected content,
+# but seems expected and appropriate for all devices.
+allow surfaceflinger tee_device:chr_file rw_file_perms;
+
+
+# media.player service
+add_service(surfaceflinger, gpu_service)
+
+# do not use add_service() as hal_graphics_composer_default may be the
+# provider as well
+#add_service(surfaceflinger, surfaceflinger_service)
+allow surfaceflinger surfaceflinger_service:service_manager { add find };
+
+allow surfaceflinger mediaserver_service:service_manager find;
+allow surfaceflinger permission_service:service_manager find;
+allow surfaceflinger power_service:service_manager find;
+allow surfaceflinger vr_manager_service:service_manager find;
+allow surfaceflinger window_service:service_manager find;
+
+
+# allow self to set SCHED_FIFO
+allow surfaceflinger self:capability sys_nice;
+allow surfaceflinger proc_meminfo:file r_file_perms;
+r_dir_file(surfaceflinger, cgroup)
+r_dir_file(surfaceflinger, sysfs_type)
+r_dir_file(surfaceflinger, system_file)
+allow surfaceflinger tmpfs:dir r_dir_perms;
+allow surfaceflinger system_server:fd use;
+allow surfaceflinger ion_device:chr_file r_file_perms;
+
+# pdx IPC
+pdx_server(surfaceflinger, display_client)
+pdx_server(surfaceflinger, display_manager)
+pdx_server(surfaceflinger, display_screenshot)
+pdx_server(surfaceflinger, display_vsync)
+
+pdx_client(surfaceflinger, bufferhub_client)
+pdx_client(surfaceflinger, performance_client)
+
+###
+### Neverallow rules
+###
+### surfaceflinger should NEVER do any of this
+
+# Do not allow accessing SDcard files as unsafe ejection could
+# cause the kernel to kill the process.
+neverallow surfaceflinger sdcard_type:file rw_file_perms;

@@ -1,0 +1,25 @@
+typeattribute incident coredomain;
+
+type incident_exec, exec_type, file_type;
+
+# switch to incident domain for incident command
+domain_auto_trans(shell, incident_exec, incident)
+
+# allow incident access to stdout from its parent shell.
+allow incident shell:fd use;
+
+# allow incident to communicate use, read and write over the adb
+# connection.
+allow incident adbd:fd use;
+allow incident adbd:unix_stream_socket { read write };
+
+# allow adbd to reap incident
+allow incident adbd:process { sigchld };
+
+# Allow the incident command to talk to the incidentd over the binder, and get
+# back the incident report data from a ParcelFileDescriptor.
+binder_use(incident)
+allow incident incident_service:service_manager find;
+binder_call(incident, incidentd)
+allow incident incidentd:fifo_file write;
+

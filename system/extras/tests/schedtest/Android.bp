@@ -1,0 +1,9 @@
+cc_binary {
+    name: "schedtest",
+    srcs: ["schedtest.c"],
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wall",
+        "-Werror",
+    ],
+}

@@ -1,0 +1,14 @@
+type preloads_copy, domain, coredomain;
+type preloads_copy_exec, system_file_type, exec_type, file_type;
+
+init_daemon_domain(preloads_copy)
+
+allow preloads_copy shell_exec:file rx_file_perms;
+allow preloads_copy toolbox_exec:file rx_file_perms;
+allow preloads_copy preloads_data_file:dir create_dir_perms;
+allow preloads_copy preloads_data_file:file create_file_perms;
+allow preloads_copy preloads_media_file:dir create_dir_perms;
+allow preloads_copy preloads_media_file:file create_file_perms;
+
+# Allow to copy from /postinstall
+allow preloads_copy system_file:dir r_dir_perms;

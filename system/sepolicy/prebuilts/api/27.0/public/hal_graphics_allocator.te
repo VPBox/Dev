@@ -1,0 +1,13 @@
+# HwBinder IPC from client to server
+binder_call(hal_graphics_allocator_client, hal_graphics_allocator_server)
+
+add_hwservice(hal_graphics_allocator_server, hal_graphics_allocator_hwservice)
+allow hal_graphics_allocator_client hal_graphics_allocator_hwservice:hwservice_manager find;
+allow hal_graphics_allocator_client hal_graphics_mapper_hwservice:hwservice_manager find;
+
+# GPU device access
+allow hal_graphics_allocator gpu_device:chr_file rw_file_perms;
+allow hal_graphics_allocator ion_device:chr_file r_file_perms;
+
+# allow to run with real-time scheduling policy
+allow hal_graphics_allocator self:capability sys_nice;

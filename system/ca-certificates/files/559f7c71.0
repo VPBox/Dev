@@ -1,0 +1,56 @@
+-----BEGIN CERTIFICATE-----
+MIICITCCAaagAwIBAgISESDm+Ez8JLC+BUCs2oMbNGA/MAoGCCqGSM49BAMDMEAx
+CzAJBgNVBAYTAkZSMRIwEAYDVQQKDAlPcGVuVHJ1c3QxHTAbBgNVBAMMFE9wZW5U
+cnVzdCBSb290IENBIEczMB4XDTE0MDUyNjAwMDAwMFoXDTM4MDExNTAwMDAwMFow
+QDELMAkGA1UEBhMCRlIxEjAQBgNVBAoMCU9wZW5UcnVzdDEdMBsGA1UEAwwUT3Bl
+blRydXN0IFJvb3QgQ0EgRzMwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARK7liuTcpm
+3gY6oxH84Bjwbhy6LTAMidnW7ptzg6kjFYwvWYpa3RTqnVkrQ7cG7DK2uu5Bta1d
+oYXM6h0UZqNnfkbilPPntlahFVmhTzeXuSIevRHr9LIfXsMUmuXZl5mjYzBhMA4G
+A1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRHd8MUi2I5
+DMlv4VBN0BBY3JWIbTAfBgNVHSMEGDAWgBRHd8MUi2I5DMlv4VBN0BBY3JWIbTAK
+BggqhkjOPQQDAwNpADBmAjEAj6jcnboMBBf6Fek9LykBl7+BFjNAk2z8+e2AcG+q
+j9uEwov1NcoG3GRvaBbhj5G5AjEA2Euly8LQCGzpGPta3U1fJAuwACEl74+nBCZx
+4nxp5V2a+EEfOzmTk51V6s2N8fvB
+-----END CERTIFICATE-----
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            11:20:e6:f8:4c:fc:24:b0:be:05:40:ac:da:83:1b:34:60:3f
+    Signature Algorithm: ecdsa-with-SHA384
+        Issuer: C=FR, O=OpenTrust, CN=OpenTrust Root CA G3
+        Validity
+            Not Before: May 26 00:00:00 2014 GMT
+            Not After : Jan 15 00:00:00 2038 GMT
+        Subject: C=FR, O=OpenTrust, CN=OpenTrust Root CA G3
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (384 bit)
+                pub:
+                    04:4a:ee:58:ae:4d:ca:66:de:06:3a:a3:11:fc:e0:
+                    18:f0:6e:1c:ba:2d:30:0c:89:d9:d6:ee:9b:73:83:
+                    a9:23:15:8c:2f:59:8a:5a:dd:14:ea:9d:59:2b:43:
+                    b7:06:ec:32:b6:ba:ee:41:b5:ad:5d:a1:85:cc:ea:
+                    1d:14:66:a3:67:7e:46:e2:94:f3:e7:b6:56:a1:15:
+                    59:a1:4f:37:97:b9:22:1e:bd:11:eb:f4:b2:1f:5e:
+                    c3:14:9a:e5:d9:97:99
+                ASN1 OID: secp384r1
+                NIST CURVE: P-384
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Certificate Sign, CRL Sign
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Subject Key Identifier: 
+                47:77:C3:14:8B:62:39:0C:C9:6F:E1:50:4D:D0:10:58:DC:95:88:6D
+            X509v3 Authority Key Identifier: 
+                keyid:47:77:C3:14:8B:62:39:0C:C9:6F:E1:50:4D:D0:10:58:DC:95:88:6D
+
+    Signature Algorithm: ecdsa-with-SHA384
+         30:66:02:31:00:8f:a8:dc:9d:ba:0c:04:17:fa:15:e9:3d:2f:
+         29:01:97:bf:81:16:33:40:93:6c:fc:f9:ed:80:70:6f:aa:8f:
+         db:84:c2:8b:f5:35:ca:06:dc:64:6f:68:16:e1:8f:91:b9:02:
+         31:00:d8:4b:a5:cb:c2:d0:08:6c:e9:18:fb:5a:dd:4d:5f:24:
+         0b:b0:00:21:25:ef:8f:a7:04:26:71:e2:7c:69:e5:5d:9a:f8:
+         41:1f:3b:39:93:93:9d:55:ea:cd:8d:f1:fb:c1
+SHA1 Fingerprint=6E:26:64:F3:56:BF:34:55:BF:D1:93:3F:7C:01:DE:D8:13:DA:8A:A6

@@ -1,0 +1,208 @@
+subdirs = [
+    "common",
+]
+
+cc_defaults {
+    name: "fluoride_service_defaults",
+    defaults: ["fluoride_defaults"],
+    include_dirs: [
+        "system/bt",
+    ],
+    header_libs: [ "libbluetooth_headers" ],
+}
+
+// Source variables
+// ========================================================
+btserviceDaemonSrc = [
+    "a2dp_sink.cc",
+    "a2dp_source.cc",
+    "adapter.cc",
+    "avrcp_control.cc",
+    "avrcp_target.cc",
+    "daemon.cc",
+    "gatt_client.cc",
+    "gatt_server.cc",
+    "gatt_server_old.cc",
+    "hal/bluetooth_av_interface.cc",
+    "hal/bluetooth_avrcp_interface.cc",
+    "hal/bluetooth_gatt_interface.cc",
+    "hal/bluetooth_interface.cc",
+    "ipc/ipc_handler.cc",
+    "ipc/ipc_manager.cc",
+    "logging_helpers.cc",
+    "low_energy_advertiser.cc",
+    "low_energy_scanner.cc",
+    "low_energy_client.cc",
+    "settings.cc",
+]
+
+btserviceLinuxSrc = [
+    "ipc/ipc_handler_linux.cc",
+    "ipc/linux_ipc_host.cc",
+]
+
+btserviceBinderDaemonSrc = [
+    "ipc/binder/bluetooth_a2dp_sink_binder_server.cc",
+    "ipc/binder/bluetooth_a2dp_source_binder_server.cc",
+    "ipc/binder/bluetooth_avrcp_control_binder_server.cc",
+    "ipc/binder/bluetooth_avrcp_target_binder_server.cc",
+    "ipc/binder/bluetooth_binder_server.cc",
+    "ipc/binder/bluetooth_gatt_client_binder_server.cc",
+    "ipc/binder/bluetooth_gatt_server_binder_server.cc",
+    "ipc/binder/bluetooth_le_advertiser_binder_server.cc",
+    "ipc/binder/bluetooth_le_scanner_binder_server.cc",
+    "ipc/binder/bluetooth_low_energy_binder_server.cc",
+    "ipc/binder/interface_with_instances_base.cc",
+    "ipc/binder/ipc_handler_binder.cc",
+]
+
+// Main unit test sources. These get built for host and target.
+// ========================================================
+btserviceBaseTestSrc = [
+    "hal/fake_bluetooth_av_interface.cc",
+    "hal/fake_bluetooth_gatt_interface.cc",
+    "hal/fake_bluetooth_interface.cc",
+    "test/a2dp_sink_unittest.cc",
+    "test/adapter_unittest.cc",
+    "test/advertise_data_unittest.cc",
+    "test/fake_hal_util.cc",
+    "test/gatt_client_unittest.cc",
+    "test/gatt_server_unittest.cc",
+    "test/low_energy_advertiser_unittest.cc",
+    "test/low_energy_client_unittest.cc",
+    "test/low_energy_scanner_unittest.cc",
+    "test/settings_unittest.cc",
+]
+
+// Native system service for target
+// ========================================================
+cc_binary {
+    name: "bluetoothtbd",
+    defaults: ["fluoride_service_defaults"],
+    srcs: btserviceBinderDaemonSrc +
+    btserviceLinuxSrc +
+    btserviceDaemonSrc +
+    ["main.cc"],
+    static_libs: [
+        "libbluetooth-binder-common",
+        "libbtcore",
+        "libbluetooth-types",
+        "libosi",
+    ],
+
+    shared_libs: [
+        "libchrome",
+        "libbinder",
+        "libcutils",
+        "liblog",
+        "libutils",
+    ],
+    init_rc: ["bluetoothtbd.rc"],
+}
+
+// Native system service unit tests for target and host
+
+// ========================================================
+cc_test {
+    name: "bluetoothtbd_test",
+    test_suites: ["device-tests"],
+    defaults: ["fluoride_service_defaults"],
+    srcs: btserviceBaseTestSrc +
+    btserviceDaemonSrc + [
+        "test/main.cc",
+    ],
+    aidl: {
+        include_dirs: [
+            "system/bt/service/common",
+            "frameworks/native/aidl/binder",
+        ],
+    },
+    static_libs: [
+        "libbluetooth-common",
+        "libgmock",
+        "liblog",
+        "libbluetooth-types",
+        "libutils",
+    ],
+    shared_libs: [
+        "libchrome",
+    ],
+
+    host_supported: true,
+    target: {
+        // This includes Binder related tests that can only be run
+        // on target.
+        android: {
+            srcs: btserviceBinderDaemonSrc + [
+                "test/parcelable_unittest.cc",
+                "test/ParcelableTest.aidl",
+            ],
+            static_libs: [
+                "libbluetooth-binder-common",
+            ],
+            shared_libs: [
+                "libbinder",
+            ],
+        },
+        host: {
+            srcs: [
+                "test/stub_ipc_handler_binder.cc",
+            ],
+        },
+        linux_glibc: {
+            srcs: btserviceLinuxSrc + [
+                // TODO(bcf): Fix this test.
+                //"test/ipc_linux_unittest.cc",
+            ],
+        },
+    },
+    sanitize: {
+        cfi: false,
+    },
+}
+
+// Native system service CLI for target
+// ========================================================
+cc_binary {
+    name: "bluetooth-cli",
+    defaults: ["fluoride_defaults"],
+    srcs: ["client/main.cc"],
+    static_libs: [
+        "libbluetooth-binder-common",
+    ],
+    shared_libs: [
+        "libbinder",
+        "libutils",
+    ],
+}
+
+// Heart Rate GATT service example for target
+// ========================================================
+cc_binary {
+    name: "bt-example-hr-server",
+    defaults: ["fluoride_defaults"],
+    local_include_dirs: ["example/heart_rate"],
+    srcs: [
+        "example/heart_rate/heart_rate_server.cc",
+        "example/heart_rate/server_main.cc",
+    ],
+    static_libs: [
+        "libbluetooth-binder-common",
+    ],
+    shared_libs: [
+        "libbinder",
+        "libutils",
+    ],
+}
+
+cc_library_static {
+    name: "libbluetoothtbd_hal",
+    defaults: ["fluoride_defaults"],
+    include_dirs: ["system/bt"],
+    header_libs: ["libbluetooth_headers"],
+    srcs: [
+        "hal/bluetooth_gatt_interface.cc",
+        "hal/bluetooth_interface.cc",
+        "logging_helpers.cc",
+    ],
+}

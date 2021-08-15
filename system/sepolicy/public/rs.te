@@ -1,0 +1,2 @@
+type rs, domain, coredomain;
+type rs_exec, system_file_type, exec_type, file_type;

@@ -1,0 +1,4 @@
+typeattribute ueventd coredomain;
+typeattribute ueventd domain_deprecated;
+
+tmpfs_domain(ueventd)

@@ -1,0 +1,9 @@
+typeattribute ashmemd coredomain;
+type ashmemd_exec, exec_type, file_type, system_file_type;
+
+init_daemon_domain(ashmemd)
+
+binder_use(ashmemd)
+add_service(ashmemd, ashmem_device_service)
+
+allow ashmemd ashmem_device:chr_file rw_file_perms;

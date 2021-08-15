@@ -1,0 +1,27 @@
+# android recovery persistent log manager
+type recovery_persist, domain;
+type recovery_persist_exec, exec_type, file_type;
+
+allow recovery_persist pstorefs:dir search;
+allow recovery_persist pstorefs:file r_file_perms;
+
+allow recovery_persist recovery_data_file:file create_file_perms;
+allow recovery_persist recovery_data_file:dir create_dir_perms;
+
+###
+### Neverallow rules
+###
+### recovery_persist should NEVER do any of this
+
+# Block device access.
+neverallow recovery_persist dev_type:blk_file { read write };
+
+# ptrace any other app
+neverallow recovery_persist domain:process ptrace;
+
+# Write to /system.
+neverallow recovery_persist system_file:dir_file_class_set write;
+
+# Write to files in /data/data
+neverallow recovery_persist { app_data_file system_data_file }:dir_file_class_set write;
+

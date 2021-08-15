@@ -1,0 +1,14 @@
+type hal_atrace_default, domain;
+hal_server_domain(hal_atrace_default, hal_atrace)
+
+type hal_atrace_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_atrace_default)
+
+# Allow atrace HAL to access tracefs.
+allow hal_atrace_default debugfs_tracing:dir r_dir_perms;
+allow hal_atrace_default debugfs_tracing:file rw_file_perms;
+
+userdebug_or_eng(`
+  allow hal_atrace_default debugfs_tracing_debug:dir r_dir_perms;
+  allow hal_atrace_default debugfs_tracing_debug:file rw_file_perms;
+')

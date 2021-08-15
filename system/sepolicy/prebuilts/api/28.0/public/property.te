@@ -1,0 +1,413 @@
+type audio_prop, property_type, core_property_type;
+type boottime_prop, property_type;
+type bluetooth_a2dp_offload_prop, property_type;
+type bluetooth_prop, property_type;
+type bootloader_boot_reason_prop, property_type;
+type config_prop, property_type, core_property_type;
+type cppreopt_prop, property_type, core_property_type;
+type ctl_bootanim_prop, property_type;
+type ctl_bugreport_prop, property_type;
+type ctl_console_prop, property_type;
+type ctl_default_prop, property_type;
+type ctl_dumpstate_prop, property_type;
+type ctl_fuse_prop, property_type;
+type ctl_interface_restart_prop, property_type;
+type ctl_interface_start_prop, property_type;
+type ctl_interface_stop_prop, property_type;
+type ctl_mdnsd_prop, property_type;
+type ctl_restart_prop, property_type;
+type ctl_rildaemon_prop, property_type;
+type ctl_sigstop_prop, property_type;
+type ctl_start_prop, property_type;
+type ctl_stop_prop, property_type;
+type dalvik_prop, property_type, core_property_type;
+type debuggerd_prop, property_type, core_property_type;
+type debug_prop, property_type, core_property_type;
+type default_prop, property_type, core_property_type;
+type device_logging_prop, property_type;
+type dhcp_prop, property_type, core_property_type;
+type dumpstate_options_prop, property_type;
+type dumpstate_prop, property_type, core_property_type;
+type exported_secure_prop, property_type;
+type ffs_prop, property_type, core_property_type;
+type fingerprint_prop, property_type, core_property_type;
+type firstboot_prop, property_type;
+type hwservicemanager_prop, property_type;
+type last_boot_reason_prop, property_type;
+type logd_prop, property_type, core_property_type;
+type logpersistd_logging_prop, property_type;
+type log_prop, property_type, log_property_type;
+type log_tag_prop, property_type, log_property_type;
+type lowpan_prop, property_type;
+type mmc_prop, property_type;
+type net_dns_prop, property_type;
+type net_radio_prop, property_type, core_property_type;
+type netd_stable_secret_prop, property_type;
+type nfc_prop, property_type, core_property_type;
+type overlay_prop, property_type;
+type pan_result_prop, property_type, core_property_type;
+type persist_debug_prop, property_type, core_property_type;
+type persistent_properties_ready_prop, property_type;
+type pm_prop, property_type;
+type powerctl_prop, property_type, core_property_type;
+type radio_prop, property_type, core_property_type;
+type restorecon_prop, property_type, core_property_type;
+type safemode_prop, property_type;
+type serialno_prop, property_type;
+type shell_prop, property_type, core_property_type;
+type system_boot_reason_prop, property_type;
+type system_prop, property_type, core_property_type;
+type system_radio_prop, property_type, core_property_type;
+type test_boot_reason_prop, property_type;
+type traced_enabled_prop, property_type;
+type vold_prop, property_type, core_property_type;
+type wifi_log_prop, property_type, log_property_type;
+type wifi_prop, property_type;
+type vendor_security_patch_level_prop, property_type;
+
+# Properties for whitelisting
+type exported_audio_prop, property_type;
+type exported_bluetooth_prop, property_type;
+type exported_config_prop, property_type;
+type exported_dalvik_prop, property_type;
+type exported_default_prop, property_type;
+type exported_dumpstate_prop, property_type;
+type exported_ffs_prop, property_type;
+type exported_fingerprint_prop, property_type;
+type exported_overlay_prop, property_type;
+type exported_pm_prop, property_type;
+type exported_radio_prop, property_type;
+type exported_system_prop, property_type;
+type exported_system_radio_prop, property_type;
+type exported_vold_prop, property_type;
+type exported_wifi_prop, property_type;
+type exported2_config_prop, property_type;
+type exported2_default_prop, property_type;
+type exported2_radio_prop, property_type;
+type exported2_system_prop, property_type;
+type exported2_vold_prop, property_type;
+type exported3_default_prop, property_type;
+type exported3_radio_prop, property_type;
+type exported3_system_prop, property_type;
+type vendor_default_prop, property_type;
+
+allow property_type tmpfs:filesystem associate;
+
+###
+### Neverallow rules
+###
+
+# core_property_type should not be used for new properties or
+# device specific properties. Properties with this attribute
+# are readable to everyone, which is overly broad and should
+# be avoided.
+# New properties should have appropriate read / write access
+# control rules written.
+
+neverallow * {
+  core_property_type
+  -audio_prop
+  -config_prop
+  -cppreopt_prop
+  -dalvik_prop
+  -debuggerd_prop
+  -debug_prop
+  -default_prop
+  -dhcp_prop
+  -dumpstate_prop
+  -ffs_prop
+  -fingerprint_prop
+  -logd_prop
+  -net_radio_prop
+  -nfc_prop
+  -pan_result_prop
+  -persist_debug_prop
+  -powerctl_prop
+  -radio_prop
+  -restorecon_prop
+  -shell_prop
+  -system_prop
+  -system_radio_prop
+  -vold_prop
+}:file no_rw_file_perms;
+
+# sigstop property is only used for debugging; should only be set by su which is permissive
+# for userdebug/eng
+neverallow {
+  domain
+  -init
+  -vendor_init
+} ctl_sigstop_prop:property_service set;
+
+# Don't audit legacy ctl. property handling.  We only want the newer permission check to appear
+# in the audit log
+dontaudit domain {
+  ctl_bootanim_prop
+  ctl_bugreport_prop
+  ctl_console_prop
+  ctl_default_prop
+  ctl_dumpstate_prop
+  ctl_fuse_prop
+  ctl_mdnsd_prop
+  ctl_rildaemon_prop
+}:property_service set;
+
+compatible_property_only(`
+# Prevent properties from being set
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -vendor_init
+  } {
+    core_property_type
+    extended_core_property_type
+    exported_config_prop
+    exported_dalvik_prop
+    exported_default_prop
+    exported_dumpstate_prop
+    exported_ffs_prop
+    exported_fingerprint_prop
+    exported_system_prop
+    exported_system_radio_prop
+    exported_vold_prop
+    exported2_config_prop
+    exported2_default_prop
+    exported2_system_prop
+    exported2_vold_prop
+    exported3_default_prop
+    exported3_system_prop
+    -nfc_prop
+    -powerctl_prop
+    -radio_prop
+  }:property_service set;
+
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -hal_nfc_server
+  } {
+    nfc_prop
+  }:property_service set;
+
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -hal_telephony_server
+    -vendor_init
+  } {
+    exported_radio_prop
+    exported3_radio_prop
+  }:property_service set;
+
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -hal_telephony_server
+  } {
+    exported2_radio_prop
+    radio_prop
+  }:property_service set;
+
+  neverallow {
+    domain
+    -coredomain
+    -bluetooth
+    -hal_bluetooth_server
+  } {
+    bluetooth_prop
+  }:property_service set;
+
+  neverallow {
+    domain
+    -coredomain
+    -bluetooth
+    -hal_bluetooth_server
+    -vendor_init
+  } {
+    exported_bluetooth_prop
+  }:property_service set;
+
+  neverallow {
+    domain
+    -coredomain
+    -hal_wifi_server
+    -wificond
+  } {
+    wifi_prop
+  }:property_service set;
+
+  neverallow {
+    domain
+    -coredomain
+    -hal_wifi_server
+    -wificond
+    -vendor_init
+  } {
+    exported_wifi_prop
+  }:property_service set;
+
+# Prevent properties from being read
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -vendor_init
+  } {
+    core_property_type
+    extended_core_property_type
+    exported_dalvik_prop
+    exported_ffs_prop
+    exported_system_radio_prop
+    exported2_config_prop
+    exported2_system_prop
+    exported2_vold_prop
+    exported3_default_prop
+    exported3_system_prop
+    -debug_prop
+    -logd_prop
+    -nfc_prop
+    -powerctl_prop
+    -radio_prop
+  }:file no_rw_file_perms;
+
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -hal_nfc_server
+  } {
+    nfc_prop
+  }:file no_rw_file_perms;
+
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -hal_telephony_server
+  } {
+    radio_prop
+  }:file no_rw_file_perms;
+
+  neverallow {
+    domain
+    -coredomain
+    -bluetooth
+    -hal_bluetooth_server
+  } {
+    bluetooth_prop
+  }:file no_rw_file_perms;
+
+  neverallow {
+    domain
+    -coredomain
+    -hal_wifi_server
+    -wificond
+  } {
+    wifi_prop
+  }:file no_rw_file_perms;
+')
+
+compatible_property_only(`
+  # Neverallow coredomain to set vendor properties
+  neverallow {
+    coredomain
+    -init
+    -system_writes_vendor_properties_violators
+  } {
+    property_type
+    -audio_prop
+    -bluetooth_a2dp_offload_prop
+    -bluetooth_prop
+    -bootloader_boot_reason_prop
+    -boottime_prop
+    -config_prop
+    -cppreopt_prop
+    -ctl_bootanim_prop
+    -ctl_bugreport_prop
+    -ctl_console_prop
+    -ctl_default_prop
+    -ctl_dumpstate_prop
+    -ctl_fuse_prop
+    -ctl_interface_restart_prop
+    -ctl_interface_start_prop
+    -ctl_interface_stop_prop
+    -ctl_mdnsd_prop
+    -ctl_restart_prop
+    -ctl_rildaemon_prop
+    -ctl_sigstop_prop
+    -ctl_start_prop
+    -ctl_stop_prop
+    -dalvik_prop
+    -debug_prop
+    -debuggerd_prop
+    -default_prop
+    -device_logging_prop
+    -dhcp_prop
+    -dumpstate_options_prop
+    -dumpstate_prop
+    -exported2_config_prop
+    -exported2_default_prop
+    -exported2_radio_prop
+    -exported2_system_prop
+    -exported2_vold_prop
+    -exported3_default_prop
+    -exported3_radio_prop
+    -exported3_system_prop
+    -exported_bluetooth_prop
+    -exported_config_prop
+    -exported_dalvik_prop
+    -exported_default_prop
+    -exported_dumpstate_prop
+    -exported_ffs_prop
+    -exported_fingerprint_prop
+    -exported_overlay_prop
+    -exported_pm_prop
+    -exported_radio_prop
+    -exported_secure_prop
+    -exported_system_prop
+    -exported_system_radio_prop
+    -exported_vold_prop
+    -exported_wifi_prop
+    -extended_core_property_type
+    -ffs_prop
+    -fingerprint_prop
+    -firstboot_prop
+    -hwservicemanager_prop
+    -last_boot_reason_prop
+    -log_prop
+    -log_tag_prop
+    -logd_prop
+    -logpersistd_logging_prop
+    -lowpan_prop
+    -mmc_prop
+    -net_dns_prop
+    -net_radio_prop
+    -netd_stable_secret_prop
+    -nfc_prop
+    -overlay_prop
+    -pan_result_prop
+    -persist_debug_prop
+    -persistent_properties_ready_prop
+    -pm_prop
+    -powerctl_prop
+    -radio_prop
+    -restorecon_prop
+    -safemode_prop
+    -serialno_prop
+    -shell_prop
+    -system_boot_reason_prop
+    -system_prop
+    -system_radio_prop
+    -test_boot_reason_prop
+    -traced_enabled_prop
+    -vendor_default_prop
+    -vendor_security_patch_level_prop
+    -vold_prop
+    -wifi_log_prop
+    -wifi_prop
+  }:property_service set;
+')

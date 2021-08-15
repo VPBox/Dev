@@ -1,0 +1,49 @@
+# Any fsck program run on untrusted block devices
+type fsck_untrusted, domain;
+
+# Inherit and use pty created by android_fork_execvp_ext().
+allow fsck_untrusted devpts:chr_file { read write ioctl getattr };
+
+# Allow stdin/out back to vold
+allow fsck_untrusted vold:fd use;
+allow fsck_untrusted vold:fifo_file { read write getattr };
+
+# Run fsck on vold block devices
+allow fsck_untrusted block_device:dir search;
+allow fsck_untrusted vold_device:blk_file rw_file_perms;
+
+r_dir_file(fsck_untrusted, proc)
+
+# To determine if it is safe to run fsck on a filesystem, e2fsck
+# must first determine if the filesystem is mounted. To do that,
+# e2fsck scans through /proc/mounts and collects all the mounted
+# block devices. With that information, it runs stat() on each block
+# device, comparing the major and minor numbers to the filesystem
+# passed in on the command line. If there is a match, then the filesystem
+# is currently mounted and running fsck is dangerous.
+# Allow stat access to all block devices so that fsck can compare
+# major/minor values.
+allow fsck_untrusted dev_type:blk_file getattr;
+
+###
+### neverallow rules
+###
+
+# Untrusted fsck should never be run on block devices holding sensitive data
+neverallow fsck_untrusted {
+  boot_block_device
+  frp_block_device
+  metadata_block_device
+  recovery_block_device
+  root_block_device
+  swap_block_device
+  system_block_device
+  userdata_block_device
+  cache_block_device
+  dm_device
+}:blk_file no_rw_file_perms;
+
+# Only allow entry from vold via fsck binaries
+neverallow { domain -vold } fsck_untrusted:process transition;
+neverallow * fsck_untrusted:process dyntransition;
+neverallow fsck_untrusted { file_type fs_type -fsck_exec }:file entrypoint;

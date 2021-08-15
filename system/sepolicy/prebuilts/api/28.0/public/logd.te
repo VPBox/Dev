@@ -1,0 +1,73 @@
+# android user-space log manager
+type logd, domain, mlstrustedsubject;
+type logd_exec, exec_type, file_type;
+
+# Read access to pseudo filesystems.
+r_dir_file(logd, cgroup)
+r_dir_file(logd, proc_kmsg)
+r_dir_file(logd, proc_meminfo)
+r_dir_file(logd, proc_net)
+
+allow logd self:global_capability_class_set { setuid setgid setpcap sys_nice audit_control };
+allow logd self:global_capability2_class_set syslog;
+allow logd self:netlink_audit_socket { create_socket_perms_no_ioctl nlmsg_write };
+allow logd kernel:system syslog_read;
+allow logd kmsg_device:chr_file w_file_perms;
+allow logd system_data_file:{ file lnk_file } r_file_perms;
+allow logd pstorefs:dir search;
+allow logd pstorefs:file r_file_perms;
+userdebug_or_eng(`
+  # Access to /data/misc/logd/event-log-tags
+  allow logd misc_logd_file:dir r_dir_perms;
+  allow logd misc_logd_file:file rw_file_perms;
+')
+allow logd runtime_event_log_tags_file:file rw_file_perms;
+
+# Access device logging gating property
+get_prop(logd, device_logging_prop)
+
+r_dir_file(logd, domain)
+
+allow logd kernel:system syslog_mod;
+
+control_logd(logd)
+read_runtime_log_tags(logd)
+
+allow runtime_event_log_tags_file tmpfs:filesystem associate;
+# Typically harmlessly blindly trying to access via liblog
+# event tag mapping while in the untrusted_app domain.
+# Access for that domain is controlled and gated via the
+# event log tag service (albeit at a performance penalty,
+# expected to be locally cached).
+dontaudit domain runtime_event_log_tags_file:file { open read };
+
+###
+### Neverallow rules
+###
+### logd should NEVER do any of this
+
+# Block device access.
+neverallow logd dev_type:blk_file { read write };
+
+# ptrace any other app
+neverallow logd domain:process ptrace;
+
+# ... and nobody may ptrace me (except on userdebug or eng builds)
+neverallow { domain userdebug_or_eng(`-crash_dump') } logd:process ptrace;
+
+# Write to /system.
+neverallow logd system_file:dir_file_class_set write;
+
+# Write to files in /data/data or system files on /data
+neverallow logd { app_data_file system_data_file }:dir_file_class_set write;
+
+# Only init is allowed to enter the logd domain via exec()
+neverallow { domain -init } logd:process transition;
+neverallow * logd:process dyntransition;
+
+# protect the event-log-tags file
+neverallow {
+  domain
+  -init
+  -logd
+} runtime_event_log_tags_file:file no_w_file_perms;

@@ -1,0 +1,26 @@
+typeattribute init coredomain;
+
+tmpfs_domain(init)
+
+# Transitions to seclabel processes in init.rc
+domain_trans(init, rootfs, charger)
+domain_trans(init, rootfs, healthd)
+domain_trans(init, rootfs, slideshow)
+domain_auto_trans(init, e2fs_exec, e2fs)
+recovery_only(`
+  domain_trans(init, rootfs, adbd)
+  domain_trans(init, rootfs, recovery)
+')
+domain_trans(init, shell_exec, shell)
+domain_trans(init, init_exec, ueventd)
+domain_trans(init, init_exec, watchdogd)
+domain_trans(init, { rootfs toolbox_exec }, modprobe)
+# case where logpersistd is actually logcat -f in logd context (nee: logcatd)
+userdebug_or_eng(`
+  domain_auto_trans(init, logcat_exec, logpersist)
+')
+
+# Creating files on sysfs is impossible so this isn't a threat
+# Sometimes we have to write to non-existent files to avoid conditional
+# init behavior. See b/35303861 for an example.
+dontaudit init sysfs:dir write;

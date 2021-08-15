@@ -1,0 +1,7 @@
+# TODO: deal with tmpfs_domain pub/priv split properly
+# Read system properties managed by zygote.
+allow appdomain zygote_tmpfs:file read;
+
+neverallow appdomain system_server:udp_socket {
+        accept append bind create ioctl listen lock name_bind
+        relabelfrom relabelto setattr shutdown };

@@ -1,0 +1,662 @@
+
+
+#============= adbd ==============
+allow adbd init:fifo_file read;
+allow adbd system_data_file:file read;
+allow adbd init:unix_stream_socket { read write };
+
+#============= apexd ==============
+allow apexd tmpfs:lnk_file read;
+allow apexd system_data_file:file read;
+
+#============= dex2oat ==============
+allow dex2oat system_data_file:file read;
+allow dex2oat init:fifo_file read;
+allow dex2oat init:unix_stream_socket { read write };
+
+#============= flags_health_check ==============
+
+#!!!! The file '/dev/__properties__/u:object_r:apexd_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:apexd_prop:s0
+allow flags_health_check apexd_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:bluetooth_a2dp_offload_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:bluetooth_a2dp_offload_prop:s0
+allow flags_health_check bluetooth_a2dp_offload_prop:file { getattr open };
+
+#!!!! The file '/dev/__properties__/u:object_r:bluetooth_audio_hal_prop:s0' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /dev/__properties__/u:object_r:bluetooth_audio_hal_prop:s0
+allow flags_health_check bluetooth_audio_hal_prop:file open;
+
+#============= gsid ==============
+allow gsid init:fifo_file read;
+allow gsid system_data_file:file read;
+allow gsid tmpfs:lnk_file read;
+allow gsid init:unix_stream_socket { read write };
+
+#============= hwservicemanager ==============
+allow hwservicemanager init:fifo_file read;
+allow hwservicemanager system_data_file:file read;
+allow hwservicemanager init:unix_stream_socket { read write };
+
+#============= idmap ==============
+allow idmap system_data_file:file read;
+allow idmap init:fifo_file read;
+allow idmap tmpfs:lnk_file read;
+allow idmap init:unix_stream_socket { read write };
+
+#============= incidentd ==============
+allow incidentd tmpfs:lnk_file read;
+
+#============= init ==============
+
+#!!!! The file '/init' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /init
+allow init init_exec:lnk_file getattr;
+allow init init_exec:file execute_no_trans;
+allow init logpersist:file write;
+allow init mnt_user_file:lnk_file read;
+allow init netd:binder call;
+allow init proc:file write;
+allow init sdcardfs:dir setattr;
+allow init self:binder call;
+allow init self:capability sys_ptrace;
+allow init self:rawip_socket create;
+
+#!!!! The file '/system/bin/sh' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /system/bin/sh
+allow init shell_exec:file execute_no_trans;
+allow init storage_file:lnk_file read;
+allow init surfaceflinger:binder call;
+
+#!!!! The file '/system/bin/cellsservice' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /system/bin/cellsservice
+allow init system_file:file execute_no_trans;
+allow init system_server:binder call;
+allow init self:netlink_kobject_uevent_socket create;
+
+#============= iorapd ==============
+allow iorapd system_data_file:file read;
+
+#============= keystore ==============
+allow keystore system_data_file:file read;
+
+#============= lmkd ==============
+allow lmkd tmpfs:lnk_file read;
+
+#============= logd ==============
+allow logd init:fifo_file read;
+
+#============= mediaextractor ==============
+allow mediaextractor system_data_file:file read;
+
+#============= migrate_legacy_obb_data ==============
+allow migrate_legacy_obb_data system_data_file:file read;
+allow migrate_legacy_obb_data tmpfs:lnk_file read;
+
+#============= netd ==============
+allow netd system_data_file:file read;
+
+#============= netutils_wrapper ==============
+allow netutils_wrapper system_data_file:file read;
+
+#============= proc_net ==============
+allow proc_net proc:filesystem associate;
+
+#============= sdcardd ==============
+allow sdcardd init:fifo_file read;
+
+#============= servicemanager ==============
+allow servicemanager init:fifo_file read;
+allow servicemanager system_data_file:file read;
+
+#============= system_app ==============
+allow system_app init:binder call;
+
+#============= system_server ==============
+allow system_server init:binder call;
+allow system_server tmpfs:lnk_file { getattr read };
+
+#============= toolbox ==============
+allow toolbox init:fifo_file read;
+allow toolbox system_data_file:file read;
+
+#============= traced ==============
+allow traced system_data_file:file read;
+
+#============= traced_probes ==============
+allow traced_probes system_data_file:file read;
+
+#============= tzdatacheck ==============
+allow tzdatacheck system_data_file:file read;
+
+#============= untrusted_app ==============
+allow untrusted_app proc_stat:file { getattr open };
+auditallow untrusted_app proc_stat:file { getattr open };
+allow untrusted_app proc_version:file { getattr open read };
+auditallow untrusted_app proc_version:file { getattr open read };
+allow untrusted_app proc_vmstat:file { getattr open };
+auditallow untrusted_app proc_vmstat:file { getattr open };
+allow untrusted_app serialno_prop:file { getattr open read };
+auditallow untrusted_app serialno_prop:file { getattr open read };
+
+#!!!! The file '/system/xbin/su' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /system/xbin/su
+allow untrusted_app su_exec:file getattr;
+auditallow untrusted_app su_exec:file getattr;
+allow untrusted_app sysfs_net:dir search;
+auditallow untrusted_app sysfs_net:dir search;
+allow untrusted_app sysfs_thermal:dir { open read search };
+auditallow untrusted_app sysfs_thermal:dir { open read search };
+allow untrusted_app sysfs_thermal:file { getattr open read };
+auditallow untrusted_app sysfs_thermal:file { getattr open read };
+
+#============= untrusted_app_27 ==============
+
+#!!!! The file '/metadata' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /metadata
+allow untrusted_app_27 metadata_file:dir getattr;
+
+#!!!! The file '/postinstall' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /postinstall
+allow untrusted_app_27 postinstall_mnt_dir:dir getattr;
+auditallow untrusted_app_27 postinstall_mnt_dir:dir getattr;
+allow untrusted_app_27 proc:file { getattr open read };
+auditallow untrusted_app_27 proc:file { getattr open read };
+allow untrusted_app_27 proc_net:file { getattr open read };
+auditallow untrusted_app_27 proc_net:file { getattr open read };
+allow untrusted_app_27 proc_version:file { open read };
+auditallow untrusted_app_27 proc_version:file { open read };
+allow untrusted_app_27 proc_vmstat:file { getattr open };
+auditallow untrusted_app_27 proc_vmstat:file { getattr open };
+
+#!!!! The file '/system/xbin/su' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /system/xbin/su
+allow untrusted_app_27 su_exec:file getattr;
+auditallow untrusted_app_27 su_exec:file getattr;
+allow untrusted_app_27 sysfs_batteryinfo:dir search;
+auditallow untrusted_app_27 sysfs_batteryinfo:dir search;
+allow untrusted_app_27 sysfs_net:dir search;
+auditallow untrusted_app_27 sysfs_net:dir search;
+allow untrusted_app_27 sysfs_net:file { getattr open read };
+auditallow untrusted_app_27 sysfs_net:file { getattr open read };
+
+#============= usbd ==============
+allow usbd init:fifo_file read;
+allow usbd system_data_file:file read;
+
+#============= vdc ==============
+allow vdc system_data_file:file read;
+
+#============= vendor_init ==============
+allow vendor_init radio_prop:property_service set;
+
+#============= vndservicemanager ==============
+allow vndservicemanager system_data_file:file read;
+
+#============= vold ==============
+allow vold init_tmpfs:file { getattr open read };
+
+#============= vold_prepare_subdirs ==============
+allow vold_prepare_subdirs system_data_file:file read;
+
+#============= zygote ==============
+
+#!!!! The file '/' is mislabeled on your system.  
+#!!!! Fix with $ restorecon -R -v /
+allow zygote tmpfs:dir mounton;
+allow zygote tmpfs:lnk_file read;
+
+#============= art_apex_boot_integrity ==============
+allow art_apex_boot_integrity system_data_file:file read;
+allow art_apex_boot_integrity init:fifo_file read;
+allow art_apex_boot_integrity init:unix_stream_socket { read write };
+
+#============= flags_health_check ==============
+allow flags_health_check system_data_file:file read;
+
+#============= gatekeeperd ==============
+allow gatekeeperd system_data_file:file read;
+
+allow init init_exec:lnk_file read;
+allow init init_tmpfs:file rename;
+allow init kernel:security load_policy;
+allow init self:netlink_route_socket { bind create getattr setopt write };
+allow init sysfs_batteryinfo:file setattr;
+allow init sysfs_thermal:file setattr;
+allow init kernel:security setcheckreqprot;
+allow init sdcardfs:dir search;
+allow init self:netlink_route_socket { nlmsg_write read };
+allow init self:rawip_socket { getopt setopt };
+allow init sysfs:file { open write };
+allow init sysfs_devices_system_cpu:file write;
+
+#============= webview_zygote ==============
+allow webview_zygote app_data_file:dir getattr;
+
+#============= tombstoned ==============
+allow tombstoned system_data_file:file read;
+
+#============= untrusted_app ==============
+allow untrusted_app app_data_file:file execute_no_trans;
+auditallow untrusted_app app_data_file:file execute_no_trans;
+allow untrusted_app input_device:chr_file getattr;
+auditallow untrusted_app input_device:chr_file getattr;
+allow untrusted_app kernel:system module_request;
+auditallow untrusted_app kernel:system module_request;
+
+#============= recovery_persist ==============
+allow recovery_persist system_data_file:file read;
+
+#============= otapreopt_slot ==============
+allow otapreopt_slot system_data_file:file read;
+
+#============= logd ==============
+allow logd tmpfs:lnk_file read;
+allow logd init:unix_stream_socket { read write };
+
+#============= logpersist ==============
+allow logpersist system_data_file:file read;
+
+#============= update_verifier ==============
+allow update_verifier system_data_file:file read;
+
+#============= vdc ==============
+allow vdc init:fifo_file read;
+
+#============= vendor_init ==============
+allow vendor_init init:fifo_file read;
+allow vendor_init system_data_file:file read;
+
+#============= vndservicemanager ==============
+allow vndservicemanager init:fifo_file read;
+
+#============= vold_prepare_subdirs ==============
+allow vold_prepare_subdirs init:fifo_file read;
+
+#============= wificond ==============
+allow wificond system_data_file:file read;
+
+#============= recovery_persist ==============
+allow recovery_persist init:fifo_file read;
+
+#============= statsd ==============
+allow statsd init:fifo_file read;
+allow statsd system_data_file:file read;
+
+#============= tee ==============
+allow tee init:fifo_file read;
+
+#============= toolbox ==============
+allow toolbox init:fifo_file write;
+allow toolbox init:unix_stream_socket { read write };
+allow toolbox self:capability { net_admin net_raw };
+allow toolbox self:udp_socket { create ioctl };
+
+#============= traced ==============
+allow traced init:fifo_file read;
+
+#============= traced_probes ==============
+allow traced_probes init:fifo_file read;
+
+#============= tzdatacheck ==============
+allow tzdatacheck init:fifo_file read;
+
+#============= ueventd ==============
+allow ueventd system_data_file:file read;
+
+#============= netd ==============
+allow netd init:fifo_file read;
+allow netd init:unix_stream_socket { read write };
+
+#============= bootstat ==============
+allow bootstat system_data_file:file read;
+
+#============= sdcardd ==============
+allow sdcardd init:unix_stream_socket { read write };
+
+#============= servicemanager ==============
+allow servicemanager init:unix_stream_socket { read write };
+
+#============= statsd ==============
+allow statsd init:unix_stream_socket { read write };
+
+#============= storaged ==============
+allow storaged init:fifo_file read;
+allow storaged init:unix_stream_socket { read write };
+
+#============= tee ==============
+allow tee init:unix_stream_socket { read write };
+
+#============= tzdatacheck ==============
+allow tzdatacheck init:unix_stream_socket { read write };
+
+#============= ueventd ==============
+allow ueventd init:fifo_file read;
+allow ueventd init:unix_stream_socket { read write };
+
+#============= untrusted_app ==============
+allow untrusted_app input_device:dir search;
+auditallow untrusted_app input_device:dir search;
+
+#============= usbd ==============
+allow usbd init:unix_stream_socket { read write };
+
+#============= vdc ==============
+allow vdc init:unix_stream_socket { read write };
+
+#============= vndservicemanager ==============
+allow vndservicemanager init:unix_stream_socket { read write };
+
+#============= vold_prepare_subdirs ==============
+allow vold_prepare_subdirs init:unix_stream_socket { read write };
+
+#============= auditctl ==============
+allow auditctl init:fifo_file read;
+allow auditctl system_data_file:file read;
+
+#============= hal_allocator_default ==============
+allow hal_allocator_default system_data_file:file read;
+
+#============= otapreopt_slot ==============
+allow otapreopt_slot init:fifo_file read;
+
+#============= storaged ==============
+allow storaged tmpfs:lnk_file read;
+
+#============= system_suspend ==============
+allow system_suspend system_data_file:file read;
+
+#============= tee ==============
+allow tee tmpfs:lnk_file read;
+
+#============= tombstoned ==============
+allow tombstoned init:fifo_file read;
+
+#============= toolbox ==============
+
+#!!!! This avc is allowed in the current policy
+allow toolbox self:udp_socket ioctl;
+
+#============= untrusted_app_27 ==============
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 apexd_prop:file open;
+auditallow untrusted_app_27 apexd_prop:file open;
+allow untrusted_app_27 apexd_prop:file getattr;
+auditallow untrusted_app_27 apexd_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 bluetooth_a2dp_offload_prop:file open;
+auditallow untrusted_app_27 bluetooth_a2dp_offload_prop:file open;
+allow untrusted_app_27 bluetooth_a2dp_offload_prop:file getattr;
+auditallow untrusted_app_27 bluetooth_a2dp_offload_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 bluetooth_audio_hal_prop:file open;
+auditallow untrusted_app_27 bluetooth_audio_hal_prop:file open;
+allow untrusted_app_27 bluetooth_audio_hal_prop:file getattr;
+auditallow untrusted_app_27 bluetooth_audio_hal_prop:file getattr;
+allow untrusted_app_27 proc_tty_drivers:file { getattr open read };
+auditallow untrusted_app_27 proc_tty_drivers:file { getattr open read };
+allow untrusted_app_27 proc_uptime:file { getattr open };
+auditallow untrusted_app_27 proc_uptime:file { getattr open };
+allow untrusted_app_27 proc_version:file getattr;
+auditallow untrusted_app_27 proc_version:file getattr;
+
+#!!!! This avc is allowed in the current policy
+allow untrusted_app_27 self:udp_socket ioctl;
+auditallow untrusted_app_27 self:udp_socket ioctl;
+allow untrusted_app_27 sysfs_batteryinfo:file { getattr open read };
+auditallow untrusted_app_27 sysfs_batteryinfo:file { getattr open read };
+
+#============= update_engine ==============
+allow update_engine system_data_file:file read;
+
+#============= update_verifier ==============
+allow update_verifier init:fifo_file read;
+
+#============= vold ==============
+allow vold init:fifo_file read;
+allow vold system_data_file:file getattr;
+allow vold tmpfs:lnk_file read;
+
+#============= zygote ==============
+allow zygote init:fifo_file read;
+
+#============= apexd ==============
+allow apexd init:fifo_file read;
+allow apexd init:unix_stream_socket { read write };
+
+#============= auditctl ==============
+allow auditctl init:unix_stream_socket { read write };
+
+#============= bootstat ==============
+allow bootstat init:unix_stream_socket { read write };
+
+#============= flags_health_check ==============
+allow flags_health_check init:unix_stream_socket { read write };
+
+#============= init ==============
+allow init kernel:security setenforce;
+
+#============= logpersist ==============
+allow logpersist init:unix_stream_socket { read write };
+
+#============= migrate_legacy_obb_data ==============
+allow migrate_legacy_obb_data init:fifo_file read;
+allow migrate_legacy_obb_data init:unix_stream_socket { read write };
+
+#============= otapreopt_slot ==============
+allow otapreopt_slot init:unix_stream_socket { read write };
+
+#============= recovery_persist ==============
+allow recovery_persist init:unix_stream_socket { read write };
+
+#============= recovery_refresh ==============
+allow recovery_refresh init:unix_stream_socket { read write };
+
+#============= tombstoned ==============
+allow tombstoned init:unix_stream_socket { read write };
+
+#============= toolbox ==============
+
+#!!!! This avc is allowed in the current policy
+allow toolbox self:udp_socket ioctl;
+
+#============= traced ==============
+allow traced init:unix_stream_socket { read write };
+
+#============= traced_probes ==============
+allow traced_probes init:unix_stream_socket { read write };
+
+#============= ueventd ==============
+allow ueventd init_tmpfs:file { getattr read };
+
+#============= untrusted_app_27 ==============
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 bluetooth_prop:file open;
+auditallow untrusted_app_27 bluetooth_prop:file open;
+allow untrusted_app_27 bluetooth_prop:file getattr;
+auditallow untrusted_app_27 bluetooth_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 bootloader_boot_reason_prop:file open;
+auditallow untrusted_app_27 bootloader_boot_reason_prop:file open;
+allow untrusted_app_27 bootloader_boot_reason_prop:file getattr;
+auditallow untrusted_app_27 bootloader_boot_reason_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 boottime_prop:file open;
+auditallow untrusted_app_27 boottime_prop:file open;
+allow untrusted_app_27 boottime_prop:file getattr;
+auditallow untrusted_app_27 boottime_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 bpf_progs_loaded_prop:file open;
+auditallow untrusted_app_27 bpf_progs_loaded_prop:file open;
+allow untrusted_app_27 bpf_progs_loaded_prop:file getattr;
+auditallow untrusted_app_27 bpf_progs_loaded_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 net_dns_prop:file open;
+auditallow untrusted_app_27 net_dns_prop:file open;
+
+#!!!! This avc is allowed in the current policy
+allow untrusted_app_27 self:udp_socket ioctl;
+auditallow untrusted_app_27 self:udp_socket ioctl;
+
+#============= update_engine ==============
+allow update_engine init:fifo_file read;
+allow update_engine init:unix_stream_socket { read write };
+
+#============= update_verifier ==============
+allow update_verifier init:unix_stream_socket { read write };
+
+#============= audioserver ==============
+allow audioserver system_data_file:file read;
+
+#============= cameraserver ==============
+allow cameraserver system_data_file:file read;
+
+#============= drmserver ==============
+allow drmserver system_data_file:file read;
+
+#============= dumpstate ==============
+allow dumpstate tmpfs:lnk_file read;
+
+#============= logpersist ==============
+allow logpersist init:fifo_file read;
+
+#============= mediaserver ==============
+allow mediaserver system_data_file:file read;
+
+#============= recovery_refresh ==============
+allow recovery_refresh init:fifo_file read;
+
+#============= surfaceflinger ==============
+allow surfaceflinger system_data_file:file read;
+
+#============= system_suspend ==============
+allow system_suspend init:fifo_file read;
+
+#============= ueventd ==============
+allow ueventd init_tmpfs:file open;
+
+#============= untrusted_app_27 ==============
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 cpu_variant_prop:file open;
+auditallow untrusted_app_27 cpu_variant_prop:file open;
+allow untrusted_app_27 cpu_variant_prop:file getattr;
+auditallow untrusted_app_27 cpu_variant_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 ctl_adbd_prop:file open;
+auditallow untrusted_app_27 ctl_adbd_prop:file open;
+allow untrusted_app_27 ctl_adbd_prop:file getattr;
+auditallow untrusted_app_27 ctl_adbd_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 ctl_bootanim_prop:file open;
+auditallow untrusted_app_27 ctl_bootanim_prop:file open;
+allow untrusted_app_27 ctl_bootanim_prop:file getattr;
+auditallow untrusted_app_27 ctl_bootanim_prop:file getattr;
+allow untrusted_app_27 net_dns_prop:file getattr;
+auditallow untrusted_app_27 net_dns_prop:file getattr;
+
+#!!!! This avc is allowed in the current policy
+allow untrusted_app_27 self:udp_socket ioctl;
+auditallow untrusted_app_27 self:udp_socket ioctl;
+
+#============= hal_allocator_default ==============
+allow hal_allocator_default init:fifo_file read;
+
+#============= bootanim ==============
+allow bootanim init:fifo_file read;
+allow bootanim system_data_file:file read;
+
+#============= logpersist ==============
+allow logpersist tmpfs:lnk_file read;
+
+#============= shell ==============
+allow shell vendor_toolbox_exec:file { execute getattr };
+
+#============= surfaceflinger ==============
+allow surfaceflinger init:fifo_file read;
+
+#============= system_suspend ==============
+allow system_suspend tmpfs:lnk_file read;
+
+#============= toolbox ==============
+
+#!!!! This avc is allowed in the current policy
+allow toolbox self:udp_socket ioctl;
+
+#============= untrusted_app_27 ==============
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 ctl_bugreport_prop:file open;
+auditallow untrusted_app_27 ctl_bugreport_prop:file open;
+allow untrusted_app_27 ctl_bugreport_prop:file getattr;
+auditallow untrusted_app_27 ctl_bugreport_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 ctl_console_prop:file open;
+auditallow untrusted_app_27 ctl_console_prop:file open;
+allow untrusted_app_27 ctl_console_prop:file getattr;
+auditallow untrusted_app_27 ctl_console_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 ctl_default_prop:file open;
+auditallow untrusted_app_27 ctl_default_prop:file open;
+allow untrusted_app_27 ctl_default_prop:file getattr;
+auditallow untrusted_app_27 ctl_default_prop:file getattr;
+
+#!!!! This avc has a dontaudit rule in the current policy
+allow untrusted_app_27 ctl_dumpstate_prop:file open;
+auditallow untrusted_app_27 ctl_dumpstate_prop:file open;
+allow untrusted_app_27 ctl_dumpstate_prop:file getattr;
+auditallow untrusted_app_27 ctl_dumpstate_prop:file getattr;
+
+#!!!! This avc is allowed in the current policy
+allow untrusted_app_27 self:udp_socket ioctl;
+auditallow untrusted_app_27 self:udp_socket ioctl;
+
+#============= adbd ==============
+allow adbd ctl_adbd_prop:property_service set;
+
+#============= llkd ==============
+allow llkd init:fifo_file read;
+
+#============= statsd ==============
+allow statsd tmpfs:lnk_file read;
+
+#============= toolbox ==============
+
+#!!!! This avc is allowed in the current policy
+allow toolbox self:udp_socket ioctl;
+
+#============= untrusted_app_27 ==============
+allow untrusted_app_27 block_device:dir search;
+auditallow untrusted_app_27 block_device:dir search;
+allow untrusted_app_27 mnt_vendor_file:dir search;
+auditallow untrusted_app_27 mnt_vendor_file:dir search;
+
+#!!!! This avc is allowed in the current policy
+allow untrusted_app_27 self:udp_socket ioctl;
+auditallow untrusted_app_27 self:udp_socket ioctl;
+
+#============= shell ==============
+allow shell init:fifo_file read;
+
+#============= preloads_copy ==============
+allow preloads_copy system_data_file:file read;
+
+#============= cppreopts ==============
+allow cppreopts postinstall_mnt_dir:dir search;
+allow cppreopts system_data_file:file read;
+
+#============= fsverity_init ==============
+allow fsverity_init system_data_file:file read;

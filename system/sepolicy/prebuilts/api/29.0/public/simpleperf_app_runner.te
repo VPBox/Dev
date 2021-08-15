@@ -1,0 +1,43 @@
+type simpleperf_app_runner, domain, mlstrustedsubject;
+type simpleperf_app_runner_exec, system_file_type, exec_type, file_type;
+
+# run simpleperf_app_runner in adb shell.
+allow simpleperf_app_runner adbd:fd use;
+allow simpleperf_app_runner shell:fd use;
+allow simpleperf_app_runner devpts:chr_file { read write ioctl };
+
+# simpleperf_app_runner reads package information.
+allow simpleperf_app_runner system_data_file:file r_file_perms;
+allow simpleperf_app_runner system_data_file:lnk_file getattr;
+allow simpleperf_app_runner packages_list_file:file r_file_perms;
+
+# The app's data dir may be accessed through a symlink.
+allow simpleperf_app_runner system_data_file:lnk_file read;
+
+# simpleperf_app_runner switches to the app UID/GID.
+allow simpleperf_app_runner self:global_capability_class_set { setuid setgid };
+
+# simpleperf_app_runner switches to the app security context.
+selinux_check_context(simpleperf_app_runner) # validate context
+allow simpleperf_app_runner self:process setcurrent;
+allow simpleperf_app_runner untrusted_app_all:process dyntransition; # setcon
+
+# simpleperf_app_runner/libselinux needs access to seapp_contexts_file to
+# determine which domain to transition to.
+allow simpleperf_app_runner seapp_contexts_file:file r_file_perms;
+
+# simpleperf_app_runner passes pipe fds.
+allow simpleperf_app_runner shell:fifo_file read;
+
+# simpleperf_app_runner checks shell data paths.
+# simpleperf_app_runner passes shell data fds.
+allow simpleperf_app_runner shell_data_file:dir { getattr search };
+allow simpleperf_app_runner shell_data_file:file { getattr write };
+
+###
+### neverallow rules
+###
+
+# simpleperf_app_runner cannot have capabilities other than CAP_SETUID and CAP_SETGID
+neverallow simpleperf_app_runner self:global_capability_class_set ~{ setuid setgid };
+neverallow simpleperf_app_runner self:global_capability2_class_set *;

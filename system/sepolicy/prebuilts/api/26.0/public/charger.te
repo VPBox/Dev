@@ -1,0 +1,41 @@
+# charger seclabel is specified in init.rc since
+# it lives in the rootfs and has no unique file type.
+type charger, domain;
+
+# Write to /dev/kmsg
+allow charger kmsg_device:chr_file rw_file_perms;
+
+# Read access to pseudo filesystems.
+r_dir_file(charger, sysfs_type)
+r_dir_file(charger, rootfs)
+r_dir_file(charger, cgroup)
+
+allow charger self:capability { sys_tty_config };
+allow charger self:capability sys_boot;
+
+wakelock_use(charger)
+
+allow charger self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+
+# Write to /sys/power/state
+# TODO:  Split into a separate type?
+allow charger sysfs:file write;
+
+allow charger sysfs_batteryinfo:file r_file_perms;
+
+# Read /sys/fs/pstore/console-ramoops
+# Don't worry about overly broad permissions for now, as there's
+# only one file in /sys/fs/pstore
+allow charger pstorefs:dir r_dir_perms;
+allow charger pstorefs:file r_file_perms;
+
+allow charger graphics_device:dir r_dir_perms;
+allow charger graphics_device:chr_file rw_file_perms;
+allow charger input_device:dir r_dir_perms;
+allow charger input_device:chr_file r_file_perms;
+allow charger tty_device:chr_file rw_file_perms;
+allow charger proc_sysrq:file rw_file_perms;
+
+# charger needs to tell init to continue the boot
+# process when running in charger mode.
+set_prop(charger, system_prop)

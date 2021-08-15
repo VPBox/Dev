@@ -1,0 +1,20 @@
+# vdc spawned from init for the following services:
+#  defaultcrypto
+#  encrypt
+#
+# We also transition into this domain from dumpstate, when
+# collecting bug reports.
+
+type vdc, domain;
+type vdc_exec, exec_type, file_type;
+
+# vdc can be invoked with logwrapper, so let it write to pty
+allow vdc devpts:chr_file rw_file_perms;
+
+# vdc writes directly to kmsg during the boot process
+allow vdc kmsg_device:chr_file w_file_perms;
+
+# vdc talks to vold over Binder
+binder_use(vdc)
+binder_call(vdc, vold)
+allow vdc vold_service:service_manager find;

@@ -1,0 +1,9 @@
+# Default code reviewers picked from top 3 or more developers.
+# Subdirectories should contain more specific list of people.
+
+# Mainly for audio related files.
+elaurent@google.com
+gkasten@google.com
+hunga@google.com
+krocard@google.com
+mnaganov@google.com

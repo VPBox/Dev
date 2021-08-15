@@ -1,0 +1,351 @@
+#
+#  Copyright 2015 Google, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at:
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+static_library("crypto_toolbox") {
+  sources = [
+    "crypto_toolbox/crypto_toolbox.cc",
+    "crypto_toolbox/aes.cc",
+    "crypto_toolbox/aes_cmac.cc",
+  ]
+
+  include_dirs = [
+    "//",
+  ]
+
+  deps = [
+    "//third_party/libchrome:base",
+  ]
+}
+
+static_library("stack") {
+  sources = [
+    "a2dp/a2dp_aac.cc",
+    "a2dp/a2dp_aac_decoder.cc",
+    "a2dp/a2dp_aac_encoder.cc",
+    "a2dp/a2dp_api.cc",
+    "a2dp/a2dp_codec_config.cc",
+    "a2dp/a2dp_sbc.cc",
+    "a2dp/a2dp_sbc_decoder.cc",
+    "a2dp/a2dp_sbc_encoder.cc",
+    "a2dp/a2dp_sbc_up_sample.cc",
+    "a2dp/a2dp_vendor.cc",
+    "a2dp/a2dp_vendor_aptx.cc",
+    "a2dp/a2dp_vendor_aptx_encoder.cc",
+    "a2dp/a2dp_vendor_aptx_hd.cc",
+    "a2dp/a2dp_vendor_aptx_hd_encoder.cc",
+    "a2dp/a2dp_vendor_ldac.cc",
+    "a2dp/a2dp_vendor_ldac_abr.cc",
+    "a2dp/a2dp_vendor_ldac_decoder.cc",
+    "a2dp/a2dp_vendor_ldac_encoder.cc",
+    "avct/avct_api.cc",
+    "avct/avct_bcb_act.cc",
+    "avct/avct_ccb.cc",
+    "avct/avct_l2c.cc",
+    "avct/avct_l2c_br.cc",
+    "avct/avct_lcb.cc",
+    "avct/avct_lcb_act.cc",
+    "avdt/avdt_ad.cc",
+    "avdt/avdt_api.cc",
+    "avdt/avdt_ccb.cc",
+    "avdt/avdt_ccb_act.cc",
+    "avdt/avdt_l2c.cc",
+    "avdt/avdt_msg.cc",
+    "avdt/avdt_scb.cc",
+    "avdt/avdt_scb_act.cc",
+    "avrc/avrc_api.cc",
+    "avrc/avrc_bld_ct.cc",
+    "avrc/avrc_bld_tg.cc",
+    "avrc/avrc_opt.cc",
+    "avrc/avrc_pars_ct.cc",
+    "avrc/avrc_pars_tg.cc",
+    "avrc/avrc_sdp.cc",
+    "avrc/avrc_utils.cc",
+    "bnep/bnep_api.cc",
+    "bnep/bnep_main.cc",
+    "bnep/bnep_utils.cc",
+    "btm/ble_advertiser_hci_interface.cc",
+    "btm/btm_acl.cc",
+    "btm/btm_ble.cc",
+    "btm/btm_ble_addr.cc",
+    "btm/btm_ble_adv_filter.cc",
+    "btm/btm_ble_batchscan.cc",
+    "btm/btm_ble_bgconn.cc",
+    "btm/btm_ble_cont_energy.cc",
+    "btm/btm_ble_gap.cc",
+    "btm/btm_ble_multi_adv.cc",
+    "btm/btm_ble_privacy.cc",
+    "btm/btm_dev.cc",
+    "btm/btm_devctl.cc",
+    "btm/btm_inq.cc",
+    "btm/btm_main.cc",
+    "btm/btm_pm.cc",
+    "btm/btm_sco.cc",
+    "btm/btm_sec.cc",
+    "btu/btu_hcif.cc",
+    "btu/btu_init.cc",
+    "btu/btu_task.cc",
+    "gap/gap_ble.cc",
+    "gap/gap_conn.cc",
+    "gatt/att_protocol.cc",
+    "gatt/connection_manager.cc",
+    "gatt/gatt_api.cc",
+    "gatt/gatt_attr.cc",
+    "gatt/gatt_auth.cc",
+    "gatt/gatt_cl.cc",
+    "gatt/gatt_db.cc",
+    "gatt/gatt_main.cc",
+    "gatt/gatt_sr.cc",
+    "gatt/gatt_utils.cc",
+    "hcic/hciblecmds.cc",
+    "hcic/hcicmds.cc",
+    "hid/hidh_api.cc",
+    "hid/hidh_conn.cc",
+    "hid/hidd_api.cc",
+    "hid/hidd_conn.cc",
+    "l2cap/l2c_api.cc",
+    "l2cap/l2c_ble.cc",
+    "l2cap/l2c_csm.cc",
+    "l2cap/l2c_fcr.cc",
+    "l2cap/l2c_link.cc",
+    "l2cap/l2c_main.cc",
+    "l2cap/l2c_utils.cc",
+    "l2cap/l2cap_client.cc",
+    "pan/pan_api.cc",
+    "pan/pan_main.cc",
+    "pan/pan_utils.cc",
+    "rfcomm/port_api.cc",
+    "rfcomm/port_rfc.cc",
+    "rfcomm/port_utils.cc",
+    "rfcomm/rfc_l2cap_if.cc",
+    "rfcomm/rfc_mx_fsm.cc",
+    "rfcomm/rfc_port_fsm.cc",
+    "rfcomm/rfc_port_if.cc",
+    "rfcomm/rfc_ts_frames.cc",
+    "rfcomm/rfc_utils.cc",
+    "sdp/sdp_api.cc",
+    "sdp/sdp_db.cc",
+    "sdp/sdp_discovery.cc",
+    "sdp/sdp_main.cc",
+    "sdp/sdp_server.cc",
+    "sdp/sdp_utils.cc",
+    "smp/p_256_curvepara.cc",
+    "smp/p_256_ecc_pp.cc",
+    "smp/p_256_multprecision.cc",
+    "smp/smp_act.cc",
+    "smp/smp_api.cc",
+    "smp/smp_br_main.cc",
+    "smp/smp_keys.cc",
+    "smp/smp_l2c.cc",
+    "smp/smp_main.cc",
+    "smp/smp_utils.cc",
+    "srvc/srvc_dis.cc",
+    "srvc/srvc_eng.cc",
+  ]
+
+  include_dirs = [
+    "include",
+    "avct",
+    "btm",
+    "avrc",
+    "l2cap",
+    "avdt",
+    "gatt",
+    "gap",
+    "pan",
+    "bnep",
+    "hid",
+    "sdp",
+    "smp",
+    "srvc",
+    "//linux_include",
+    "//internal_include",
+    "//btcore/include",
+    "//vnd/include",
+    "//vnd/ble",
+    "//btif/include",
+    "//hci/include",
+    "//internal_include",
+    "//udrv/include",
+    "//rpc/include",
+    "//hcis",
+    "//ctrlr/include",
+    "//bta/include",
+    "//bta/sys",
+    "//utils/include",
+    "//",
+  ]
+
+  deps = [
+    ":crypto_toolbox",
+    "//types",
+    "//third_party/libchrome:base",
+    "//third_party/libldac:libldacBT_enc",
+    "//third_party/libldac:libldacBT_abr",
+    "//third_party/aac:libFraunhoferAAC",
+  ]
+}
+
+executable("stack_unittests") {
+  testonly = true
+  sources = [
+    "test/stack_a2dp_test.cc",
+  ]
+
+  include_dirs = [
+    "include",
+    "//",
+    "//bta/include",
+    "//bta/sys",
+    "//btcore/include",
+    "//embdrv/sbc/encoder/include",
+    "//hci/include",
+    "//internal_include",
+    "//stack/a2dp",
+    "//stack/btm",
+    "//stack/include",
+    "//third_party/tinyxml2",
+    "//udrv/include",
+    "//utils/include",
+    "//vnd/include"
+  ]
+
+  libs = [
+    "-ldl",
+    "-lpthread",
+    "-lresolv",
+    "-lrt",
+    "-lz",
+    "-latomic",
+  ]
+
+  deps = [
+    ":stack",
+    "//osi",
+    "//btcore",
+    "//device",
+    "//embdrv/sbc",
+    "//embdrv/g722",
+    "//hci",
+    "//types",
+    "//main:bluetooth",
+    "//third_party/googletest:gmock_main",
+    "//third_party/libchrome:base",
+  ]
+}
+
+executable("net_test_stack_crypto_toolbox") {
+  testonly = true
+  sources = [
+    "test/crypto_toolbox_test.cc",
+  ]
+
+  include_dirs = [
+    "//",
+  ]
+
+  deps = [
+    ":crypto_toolbox",
+    "//third_party/googletest:gmock_main",
+    "//third_party/libchrome:base",
+  ]
+}
+
+executable("net_test_stack_smp") {
+  testonly = true
+  sources = [
+        "smp/p_256_curvepara.cc",
+        "smp/p_256_ecc_pp.cc",
+        "smp/p_256_multprecision.cc",
+        "smp/smp_keys.cc",
+        "smp/smp_api.cc",
+        "smp/smp_main.cc",
+        "smp/smp_utils.cc",
+        "test/stack_smp_test.cc",
+  ]
+
+  include_dirs = [
+    "//",
+    "//linux_include",
+    "//internal_include",
+    "//btcore/include",
+    "//hci/include",
+    "//utils/include",
+    "//bta/include",
+    "//bta/sys",
+    "//btcore/include",
+    "//embdrv/sbc/encoder/include",
+    "//hci/include",
+    "//internal_include",
+    "//stack/a2dp",
+    "//stack/l2cap",
+    "//stack/btm",
+    "//stack/include",
+    "//third_party/tinyxml2",
+    "//udrv/include",
+    "//utils/include",
+    "//vnd/include"
+  ]
+
+  libs = [
+    "-ldl",
+    "-lpthread",
+    "-lresolv",
+    "-lrt",
+    "-lz",
+    "-latomic",
+  ]
+
+  deps = [
+    ":crypto_toolbox",
+    "//osi",
+    "//types",
+    "//third_party/googletest:gmock_main",
+    "//third_party/libchrome:base",
+  ]
+}
+
+executable("net_test_stack_multi_adv") {
+  testonly = true
+  sources = [
+    "btm/btm_ble_multi_adv.cc",
+    "test/ble_advertiser_test.cc",
+  ]
+
+  include_dirs = [
+    "include",
+    "//",
+    "//btcore/include",
+    "//hci/include",
+    "//internal_include",
+    "//stack/btm",
+  ]
+
+  libs = [
+    "-ldl",
+    "-lpthread",
+    "-lresolv",
+    "-lrt",
+    "-lz",
+    "-latomic",
+  ]
+
+  deps = [
+    "//types",
+    "//third_party/googletest:gmock_main",
+    "//third_party/libchrome:base",
+  ]
+}
+

@@ -1,0 +1,8 @@
+{
+  "presubmit": [
+    {
+      "name": "libhidl_test"
+    }
+  ]
+}
+

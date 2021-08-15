@@ -1,0 +1,100 @@
+# All types must be defined regardless of build variant to ensure
+# policy compilation succeeds with userdebug/user combination at boot
+type su, domain;
+
+# File types must be defined for file_contexts.
+type su_exec, exec_type, file_type;
+
+userdebug_or_eng(`
+  # Domain used for su processes, as well as for adbd and adb shell
+  # after performing an adb root command.  The domain definition is
+  # wrapped to ensure that it does not exist at all on -user builds.
+  typeattribute su mlstrustedsubject;
+
+  # Add su to various domains
+  net_domain(su)
+
+  # grant su access to vndbinder
+  vndbinder_use(su)
+
+  dontaudit su self:capability_class_set *;
+  dontaudit su kernel:security *;
+  dontaudit su kernel:system *;
+  dontaudit su self:memprotect *;
+  dontaudit su domain:process *;
+  dontaudit su domain:fd *;
+  dontaudit su domain:dir *;
+  dontaudit su domain:lnk_file *;
+  dontaudit su domain:{ fifo_file file } *;
+  dontaudit su domain:socket_class_set *;
+  dontaudit su domain:ipc_class_set *;
+  dontaudit su domain:key *;
+  dontaudit su fs_type:filesystem *;
+  dontaudit su {fs_type dev_type file_type}:dir_file_class_set *;
+  dontaudit su node_type:node *;
+  dontaudit su node_type:{ tcp_socket udp_socket rawip_socket } *;
+  dontaudit su netif_type:netif *;
+  dontaudit su port_type:socket_class_set *;
+  dontaudit su port_type:{ tcp_socket dccp_socket } *;
+  dontaudit su domain:peer *;
+  dontaudit su domain:binder *;
+  dontaudit su property_type:property_service *;
+  dontaudit su property_type:file *;
+  dontaudit su service_manager_type:service_manager *;
+  dontaudit su hwservice_manager_type:hwservice_manager *;
+  dontaudit su vndservice_manager_type:service_manager *;
+  dontaudit su servicemanager:service_manager list;
+  dontaudit su hwservicemanager:hwservice_manager list;
+  dontaudit su vndservicemanager:service_manager list;
+  dontaudit su keystore:keystore_key *;
+  dontaudit su domain:drmservice *;
+  dontaudit su unlabeled:filesystem *;
+  dontaudit su postinstall_file:filesystem *;
+
+  # VTS tests run in the permissive su domain on debug builds, but the HALs
+  # being tested run in enforcing mode. Because hal_foo_server is enforcing
+  # su needs to be declared as hal_foo_client to grant hal_foo_server
+  # permission to interact with it.
+  typeattribute su halclientdomain;
+  typeattribute su hal_allocator_client;
+  typeattribute su hal_audio_client;
+  typeattribute su hal_authsecret_client;
+  typeattribute su hal_bluetooth_client;
+  typeattribute su hal_bootctl_client;
+  typeattribute su hal_camera_client;
+  typeattribute su hal_configstore_client;
+  typeattribute su hal_confirmationui_client;
+  typeattribute su hal_contexthub_client;
+  typeattribute su hal_drm_client;
+  typeattribute su hal_cas_client;
+  typeattribute su hal_dumpstate_client;
+  typeattribute su hal_fingerprint_client;
+  typeattribute su hal_gatekeeper_client;
+  typeattribute su hal_gnss_client;
+  typeattribute su hal_graphics_allocator_client;
+  typeattribute su hal_graphics_composer_client;
+  typeattribute su hal_health_client;
+  typeattribute su hal_ir_client;
+  typeattribute su hal_keymaster_client;
+  typeattribute su hal_light_client;
+  typeattribute su hal_memtrack_client;
+  typeattribute su hal_neuralnetworks_client;
+  typeattribute su hal_nfc_client;
+  typeattribute su hal_oemlock_client;
+  typeattribute su hal_power_client;
+  typeattribute su hal_secure_element_client;
+  typeattribute su hal_sensors_client;
+  typeattribute su hal_telephony_client;
+  typeattribute su hal_tetheroffload_client;
+  typeattribute su hal_thermal_client;
+  typeattribute su hal_tv_cec_client;
+  typeattribute su hal_tv_input_client;
+  typeattribute su hal_usb_client;
+  typeattribute su hal_vibrator_client;
+  typeattribute su hal_vr_client;
+  typeattribute su hal_weaver_client;
+  typeattribute su hal_wifi_client;
+  typeattribute su hal_wifi_hostapd_client;
+  typeattribute su hal_wifi_offload_client;
+  typeattribute su hal_wifi_supplicant_client;
+')

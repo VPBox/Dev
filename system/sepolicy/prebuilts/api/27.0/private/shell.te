@@ -1,0 +1,28 @@
+typeattribute shell coredomain;
+
+# allow shell input injection
+allow shell uhid_device:chr_file rw_file_perms;
+
+# systrace support - allow atrace to run
+allow shell debugfs_tracing:dir r_dir_perms;
+allow shell debugfs_tracing:file rw_file_perms;
+allow shell debugfs_trace_marker:file getattr;
+allow shell atrace_exec:file rx_file_perms;
+
+# read config.gz for CTS purposes
+allow shell config_gz:file r_file_perms;
+
+userdebug_or_eng(`
+  allow shell debugfs_tracing_debug:file rw_file_perms;
+')
+
+# Run app_process.
+# XXX Transition into its own domain?
+app_domain(shell)
+
+# allow shell to call dumpsys storaged
+binder_call(shell, storaged)
+
+# Perform SELinux access checks, needed for CTS
+selinux_check_access(shell)
+selinux_check_context(shell)

@@ -1,0 +1,5 @@
+{
+  "name": "com.android.apex.test_package.postinstall",
+  "version": 1,
+  "postInstallHook": "bin/apex_test_postInstallHook"
+}

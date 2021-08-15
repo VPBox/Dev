@@ -1,0 +1,166 @@
+typeattribute incidentd coredomain;
+typeattribute incidentd mlstrustedsubject;
+
+init_daemon_domain(incidentd)
+type incidentd_exec, exec_type, file_type;
+binder_use(incidentd)
+wakelock_use(incidentd)
+
+# Allow incidentd to scan through /proc/pid for all processes
+r_dir_file(incidentd, domain)
+
+# Allow incidentd to kill incident_helper when timeout
+allow incidentd incident_helper:process sigkill;
+
+# Allow executing files on system, such as:
+#   /system/bin/toolbox
+#   /system/bin/logcat
+#   /system/bin/dumpsys
+allow incidentd system_file:file execute_no_trans;
+allow incidentd toolbox_exec:file rx_file_perms;
+
+# section id 2001, allow reading /proc/pagetypeinfo
+allow incidentd proc_pagetypeinfo:file r_file_perms;
+
+# section id 2002, allow reading /d/wakeup_sources
+allow incidentd debugfs_wakeup_sources:file r_file_perms;
+
+# section id 2003, allow executing top
+allow incidentd proc_meminfo:file { open read };
+
+# section id 2004, allow reading /sys/devices/system/cpu/cpufreq/all_time_in_state
+allow incidentd sysfs_devices_system_cpu:file r_file_perms;
+
+# section id 2005, allow reading ps dump in full
+allow incidentd domain:process getattr;
+
+# section id 2006, allow reading /sys/class/power_supply/bms/battery_type
+allow incidentd sysfs_batteryinfo:dir { search };
+allow incidentd sysfs_batteryinfo:file r_file_perms;
+
+# section id 2007, allow reading LAST_KMSG /sys/fs/pstore/console-ramoops
+userdebug_or_eng(`allow incidentd pstorefs:dir search');
+userdebug_or_eng(`allow incidentd pstorefs:file r_file_perms');
+
+# Create and write into /data/misc/incidents
+allow incidentd incident_data_file:dir rw_dir_perms;
+allow incidentd incident_data_file:file create_file_perms;
+
+# Enable incidentd to get stack traces.
+binder_use(incidentd)
+hwbinder_use(incidentd)
+allow incidentd hwservicemanager:hwservice_manager { list };
+get_prop(incidentd, hwservicemanager_prop)
+allow incidentd hidl_manager_hwservice:hwservice_manager { find };
+
+# Read files in /proc
+allow incidentd {
+  proc_cmdline
+  proc_pipe_conf
+  proc_stat
+}:file r_file_perms;
+
+# Signal java processes to dump their stack and get the results
+allow incidentd { appdomain ephemeral_app system_server }:process signal;
+
+# Signal native processes to dump their stack.
+# This list comes from native_processes_to_dump in incidentd/utils.c
+allow incidentd {
+  # This list comes from native_processes_to_dump in dumputils/dump_utils.cpp
+  audioserver
+  cameraserver
+  drmserver
+  inputflinger
+  mediadrmserver
+  mediaextractor
+  mediametrics
+  mediaserver
+  sdcardd
+  statsd
+  surfaceflinger
+
+  # This list comes from hal_interfaces_to_dump in dumputils/dump_utils.cpp
+  hal_audio_server
+  hal_bluetooth_server
+  hal_camera_server
+  hal_graphics_composer_server
+  hal_sensors_server
+  hal_vr_server
+  mediacodec # TODO(b/36375899): hal_omx_server
+}:process signal;
+
+# Allow incidentd to make binder calls to any binder service
+binder_call(incidentd, system_server)
+binder_call(incidentd, appdomain)
+
+# Reading /proc/PID/maps of other processes
+userdebug_or_eng(`allow incidentd self:global_capability_class_set { sys_ptrace }');
+# incidentd has capability sys_ptrace, but should only use that capability for
+# accessing sensitive /proc/PID files, never for using ptrace attach.
+neverallow incidentd *:process ptrace;
+
+allow incidentd self:global_capability_class_set {
+    # Send signals to processes
+    kill
+};
+
+# Connect to tombstoned to intercept dumps.
+unix_socket_connect(incidentd, tombstoned_intercept, tombstoned)
+
+# Run a shell.
+allow incidentd shell_exec:file rx_file_perms;
+
+# logd access - work to be done is a PII safe log (possibly an event log?)
+userdebug_or_eng(`read_logd(incidentd)')
+# TODO control_logd(incidentd)
+
+# Allow incidentd to find these standard groups of services.
+# Others can be whitelisted individually.
+allow incidentd {
+  system_server_service
+  app_api_service
+  system_api_service
+}:service_manager find;
+
+# Only incidentd can publish the binder service
+add_service(incidentd, incident_service)
+
+# Allow pipes from (and only from) incident
+allow incidentd incident:fd use;
+allow incidentd incident:fifo_file write;
+
+# Allow incident to call back to incident with status updates.
+binder_call(incidentd, incident)
+
+###
+### neverallow rules
+###
+
+# only system_server, system_app and incident command can find the incident service
+neverallow {
+  domain
+  -incident
+  -incidentd
+  -statsd
+  -system_app
+  -system_server
+} incident_service:service_manager find;
+
+# only incidentd and the other root services in limited circumstances
+# can get to the files in /data/misc/incidents
+#
+# write, execute, append are forbidden almost everywhere
+neverallow { domain -incidentd -init -vold } incident_data_file:file {
+  w_file_perms
+  x_file_perms
+  create
+  rename
+  setattr
+  unlink
+  append
+};
+# read is also allowed by system_server, for when the file is handed to dropbox
+neverallow { domain -incidentd -init -vold -system_server } incident_data_file:file r_file_perms;
+# limited access to the directory itself
+neverallow { domain -incidentd -init -vold } incident_data_file:dir create_dir_perms;
+

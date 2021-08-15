@@ -1,0 +1,5 @@
+###
+### Untrusted v2 sandbox apps.
+###
+
+type untrusted_v2_app, domain;

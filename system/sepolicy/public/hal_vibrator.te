@@ -1,0 +1,8 @@
+# HwBinder IPC from client to server
+binder_call(hal_vibrator_client, hal_vibrator_server)
+
+hal_attribute_hwservice(hal_vibrator, hal_vibrator_hwservice)
+
+# vibrator sysfs rw access
+allow hal_vibrator sysfs_vibrator:file rw_file_perms;
+allow hal_vibrator sysfs_vibrator:dir search;

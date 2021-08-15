@@ -1,0 +1,60 @@
+# Perfetto user-space tracing daemon (unprivileged)
+type traced, domain, coredomain, mlstrustedsubject;
+type traced_exec, exec_type, file_type;
+
+# Allow init to exec the daemon.
+init_daemon_domain(traced)
+
+# Allow apps in other MLS contexts (for multi-user) to access
+# share memory buffers created by traced.
+typeattribute traced_tmpfs mlstrustedobject;
+
+# Allow traced to start with a lower scheduling class and change
+# class accordingly to what defined in the config provided by
+# the privileged process that controls it.
+allow traced self:global_capability_class_set { sys_nice };
+
+# Allow to pass a file descriptor for the output trace from "perfetto" (the
+# cmdline client) and other shell binaries to traced and let traced write
+# directly into that (rather than returning the trace contents over the socket).
+allow traced perfetto:fd use;
+allow traced shell:fd use;
+allow traced perfetto_traces_data_file:file { read write };
+
+###
+### Neverallow rules
+###
+### traced should NEVER do any of this
+
+# Disallow mapping executable memory (execstack and exec are already disallowed
+# globally in domain.te).
+neverallow traced self:process execmem;
+
+# Block device access.
+neverallow traced dev_type:blk_file { read write };
+
+# ptrace any other process
+neverallow traced domain:process ptrace;
+
+# Disallows access to /data files, still allowing to write to file descriptors
+# passed through the socket.
+neverallow traced {
+  data_file_type
+  -system_data_file
+  # TODO(b/72998741) Remove vendor_data_file exemption. Further restricted in a
+  # subsequent neverallow. Currently only getattr and search are allowed.
+  -vendor_data_file
+  -zoneinfo_data_file
+}:dir *;
+neverallow traced { system_data_file }:dir ~{ getattr search };
+neverallow traced zoneinfo_data_file:dir ~r_dir_perms;
+neverallow traced { data_file_type -zoneinfo_data_file }:lnk_file *;
+neverallow traced {
+  data_file_type
+  -zoneinfo_data_file
+  -perfetto_traces_data_file
+}:file ~write;
+
+# Only init is allowed to enter the traced domain via exec()
+neverallow { domain -init } traced:process transition;
+neverallow * traced:process dyntransition;

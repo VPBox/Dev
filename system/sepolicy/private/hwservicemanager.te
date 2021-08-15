@@ -1,0 +1,8 @@
+typeattribute hwservicemanager coredomain;
+
+init_daemon_domain(hwservicemanager)
+
+add_hwservice(hwservicemanager, hidl_manager_hwservice)
+add_hwservice(hwservicemanager, hidl_token_hwservice)
+
+set_prop(hwservicemanager, ctl_interface_start_prop)

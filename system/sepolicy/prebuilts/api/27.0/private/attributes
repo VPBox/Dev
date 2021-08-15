@@ -1,0 +1,9 @@
+# Temporary attribute used for migrating permissions out of domain.
+# Motivation: Domain is overly permissive. Start removing permissions
+# from domain and assign them to the domain_deprecated attribute.
+# Domain_deprecated and domain can initially be assigned to all
+# domains. The goal is to not assign domain_deprecated to new domains
+# and to start removing domain_deprecated where it's not required or
+# reassigning the appropriate permissions to the inheriting domain
+# when necessary.
+attribute domain_deprecated;

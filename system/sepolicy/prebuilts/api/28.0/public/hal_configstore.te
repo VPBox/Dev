@@ -1,0 +1,71 @@
+# HwBinder IPC from client to server
+binder_call(hal_configstore_client, hal_configstore_server)
+
+allow hal_configstore_client hal_configstore_ISurfaceFlingerConfigs:hwservice_manager find;
+
+add_hwservice(hal_configstore_server, hal_configstore_ISurfaceFlingerConfigs)
+# As opposed to the rules of most other HALs, the different services exposed by
+# this HAL should be restricted to different clients. Thus, the allow rules for
+# clients are defined in the .te files of the clients.
+
+# hal_configstore runs with a strict seccomp filter. Use crash_dump's
+# fallback path to collect crash data.
+crash_dump_fallback(hal_configstore_server)
+
+###
+### neverallow rules
+###
+
+# Should never execute an executable without a domain transition
+neverallow hal_configstore_server { file_type fs_type }:file execute_no_trans;
+
+# Should never need network access. Disallow sockets except for
+# for unix stream/dgram sockets used for logging/debugging.
+neverallow hal_configstore_server domain:{
+  rawip_socket tcp_socket udp_socket
+  netlink_route_socket netlink_selinux_socket
+  socket netlink_socket packet_socket key_socket appletalk_socket
+  netlink_tcpdiag_socket netlink_nflog_socket
+  netlink_xfrm_socket netlink_audit_socket
+  netlink_dnrt_socket netlink_kobject_uevent_socket tun_socket
+  netlink_iscsi_socket netlink_fib_lookup_socket netlink_connector_socket
+  netlink_netfilter_socket netlink_generic_socket netlink_scsitransport_socket
+  netlink_rdma_socket netlink_crypto_socket
+} *;
+neverallow hal_configstore_server {
+  domain
+  -hal_configstore_server
+  -logd
+  userdebug_or_eng(`-su')
+  -tombstoned
+}:{ unix_dgram_socket unix_stream_socket } *;
+
+# Should never need access to anything on /data
+neverallow hal_configstore_server {
+  data_file_type
+  -anr_data_file # for crash dump collection
+  -tombstone_data_file # for crash dump collection
+  -zoneinfo_data_file # granted to domain
+}:{ file fifo_file sock_file } *;
+
+# Should never need sdcard access
+neverallow hal_configstore_server {
+    sdcard_type
+    fuse sdcardfs vfat exfat        # manual expansion for completeness
+}:dir ~getattr;
+neverallow hal_configstore_server {
+    sdcard_type
+    fuse sdcardfs vfat exfat        # manual expansion for completeness
+}:file *;
+
+# Do not permit access to service_manager and vndservice_manager
+neverallow hal_configstore_server *:service_manager *;
+
+# No privileged capabilities
+neverallow hal_configstore_server self:capability_class_set *;
+
+# No ptracing other processes
+neverallow hal_configstore_server *:process ptrace;
+
+# no relabeling
+neverallow hal_configstore_server *:dir_file_class_set { relabelfrom relabelto };

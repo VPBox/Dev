@@ -1,0 +1,21 @@
+on late-init
+    # vendor graphics trace points
+    chmod 0666 /sys/kernel/debug/tracing/events/sde/enable
+    chmod 0666 /sys/kernel/debug/tracing/events/mdss/enable
+    chmod 0666 /sys/kernel/debug/tracing/events/mali_systrace/enable
+    # ion allocation trace point
+    chmod 0666 /sys/kernel/debug/tracing/events/kmem/ion_alloc_buffer_start/enable
+    # scm trace point
+    chmod 0666 /sys/kernel/debug/tracing/events/scm/enable
+    # system bus clk trace point
+    chmod 0666 /sys/kernel/debug/tracing/events/msm_bus/enable
+    # legacy systrace point
+    chmod 0666 /sys/kernel/debug/tracing/events/systrace/enable
+
+service vendor.atrace-hal-1-0 /vendor/bin/hw/android.hardware.atrace@1.0-service.pixel
+    interface android.hardware.atrace@1.0::IAtraceDevice default
+    class early_hal
+    user system
+    group system
+    oneshot
+    disabled

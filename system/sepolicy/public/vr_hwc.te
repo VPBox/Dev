@@ -1,0 +1,33 @@
+type vr_hwc, domain;
+type vr_hwc_exec, system_file_type, exec_type, file_type;
+
+# Get buffer metadata.
+hal_client_domain(vr_hwc, hal_graphics_allocator)
+
+binder_use(vr_hwc)
+binder_service(vr_hwc)
+
+binder_call(vr_hwc, surfaceflinger)
+# Needed to check for app permissions.
+binder_call(vr_hwc, system_server)
+
+add_service(vr_hwc, vr_hwc_service)
+
+# Hosts the VR HWC implementation and provides a simple Binder interface for VR
+# Window Manager to receive the layers/buffers.
+hwbinder_use(vr_hwc)
+
+# Load vendor libraries.
+allow vr_hwc system_file:dir r_dir_perms;
+
+allow vr_hwc ion_device:chr_file r_file_perms;
+
+# Allow connection to VR DisplayClient to get the primary display metadata
+# (ie: size).
+pdx_client(vr_hwc, display_client)
+
+# Requires access to the permission service to validate that clients have the
+# appropriate VR permissions.
+allow vr_hwc permission_service:service_manager find;
+
+allow vr_hwc vrflinger_vsync_service:service_manager find;

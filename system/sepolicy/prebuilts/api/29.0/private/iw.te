@@ -1,0 +1,4 @@
+type iw, domain, coredomain;
+type iw_exec, system_file_type, exec_type, file_type;
+
+init_daemon_domain(iw)

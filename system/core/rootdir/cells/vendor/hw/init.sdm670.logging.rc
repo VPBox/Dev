@@ -1,0 +1,4 @@
+on post-fs-data
+    mkdir /data/vendor/modem_dump 0777 system system
+    mkdir /data/vendor/radio/diag_logs/logs 0777 system system
+    mkdir /data/vendor/radio/extended_logs 0770 system radio

@@ -1,0 +1,69 @@
+// Unit test for AuthTokenTable
+
+cc_test {
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+        "-O0",
+    ],
+    srcs: [
+        "aaid_truncation_test.cpp",
+        "auth_token_table_test.cpp",
+        "auth_token_formatting_test.cpp",
+        "blob_test.cpp",
+        "confirmationui_rate_limiting_test.cpp",
+        "gtest_main.cpp",
+    ],
+    name: "keystore_unit_tests",
+    static_libs: [
+        "android.hardware.confirmationui@1.0",
+        "libbase",
+        "libcrypto",
+        "libcutils",
+        "libgtest_main",
+        "libhidlbase",
+        "libkeymaster4support",
+        "libkeystore_test",
+        "liblog",
+        "libutils",
+        "libvndksupport",
+    ],
+    shared_libs: [
+        "libbinder",
+        "libkeymaster_messages",
+    ],
+   sanitize: {
+     cfi: false,
+   }
+}
+
+cc_test {
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+        "-O0",
+    ],
+    srcs: [
+        "confirmationui_invocation_test.cpp",
+        "gtest_main.cpp",
+    ],
+    name: "confirmationui_invocation_test",
+    static_libs: [
+        "android.hardware.confirmationui@1.0",
+        "libbase",
+        "libgtest_main",
+        "libutils",
+        "liblog",
+    ],
+    shared_libs: [
+        "libbinder",
+        "libkeystore_aidl", // for IKeyStoreService.asInterface()
+        "libkeystore_binder",
+        "libkeystore_parcelables",
+    ],
+   sanitize: {
+     cfi: false,
+   }
+}

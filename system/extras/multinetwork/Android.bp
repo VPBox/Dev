@@ -1,0 +1,46 @@
+cc_defaults {
+    name: "multinetwork_defaults",
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+    include_dirs: [
+        "frameworks/native/include",
+    ],
+
+    srcs: [
+        "common.cpp",
+    ],
+
+    shared_libs: [
+        "libandroid",
+        "libbase",
+    ],
+
+    product_variables: {
+        // The PDK build does not have access to frameworks/native elements.
+        pdk: {
+            enabled: false,
+        },
+    },
+}
+
+// Sample util binaries.
+cc_binary {
+    name: "dnschk",
+    defaults: ["multinetwork_defaults"],
+
+    srcs: [
+        "dnschk.cpp",
+    ],
+}
+
+cc_binary {
+    name: "httpurl",
+    defaults: ["multinetwork_defaults"],
+
+    srcs: [
+        "httpurl.cpp",
+    ],
+}

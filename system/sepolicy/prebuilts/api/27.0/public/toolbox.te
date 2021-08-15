@@ -1,0 +1,24 @@
+# Any toolbox command run by init.
+# At present, the only known usage is for running mkswap via fs_mgr.
+# Do NOT use this domain for toolbox when run by any other domain.
+type toolbox, domain;
+type toolbox_exec, exec_type, file_type;
+
+# /dev/__null__ created by init prior to policy load,
+# open fd inherited by fsck.
+allow toolbox tmpfs:chr_file { read write ioctl };
+
+# Inherit and use pty created by android_fork_execvp_ext().
+allow toolbox devpts:chr_file { read write getattr ioctl };
+
+# mkswap-specific.
+# Read/write block devices used for swap partitions.
+# Assign swap_block_device type any such partition in your
+# device/<vendor>/<product>/sepolicy/file_contexts file.
+allow toolbox block_device:dir search;
+allow toolbox swap_block_device:blk_file rw_file_perms;
+
+# Only allow entry from init via the toolbox binary.
+neverallow { domain -init } toolbox:process transition;
+neverallow * toolbox:process dyntransition;
+neverallow toolbox { file_type fs_type -toolbox_exec}:file entrypoint;

@@ -1,0 +1,133 @@
+# gsid - Manager for GSI Installation
+
+type gsid, domain;
+type gsid_exec, exec_type, file_type, system_file_type;
+typeattribute gsid coredomain;
+
+init_daemon_domain(gsid)
+
+binder_use(gsid)
+binder_service(gsid)
+add_service(gsid, gsi_service)
+set_prop(gsid, gsid_prop)
+
+# Needed to create/delete device-mapper nodes, and read/write to them.
+allow gsid dm_device:chr_file rw_file_perms;
+allow gsid dm_device:blk_file rw_file_perms;
+allow gsid self:global_capability_class_set sys_admin;
+dontaudit gsid self:global_capability_class_set dac_override;
+
+# libfiemap_writer uses sysfs to derive the bottom of a device-mapper stacking.
+# This requires traversing /sys/block/dm-N/slaves/* and reading the list of
+# file names.
+allow gsid sysfs_dm:dir r_dir_perms;
+
+# Needed to read fstab, which is used to validate that system verity does not
+# use check_once_at_most for sdcard installs. (Note: proc_cmdline is needed
+# to get the A/B slot suffix).
+allow gsid proc_cmdline:file r_file_perms;
+allow gsid sysfs_dt_firmware_android:dir r_dir_perms;
+allow gsid sysfs_dt_firmware_android:file r_file_perms;
+
+# Needed to stat /data/gsi/* and realpath on /dev/block/by-name/*
+allow gsid block_device:dir r_dir_perms;
+
+# liblp queries these block alignment properties.
+allowxperm gsid { userdata_block_device sdcard_block_device }:blk_file ioctl {
+  BLKIOMIN
+  BLKALIGNOFF
+};
+
+# When installing images to an sdcard, gsid needs to be able to stat() the
+# block device. gsid also calls realpath() to remove symlinks.
+allow gsid mnt_media_rw_file:dir r_dir_perms;
+
+# When installing images to an sdcard, gsid must bypass sdcardfs and install
+# directly to vfat, which supports the FIBMAP ioctl.
+allow gsid vfat:dir rw_dir_perms;
+allow gsid vfat:file create_file_perms;
+allow gsid sdcard_block_device:blk_file r_file_perms;
+# This is needed for FIBMAP unfortunately. Oddly FIEMAP does not carry this
+# requirement, but the kernel does not implement FIEMAP support for VFAT.
+allow gsid self:global_capability_class_set sys_rawio;
+
+# gsi_tool passes the system image over the adb connection, via stdin.
+allow gsid adbd:fd use;
+# Needed when running gsi_tool through "su root" rather than adb root.
+allow gsid adbd:unix_stream_socket rw_socket_perms;
+
+neverallow { domain -gsid -init } gsid_prop:property_service set;
+
+# gsid needs to store images on /data, but cannot use file I/O. If it did, the
+# underlying blocks would be encrypted, and we couldn't mount the GSI image in
+# first-stage init. So instead of directly writing to /data, we:
+#
+#   1. fallocate a file large enough to hold the signed GSI
+#   2. extract its block layout with FIEMAP
+#   3. create a dm-linear device using the FIEMAP, targeting /dev/block/by-name/userdata
+#   4. write system_gsi into that dm device
+#
+# To make this process work, we need to unwrap the device-mapper stacking for
+# userdata to reach the underlying block device. To verify the result we use
+# stat(), which requires read access.
+allow gsid userdata_block_device:blk_file r_file_perms;
+
+# gsid uses /metadata/gsi to communicate GSI boot information to first-stage
+# init. It cannot use userdata since data cannot be decrypted during this
+# stage.
+#
+# gsid uses /metadata/gsi to store three files:
+#   install_status - A short string indicating whether a GSI image is bootable.
+#   lp_metadata    - LpMetadata blob describing the block ranges on userdata
+#                    where system_gsi resides.
+#   booted         - An empty file that, if exists, indicates that a GSI is
+#                    currently running.
+#
+allow gsid metadata_file:dir search;
+allow gsid gsi_metadata_file:dir rw_dir_perms;
+allow gsid gsi_metadata_file:file create_file_perms;
+
+allow gsid gsi_data_file:dir rw_dir_perms;
+allow gsid gsi_data_file:file create_file_perms;
+allowxperm gsid gsi_data_file:file ioctl FS_IOC_FIEMAP;
+
+neverallow {
+    domain
+    -init
+    -gsid
+    -fastbootd
+    -vold
+} gsi_metadata_file:dir *;
+
+neverallow {
+    domain
+    -init
+    -gsid
+    -fastbootd
+    -vold
+} gsi_metadata_file:notdevfile_class_set ~{ relabelto getattr };
+
+neverallow {
+    domain
+    -init
+    -gsid
+    -fastbootd
+    -vold
+} { gsi_data_file gsi_metadata_file }:notdevfile_class_set *;
+
+neverallow {
+    domain
+    -gsid
+    -init
+} gsi_data_file:dir ~{ open create read getattr setattr search relabelto ioctl };
+
+neverallow {
+    domain
+    -init
+    -gsid
+} gsi_data_file:dir *;
+
+neverallow {
+    domain
+    -gsid
+} gsi_data_file:notdevfile_class_set ~{ relabelto getattr };

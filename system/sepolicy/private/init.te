@@ -1,0 +1,34 @@
+typeattribute init coredomain;
+
+tmpfs_domain(init)
+
+# Transitions to seclabel processes in init.rc
+domain_trans(init, rootfs, healthd)
+domain_trans(init, rootfs, slideshow)
+domain_auto_trans(init, charger_exec, charger)
+domain_auto_trans(init, e2fs_exec, e2fs)
+domain_auto_trans(init, bpfloader_exec, bpfloader)
+
+recovery_only(`
+  # Files in recovery image are labeled as rootfs.
+  domain_trans(init, rootfs, adbd)
+  domain_trans(init, rootfs, charger)
+  domain_trans(init, rootfs, fastbootd)
+  domain_trans(init, rootfs, recovery)
+')
+domain_trans(init, shell_exec, shell)
+domain_trans(init, init_exec, ueventd)
+domain_trans(init, init_exec, vendor_init)
+domain_trans(init, { rootfs toolbox_exec }, modprobe)
+userdebug_or_eng(`
+  # case where logpersistd is actually logcat -f in logd context (nee: logcatd)
+  domain_auto_trans(init, logcat_exec, logpersist)
+
+  # allow init to execute services marked with seclabel u:r:su:s0 in userdebug/eng
+  allow init su:process transition;
+  dontaudit init su:process noatsecure;
+  allow init su:process { siginh rlimitinh };
+')
+
+# Allow the BoringSSL self test to request a reboot upon failure
+set_prop(init, powerctl_prop)

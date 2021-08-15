@@ -1,0 +1,17 @@
+# Allow apps to read the Test Harness Mode property. This property is used in
+# the implementation of ActivityManager.isDeviceInTestHarnessMode()
+get_prop(appdomain, test_harness_prop)
+
+neverallow appdomain system_server:udp_socket {
+        accept append bind create ioctl listen lock name_bind
+        relabelfrom relabelto setattr shutdown };
+
+# Transition to a non-app domain.
+# Exception for the shell and su domains, can transition to runas, etc.
+# Exception for crash_dump to allow for app crash reporting.
+# Exception for renderscript binaries (/system/bin/bcc, /system/bin/ld.mc)
+# to allow renderscript to create privileged executable files.
+neverallow { appdomain -shell userdebug_or_eng(`-su') }
+    { domain -appdomain -crash_dump -rs }:process { transition };
+neverallow { appdomain -shell userdebug_or_eng(`-su') }
+    { domain -appdomain }:process { dyntransition };

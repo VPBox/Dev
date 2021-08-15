@@ -1,0 +1,12 @@
+cc_binary {
+    name: "runconuid",
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+
+    srcs: ["runconuid.cpp"],
+
+    shared_libs: ["libselinux"],
+}

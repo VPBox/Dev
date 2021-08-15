@@ -1,0 +1,12 @@
+type notify_traceur, domain, coredomain;
+type notify_traceur_exec, system_file_type, exec_type, file_type;
+
+init_daemon_domain(notify_traceur);
+binder_use(notify_traceur);
+
+# This is to execute am
+allow notify_traceur activity_service:service_manager find;
+allow notify_traceur shell_exec:file rx_file_perms;
+allow notify_traceur system_file:file rx_file_perms;
+
+binder_call(notify_traceur, system_server);

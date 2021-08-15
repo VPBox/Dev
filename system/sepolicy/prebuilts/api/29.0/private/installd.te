@@ -1,0 +1,45 @@
+typeattribute installd coredomain;
+
+init_daemon_domain(installd)
+
+# Run dex2oat in its own sandbox.
+domain_auto_trans(installd, dex2oat_exec, dex2oat)
+
+# Run dexoptanalyzer in its own sandbox.
+domain_auto_trans(installd, dexoptanalyzer_exec, dexoptanalyzer)
+
+# Run viewcompiler in its own sandbox.
+domain_auto_trans(installd, viewcompiler_exec, viewcompiler)
+
+# Run profman in its own sandbox.
+domain_auto_trans(installd, profman_exec, profman)
+
+# Run idmap in its own sandbox.
+domain_auto_trans(installd, idmap_exec, idmap)
+
+# Run migrate_legacy_obb_data.sh in its own sandbox.
+domain_auto_trans(installd, migrate_legacy_obb_data_exec, migrate_legacy_obb_data)
+allow installd shell_exec:file rx_file_perms;
+
+# Create /data/.layout_version.* file
+type_transition installd system_data_file:file install_data_file;
+
+# For collecting bugreports.
+allow installd dumpstate:fd use;
+allow installd dumpstate:fifo_file r_file_perms;
+
+# Delete /system/bin/bcc generated artifacts
+allow installd app_exec_data_file:file unlink;
+
+# Capture userdata snapshots to /data/misc_[ce|de]/rollback and
+# subsequently restore them.
+allow installd rollback_data_file:dir create_dir_perms;
+allow installd rollback_data_file:file create_file_perms;
+
+# Allow installd to access the runtime feature flag properties.
+get_prop(installd, device_config_runtime_native_prop)
+get_prop(installd, device_config_runtime_native_boot_prop)
+
+# Allow installd to delete files in /data/staging
+allow installd staging_data_file:file unlink;
+allow installd staging_data_file:dir { open read remove_name rmdir search write };

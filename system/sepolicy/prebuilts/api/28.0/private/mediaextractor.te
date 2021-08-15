@@ -1,0 +1,3 @@
+typeattribute mediaextractor coredomain;
+
+init_daemon_domain(mediaextractor)

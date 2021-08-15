@@ -1,0 +1,39 @@
+typeattribute logd coredomain;
+
+init_daemon_domain(logd)
+
+# logd is not allowed to write anywhere other than /data/misc/logd, and then
+# only on userdebug or eng builds
+# TODO: deal with tmpfs_domain pub/priv split properly
+neverallow logd {
+  file_type
+  -logd_tmpfs
+  -runtime_event_log_tags_file
+  userdebug_or_eng(`-coredump_file -misc_logd_file')
+}:file { create write append };
+
+# protect the event-log-tags file
+neverallow {
+  domain
+  -appdomain # covered below
+  -bootstat
+  -dumpstate
+  -init
+  -logd
+  userdebug_or_eng(`-logpersist')
+  -servicemanager
+  -system_server
+  -surfaceflinger
+  -zygote
+} runtime_event_log_tags_file:file no_rw_file_perms;
+
+neverallow {
+  appdomain
+  -bluetooth
+  -platform_app
+  -priv_app
+  -radio
+  -shell
+  userdebug_or_eng(`-su')
+  -system_app
+} runtime_event_log_tags_file:file no_rw_file_perms;

@@ -1,0 +1,58 @@
+# drmserver - DRM service
+type drmserver, domain;
+type drmserver_exec, exec_type, file_type;
+
+typeattribute drmserver mlstrustedsubject;
+
+net_domain(drmserver)
+
+# Perform Binder IPC to system server.
+binder_use(drmserver)
+binder_call(drmserver, system_server)
+binder_call(drmserver, appdomain)
+binder_service(drmserver)
+# Inherit or receive open files from system_server.
+allow drmserver system_server:fd use;
+
+# Perform Binder IPC to mediaserver
+binder_call(drmserver, mediaserver)
+
+allow drmserver sdcard_type:dir search;
+allow drmserver drm_data_file:dir create_dir_perms;
+allow drmserver drm_data_file:file create_file_perms;
+allow drmserver tee_device:chr_file rw_file_perms;
+allow drmserver app_data_file:file { read write getattr };
+allow drmserver sdcard_type:file { read write getattr };
+r_dir_file(drmserver, efs_file)
+
+type drmserver_socket, file_type;
+
+# /data/app/tlcd_sock socket file.
+# Clearly, /data/app is the most logical place to create a socket.  Not.
+allow drmserver apk_data_file:dir rw_dir_perms;
+allow drmserver drmserver_socket:sock_file create_file_perms;
+# Delete old socket file if present.
+allow drmserver apk_data_file:sock_file unlink;
+
+# After taking a video, drmserver looks at the video file.
+r_dir_file(drmserver, media_rw_data_file)
+
+# Read resources from open apk files passed over Binder.
+allow drmserver apk_data_file:file { read getattr };
+allow drmserver asec_apk_file:file { read getattr };
+allow drmserver ringtone_file:file { read getattr };
+
+# Read /data/data/com.android.providers.telephony files passed over Binder.
+allow drmserver radio_data_file:file { read getattr };
+
+# /oem access
+allow drmserver oemfs:dir search;
+allow drmserver oemfs:file r_file_perms;
+
+add_service(drmserver, drmserver_service)
+allow drmserver permission_service:service_manager find;
+
+selinux_check_access(drmserver)
+
+r_dir_file(drmserver, cgroup)
+r_dir_file(drmserver, system_file)

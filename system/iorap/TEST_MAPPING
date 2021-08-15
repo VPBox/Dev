@@ -1,0 +1,13 @@
+{
+  "presubmit": [
+    {
+      "name": "iorapd-tests"
+    }
+  ],
+  "imports": [
+    {
+      "path": "frameworks/base/startop/iorap"
+    }
+  ]
+}
+

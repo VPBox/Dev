@@ -1,0 +1,430 @@
+######################################
+# Attribute declarations
+#
+
+# All types used for devices.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# in tools/checkfc.c
+attribute dev_type;
+
+# All types used for processes.
+attribute domain;
+
+# All types used for filesystems.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute fs_type;
+
+# All types used for context= mounts.
+attribute contextmount_type;
+
+# All types used for files that can exist on a labeled fs.
+# Do not use for pseudo file types.
+# On change, update CHECK_FC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute file_type;
+
+# All types used for domain entry points.
+attribute exec_type;
+
+# All types used for /data files.
+attribute data_file_type;
+expandattribute data_file_type false;
+# All types in /data, not in /data/vendor
+attribute core_data_file_type;
+# All types in /vendor
+attribute vendor_file_type;
+
+# All types use for sysfs files.
+attribute sysfs_type;
+
+# All types use for debugfs files.
+attribute debugfs_type;
+
+# Attribute used for all sdcards
+attribute sdcard_type;
+
+# All types used for nodes/hosts.
+attribute node_type;
+
+# All types used for network interfaces.
+attribute netif_type;
+
+# All types used for network ports.
+attribute port_type;
+
+# All types used for property service
+# On change, update CHECK_PC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute property_type;
+
+# All properties defined in core SELinux policy. Should not be
+# used by device specific properties
+attribute core_property_type;
+
+# All properties used to configure log filtering.
+attribute log_property_type;
+
+# All service_manager types created by system_server
+attribute system_server_service;
+
+# services which should be available to all but isolated apps
+attribute app_api_service;
+
+# services which should be available to all ephemeral apps
+attribute ephemeral_app_api_service;
+
+# services which export only system_api
+attribute system_api_service;
+
+# All types used for services managed by servicemanager.
+# On change, update CHECK_SC_ASSERT_ATTRS
+# definition in tools/checkfc.c.
+attribute service_manager_type;
+
+# All types used for services managed by hwservicemanager
+attribute hwservice_manager_type;
+
+# All HwBinder services guaranteed to be passthrough. These services always run
+# in the process of their clients, and thus operate with the same access as
+# their clients.
+attribute same_process_hwservice;
+
+# All HwBinder services guaranteed to be offered only by core domain components
+attribute coredomain_hwservice;
+
+# All types used for services managed by vndservicemanager
+attribute vndservice_manager_type;
+
+
+# All domains that can override MLS restrictions.
+# i.e. processes that can read up and write down.
+attribute mlstrustedsubject;
+
+# All types that can override MLS restrictions.
+# i.e. files that can be read by lower and written by higher
+attribute mlstrustedobject;
+
+# All domains used for apps.
+attribute appdomain;
+
+# All third party apps.
+attribute untrusted_app_all;
+
+# All domains used for apps with network access.
+attribute netdomain;
+
+# All domains used for apps with bluetooth access.
+attribute bluetoothdomain;
+
+# All domains used for binder service domains.
+attribute binderservicedomain;
+
+# update_engine related domains that need to apply an update and run
+# postinstall. This includes the background daemon and the sideload tool from
+# recovery for A/B devices.
+attribute update_engine_common;
+
+# All core domains (as opposed to vendor/device-specific domains)
+attribute coredomain;
+
+# All socket devices owned by core domain components
+attribute coredomain_socket;
+
+# All vendor domains which violate the requirement of not using Binder
+# TODO(b/35870313): Remove this once there are no violations
+attribute binder_in_vendor_violators;
+expandattribute binder_in_vendor_violators false;
+
+# All vendor domains which violate the requirement of not using sockets for
+# communicating with core components
+# TODO(b/36577153): Remove this once there are no violations
+attribute socket_between_core_and_vendor_violators;
+expandattribute socket_between_core_and_vendor_violators false;
+
+# All vendor domains which violate the requirement of not executing
+# system processes
+# TODO(b/36463595)
+attribute vendor_executes_system_violators;
+expandattribute vendor_executes_system_violators false;
+
+# hwservices that are accessible from untrusted applications
+# WARNING: Use of this attribute should be avoided unless
+# absolutely necessary.  It is a temporary allowance to aid the
+# transition to treble and will be removed in a future platform
+# version, requiring all hwservices that are labeled with this
+# attribute to be submitted to AOSP in order to maintain their
+# app-visibility.
+attribute untrusted_app_visible_hwservice;
+expandattribute untrusted_app_visible_hwservice false;
+
+# halserver domains that are accessible to untrusted applications.  These
+# domains are typically those hosting  hwservices attributed by the
+# untrusted_app_visible_hwservice.
+# WARNING: Use of this attribute should be avoided unless absolutely necessary.
+# It is a temporary allowance to aid the transition to treble and will be
+# removed in the future platform version, requiring all halserver domains that
+# are labeled with this attribute to be submitted to AOSP in order to maintain
+# their app-visibility.
+attribute untrusted_app_visible_halserver;
+expandattribute untrusted_app_visible_halserver false;
+
+# PDX services
+attribute pdx_endpoint_dir_type;
+attribute pdx_endpoint_socket_type;
+expandattribute pdx_endpoint_socket_type false;
+attribute pdx_channel_socket_type;
+expandattribute pdx_channel_socket_type false;
+
+pdx_service_attributes(display_client)
+pdx_service_attributes(display_manager)
+pdx_service_attributes(display_screenshot)
+pdx_service_attributes(display_vsync)
+pdx_service_attributes(performance_client)
+pdx_service_attributes(bufferhub_client)
+
+# All HAL servers
+attribute halserverdomain;
+# All HAL clients
+attribute halclientdomain;
+expandattribute halclientdomain true;
+
+# HALs
+attribute hal_allocator;
+expandattribute hal_allocator true;
+attribute hal_allocator_client;
+expandattribute hal_allocator_client true;
+attribute hal_allocator_server;
+expandattribute hal_allocator_server false;
+attribute hal_audio;
+expandattribute hal_audio false;
+attribute hal_audio_client;
+expandattribute hal_audio_client true;
+attribute hal_audio_server;
+expandattribute hal_audio_server false;
+attribute hal_bluetooth;
+expandattribute hal_bluetooth true;
+attribute hal_bluetooth_client;
+expandattribute hal_bluetooth_client true;
+attribute hal_bluetooth_server;
+expandattribute hal_bluetooth_server false;
+attribute hal_bootctl;
+expandattribute hal_bootctl false;
+attribute hal_bootctl_client;
+expandattribute hal_bootctl_client true;
+attribute hal_bootctl_server;
+expandattribute hal_bootctl_server false;
+attribute hal_broadcastradio;
+expandattribute hal_broadcastradio true;
+attribute hal_broadcastradio_client;
+expandattribute hal_broadcastradio_client true;
+attribute hal_broadcastradio_server;
+expandattribute hal_broadcastradio_server false;
+attribute hal_camera;
+expandattribute hal_camera false;
+attribute hal_camera_client;
+expandattribute hal_camera_client true;
+attribute hal_camera_server;
+expandattribute hal_camera_server false;
+attribute hal_configstore;
+expandattribute hal_configstore true;
+attribute hal_configstore_client;
+expandattribute hal_configstore_client true;
+attribute hal_configstore_server;
+expandattribute hal_configstore_server false;
+attribute hal_contexthub;
+expandattribute hal_contexthub true;
+attribute hal_contexthub_client;
+expandattribute hal_contexthub_client true;
+attribute hal_contexthub_server;
+expandattribute hal_contexthub_server false;
+attribute hal_drm;
+expandattribute hal_drm false;
+attribute hal_drm_client;
+expandattribute hal_drm_client true;
+attribute hal_drm_server;
+expandattribute hal_drm_server false;
+attribute hal_cas;
+expandattribute hal_cas false;
+attribute hal_cas_client;
+expandattribute hal_cas_client true;
+attribute hal_cas_server;
+expandattribute hal_cas_server false;
+attribute hal_dumpstate;
+expandattribute hal_dumpstate true;
+attribute hal_dumpstate_client;
+expandattribute hal_dumpstate_client true;
+attribute hal_dumpstate_server;
+expandattribute hal_dumpstate_server false;
+attribute hal_fingerprint;
+expandattribute hal_fingerprint true;
+attribute hal_fingerprint_client;
+expandattribute hal_fingerprint_client true;
+attribute hal_fingerprint_server;
+expandattribute hal_fingerprint_server false;
+attribute hal_gatekeeper;
+expandattribute hal_gatekeeper true;
+attribute hal_gatekeeper_client;
+expandattribute hal_gatekeeper_client true;
+attribute hal_gatekeeper_server;
+expandattribute hal_gatekeeper_server false;
+attribute hal_gnss;
+expandattribute hal_gnss true;
+attribute hal_gnss_client;
+expandattribute hal_gnss_client true;
+attribute hal_gnss_server;
+expandattribute hal_gnss_server false;
+attribute hal_graphics_allocator;
+expandattribute hal_graphics_allocator true;
+attribute hal_graphics_allocator_client;
+expandattribute hal_graphics_allocator_client true;
+attribute hal_graphics_allocator_server;
+expandattribute hal_graphics_allocator_server false;
+attribute hal_graphics_composer;
+expandattribute hal_graphics_composer true;
+attribute hal_graphics_composer_client;
+expandattribute hal_graphics_composer_client true;
+attribute hal_graphics_composer_server;
+expandattribute hal_graphics_composer_server false;
+attribute hal_health;
+expandattribute hal_health true;
+attribute hal_health_client;
+expandattribute hal_health_client true;
+attribute hal_health_server;
+expandattribute hal_health_server false;
+attribute hal_ir;
+expandattribute hal_ir true;
+attribute hal_ir_client;
+expandattribute hal_ir_client true;
+attribute hal_ir_server;
+expandattribute hal_ir_server false;
+attribute hal_keymaster;
+expandattribute hal_keymaster true;
+attribute hal_keymaster_client;
+expandattribute hal_keymaster_client true;
+attribute hal_keymaster_server;
+expandattribute hal_keymaster_server false;
+attribute hal_light;
+expandattribute hal_light true;
+attribute hal_light_client;
+expandattribute hal_light_client true;
+attribute hal_light_server;
+expandattribute hal_light_server false;
+attribute hal_memtrack;
+expandattribute hal_memtrack true;
+attribute hal_memtrack_client;
+expandattribute hal_memtrack_client true;
+attribute hal_memtrack_server;
+expandattribute hal_memtrack_server false;
+attribute hal_neuralnetworks;
+expandattribute hal_neuralnetworks true;
+attribute hal_neuralnetworks_client;
+expandattribute hal_neuralnetworks_client true;
+attribute hal_neuralnetworks_server;
+expandattribute hal_neuralnetworks_server false;
+attribute hal_nfc;
+expandattribute hal_nfc true;
+attribute hal_nfc_client;
+expandattribute hal_nfc_client true;
+attribute hal_nfc_server;
+expandattribute hal_nfc_server false;
+attribute hal_oemlock;
+expandattribute hal_oemlock true;
+attribute hal_oemlock_client;
+expandattribute hal_oemlock_client true;
+attribute hal_oemlock_server;
+expandattribute hal_oemlock_server false;
+attribute hal_power;
+expandattribute hal_power true;
+attribute hal_power_client;
+expandattribute hal_power_client true;
+attribute hal_power_server;
+expandattribute hal_power_server false;
+attribute hal_sensors;
+expandattribute hal_sensors true;
+attribute hal_sensors_client;
+expandattribute hal_sensors_client true;
+attribute hal_sensors_server;
+expandattribute hal_sensors_server false;
+attribute hal_telephony;
+expandattribute hal_telephony true;
+attribute hal_telephony_client;
+expandattribute hal_telephony_client true;
+attribute hal_telephony_server;
+expandattribute hal_telephony_server false;
+attribute hal_tetheroffload;
+expandattribute hal_tetheroffload true;
+attribute hal_tetheroffload_client;
+expandattribute hal_tetheroffload_client true;
+attribute hal_tetheroffload_server;
+expandattribute hal_tetheroffload_server false;
+attribute hal_thermal;
+expandattribute hal_thermal true;
+attribute hal_thermal_client;
+expandattribute hal_thermal_client true;
+attribute hal_thermal_server;
+expandattribute hal_thermal_server false;
+attribute hal_tv_cec;
+expandattribute hal_tv_cec true;
+attribute hal_tv_cec_client;
+expandattribute hal_tv_cec_client true;
+attribute hal_tv_cec_server;
+expandattribute hal_tv_cec_server false;
+attribute hal_tv_input;
+expandattribute hal_tv_input true;
+attribute hal_tv_input_client;
+expandattribute hal_tv_input_client true;
+attribute hal_tv_input_server;
+expandattribute hal_tv_input_server false;
+attribute hal_usb;
+expandattribute hal_usb true;
+attribute hal_usb_client;
+expandattribute hal_usb_client true;
+attribute hal_usb_server;
+expandattribute hal_usb_server false;
+attribute hal_vibrator;
+expandattribute hal_vibrator true;
+attribute hal_vibrator_client;
+expandattribute hal_vibrator_client true;
+attribute hal_vibrator_server;
+expandattribute hal_vibrator_server false;
+attribute hal_vr;
+expandattribute hal_vr true;
+attribute hal_vr_client;
+expandattribute hal_vr_client true;
+attribute hal_vr_server;
+expandattribute hal_vr_server false;
+attribute hal_weaver;
+expandattribute hal_weaver true;
+attribute hal_weaver_client;
+expandattribute hal_weaver_client true;
+attribute hal_weaver_server;
+expandattribute hal_weaver_server false;
+attribute hal_wifi;
+expandattribute hal_wifi true;
+attribute hal_wifi_client;
+expandattribute hal_wifi_client true;
+attribute hal_wifi_server;
+expandattribute hal_wifi_server false;
+attribute hal_wifi_offload;
+expandattribute hal_wifi_offload true;
+attribute hal_wifi_offload_client;
+expandattribute hal_wifi_offload_client true;
+attribute hal_wifi_offload_server;
+expandattribute hal_wifi_offload_server false;
+attribute hal_wifi_supplicant;
+expandattribute hal_wifi_supplicant true;
+attribute hal_wifi_supplicant_client;
+expandattribute hal_wifi_supplicant_client true;
+attribute hal_wifi_supplicant_server;
+expandattribute hal_wifi_supplicant_server false;
+
+# HwBinder services offered across the core-vendor boundary
+#
+# We annotate server domains with x_server  to loosen the coupling between
+# system and vendor images. For example, it should be possible to move a service
+# from one core domain to another, without having to update the vendor image
+# which contains clients of this service.
+
+attribute display_service_server;
+attribute wifi_keystore_service_server;

@@ -1,0 +1,18 @@
+# The tzdatacheck command run by init.
+type tzdatacheck, domain;
+type tzdatacheck_exec, system_file_type, exec_type, file_type;
+
+allow tzdatacheck zoneinfo_data_file:dir create_dir_perms;
+allow tzdatacheck zoneinfo_data_file:file unlink;
+
+# Below are strong assertion that only init, system_server and tzdatacheck
+# can modify the /data time zone rules directories. This is to make it very
+# clear that only these domains should modify the actual time zone rules data.
+# The tzdatacheck binary itself may be executed by shell for tests but it must
+# not be able to modify the real rules.
+# If other users / binaries could modify time zone rules on device this might
+# have negative implications for users (who may get incorrect local times)
+# or break assumptions made / invalidate data held by the components actually
+# responsible for updating time zone rules.
+neverallow { domain -system_server -init -tzdatacheck } zoneinfo_data_file:file no_w_file_perms;
+neverallow { domain -system_server -init -tzdatacheck } zoneinfo_data_file:dir no_w_dir_perms;

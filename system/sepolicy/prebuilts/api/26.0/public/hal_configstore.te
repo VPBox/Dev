@@ -1,0 +1,7 @@
+# HwBinder IPC from client to server
+binder_call(hal_configstore_client, hal_configstore_server)
+
+add_hwservice(hal_configstore_server, hal_configstore_ISurfaceFlingerConfigs)
+# As opposed to the rules of most other HALs, the different services exposed by
+# this HAL should be restricted to different clients. Thus, the allow rules for
+# clients are defined in the .te files of the clients.

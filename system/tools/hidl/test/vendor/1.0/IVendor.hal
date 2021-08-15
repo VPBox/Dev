@@ -1,0 +1,39 @@
+// note this file tests carriage returns
+
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package hidl.tests.vendor@1.0;
+
+import android.hardware.tests.baz@1.0;
+
+interface IVendor extends IBaz {
+
+    struct StructTest {
+        vec<uint8_t> b;
+        string d;
+        uint8_t[4][4] e;
+    };
+
+    fun2(vec<uint8_t> a) generates(vec<uint8_t> b);
+    fun4(string a) generates(string b);
+    fun5(uint8_t[4][4] a) generates(uint8_t[4][4] b);
+
+    // Testing static functions in derived class
+    // overriding virtual functions in parent class
+    // due to namespace resolution.
+    registerForNotifications();
+};

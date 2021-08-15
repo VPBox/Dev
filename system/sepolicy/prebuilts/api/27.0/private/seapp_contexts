@@ -1,0 +1,110 @@
+# Input selectors:
+#       isSystemServer (boolean)
+#       isEphemeralApp (boolean)
+#       isV2App (boolean)
+#       isOwner (boolean)
+#       user (string)
+#       seinfo (string)
+#       name (string)
+#       path (string)
+#       isPrivApp (boolean)
+#       minTargetSdkVersion (unsigned integer)
+# isSystemServer=true can only be used once.
+# An unspecified isSystemServer defaults to false.
+# isEphemeralApp=true will match apps marked by PackageManager as Ephemeral
+# isV2App=true will match apps in the v2 app sandbox.
+# isOwner=true will only match for the owner/primary user.
+# isOwner=false will only match for secondary users.
+# If unspecified, the entry can match either case.
+# An unspecified string selector will match any value.
+# A user string selector that ends in * will perform a prefix match.
+# user=_app will match any regular app UID.
+# user=_isolated will match any isolated service UID.
+# isPrivApp=true will only match for applications preinstalled in
+#       /system/priv-app.
+# minTargetSdkVersion will match applications with a targetSdkVersion
+#       greater than or equal to the specified value. If unspecified,
+#       it has a default value of 0.
+# All specified input selectors in an entry must match (i.e. logical AND).
+# Matching is case-insensitive.
+#
+# Precedence rules (see external/selinux/libselinux/src/android/android.c seapp_context_cmp()):
+#       (1) isSystemServer=true before isSystemServer=false.
+#       (2) Specified isEphemeralApp= before unspecified isEphemeralApp= boolean.
+#       (3) Specified isV2App= before unspecified isV2App= boolean.
+#       (4) Specified isOwner= before unspecified isOwner= boolean.
+#       (5) Specified user= string before unspecified user= string.
+#       (6) Fixed user= string before user= prefix (i.e. ending in *).
+#       (7) Longer user= prefix before shorter user= prefix.
+#       (8) Specified seinfo= string before unspecified seinfo= string.
+#           ':' character is reserved and may not be used.
+#       (9) Specified name= string before unspecified name= string.
+#       (10) Specified path= string before unspecified path= string.
+#       (11) Specified isPrivApp= before unspecified isPrivApp= boolean.
+#       (12) Higher value of minTargetSdkVersion= before lower value of minTargetSdkVersion=
+#              integer. Note that minTargetSdkVersion= defaults to 0 if unspecified.
+#
+# Outputs:
+#       domain (string)
+#       type (string)
+#       levelFrom (string; one of none, all, app, or user)
+#       level (string)
+# Only entries that specify domain= will be used for app process labeling.
+# Only entries that specify type= will be used for app directory labeling.
+# levelFrom=user is only supported for _app or _isolated UIDs.
+# levelFrom=app or levelFrom=all is only supported for _app UIDs.
+# level may be used to specify a fixed level for any UID.
+#
+#
+# Neverallow Assertions
+# Additional compile time assertion checks can be added as well. The assertion
+# rules are lines beginning with the keyword neverallow. Full support for PCRE
+# regular expressions exists on all input and output selectors. Neverallow
+# rules are never output to the built seapp_contexts file. Like all keywords,
+# neverallows are case-insensitive. A neverallow is asserted when all key value
+# inputs are matched on a key value rule line.
+#
+
+# only the system server can be in system_server domain
+neverallow isSystemServer=false domain=system_server
+neverallow isSystemServer="" domain=system_server
+
+# system domains should never be assigned outside of system uid
+neverallow user=((?!system).)* domain=system_app
+neverallow user=((?!system).)* type=system_app_data_file
+
+# anything with a non-known uid with a specified name should have a specified seinfo
+neverallow user=_app name=.* seinfo=""
+neverallow user=_app name=.* seinfo=default
+
+# neverallow shared relro to any other domain
+# and neverallow any other uid into shared_relro
+neverallow user=shared_relro domain=((?!shared_relro).)*
+neverallow user=((?!shared_relro).)* domain=shared_relro
+
+# neverallow non-isolated uids into isolated_app domain
+# and vice versa
+neverallow user=_isolated domain=((?!isolated_app).)*
+neverallow user=((?!_isolated).)* domain=isolated_app
+
+# uid shell should always be in shell domain, however non-shell
+# uid's can be in shell domain
+neverallow user=shell domain=((?!shell).)*
+
+# Ephemeral Apps must run in the ephemeral_app domain
+neverallow isEphemeralApp=true domain=((?!ephemeral_app).)*
+
+isSystemServer=true domain=system_server
+user=system seinfo=platform domain=system_app type=system_app_data_file
+user=bluetooth seinfo=platform domain=bluetooth type=bluetooth_data_file
+user=nfc seinfo=platform domain=nfc type=nfc_data_file
+user=radio seinfo=platform domain=radio type=radio_data_file
+user=shared_relro domain=shared_relro
+user=shell seinfo=platform domain=shell type=shell_data_file
+user=_isolated domain=isolated_app levelFrom=user
+user=_app seinfo=media domain=mediaprovider name=android.process.media type=app_data_file levelFrom=user
+user=_app seinfo=platform domain=platform_app type=app_data_file levelFrom=user
+user=_app isV2App=true isEphemeralApp=true domain=ephemeral_app type=app_data_file levelFrom=user
+user=_app isPrivApp=true domain=priv_app type=app_data_file levelFrom=user
+user=_app minTargetSdkVersion=26 domain=untrusted_app type=app_data_file levelFrom=user
+user=_app domain=untrusted_app_25 type=app_data_file levelFrom=user

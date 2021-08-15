@@ -1,0 +1,7 @@
+typeattribute recovery_refresh coredomain;
+
+init_daemon_domain(recovery_refresh)
+
+# recovery_refresh is not allowed to write anywhere
+# TODO: deal with tmpfs_domain pub/priv split properly
+neverallow recovery_refresh { file_type -recovery_refresh_tmpfs userdebug_or_eng(`-coredump_file') }:file write;

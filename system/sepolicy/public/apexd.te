@@ -1,0 +1,15 @@
+# apexd -- manager for APEX packages
+type apexd, domain;
+type apexd_exec, exec_type, file_type, system_file_type;
+
+binder_use(apexd)
+add_service(apexd, apex_service)
+set_prop(apexd, apexd_prop)
+
+neverallow { domain -init -apexd -system_server } apex_service:service_manager find;
+neverallow { domain -init -apexd -system_server } apexd:binder call;
+
+neverallow { domain userdebug_or_eng(`-crash_dump') } apexd:process ptrace;
+
+# only apexd can set apexd sysprop
+neverallow { domain -apexd -init } apexd_prop:property_service set;

@@ -1,0 +1,6 @@
+service vendor.cas-hal-1-1 /vendor/bin/hw/android.hardware.cas@1.1-service
+    class hal
+    user media
+    group mediadrm drmrpc
+    ioprio rt 4
+    writepid /dev/cpuset/foreground/tasks

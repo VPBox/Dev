@@ -1,0 +1,134 @@
+cc_defaults {
+    name: "fluoride_osi_defaults",
+    defaults: ["fluoride_defaults"],
+    include_dirs: [
+        "system/bt",
+        "system/bt/internal_include",
+        "system/bt/utils/include",
+        "system/bt/stack/include",
+    ]
+}
+
+// Static libraries required by other modules
+// ========================================================
+cc_test_library {
+    name: "libosi-AllocationTestHarness",
+    defaults: ["fluoride_osi_defaults"],
+    srcs: [
+        "test/AllocationTestHarness.cc",
+    ],
+    host_supported: true,
+    shared: {
+        enabled: false
+    },
+}
+
+cc_test_library {
+    name: "libosi-AlarmTestHarness",
+    defaults: ["fluoride_osi_defaults"],
+    srcs: [
+        "test/AlarmTestHarness.cc",
+    ],
+    host_supported: true,
+    shared: {
+        enabled: false
+    },
+}
+
+// libosi static library for target
+// ========================================================
+cc_library_static {
+    name: "libosi",
+    defaults: ["fluoride_osi_defaults"],
+    // TODO(mcchou): Remove socket_utils sources after platform specific
+    // dependencies are abstracted.
+    srcs: [
+        "src/alarm.cc",
+        "src/allocation_tracker.cc",
+        "src/allocator.cc",
+        "src/array.cc",
+        "src/buffer.cc",
+        "src/compat.cc",
+        "src/config.cc",
+        "src/fixed_queue.cc",
+        "src/future.cc",
+        "src/hash_map_utils.cc",
+        "src/list.cc",
+        "src/mutex.cc",
+        "src/osi.cc",
+        "src/properties.cc",
+        "src/reactor.cc",
+        "src/ringbuffer.cc",
+        "src/semaphore.cc",
+        "src/socket.cc",
+        "src/socket_utils/socket_local_client.cc",
+        "src/socket_utils/socket_local_server.cc",
+        "src/thread.cc",
+        "src/wakelock.cc",
+    ],
+    shared_libs: [
+        "liblog",
+    ],
+    static_libs: ["libbt-protos-lite"],
+    host_supported: true,
+    // TODO(armansito): Setting _GNU_SOURCE isn't very platform-independent but
+    // should be compatible for a Linux host OS. We should figure out what to do for
+    // a non-Linux host OS.
+    target: {
+        linux_glibc: {
+            cflags: [
+                "-D_GNU_SOURCE",
+                "-DOS_GENERIC",
+            ],
+        },
+    },
+}
+
+// libosi unit tests for target and host
+// ========================================================
+cc_test {
+    name: "net_test_osi",
+    test_suites: ["device-tests"],
+    defaults: ["fluoride_osi_defaults"],
+    host_supported: true,
+    srcs: [
+        "test/AlarmTestHarness.cc",
+        "test/AllocationTestHarness.cc",
+        "test/alarm_test.cc",
+        "test/allocation_tracker_test.cc",
+        "test/allocator_test.cc",
+        "test/array_test.cc",
+        "test/config_test.cc",
+        "test/fixed_queue_test.cc",
+        "test/future_test.cc",
+        "test/hash_map_utils_test.cc",
+        "test/list_test.cc",
+        "test/properties_test.cc",
+        "test/rand_test.cc",
+        "test/reactor_test.cc",
+        "test/ringbuffer_test.cc",
+        "test/semaphore_test.cc",
+        "test/thread_test.cc",
+        "test/wakelock_test.cc",
+    ],
+    shared_libs: [
+        "liblog",
+        "libprotobuf-cpp-lite",
+        "libcutils",
+        "libcrypto",
+    ],
+    static_libs: [
+        "libbt-common",
+        "libbt-protos-lite",
+        "libgmock",
+        "libosi",
+    ],
+    target: {
+        linux_glibc: {
+            cflags: ["-DOS_GENERIC"],
+        },
+    },
+    sanitize: {
+        cfi: false,
+    },
+}

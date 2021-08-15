@@ -1,0 +1,3 @@
+# llkd Live LocK Daemon
+type llkd, domain, mlstrustedsubject;
+type llkd_exec, system_file_type, exec_type, file_type;

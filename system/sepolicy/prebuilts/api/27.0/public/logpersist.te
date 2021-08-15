@@ -1,0 +1,26 @@
+# android debug logging, logpersist domains
+type logpersist, domain;
+
+###
+### Neverallow rules
+###
+### logpersist should NEVER do any of this
+
+# Block device access.
+neverallow logpersist dev_type:blk_file { read write };
+
+# ptrace any other app
+neverallow logpersist domain:process ptrace;
+
+# Write to files in /data/data or system files on /data except misc_logd_file
+neverallow logpersist { app_data_file system_data_file }:dir_file_class_set write;
+
+# Only init should be allowed to enter the logpersist domain via exec()
+# Following is a list of debug domains we know that transition to logpersist
+# neverallow_with_undefined_domains {
+#   domain
+#   -init       # goldfish, logcatd, raft
+#   -mmi        # bat, mtp8996, msmcobalt
+#   -system_app # Smith.apk
+# } logpersist:process transition;
+neverallow * logpersist:process dyntransition;

@@ -1,0 +1,1021 @@
+# Rules for all domains.
+
+# Allow reaping by init.
+allow domain init:process sigchld;
+
+# Intra-domain accesses.
+allow domain self:process {
+    fork
+    sigchld
+    sigkill
+    sigstop
+    signull
+    signal
+    getsched
+    setsched
+    getsession
+    getpgid
+    setpgid
+    getcap
+    setcap
+    getattr
+    setrlimit
+};
+allow domain self:fd use;
+allow domain proc:dir r_dir_perms;
+allow domain proc_net:dir search;
+r_dir_file(domain, self)
+allow domain self:{ fifo_file file } rw_file_perms;
+allow domain self:unix_dgram_socket { create_socket_perms sendto };
+allow domain self:unix_stream_socket { create_stream_socket_perms connectto };
+
+# Inherit or receive open files from others.
+allow domain init:fd use;
+
+userdebug_or_eng(`
+  # Same as adbd rules above, except allow su to do the same thing
+  allow domain su:unix_stream_socket connectto;
+  allow domain su:fd use;
+  allow domain su:unix_stream_socket { getattr getopt read write shutdown };
+
+  allow { domain -init } su:binder { call transfer };
+  allow { domain -init } su:fd use;
+
+  # Running something like "pm dump com.android.bluetooth" requires
+  # fifo writes
+  allow domain su:fifo_file { write getattr };
+
+  # allow "gdbserver --attach" to work for su.
+  allow domain su:process sigchld;
+
+  # Allow writing coredumps to /cores/*
+  allow domain coredump_file:file create_file_perms;
+  allow domain coredump_file:dir ra_dir_perms;
+')
+
+# Root fs.
+allow domain rootfs:dir search;
+allow domain rootfs:lnk_file { read getattr };
+
+# Device accesses.
+allow domain device:dir search;
+allow domain dev_type:lnk_file r_file_perms;
+allow domain devpts:dir search;
+allow domain socket_device:dir r_dir_perms;
+allow domain owntty_device:chr_file rw_file_perms;
+allow domain null_device:chr_file rw_file_perms;
+allow domain zero_device:chr_file rw_file_perms;
+allow domain ashmem_device:chr_file rw_file_perms;
+# /dev/binder can be accessed by non-vendor domains and by apps
+allow {
+  coredomain
+  appdomain
+  binder_in_vendor_violators # TODO(b/35870313): Remove once all violations are gone
+  -hwservicemanager
+} binder_device:chr_file rw_file_perms;
+# Devices which are not full TREBLE have fewer restrictions on access to /dev/binder
+not_full_treble(`allow { domain -hwservicemanager -vndservicemanager } binder_device:chr_file rw_file_perms;')
+allow { domain -servicemanager -vndservicemanager -isolated_app } hwbinder_device:chr_file rw_file_perms;
+allow domain ptmx_device:chr_file rw_file_perms;
+allow domain alarm_device:chr_file r_file_perms;
+allow domain random_device:chr_file rw_file_perms;
+allow domain properties_device:dir { search getattr };
+allow domain properties_serial:file r_file_perms;
+
+# For now, everyone can access core property files
+# Device specific properties are not granted by default
+get_prop(domain, core_property_type)
+# Let everyone read log properties, so that liblog can avoid sending unloggable
+# messages to logd.
+get_prop(domain, log_property_type)
+dontaudit domain property_type:file audit_access;
+allow domain property_contexts_file:file r_file_perms;
+
+allow domain init:key search;
+allow domain vold:key search;
+
+# logd access
+write_logd(domain)
+
+# System file accesses.
+allow domain system_file:dir { search getattr };
+allow domain system_file:file { execute read open getattr map };
+allow domain system_file:lnk_file { getattr read };
+
+# Make sure system/vendor split doesn not affect non-treble
+# devices
+not_full_treble(`
+    allow domain vendor_file_type:dir { search getattr };
+    allow domain vendor_file_type:file { execute read open getattr map };
+    allow domain vendor_file_type:lnk_file { getattr read };
+')
+
+# All domains are allowed to open and read directories
+# that contain HAL implementations (e.g. passthrough
+# HALs require clients to have these permissions)
+allow domain vendor_hal_file:dir r_dir_perms;
+
+# Everyone can read and execute all same process HALs
+allow domain same_process_hal_file:dir r_dir_perms;
+allow domain same_process_hal_file:file { execute read open getattr map };
+
+# Any process can load vndk-sp libraries, which are system libraries
+# used by same process HALs
+allow domain vndk_sp_file:dir r_dir_perms;
+allow domain vndk_sp_file:file { execute read open getattr map };
+
+# All domains get access to /vendor/etc
+allow domain vendor_configs_file:dir r_dir_perms;
+allow domain vendor_configs_file:file { read open getattr };
+
+full_treble_only(`
+    # Allow all domains to be able to follow /system/vendor symlink
+    allow domain vendor_file:lnk_file { getattr open read };
+
+    # This is required to be able to search & read /vendor/lib64
+    # in order to lookup vendor libraries. The execute permission
+    # for coredomains is granted *only* for same process HALs
+    allow domain vendor_file:dir { getattr search };
+
+    # Allow reading and executing out of /vendor to all vendor domains
+    allow { domain -coredomain } vendor_file_type:dir r_dir_perms;
+    allow { domain -coredomain } vendor_file_type:file { read open getattr execute map };
+    allow { domain -coredomain } vendor_file_type:lnk_file { getattr read };
+')
+
+# read and stat any sysfs symlinks
+allow domain sysfs:lnk_file { getattr read };
+
+# libc references /data/misc/zoneinfo for timezone related information
+# This directory is considered to be a VNDK-stable
+r_dir_file(domain, zoneinfo_data_file)
+
+# Lots of processes access current CPU information
+r_dir_file(domain, sysfs_devices_system_cpu)
+
+r_dir_file(domain, sysfs_usb);
+
+# files under /data.
+not_full_treble(`allow domain system_data_file:dir getattr;')
+allow { coredomain appdomain } system_data_file:dir getattr;
+# /data has the label system_data_file. Vendor components need the search
+# permission on system_data_file for path traversal to /data/vendor.
+allow domain system_data_file:dir search;
+
+# required by the dynamic linker
+allow domain proc:lnk_file { getattr read };
+
+# /proc/cpuinfo
+allow domain proc_cpuinfo:file r_file_perms;
+
+# jemalloc needs to read /proc/sys/vm/overcommit_memory
+allow domain proc_overcommit_memory:file r_file_perms;
+
+# profiling needs to read /proc/sys/kernel/perf_event_max_sample_rate
+allow domain proc_perf:file r_file_perms;
+
+# toybox loads libselinux which stats /sys/fs/selinux/
+allow domain selinuxfs:dir search;
+allow domain selinuxfs:file getattr;
+allow domain sysfs:dir search;
+allow domain selinuxfs:filesystem getattr;
+
+# For /acct/uid/*/tasks.
+allow domain cgroup:dir { search write };
+allow domain cgroup:file w_file_perms;
+
+# Almost all processes log tracing information to
+# /sys/kernel/debug/tracing/trace_marker
+# The reason behind this is documented in b/6513400
+allow domain debugfs:dir search;
+allow domain debugfs_tracing:dir search;
+allow domain debugfs_trace_marker:file w_file_perms;
+
+# Filesystem access.
+allow domain fs_type:filesystem getattr;
+allow domain fs_type:dir getattr;
+
+# Restrict all domains to a whitelist for common socket types. Additional
+# ioctl commands may be added to individual domains, but this sets safe
+# defaults for all processes. Note that granting this whitelist to domain does
+# not grant the ioctl permission on these socket types. That must be granted
+# separately.
+allowxperm domain domain:{ rawip_socket tcp_socket udp_socket }
+  ioctl { unpriv_sock_ioctls unpriv_tty_ioctls };
+# default whitelist for unix sockets.
+allowxperm domain domain:{ unix_dgram_socket unix_stream_socket }
+  ioctl unpriv_unix_sock_ioctls;
+
+# Restrict PTYs to only whitelisted ioctls.
+# Note that granting this whitelist to domain does
+# not grant the wider ioctl permission. That must be granted
+# separately.
+allowxperm domain devpts:chr_file ioctl unpriv_tty_ioctls;
+
+# Workaround for policy compiler being too aggressive and removing hwservice_manager_type
+# when it's not explicitly used in allow rules
+allow { domain -domain } hwservice_manager_type:hwservice_manager { add find };
+# Workaround for policy compiler being too aggressive and removing vndservice_manager_type
+# when it's not explicitly used in allow rules
+allow { domain -domain } vndservice_manager_type:service_manager { add find };
+
+# Under ASAN, processes will try to read /data, as the sanitized libraries are there.
+with_asan(`allow domain system_data_file:dir getattr;')
+
+###
+### neverallow rules
+###
+
+# All socket ioctls must be restricted to a whitelist.
+neverallowxperm domain domain:socket_class_set ioctl { 0 };
+
+# TIOCSTI is only ever used for exploits. Block it.
+# b/33073072, b/7530569
+# http://www.openwall.com/lists/oss-security/2016/09/26/14
+neverallowxperm * devpts:chr_file ioctl TIOCSTI;
+
+# Do not allow any domain other than init or recovery to create unlabeled files.
+neverallow { domain -init -recovery } unlabeled:dir_file_class_set create;
+
+# Limit device node creation to these whitelisted domains.
+neverallow {
+  domain
+  -kernel
+  -init
+  -ueventd
+  -vold
+} self:capability mknod;
+
+# Limit raw I/O to these whitelisted domains. Do not apply to debug builds.
+neverallow {
+  domain
+  userdebug_or_eng(`-domain')
+  -kernel
+  -init
+  -recovery
+  -ueventd
+  -healthd
+  -uncrypt
+  -tee
+} self:capability sys_rawio;
+
+# No process can map low memory (< CONFIG_LSM_MMAP_MIN_ADDR).
+neverallow * self:memprotect mmap_zero;
+
+# No domain needs mac_override as it is unused by SELinux.
+neverallow * self:capability2 mac_override;
+
+# Only recovery needs mac_admin to set contexts not defined in current policy.
+neverallow { domain -recovery } self:capability2 mac_admin;
+
+# Once the policy has been loaded there shall be none to modify the policy.
+# It is sealed.
+neverallow * kernel:security load_policy;
+
+# Only init prior to switching context should be able to set enforcing mode.
+# init starts in kernel domain and switches to init domain via setcon in
+# the init.rc, so the setenforce occurs while still in kernel. After
+# switching domains, there is never any need to setenforce again by init.
+neverallow * kernel:security setenforce;
+neverallow { domain -kernel } kernel:security setcheckreqprot;
+
+# No booleans in AOSP policy, so no need to ever set them.
+neverallow * kernel:security setbool;
+
+# Adjusting the AVC cache threshold.
+# Not presently allowed to anything in policy, but possibly something
+# that could be set from init.rc.
+neverallow { domain -init } kernel:security setsecparam;
+
+# Only init, ueventd, shell and system_server should be able to access HW RNG
+neverallow {
+  domain
+  -init
+  -shell # For CTS and is restricted to getattr in shell.te
+  -system_server
+  -ueventd
+} hw_random_device:chr_file *;
+
+# Ensure that all entrypoint executables are in exec_type or postinstall_file.
+neverallow * { file_type -exec_type -postinstall_file }:file entrypoint;
+
+# Ensure that nothing in userspace can access /dev/mem or /dev/kmem
+neverallow {
+  domain
+  -shell # For CTS and is restricted to getattr in shell.te
+  -ueventd # Further restricted in ueventd.te
+} kmem_device:chr_file *;
+neverallow * kmem_device:chr_file ~{ create relabelto unlink setattr getattr };
+
+#Ensure that nothing in userspace can access /dev/port
+neverallow {
+  domain
+  -shell # Shell user should not have any abilities outside of getattr
+  -ueventd
+} port_device:chr_file *;
+neverallow * port_device:chr_file ~{ create relabelto unlink setattr getattr };
+# Only init should be able to configure kernel usermodehelpers or
+# security-sensitive proc settings.
+neverallow { domain -init } usermodehelper:file { append write };
+neverallow { domain -init -ueventd } sysfs_usermodehelper:file { append write };
+neverallow { domain -init } proc_security:file { append open read write };
+
+# No domain should be allowed to ptrace init.
+neverallow * init:process ptrace;
+
+# Init can't do anything with binder calls. If this neverallow rule is being
+# triggered, it's probably due to a service with no SELinux domain.
+neverallow * init:binder *;
+
+# Don't allow raw read/write/open access to block_device
+# Rather force a relabel to a more specific type
+neverallow { domain -kernel -init -recovery } block_device:blk_file { open read write };
+
+# Do not allow renaming of block files or character files
+# Ability to do so can lead to possible use in an exploit chain
+# e.g. https://googleprojectzero.blogspot.com/2016/12/chrome-os-exploit-one-byte-overflow-and.html
+neverallow * *:{ blk_file chr_file } rename;
+
+# Don't allow raw read/write/open access to generic devices.
+# Rather force a relabel to a more specific type.
+neverallow domain device:chr_file { open read write };
+
+# Limit what domains can mount filesystems or change their mount flags.
+# sdcard_type / vfat is exempt as a larger set of domains need
+# this capability, including device-specific domains.
+neverallow { domain -kernel -init -recovery -vold -zygote -update_engine -otapreopt_chroot } { fs_type -sdcard_type }:filesystem { mount remount relabelfrom relabelto };
+
+#
+# Assert that, to the extent possible, we're not loading executable content from
+# outside the rootfs or /system partition except for a few whitelisted domains.
+#
+neverallow {
+    domain
+    -appdomain
+    with_asan(`-asan_extract')
+    -dumpstate
+    -shell
+    userdebug_or_eng(`-su')
+    -webview_zygote
+    -zygote
+} {
+    file_type
+    -system_file
+    -vendor_file_type
+    -exec_type
+    -postinstall_file
+}:file execute;
+
+neverallow {
+    domain
+    -appdomain # for oemfs
+    -recovery # for /tmp/update_binary in tmpfs
+} { fs_type -rootfs }:file execute;
+# Files from cache should never be executed
+neverallow domain { cache_file cache_backup_file cache_private_backup_file cache_recovery_file }:file execute;
+
+# Protect most domains from executing arbitrary content from /data.
+neverallow {
+  domain
+  -appdomain
+} {
+  data_file_type
+  -dalvikcache_data_file
+  -system_data_file # shared libs in apks
+  -apk_data_file
+}:file no_x_file_perms;
+
+neverallow { domain userdebug_or_eng(`-shell') } nativetest_data_file:file no_x_file_perms;
+
+# Only the init property service should write to /data/property and /dev/__properties__
+neverallow { domain -init } property_data_file:dir no_w_dir_perms;
+neverallow { domain -init } property_data_file:file { no_w_file_perms no_x_file_perms };
+neverallow { domain -init } property_type:file { no_w_file_perms no_x_file_perms };
+neverallow { domain -init } properties_device:file { no_w_file_perms no_x_file_perms };
+neverallow { domain -init } properties_serial:file { no_w_file_perms no_x_file_perms };
+
+# Only recovery should be doing writes to /system & /vendor
+neverallow {
+    domain
+    -recovery
+    with_asan(`-asan_extract')
+} {
+    system_file
+    vendor_file_type
+    exec_type
+}:dir_file_class_set { create write setattr relabelfrom append unlink link rename };
+
+neverallow { domain -recovery -kernel with_asan(`-asan_extract') } { system_file vendor_file_type exec_type }:dir_file_class_set relabelto;
+
+# Don't allow mounting on top of /system files or directories
+neverallow * exec_type:dir_file_class_set mounton;
+neverallow { domain -init } { system_file vendor_file_type }:dir_file_class_set mounton;
+
+# Nothing should be writing to files in the rootfs.
+neverallow * rootfs:file { create write setattr relabelto append unlink link rename };
+
+# Restrict context mounts to specific types marked with
+# the contextmount_type attribute.
+neverallow * {fs_type -contextmount_type}:filesystem relabelto;
+
+# Ensure that context mount types are not writable, to ensure that
+# the write to /system restriction above is not bypassed via context=
+# mount to another type.
+neverallow { domain -recovery } contextmount_type:dir_file_class_set
+    { create write setattr relabelfrom relabelto append unlink link rename };
+
+# Do not allow service_manager add for default service labels.
+# Instead domains should use a more specific type such as
+# system_app_service rather than the generic type.
+# New service_types are defined in {,hw,vnd}service.te and new mappings
+# from service name to service_type are defined in {,hw,vnd}service_contexts.
+neverallow * default_android_service:service_manager add;
+neverallow * default_android_vndservice:service_manager { add find };
+neverallow * default_android_hwservice:hwservice_manager { add find };
+
+# Looking up the base class/interface of all HwBinder services is a bad idea.
+# hwservicemanager currently offer such lookups only to make it so that security
+# decisions are expressed in SELinux policy. However, it's unclear whether this
+# lookup has security implications. If it doesn't, hwservicemanager should be
+# modified to not offer this lookup.
+# This rule can be removed if hwservicemanager is modified to not permit these
+# lookups.
+neverallow * hidl_base_hwservice:hwservice_manager find;
+
+# Require that domains explicitly label unknown properties, and do not allow
+# anyone but init to modify unknown properties.
+neverallow { domain -init } default_prop:property_service set;
+neverallow { domain -init } mmc_prop:property_service set;
+
+# Do not allow reading device's serial number from system properties except form
+# a few whitelisted domains.
+neverallow {
+  domain
+  -adbd
+  -dumpstate
+  -hal_drm
+  -hal_cas
+  -init
+  -mediadrmserver
+  -recovery
+  -shell
+  -system_server
+} serialno_prop:file r_file_perms;
+
+# Do not allow reading the last boot timestamp from system properties
+neverallow { domain -init -system_server } firstboot_prop:file r_file_perms;
+
+neverallow {
+  domain
+  -init
+  -recovery
+  -system_server
+  -shell # Shell is further restricted in shell.te
+  -ueventd # Further restricted in ueventd.te
+} frp_block_device:blk_file no_rw_file_perms;
+
+# The metadata block device is set aside for device encryption and
+# verified boot metadata. It may be reset at will and should not
+# be used by other domains.
+neverallow { domain -init -recovery -vold } metadata_block_device:blk_file
+  { append link rename write open read ioctl lock };
+
+# No domain other than recovery and update_engine can write to system partition(s).
+neverallow { domain -recovery -update_engine } system_block_device:blk_file write;
+
+# No domains other than install_recovery or recovery can write to recovery.
+neverallow { domain -install_recovery -recovery } recovery_block_device:blk_file write;
+
+# No domains other than a select few can access the misc_block_device. This
+# block device is reserved for OTA use.
+# Do not assert this rule on userdebug/eng builds, due to some devices using
+# this partition for testing purposes.
+neverallow {
+  domain
+  userdebug_or_eng(`-domain') # exclude debuggable builds
+  -hal_bootctl
+  -init
+  -uncrypt
+  -update_engine
+  -vold
+  -recovery
+  -ueventd
+} misc_block_device:blk_file { append link relabelfrom rename write open read ioctl lock };
+
+# Only (hw|vnd|)servicemanager should be able to register with binder as the context manager
+neverallow { domain -servicemanager -hwservicemanager -vndservicemanager } *:binder set_context_mgr;
+# The service managers are only allowed to access their own device node
+neverallow servicemanager hwbinder_device:chr_file no_rw_file_perms;
+neverallow servicemanager vndbinder_device:chr_file no_rw_file_perms;
+neverallow hwservicemanager binder_device:chr_file no_rw_file_perms;
+neverallow hwservicemanager vndbinder_device:chr_file no_rw_file_perms;
+neverallow vndservicemanager binder_device:chr_file no_rw_file_perms;
+neverallow vndservicemanager hwbinder_device:chr_file no_rw_file_perms;
+
+# On full TREBLE devices, only core components and apps can use Binder and servicemanager. Non-core
+# domain apps need this because Android framework offers many of its services to apps as Binder
+# services.
+full_treble_only(`
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -binder_in_vendor_violators # TODO(b/35870313): Remove once all violations are gone
+  } binder_device:chr_file rw_file_perms;
+  neverallow {
+    domain
+    -coredomain
+    -appdomain # restrictions for vendor apps are declared lower down
+    -binder_in_vendor_violators # TODO(b/35870313): Remove once all violations are gone
+  } service_manager_type:service_manager find;
+  # Vendor apps are permited to use only stable public services. If they were to use arbitrary
+  # services which can change any time framework/core is updated, breakage is likely.
+  neverallow {
+    appdomain
+    -coredomain
+  } {
+    service_manager_type
+    -app_api_service
+    -ephemeral_app_api_service
+    -audioserver_service # TODO(b/36783122) remove exemptions below once app_api_service is fixed
+    -cameraserver_service
+    -drmserver_service
+    -keystore_service
+    -mediadrmserver_service
+    -mediaextractor_service
+    -mediametrics_service
+    -mediaserver_service
+    -nfc_service
+    -radio_service
+    -surfaceflinger_service
+    -virtual_touchpad_service
+    -vr_hwc_service
+    -vr_manager_service
+  }:service_manager find;
+  neverallow {
+    domain
+    -coredomain
+    -appdomain
+    -binder_in_vendor_violators # TODO(b/35870313): Remove once all violations are gone
+  } servicemanager:binder { call transfer };
+')
+
+# On full TREBLE devices, only vendor components, shell, and su can use VendorBinder.
+full_treble_only(`
+  neverallow {
+    coredomain
+    -shell
+    userdebug_or_eng(`-su')
+    -ueventd # uevent is granted create for this device, but we still neverallow I/O below
+  } vndbinder_device:chr_file rw_file_perms;
+  neverallow ueventd vndbinder_device:chr_file { read write append ioctl };
+  neverallow {
+    coredomain
+    -shell
+    userdebug_or_eng(`-su')
+  } vndservice_manager_type:service_manager *;
+  neverallow {
+    coredomain
+    -shell
+    userdebug_or_eng(`-su')
+  } vndservicemanager:binder *;
+')
+
+# On full TREBLE devices, socket communications between core components and vendor components are
+# not permitted.
+full_treble_only(`
+  # Most general rules first, more specific rules below.
+
+  # Core domains are not permitted to initiate communications to vendor domain sockets.
+  # We are not restricting the use of already established sockets because it is fine for a process
+  # to obtain an already established socket via some public/official/stable API and then exchange
+  # data with its peer over that socket. The wire format in this scenario is dicatated by the API
+  # and thus does not break the core-vendor separation.
+  neverallow_establish_socket_comms({
+    coredomain
+    -init
+    -adbd
+  }, {
+    domain
+    -coredomain
+    -socket_between_core_and_vendor_violators
+  });
+  # Vendor domains are not permitted to initiate communications to core domain sockets
+  neverallow_establish_socket_comms({
+    domain
+    -coredomain
+    -appdomain
+    -socket_between_core_and_vendor_violators
+  }, {
+    coredomain
+    -logd # Logging by writing to logd Unix domain socket is public API
+    -netd # netdomain needs this
+    -mdnsd # netdomain needs this
+    userdebug_or_eng(`-su') # communications with su are permitted only on userdebug or eng builds
+    -init
+    -incidentd # TODO(b/35870313): Remove incidentd from this list once vendor domains no longer declare Binder services
+    -tombstoned # TODO(b/36604251): Remove tombstoned from this list once mediacodec (OMX HAL) no longer declares Binder services
+  });
+
+  # Vendor domains (except netdomain) are not permitted to initiate communications to netd sockets
+  neverallow_establish_socket_comms({
+    domain
+    -coredomain
+    -netdomain
+    -socket_between_core_and_vendor_violators
+  }, netd);
+
+  # Vendor domains are not permitted to initiate create/open sockets owned by core domains
+  neverallow {
+    domain
+    -coredomain
+    -appdomain # appdomain restrictions below
+    -socket_between_core_and_vendor_violators
+  } {
+    coredomain_socket
+    core_data_file_type
+    unlabeled # used only by core domains
+  }:sock_file ~{ append getattr ioctl read write };
+  neverallow {
+    appdomain
+    -coredomain
+  } {
+    coredomain_socket
+    unlabeled # used only by core domains
+    core_data_file_type
+    -app_data_file
+    -pdx_endpoint_socket_type # used by VR layer
+    -pdx_channel_socket_type # used by VR layer
+  }:sock_file ~{ append getattr ioctl read write };
+
+  # Core domains are not permitted to create/open sockets owned by vendor domains
+  neverallow {
+    coredomain
+    -init
+    -ueventd
+    -socket_between_core_and_vendor_violators
+  } {
+    file_type
+    dev_type
+    -coredomain_socket
+    -core_data_file_type
+    -unlabeled
+  }:sock_file ~{ append getattr ioctl read write };
+')
+
+# On TREBLE devices, a limited set of files in /vendor are accessible to
+# only a few whitelisted coredomains to keep system/vendor separation.
+full_treble_only(`
+    # Limit access to /vendor/app
+    neverallow {
+        coredomain
+        -appdomain
+        -dex2oat
+        -idmap
+        -init
+        -installd
+        -postinstall_dexopt
+        -system_server
+    } vendor_app_file:dir { open read getattr search };
+
+    neverallow {
+        coredomain
+        -appdomain
+        -dex2oat
+        -idmap
+        -init
+        -installd
+        -postinstall_dexopt
+        -system_server
+    } vendor_app_file:{ file lnk_file } r_file_perms;
+
+    # Limit access to /vendor/overlay
+    neverallow {
+        coredomain
+        -appdomain
+        -idmap
+        -init
+        -installd
+        -system_server
+        -zygote
+    } vendor_overlay_file:dir { getattr open read search };
+
+    neverallow {
+        coredomain
+        -appdomain
+        -idmap
+        -init
+        -installd
+        -system_server
+        -zygote
+    } vendor_overlay_file:{ file lnk_file } r_file_perms;
+
+    # Non-vendor domains are not allowed to file execute shell
+    # from vendor
+    neverallow {
+        coredomain
+        -init
+    } vendor_shell_exec:file { execute execute_no_trans };
+
+    # Do not allow vendor components to execute files from system
+    # except for the ones whitelist here.
+    neverallow {
+        domain
+        -coredomain
+        -appdomain
+        -rild
+        -vendor_executes_system_violators
+    } {
+        exec_type
+        -vendor_file_type
+        -crash_dump_exec
+        -netutils_wrapper_exec
+    }:file { entrypoint execute execute_no_trans };
+')
+
+# Only authorized processes should be writing to files in /data/dalvik-cache
+neverallow {
+  domain
+  -init # TODO: limit init to relabelfrom for files
+  -zygote
+  -installd
+  -postinstall_dexopt
+  -cppreopts
+  -dex2oat
+  -otapreopt_slot
+} dalvikcache_data_file:file no_w_file_perms;
+
+neverallow {
+  domain
+  -init
+  -installd
+  -postinstall_dexopt
+  -cppreopts
+  -dex2oat
+  -zygote
+  -otapreopt_slot
+} dalvikcache_data_file:dir no_w_dir_perms;
+
+# Only system_server should be able to send commands via the zygote socket
+neverallow { domain -zygote -system_server } zygote:unix_stream_socket connectto;
+neverallow { domain -system_server } zygote_socket:sock_file write;
+
+neverallow { domain -system_server -webview_zygote } webview_zygote:unix_stream_socket connectto;
+neverallow { domain -system_server } webview_zygote_socket:sock_file write;
+
+neverallow {
+  domain
+  -tombstoned
+  -crash_dump
+  -dumpstate
+  -system_server
+
+  # Processes that can't exec crash_dump
+  -mediacodec
+  -mediaextractor
+} tombstoned_crash_socket:unix_stream_socket connectto;
+
+# Never allow anyone except dumpstate or the system server to connect or write to
+# the tombstoned intercept socket.
+neverallow { domain -dumpstate -system_server } tombstoned_intercept_socket:sock_file write;
+neverallow { domain -dumpstate -system_server } tombstoned_intercept_socket:unix_stream_socket connectto;
+
+# Android does not support System V IPCs.
+#
+# The reason for this is due to the fact that, by design, they lead to global
+# kernel resource leakage.
+#
+# For example, there is no way to automatically release a SysV semaphore
+# allocated in the kernel when:
+#
+# - a buggy or malicious process exits
+# - a non-buggy and non-malicious process crashes or is explicitly killed.
+#
+# Killing processes automatically to make room for new ones is an
+# important part of Android's application lifecycle implementation. This means
+# that, even assuming only non-buggy and non-malicious code, it is very likely
+# that over time, the kernel global tables used to implement SysV IPCs will fill
+# up.
+neverallow * *:{ shm sem msg msgq } *;
+
+# Do not mount on top of symlinks, fifos, or sockets.
+# Feature parity with Chromium LSM.
+neverallow * { file_type fs_type dev_type }:{ lnk_file fifo_file sock_file } mounton;
+
+# Nobody should be able to execute su on user builds.
+# On userdebug/eng builds, only dumpstate, shell, and
+# su itself execute su.
+neverallow { domain userdebug_or_eng(`-dumpstate -shell -su') } su_exec:file no_x_file_perms;
+
+# Do not allow the introduction of new execmod rules. Text relocations
+# and modification of executable pages are unsafe.
+# The only exceptions are for NDK text relocations associated with
+# https://code.google.com/p/android/issues/detail?id=23203
+# which, long term, need to go away.
+neverallow * {
+  file_type
+  -apk_data_file
+  -app_data_file
+  -asec_public_file
+}:file execmod;
+
+# Do not allow making the stack or heap executable.
+# We would also like to minimize execmem but it seems to be
+# required by some device-specific service domains.
+neverallow * self:process { execstack execheap };
+
+# prohibit non-zygote spawned processes from using shared libraries
+# with text relocations. b/20013628 .
+neverallow { domain -untrusted_app_all } file_type:file execmod;
+
+neverallow { domain -init } proc:{ file dir } mounton;
+
+# Ensure that all types assigned to processes are included
+# in the domain attribute, so that all allow and neverallow rules
+# written on domain are applied to all processes.
+# This is achieved by ensuring that it is impossible to transition
+# from a domain to a non-domain type and vice versa.
+# TODO - rework this: neverallow domain ~domain:process { transition dyntransition };
+neverallow ~domain domain:process { transition dyntransition };
+
+#
+# Only system_app and system_server should be creating or writing
+# their files. The proper way to share files is to setup
+# type transitions to a more specific type or assigning a type
+# to its parent directory via a file_contexts entry.
+# Example type transition:
+#  mydomain.te:file_type_auto_trans(mydomain, system_data_file, new_file_type)
+#
+neverallow {
+  domain
+  -system_server
+  -system_app
+  -init
+  -installd # for relabelfrom and unlink, check for this in explicit neverallow
+  with_asan(`-asan_extract')
+} system_data_file:file no_w_file_perms;
+# do not grant anything greater than r_file_perms and relabelfrom unlink
+# to installd
+neverallow installd system_data_file:file ~{ r_file_perms relabelfrom unlink };
+
+# respect system_app sandboxes
+neverallow {
+  domain
+  -appdomain # finer-grained rules for appdomain are listed below
+  -system_server #populate com.android.providers.settings/databases/settings.db.
+  -installd # creation of app sandbox
+} system_app_data_file:dir_file_class_set { create unlink open };
+neverallow {
+  isolated_app
+  untrusted_app_all # finer-grained rules for appdomain are listed below
+  ephemeral_app
+  priv_app
+} system_app_data_file:dir_file_class_set { create unlink open };
+
+
+# Services should respect app sandboxes
+neverallow {
+  domain
+  -appdomain
+  -installd # creation of sandbox
+} app_data_file:dir_file_class_set { create unlink };
+
+#
+# Only these domains should transition to shell domain. This domain is
+# permissible for the "shell user". If you need a process to exec a shell
+# script with differing privilege, define a domain and set up a transition.
+#
+neverallow {
+  domain
+  -adbd
+  -init
+  -runas
+  -zygote
+} shell:process { transition dyntransition };
+
+# Only domains spawned from zygote and runas may have the appdomain attribute.
+neverallow { domain -runas -webview_zygote -zygote } {
+  appdomain -shell userdebug_or_eng(`-su')
+}:process { transition dyntransition };
+
+# Minimize read access to shell- or app-writable symlinks.
+# This is to prevent malicious symlink attacks.
+neverallow {
+  domain
+  -appdomain
+  -installd
+  -uncrypt  # TODO: see if we can remove
+} app_data_file:lnk_file read;
+
+neverallow {
+  domain
+  -shell
+  userdebug_or_eng(`-uncrypt')
+  -installd
+} shell_data_file:lnk_file read;
+
+# In addition to the symlink reading restrictions above, restrict
+# write access to shell owned directories. The /data/local/tmp
+# directory is untrustworthy, and non-whitelisted domains should
+# not be trusting any content in those directories.
+neverallow {
+  domain
+  -adbd
+  -dumpstate
+  -installd
+  -init
+  -shell
+  -vold
+} shell_data_file:dir no_w_dir_perms;
+
+neverallow {
+  domain
+  -adbd
+  -appdomain
+  -dumpstate
+  -init
+  -installd
+  -system_server # why?
+  userdebug_or_eng(`-uncrypt')
+} shell_data_file:dir { open search };
+
+# Same as above for /data/local/tmp files. We allow shell files
+# to be passed around by file descriptor, but not directly opened.
+neverallow {
+  domain
+  -adbd
+  -appdomain
+  -dumpstate
+  -installd
+  userdebug_or_eng(`-uncrypt')
+} shell_data_file:file open;
+
+
+# servicemanager and vndservicemanager are the only processes which handle the
+# service_manager list request
+neverallow * ~{
+    servicemanager
+    vndservicemanager
+    }:service_manager list;
+
+# hwservicemanager is the only process which handles hw list requests
+neverallow * ~{
+    hwservicemanager
+    }:hwservice_manager list;
+
+# only service_manager_types can be added to service_manager
+# TODO - rework this: neverallow * ~service_manager_type:service_manager { add find };
+
+# Prevent assigning non property types to properties
+# TODO - rework this: neverallow * ~property_type:property_service set;
+
+# Domain types should never be assigned to any files other
+# than the /proc/pid files associated with a process. The
+# executable file used to enter a domain should be labeled
+# with its own _exec type, not with the domain type.
+# Conventionally, this looks something like:
+# $ cat mydaemon.te
+# type mydaemon, domain;
+# type mydaemon_exec, exec_type, file_type;
+# init_daemon_domain(mydaemon)
+# $ grep mydaemon file_contexts
+# /system/bin/mydaemon -- u:object_r:mydaemon_exec:s0
+neverallow * domain:file { execute execute_no_trans entrypoint };
+
+# Do not allow access to the generic debugfs label. This is too broad.
+# Instead, if access to part of debugfs is desired, it should have a
+# more specific label.
+# TODO: fix system_server and dumpstate
+neverallow { domain -init -system_server -dumpstate } debugfs:file no_rw_file_perms;
+
+# Profiles contain untrusted data and profman parses that. We should only run
+# in from installd forked processes.
+neverallow {
+  domain
+  -installd
+  -profman
+} profman_exec:file no_x_file_perms;
+
+# Enforce restrictions on kernel module origin.
+# Do not allow kernel module loading except from system,
+# vendor, and boot partitions.
+neverallow * ~{ system_file vendor_file rootfs }:system module_load;
+
+# Only allow filesystem caps to be set at build time or
+# during upgrade by recovery.
+neverallow {
+  domain
+  -recovery
+} self:capability setfcap;
+
+# Enforce AT_SECURE for executing crash_dump.
+neverallow domain crash_dump:process noatsecure;
+
+# Do not permit non-core domains to register HwBinder services which are
+# guaranteed to be provided by core domains only.
+neverallow ~coredomain coredomain_hwservice:hwservice_manager add;
+
+# Do not permit the registeration of HwBinder services which are guaranteed to
+# be passthrough only (i.e., run in the process of their clients instead of a
+# separate server process).
+neverallow * same_process_hwservice:hwservice_manager add;

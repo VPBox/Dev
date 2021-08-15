@@ -1,0 +1,10 @@
+type hal_graphics_composer_default, domain;
+hal_server_domain(hal_graphics_composer_default, hal_graphics_composer)
+
+type hal_graphics_composer_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_graphics_composer_default)
+type_transition hal_graphics_composer_default tmpfs:file hal_graphics_composer_server_tmpfs;
+allow hal_graphics_composer_default hal_graphics_composer_server_tmpfs:file { getattr map read write };
+
+# b/68864350
+dontaudit hal_graphics_composer_default unlabeled:dir search;

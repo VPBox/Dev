@@ -1,0 +1,26 @@
+type fingerprintd, domain;
+type fingerprintd_exec, system_file_type, exec_type, file_type;
+
+binder_use(fingerprintd)
+
+# Scan through /system/lib64/hw looking for installed HALs
+allow fingerprintd system_file:dir r_dir_perms;
+
+# need to find KeyStore and add self
+add_service(fingerprintd, fingerprintd_service)
+
+# allow HAL module to read dir contents
+allow fingerprintd fingerprintd_data_file:file { create_file_perms };
+
+# allow HAL module to read/write/unlink contents of this dir
+allow fingerprintd fingerprintd_data_file:dir rw_dir_perms;
+
+# Need to add auth tokens to KeyStore
+use_keystore(fingerprintd)
+allow fingerprintd keystore:keystore_key { add_auth };
+
+# For permissions checking
+binder_call(fingerprintd, system_server);
+allow fingerprintd permission_service:service_manager find;
+
+allow fingerprintd ion_device:chr_file r_file_perms;

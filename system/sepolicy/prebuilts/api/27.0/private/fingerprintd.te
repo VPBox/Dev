@@ -1,0 +1,4 @@
+typeattribute fingerprintd coredomain;
+typeattribute fingerprintd domain_deprecated;
+
+init_daemon_domain(fingerprintd)

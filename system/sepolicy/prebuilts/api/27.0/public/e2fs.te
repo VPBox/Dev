@@ -1,0 +1,15 @@
+type e2fs, domain, coredomain;
+type e2fs_exec, exec_type, file_type;
+
+allow e2fs block_device:blk_file getattr;
+allow e2fs block_device:dir search;
+allow e2fs userdata_block_device:blk_file rw_file_perms;
+
+# access /proc/filesystems
+allow e2fs proc:file r_file_perms;
+
+# access /sys/fs/ext4/features
+allow e2fs sysfs_fs_ext4_features:file r_file_perms;
+
+# access sselinux context files
+allow e2fs file_contexts_file:file { getattr open read };

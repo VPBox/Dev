@@ -1,0 +1,8 @@
+# The incident command is used to call into the incidentd service to
+# take an incident report (binary, shared bugreport), download incident
+# reports that have already been taken, and monitor for new ones.
+# It doesn't do anything else.
+
+# incident
+type incident, domain;
+

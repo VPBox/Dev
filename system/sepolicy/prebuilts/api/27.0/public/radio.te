@@ -1,0 +1,39 @@
+# phone subsystem
+type radio, domain, mlstrustedsubject;
+
+net_domain(radio)
+bluetooth_domain(radio)
+binder_service(radio)
+
+# Talks to rild via the rild socket only for devices without full treble
+not_full_treble(`unix_socket_connect(radio, rild, rild)')
+
+# Data file accesses.
+allow radio radio_data_file:dir create_dir_perms;
+allow radio radio_data_file:notdevfile_class_set create_file_perms;
+
+allow radio alarm_device:chr_file rw_file_perms;
+
+allow radio net_data_file:dir search;
+allow radio net_data_file:file r_file_perms;
+
+# Property service
+set_prop(radio, radio_prop)
+set_prop(radio, net_radio_prop)
+
+# ctl interface
+set_prop(radio, ctl_rildaemon_prop)
+
+add_service(radio, radio_service)
+allow radio audioserver_service:service_manager find;
+allow radio cameraserver_service:service_manager find;
+allow radio drmserver_service:service_manager find;
+allow radio mediaserver_service:service_manager find;
+allow radio nfc_service:service_manager find;
+allow radio surfaceflinger_service:service_manager find;
+allow radio app_api_service:service_manager find;
+allow radio system_api_service:service_manager find;
+
+# Perform HwBinder IPC.
+hwbinder_use(radio)
+hal_client_domain(radio, hal_telephony)

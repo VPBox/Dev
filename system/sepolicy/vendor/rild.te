@@ -1,0 +1,9 @@
+# rild - radio interface layer daemon
+type rild, domain;
+hal_server_domain(rild, hal_telephony)
+net_domain(rild)
+
+# type_transition must be private policy the domain_trans rules could stay
+# public, but conceptually should go with this
+type rild_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(rild)

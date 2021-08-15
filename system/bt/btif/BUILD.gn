@@ -1,0 +1,109 @@
+#
+#  Copyright 2015 Google, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at:
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+static_library("btif") {
+  sources = [
+    "//audio_a2dp_hw/src/audio_a2dp_hw_utils.cc",
+    "//audio_hearing_aid_hw/src/audio_hearing_aid_hw_utils.cc",
+    "src/btif_a2dp.cc",
+    "src/btif_a2dp_audio_interface_linux.cc",
+    "src/btif_a2dp_control.cc",
+    "src/btif_a2dp_sink.cc",
+    "src/btif_a2dp_source.cc",
+    "src/btif_av.cc",
+    "avrcp/avrcp_service.cc",
+
+    #TODO(jpawlowski): heavily depends on Android,
+    #   "src/btif_avrcp_audio_track.cc",
+    "src/btif_avrcp_audio_track_linux.cc",
+    "src/btif_ble_advertiser.cc",
+    "src/btif_ble_scanner.cc",
+    "src/btif_config.cc",
+    "src/btif_config_transcode.cc",
+    "src/btif_core.cc",
+    "src/btif_debug.cc",
+    "src/btif_debug_btsnoop.cc",
+    "src/btif_debug_conn.cc",
+    "src/btif_dm.cc",
+    "src/btif_gatt.cc",
+    "src/btif_gatt_client.cc",
+    "src/btif_gatt_server.cc",
+    "src/btif_gatt_test.cc",
+    "src/btif_gatt_util.cc",
+    "src/btif_hearing_aid.cc",
+    "src/btif_hf.cc",
+    "src/btif_hf_client.cc",
+    "src/btif_hh.cc",
+    "src/btif_hd.cc",
+    "src/btif_mce.cc",
+    "src/btif_pan.cc",
+    "src/btif_profile_queue.cc",
+    "src/btif_rc.cc",
+    "src/btif_sdp.cc",
+    "src/btif_sdp_server.cc",
+    "src/btif_sock.cc",
+    "src/btif_sock_l2cap.cc",
+    "src/btif_sock_rfc.cc",
+    "src/btif_sock_sco.cc",
+    "src/btif_sock_sdp.cc",
+    "src/btif_sock_thread.cc",
+    "src/btif_sock_util.cc",
+    "src/btif_storage.cc",
+    "src/btif_uid.cc",
+    "src/btif_util.cc",
+    "src/stack_manager.cc",
+  ]
+
+  # BTIF callouts
+  sources += [
+    "co/bta_dm_co.cc",
+    "co/bta_av_co.cc",
+    "co/bta_hh_co.cc",
+    "co/bta_pan_co.cc",
+    "co/bta_gatts_co.cc",
+  ]
+
+  include_dirs = [
+    "include",
+    "//",
+    "//linux_include",
+    "//audio_a2dp_hw/include",
+    "//audio_hearing_aid_hw/include",
+    "//bta/include",
+    "//bta/sys",
+    "//btcore/include",
+    "//device/include",
+    "//embdrv/sbc/encoder/include",
+    "//embdrv/sbc/decoder/include",
+    "//hci/include",
+    "//stack/a2dp",
+    "//stack/btm",
+    "//stack/l2cap",
+    "//stack/include",
+    "//third_party/tinyxml2",
+    "//internal_include",
+    "//udrv/include",
+    "//utils/include",
+    "//vnd/include",
+    "//profile/avrcp",
+  ]
+
+  deps = [
+    "//common",
+    "//third_party/libchrome:base",
+    "//profile/avrcp:profile_avrcp"
+  ]
+}

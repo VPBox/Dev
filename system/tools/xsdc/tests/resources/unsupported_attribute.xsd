@@ -1,0 +1,5 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="unsuppported_attribute" xmlns="unsuppported_attribute">
+    <xs:element name="animal" type="xs:string"/>
+    <xs:element name="cat" substitutionGroup="animal"/>
+</xs:schema>

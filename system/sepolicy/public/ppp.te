@@ -1,0 +1,23 @@
+# Point to Point Protocol daemon
+type ppp, domain;
+type ppp_device, dev_type;
+type ppp_exec, system_file_type, exec_type, file_type;
+
+net_domain(ppp)
+
+r_dir_file(ppp, proc_net_type)
+
+allow ppp mtp:{ socket pppox_socket } rw_socket_perms;
+
+# ioctls needed for VPN.
+allowxperm ppp self:udp_socket ioctl priv_sock_ioctls;
+allowxperm ppp mtp:{ socket pppox_socket } ioctl ppp_ioctls;
+
+allow ppp mtp:unix_dgram_socket rw_socket_perms;
+allow ppp ppp_device:chr_file rw_file_perms;
+allow ppp self:global_capability_class_set net_admin;
+allow ppp system_file:file rx_file_perms;
+not_full_treble(`allow ppp vendor_file:file rx_file_perms;')
+allow ppp vpn_data_file:dir w_dir_perms;
+allow ppp vpn_data_file:file create_file_perms;
+allow ppp mtp:fd use;

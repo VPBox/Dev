@@ -1,0 +1,70 @@
+# mediacodec - audio and video codecs live here
+type mediacodec, domain;
+type mediacodec_exec, exec_type, vendor_file_type, file_type;
+
+typeattribute mediacodec mlstrustedsubject;
+
+# TODO(b/36375899) attributize this domain appropriately as hal_omx
+# and use macro hal_server_domain
+get_prop(mediacodec, hwservicemanager_prop)
+
+# can route /dev/binder traffic to /dev/vndbinder
+vndbinder_use(mediacodec)
+
+not_full_treble(`
+    # on legacy devices, continue to allow /dev/binder traffic
+    binder_use(mediacodec)
+    binder_service(mediacodec)
+    add_service(mediacodec, mediacodec_service)
+    allow mediacodec mediametrics_service:service_manager find;
+    allow mediacodec surfaceflinger_service:service_manager find;
+')
+binder_call(mediacodec, binderservicedomain)
+binder_call(mediacodec, appdomain)
+
+# Allow mediacodec access to composer sync fences
+allow mediacodec hal_graphics_composer:fd use;
+
+allow mediacodec gpu_device:chr_file rw_file_perms;
+allow mediacodec video_device:chr_file rw_file_perms;
+allow mediacodec video_device:dir search;
+allow mediacodec ion_device:chr_file rw_file_perms;
+allow mediacodec hal_camera:fd use;
+
+crash_dump_fallback(mediacodec)
+
+add_hwservice(mediacodec, hal_codec2_hwservice)
+add_hwservice(mediacodec, hal_omx_hwservice)
+
+hal_client_domain(mediacodec, hal_allocator)
+
+hal_client_domain(mediacodec, hal_cas)
+
+# allocate and use graphic buffers
+hal_client_domain(mediacodec, hal_graphics_allocator)
+
+# Recieve gralloc buffer FDs from bufferhubd. Note that mediacodec never
+# directly connects to bufferhubd via PDX. Instead, a VR app acts as a bridge
+# between those two: it talks to mediacodec via Binder and talks to bufferhubd
+# via PDX. Thus, there is no need to use pdx_client macro.
+allow mediacodec bufferhubd:fd use;
+
+###
+### neverallow rules
+###
+
+# mediacodec should never execute any executable without a
+# domain transition
+neverallow mediacodec { file_type fs_type }:file execute_no_trans;
+
+# The goal of the mediaserver split is to place media processing code into
+# restrictive sandboxes with limited responsibilities and thus limited
+# permissions. Example: Audioserver is only responsible for controlling audio
+# hardware and processing audio content. Cameraserver does the same for camera
+# hardware/content. Etc.
+#
+# Media processing code is inherently risky and thus should have limited
+# permissions and be isolated from the rest of the system and network.
+# Lengthier explanation here:
+# https://android-developers.googleblog.com/2016/05/hardening-media-stack.html
+neverallow mediacodec domain:{ tcp_socket udp_socket rawip_socket } *;

@@ -1,0 +1,6 @@
+# Required to export a HIDL interface.
+hwbinder_use(system_suspend_server)
+get_prop(system_suspend_server, hwservicemanager_prop)
+
+# To serve ISystemSuspend.hal.
+add_hwservice(system_suspend_server, system_suspend_hwservice)

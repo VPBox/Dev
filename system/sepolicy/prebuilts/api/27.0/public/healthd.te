@@ -1,0 +1,63 @@
+# healthd - battery/charger monitoring service daemon
+type healthd, domain;
+type healthd_exec, exec_type, file_type;
+
+# Write to /dev/kmsg
+allow healthd kmsg_device:chr_file rw_file_perms;
+
+# Read access to pseudo filesystems.
+r_dir_file(healthd, sysfs_type)
+r_dir_file(healthd, rootfs)
+r_dir_file(healthd, cgroup)
+
+# Read access to system files for passthrough HALs in
+# /{system,vendor,odm}/lib[64]/hw/
+r_dir_file(healthd, system_file)
+
+allow healthd self:capability { sys_tty_config };
+allow healthd self:capability sys_boot;
+
+allow healthd self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+
+wakelock_use(healthd)
+
+binder_use(healthd)
+binder_service(healthd)
+binder_call(healthd, system_server)
+hal_client_domain(healthd, hal_health)
+
+# Write to state file.
+# TODO:  Split into a separate type?
+allow healthd sysfs:file write;
+
+# TODO: added to match above sysfs rule. Remove me?
+allow healthd sysfs_usb:file write;
+
+allow healthd sysfs_batteryinfo:file r_file_perms;
+
+r_dir_file(healthd, sysfs_type)
+
+###
+### healthd: charger mode
+###
+
+# Read /sys/fs/pstore/console-ramoops
+# Don't worry about overly broad permissions for now, as there's
+# only one file in /sys/fs/pstore
+allow healthd pstorefs:dir r_dir_perms;
+allow healthd pstorefs:file r_file_perms;
+
+allow healthd graphics_device:dir r_dir_perms;
+allow healthd graphics_device:chr_file rw_file_perms;
+allow healthd input_device:dir r_dir_perms;
+allow healthd input_device:chr_file r_file_perms;
+allow healthd tty_device:chr_file rw_file_perms;
+allow healthd ashmem_device:chr_file execute;
+allow healthd self:process execmem;
+allow healthd proc_sysrq:file rw_file_perms;
+
+add_service(healthd, batteryproperties_service)
+
+# Healthd needs to tell init to continue the boot
+# process when running in charger mode.
+set_prop(healthd, system_prop)

@@ -1,0 +1,102 @@
+sepolicy-analyze
+    A component-ized tool for performing various kinds of analysis on a
+    sepolicy file.  The current kinds of analysis that are currently
+    supported include:
+
+    TYPE EQUIVALENCE (typecmp)
+    sepolicy-analyze out/target/product/<board>/root/sepolicy typecmp -e
+
+    Display all type pairs that are "equivalent", i.e. they are
+    identical with respect to allow rules, including indirect allow
+    rules via attributes and default-enabled conditional rules
+    (i.e. default boolean values yield a true conditional expression).
+
+    Equivalent types are candidates for being coalesced into a single
+    type.  However, there may be legitimate reasons for them to remain
+    separate, for example: - the types may differ in a respect not
+    included in the current analysis, such as default-disabled
+    conditional rules, audit-related rules (auditallow or dontaudit),
+    default type transitions, or constraints (e.g. mls), or - the
+    current policy may be overly permissive with respect to one or the
+    other of the types and thus the correct action may be to tighten
+    access to one or the other rather than coalescing them together,
+    or - the domains that would in fact have different accesses to the
+    types may not yet be defined or may be unconfined in the policy
+    you are analyzing.
+
+    TYPE DIFFERENCE (typecmp)
+    sepolicy-analyze out/target/product/<board>/root/sepolicy typecmp -d
+
+    Display type pairs that differ and the first difference found
+    between the two types.  This may be used in looking for similar
+    types that are not equivalent but may be candidates for coalescing.
+
+    DUPLICATE ALLOW RULES (dups)
+    sepolicy-analyze out/target/product/<board>/root/sepolicy dups
+
+    Displays duplicate allow rules, i.e. pairs of allow rules that
+    grant the same permissions where one allow rule is written
+    directly in terms of individual types and the other is written in
+    terms of attributes associated with those same types.  The rule
+    with individual types is a candidate for removal.  The rule with
+    individual types may be directly represented in the source policy
+    or may be a result of expansion of a type negation (e.g. domain
+    -foo -bar is expanded to individual allow rules by the policy
+    compiler).  Domains with unconfineddomain will typically have such
+    duplicate rules as a natural side effect and can be ignored.
+
+    PERMISSIVE DOMAINS (permissive)
+    sepolicy-analyze out/target/product/<board>/root/sepolicy permissive
+
+    Displays domains in the policy that are permissive, i.e. avc
+    denials are logged but not enforced for these domains.  While
+    permissive domains can be helpful during development, they
+    should not be present in a final -user build.
+
+    BOOLEANS (booleans)
+    sepolicy-analyze out/target/product/<board>/root/sepolicy booleans
+
+    Displays the boolean names in the policy (if any).
+    Policy booleans are forbidden in Android policy, so if there is any
+    output, the policy will fail CTS.
+
+    ATTRIBUTE (attribute)
+    sepolicy-analyze out/target/product/<board>/root/sepolicy attribute <name>
+
+    Displays the types associated with the specified attribute name.
+
+    sepolicy-analyze out/target/product/<board>/root/sepolicy attribute -r <name>
+
+    Displays the attributes associated with the specified type name.
+
+    sepolicy-analyze out/target/product/<board>/root/sepolicy attribute -l
+
+    Displays all attributes in the policy.
+
+    NEVERALLOW CHECKING (neverallow)
+    sepolicy-analyze out/target/product/<board>/root/sepolicy neverallow \
+    [-w] [-d] [-f neverallows.conf] | [-n "neverallow string"]
+
+    Check whether the sepolicy file violates any of the neverallow rules
+    from the neverallows.conf file or a given string,  which contain neverallow
+    statements in the same format as the SELinux policy.conf file, i.e. after
+    m4 macro expansion of the rules from a .te file.  You can use an entire
+    policy.conf file as the neverallows.conf file and sepolicy-analyze will
+    ignore everything except for the neverallows within it.  You can also
+    specify this as a command-line string argument, which could be useful for
+    quickly checking an individual expanded rule or group of rules. If there are
+    no violations, sepolicy-analyze will exit successfully with no output.
+    Otherwise, sepolicy-analyze will report all violations and exit
+    with a non-zero exit status.
+
+    The -w or --warn option may be used to warn on any types, attributes,
+    classes, or permissions from a neverallow rule that could not be resolved
+    within the sepolicy file.  This can be normal due to differences between
+    the policy from which the neverallow rules were taken and the policy
+    being checked.  Such values are ignored for the purposes of neverallow
+    checking.
+
+    The -d or --debug option may be used to cause sepolicy-analyze to emit the
+    neverallow rules as it parses them.  This is principally a debugging facility
+    for the parser but could also be used to extract neverallow rules from
+    a full policy.conf file and output them in a more easily parsed format.

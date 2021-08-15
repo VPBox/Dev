@@ -1,0 +1,11 @@
+name: "Kiss FFT"
+description:
+    "Simple library for computing an FFT on sampled data"
+
+third_party {
+  url {
+    type: HOMEPAGE
+    value: "http://kissfft.sourceforge.net"
+  }
+  version: "130"
+}

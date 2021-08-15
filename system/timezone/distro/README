@@ -1,0 +1,9 @@
+This directory contains tools and code associated with time zone "distro"
+files.
+
+A distro file is a zip archive containing the files needed to update the time
+zone rules on a correctly configured Android device, i.e. files required by
+ICU4J / ICU4C / libcore and bionic libraries.
+
+The .zip file also contains versioning information that can be used to prevent
+a distro file being installed on an unsupported device.

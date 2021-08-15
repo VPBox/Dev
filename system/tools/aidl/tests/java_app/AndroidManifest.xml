@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="android.aidl.tests">
+
+  <application android:label="@string/application_title">
+
+    <activity android:name="android.aidl.tests.TestServiceClient">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+  </application>
+</manifest>

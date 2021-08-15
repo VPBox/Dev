@@ -1,0 +1,27 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_health_client, hal_health_server)
+binder_call(hal_health_server, hal_health_client)
+
+hal_attribute_hwservice(hal_health, hal_health_hwservice)
+
+# Common rules for a health service.
+
+# Allow to listen to uevents for updates
+allow hal_health_server self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+
+# Allow to read /sys/class/power_supply directory
+allow hal_health_server sysfs:dir r_dir_perms;
+
+# Allow to read files under /sys/class/power_supply. Implementations typically have symlinks
+# to vendor specific files. Vendors should mark sysfs_batteryinfo on all files read by health
+# HAL service.
+r_dir_file(hal_health_server, sysfs_batteryinfo)
+
+# Allow to wake up to send periodic events
+wakelock_use(hal_health_server)
+
+# Write to /dev/kmsg
+allow hal_health_server kmsg_device:chr_file { getattr w_file_perms };
+
+# Allow to use timerfd to wake itself up periodically to send health info.
+allow hal_health_server self:capability2 wake_alarm;

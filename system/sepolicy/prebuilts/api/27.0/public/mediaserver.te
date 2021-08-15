@@ -1,0 +1,150 @@
+# mediaserver - multimedia daemon
+type mediaserver, domain;
+type mediaserver_exec, exec_type, file_type;
+
+typeattribute mediaserver mlstrustedsubject;
+
+# TODO(b/36375899): replace with hal_client_domain macro on hal_omx
+typeattribute mediaserver halclientdomain;
+
+net_domain(mediaserver)
+
+r_dir_file(mediaserver, sdcard_type)
+r_dir_file(mediaserver, cgroup)
+
+# stat /proc/self
+allow mediaserver proc:lnk_file getattr;
+
+# open /vendor/lib/mediadrm
+allow mediaserver system_file:dir r_dir_perms;
+
+userdebug_or_eng(`
+  # ptrace to processes in the same domain for memory leak detection
+  allow mediaserver self:process ptrace;
+')
+
+binder_use(mediaserver)
+binder_call(mediaserver, binderservicedomain)
+binder_call(mediaserver, appdomain)
+binder_service(mediaserver)
+
+allow mediaserver media_data_file:dir create_dir_perms;
+allow mediaserver media_data_file:file create_file_perms;
+allow mediaserver app_data_file:dir search;
+allow mediaserver app_data_file:file rw_file_perms;
+allow mediaserver sdcard_type:file write;
+allow mediaserver gpu_device:chr_file rw_file_perms;
+allow mediaserver video_device:dir r_dir_perms;
+allow mediaserver video_device:chr_file rw_file_perms;
+
+set_prop(mediaserver, audio_prop)
+
+# XXX Label with a specific type?
+allow mediaserver sysfs:file r_file_perms;
+
+# Read resources from open apk files passed over Binder.
+allow mediaserver apk_data_file:file { read getattr };
+allow mediaserver asec_apk_file:file { read getattr };
+allow mediaserver ringtone_file:file { read getattr };
+
+# Read /data/data/com.android.providers.telephony files passed over Binder.
+allow mediaserver radio_data_file:file { read getattr };
+
+# Use pipes passed over Binder from app domains.
+allow mediaserver appdomain:fifo_file { getattr read write };
+
+allow mediaserver rpmsg_device:chr_file rw_file_perms;
+
+# Inter System processes communicate over named pipe (FIFO)
+allow mediaserver system_server:fifo_file r_file_perms;
+
+r_dir_file(mediaserver, media_rw_data_file)
+
+# Grant access to read files on appfuse.
+allow mediaserver app_fuse_file:file { read getattr };
+
+# Read/[write] to /proc/net/xt_qtaguid/ctrl and /dev/xt_qtaguid
+allow mediaserver qtaguid_proc:file rw_file_perms;
+allow mediaserver qtaguid_device:chr_file r_file_perms;
+
+# Needed on some devices for playing DRM protected content,
+# but seems expected and appropriate for all devices.
+unix_socket_connect(mediaserver, drmserver, drmserver)
+
+# Needed on some devices for playing audio on paired BT device,
+# but seems appropriate for all devices.
+unix_socket_connect(mediaserver, bluetooth, bluetooth)
+
+add_service(mediaserver, mediaserver_service)
+allow mediaserver activity_service:service_manager find;
+allow mediaserver appops_service:service_manager find;
+allow mediaserver audioserver_service:service_manager find;
+allow mediaserver cameraserver_service:service_manager find;
+allow mediaserver batterystats_service:service_manager find;
+allow mediaserver drmserver_service:service_manager find;
+allow mediaserver mediaextractor_service:service_manager find;
+allow mediaserver mediacodec_service:service_manager find;
+allow mediaserver mediametrics_service:service_manager find;
+allow mediaserver media_session_service:service_manager find;
+allow mediaserver permission_service:service_manager find;
+allow mediaserver power_service:service_manager find;
+allow mediaserver processinfo_service:service_manager find;
+allow mediaserver scheduling_policy_service:service_manager find;
+allow mediaserver surfaceflinger_service:service_manager find;
+
+# for ModDrm/MediaPlayer
+allow mediaserver mediadrmserver_service:service_manager find;
+
+# For interfacing with OMX HAL
+allow mediaserver hidl_token_hwservice:hwservice_manager find;
+
+# /oem access
+allow mediaserver oemfs:dir search;
+allow mediaserver oemfs:file r_file_perms;
+
+use_drmservice(mediaserver)
+allow mediaserver drmserver:drmservice {
+    consumeRights
+    setPlaybackStatus
+    openDecryptSession
+    closeDecryptSession
+    initializeDecryptUnit
+    decrypt
+    finalizeDecryptUnit
+    pread
+};
+
+# only allow unprivileged socket ioctl commands
+allowxperm mediaserver self:{ rawip_socket tcp_socket udp_socket }
+  ioctl { unpriv_sock_ioctls unpriv_tty_ioctls };
+
+# Access to /data/media.
+# This should be removed if sdcardfs is modified to alter the secontext for its
+# accesses to the underlying FS.
+allow mediaserver media_rw_data_file:dir create_dir_perms;
+allow mediaserver media_rw_data_file:file create_file_perms;
+
+# Access to media in /data/preloads
+allow mediaserver preloads_media_file:file { getattr read ioctl };
+
+allow mediaserver ion_device:chr_file r_file_perms;
+allow mediaserver hal_graphics_allocator:fd use;
+allow mediaserver hal_graphics_composer:fd use;
+allow mediaserver hal_camera:fd use;
+
+allow mediaserver system_server:fd use;
+
+hal_client_domain(mediaserver, hal_allocator)
+
+binder_call(mediaserver, mediacodec)
+
+###
+### neverallow rules
+###
+
+# mediaserver should never execute any executable without a
+# domain transition
+neverallow mediaserver { file_type fs_type }:file execute_no_trans;
+
+# do not allow privileged socket ioctl commands
+neverallowxperm mediaserver domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;

@@ -1,0 +1,5 @@
+{
+  "name": "com.android.apex.test_package.preinstall",
+  "version": 1,
+  "preInstallHook": "bin/apex_test_preInstallHook"
+}

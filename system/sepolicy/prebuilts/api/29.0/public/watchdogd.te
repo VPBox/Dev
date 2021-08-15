@@ -1,0 +1,6 @@
+# watchdogd seclabel is specified in init.<board>.rc
+type watchdogd, domain;
+type watchdogd_exec, system_file_type, exec_type, file_type;
+
+allow watchdogd watchdog_device:chr_file rw_file_perms;
+allow watchdogd kmsg_device:chr_file rw_file_perms;

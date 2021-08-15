@@ -1,0 +1,79 @@
+# volume manager
+type iorapd, domain;
+type iorapd_exec, exec_type, file_type, system_file_type;
+type iorapd_tmpfs, file_type;
+
+r_dir_file(iorapd, rootfs)
+
+# Allow read/write /proc/sys/vm/drop/caches
+allow iorapd proc_drop_caches:file rw_file_perms;
+
+# Give iorapd a place where only iorapd can store files; everyone else is off limits
+allow iorapd iorapd_data_file:dir create_dir_perms;
+allow iorapd iorapd_data_file:file create_file_perms;
+
+# Allow iorapd to publish a binder service and make binder calls.
+binder_use(iorapd)
+add_service(iorapd, iorapd_service)
+
+# Allow iorapd to call into the system server so it can check permissions.
+binder_call(iorapd, system_server)
+allow iorapd permission_service:service_manager find;
+# IUserManager
+allow iorapd user_service:service_manager find;
+# IPackageManagerNative
+allow iorapd package_native_service:service_manager find;
+
+# talk to batteryservice
+binder_call(iorapd, healthd)
+
+# TODO: does each of the service_manager allow finds above need the binder_call?
+
+# iorapd temporarily changes its priority when running benchmarks
+allow iorapd self:global_capability_class_set sys_nice;
+
+# Allow to access Perfetto traced's privileged consumer socket to start/stop
+# tracing sessions and read trace data.
+unix_socket_connect(iorapd, traced_consumer, traced)
+
+###
+### neverallow rules
+###
+
+neverallow {
+    domain
+    -iorapd
+} iorapd_data_file:dir ~{ open create read getattr setattr search relabelto ioctl };
+
+neverallow {
+    domain
+    -init
+    -iorapd
+} iorapd_data_file:dir *;
+
+neverallow {
+    domain
+    -kernel
+    -iorapd
+} iorapd_data_file:notdevfile_class_set ~{ relabelto getattr };
+
+neverallow {
+    domain
+    -init
+    -kernel
+    -vendor_init
+    -iorapd
+} { iorapd_data_file }:notdevfile_class_set *;
+
+# Only system_server can interact with iorapd over binder
+neverallow { domain -system_server -iorapd } iorapd_service:service_manager find;
+neverallow iorapd {
+  domain
+  -healthd
+  -servicemanager
+  -system_server
+  userdebug_or_eng(`-su')
+}:binder call;
+
+neverallow { domain -init } iorapd:process { transition dyntransition };
+neverallow iorapd domain:{ tcp_socket udp_socket rawip_socket } *;

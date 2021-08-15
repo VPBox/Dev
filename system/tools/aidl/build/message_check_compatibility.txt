@@ -1,0 +1,7 @@
+###############################################################################
+# ERROR: Backward incompatible change detected on AIDL API                    #
+###############################################################################
+Above AIDL file(s) has changed in a backward-incompatible way, e.g. removing
+a method from an interface or a field from a parcelable. If a device is shipped
+with this change by ignoring this message, it has a high risk of breaking later
+when a module using the interface is updated, e.g., Maineline modules.

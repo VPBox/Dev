@@ -1,0 +1,26 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_graphics_composer_client, hal_graphics_composer_server)
+binder_call(hal_graphics_composer_server, hal_graphics_composer_client)
+
+add_hwservice(hal_graphics_composer_server, hal_graphics_composer_hwservice)
+allow hal_graphics_composer_client hal_graphics_composer_hwservice:hwservice_manager find;
+
+# Coordinate with hal_graphics_mapper
+allow hal_graphics_composer_server hal_graphics_mapper_hwservice:hwservice_manager find;
+
+# GPU device access
+allow hal_graphics_composer gpu_device:chr_file rw_file_perms;
+allow hal_graphics_composer ion_device:chr_file r_file_perms;
+allow hal_graphics_composer hal_graphics_allocator:fd use;
+
+# Access /dev/graphics/fb0.
+allow hal_graphics_composer graphics_device:dir search;
+allow hal_graphics_composer graphics_device:chr_file rw_file_perms;
+
+# Fences
+allow hal_graphics_composer system_server:fd use;
+allow hal_graphics_composer bootanim:fd use;
+allow hal_graphics_composer appdomain:fd use;
+
+# allow self to set SCHED_FIFO
+allow hal_graphics_composer self:global_capability_class_set sys_nice;

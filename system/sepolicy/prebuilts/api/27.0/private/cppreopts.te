@@ -1,0 +1,6 @@
+typeattribute cppreopts coredomain;
+
+# Technically not a daemon but we do want the transition from init domain to
+# cppreopts to occur.
+init_daemon_domain(cppreopts)
+domain_auto_trans(cppreopts, preopt2cachename_exec, preopt2cachename);

@@ -1,0 +1,8 @@
+service vendor.drm-hal-1-0 /vendor/bin/hw/android.hardware.drm@1.0-service
+    interface android.hardware.drm@1.0::ICryptoFactory default
+    interface android.hardware.drm@1.0::IDrmFactory default
+    class hal
+    user media
+    group mediadrm drmrpc
+    ioprio rt 4
+    writepid /dev/cpuset/foreground/tasks

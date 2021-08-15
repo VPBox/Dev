@@ -1,0 +1,98 @@
+// Bluetooth types
+cc_library_static {
+    name: "libbluetooth-common",
+    defaults: ["fluoride_defaults"],
+    cflags: [
+        /* we export all classes, so change default visibility, instead of having EXPORT_SYMBOL on each class*/
+        "-fvisibility=default",
+    ],
+    host_supported: true,
+    header_libs: [ "libbluetooth_headers" ],
+    srcs: [
+        "bluetooth/a2dp_codec_config.cc",
+        "bluetooth/adapter_state.cc",
+        "bluetooth/advertise_data.cc",
+        "bluetooth/advertise_settings.cc",
+        "bluetooth/avrcp_int_value.cc",
+        "bluetooth/avrcp_media_attr.cc",
+        "bluetooth/avrcp_register_notification_response.cc",
+        "bluetooth/characteristic.cc",
+        "bluetooth/descriptor.cc",
+        "bluetooth/remote_device_props.cc",
+        "bluetooth/scan_filter.cc",
+        "bluetooth/scan_result.cc",
+        "bluetooth/scan_settings.cc",
+        "bluetooth/service.cc",
+        "bluetooth/util/atomic_string.cc",
+    ],
+    export_include_dirs: ["./"],
+    include_dirs: ["system/bt"],
+    shared_libs: [
+        "libbase",
+    ],
+}
+
+// Bluetooth Binder shared library
+cc_library_static {
+    name: "libbluetooth-binder-common",
+    defaults: ["fluoride_defaults"],
+    cflags: [
+        /* we export all classes, so change default visibility, instead of having EXPORT_SYMBOL on each class*/
+        "-fvisibility=default",
+    ],
+    header_libs: [ "libbluetooth_headers" ],
+    srcs: [
+        "android/bluetooth/IBluetooth.aidl",
+        "android/bluetooth/IBluetoothA2dpSink.aidl",
+        "android/bluetooth/IBluetoothA2dpSinkCallback.aidl",
+        "android/bluetooth/IBluetoothA2dpSource.aidl",
+        "android/bluetooth/IBluetoothA2dpSourceCallback.aidl",
+        "android/bluetooth/IBluetoothAvrcpControl.aidl",
+        "android/bluetooth/IBluetoothAvrcpControlCallback.aidl",
+        "android/bluetooth/IBluetoothAvrcpTarget.aidl",
+        "android/bluetooth/IBluetoothAvrcpTargetCallback.aidl",
+        "android/bluetooth/IBluetoothCallback.aidl",
+        "android/bluetooth/IBluetoothGattClient.aidl",
+        "android/bluetooth/IBluetoothGattClientCallback.aidl",
+        "android/bluetooth/IBluetoothGattServer.aidl",
+        "android/bluetooth/IBluetoothGattServerCallback.aidl",
+        "android/bluetooth/IBluetoothLeAdvertiser.aidl",
+        "android/bluetooth/IBluetoothLeAdvertiserCallback.aidl",
+        "android/bluetooth/IBluetoothLeScanner.aidl",
+        "android/bluetooth/IBluetoothLeScannerCallback.aidl",
+        "android/bluetooth/IBluetoothLowEnergy.aidl",
+        "android/bluetooth/IBluetoothLowEnergyCallback.aidl",
+        "android/bluetooth/advertise_data.cc",
+        "android/bluetooth/advertise_settings.cc",
+        "android/bluetooth/bluetooth_a2dp_codec_config.cc",
+        "android/bluetooth/bluetooth_avrcp_int_value.cc",
+        "android/bluetooth/bluetooth_avrcp_media_attr.cc",
+        "android/bluetooth/bluetooth_avrcp_register_notification_response.cc",
+        "android/bluetooth/bluetooth_avrcp_string_value.cc",
+        "android/bluetooth/bluetooth_gatt_characteristic.cc",
+        "android/bluetooth/bluetooth_gatt_descriptor.cc",
+        "android/bluetooth/bluetooth_gatt_included_service.cc",
+        "android/bluetooth/bluetooth_gatt_service.cc",
+        "android/bluetooth/bluetooth_remote_device_props.cc",
+        "android/bluetooth/scan_filter.cc",
+        "android/bluetooth/scan_result.cc",
+        "android/bluetooth/scan_settings.cc",
+        "android/bluetooth/uuid.cc",
+    ],
+    aidl: {
+        export_aidl_headers: true,
+        include_dirs: [
+            "frameworks/native/aidl/binder",
+            "system/bt/service/common",
+        ],
+    },
+    export_include_dirs: ["./"],
+    whole_static_libs: ["libbluetooth-common"],
+    shared_libs: [
+        "libbase",
+        "libbinder",
+    ],
+    static_libs: [
+        "libbluetooth-types",
+    ]
+}

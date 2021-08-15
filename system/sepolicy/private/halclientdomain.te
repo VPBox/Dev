@@ -1,0 +1,13 @@
+###
+### Rules for all domains which are clients of a HAL
+###
+
+# Find out whether a HAL in passthrough/in-process mode or
+# binderized/out-of-process mode
+hwbinder_use(halclientdomain)
+
+# Used to wait for hwservicemanager
+get_prop(halclientdomain, hwservicemanager_prop)
+
+# Wait for HAL server to be up (used by getService)
+allow halclientdomain hidl_manager_hwservice:hwservice_manager find;

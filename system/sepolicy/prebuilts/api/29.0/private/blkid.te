@@ -1,0 +1,22 @@
+# blkid called from vold
+
+typeattribute blkid coredomain;
+
+type blkid_exec, system_file_type, exec_type, file_type;
+
+# Allowed read-only access to encrypted devices to extract UUID/label
+allow blkid block_device:dir search;
+allow blkid userdata_block_device:blk_file r_file_perms;
+allow blkid dm_device:blk_file r_file_perms;
+
+# Allow stdin/out back to vold
+allow blkid vold:fd use;
+allow blkid vold:fifo_file { read write getattr };
+
+# For blkid launched through popen()
+allow blkid blkid_exec:file rx_file_perms;
+
+# Only allow entry from vold
+neverallow { domain -vold } blkid:process transition;
+neverallow * blkid:process dyntransition;
+neverallow blkid { file_type fs_type -blkid_exec -shell_exec }:file entrypoint;

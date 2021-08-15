@@ -1,0 +1,12 @@
+typeattribute usbd coredomain;
+
+init_daemon_domain(usbd)
+
+# Access usb gadget hal
+hal_client_domain(usbd, hal_usb_gadget)
+
+# Access persist.sys.usb.config
+get_prop(usbd, system_prop)
+
+# start adbd during boot if adb is enabled
+set_prop(usbd, ctl_default_prop)

@@ -1,0 +1,56 @@
+-----BEGIN CERTIFICATE-----
+MIICHDCCAaKgAwIBAgISESDZkc6uo+jF5//pAq/Pc7xVMAoGCCqGSM49BAMDMD4x
+CzAJBgNVBAYTAkZSMREwDwYDVQQKDAhDZXJ0cGx1czEcMBoGA1UEAwwTQ2VydHBs
+dXMgUm9vdCBDQSBHMjAeFw0xNDA1MjYwMDAwMDBaFw0zODAxMTUwMDAwMDBaMD4x
+CzAJBgNVBAYTAkZSMREwDwYDVQQKDAhDZXJ0cGx1czEcMBoGA1UEAwwTQ2VydHBs
+dXMgUm9vdCBDQSBHMjB2MBAGByqGSM49AgEGBSuBBAAiA2IABM0PW1aC3/BFGtat
+93nwHcmsltaeTpwftEIRyoa/bfuFo8XlGVzX7qY/aWfYeOKmycTbLXku54uNAm8x
+Ik0G42ByRZ0OQneezs/lf4WbGOT8zC5y0xaTTsqZY1yhBSpsBqNjMGEwDgYDVR0P
+AQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFNqDYwJ5jtpMxjwj
+FNiPwyCrKGBZMB8GA1UdIwQYMBaAFNqDYwJ5jtpMxjwjFNiPwyCrKGBZMAoGCCqG
+SM49BAMDA2gAMGUCMHD+sAvZ94OX7PNVHdTcswYO/jOYnYs5kGuUIe22113WTNch
+p+e/IQ8rzfcq3IUHnQIxAIYUFuXcsGXCwI4Un78kFmjlvPl5adytRSv3tjFzzAal
+U5ORGpOucGpnutee5WEaXw==
+-----END CERTIFICATE-----
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            11:20:d9:91:ce:ae:a3:e8:c5:e7:ff:e9:02:af:cf:73:bc:55
+    Signature Algorithm: ecdsa-with-SHA384
+        Issuer: C=FR, O=Certplus, CN=Certplus Root CA G2
+        Validity
+            Not Before: May 26 00:00:00 2014 GMT
+            Not After : Jan 15 00:00:00 2038 GMT
+        Subject: C=FR, O=Certplus, CN=Certplus Root CA G2
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (384 bit)
+                pub:
+                    04:cd:0f:5b:56:82:df:f0:45:1a:d6:ad:f7:79:f0:
+                    1d:c9:ac:96:d6:9e:4e:9c:1f:b4:42:11:ca:86:bf:
+                    6d:fb:85:a3:c5:e5:19:5c:d7:ee:a6:3f:69:67:d8:
+                    78:e2:a6:c9:c4:db:2d:79:2e:e7:8b:8d:02:6f:31:
+                    22:4d:06:e3:60:72:45:9d:0e:42:77:9e:ce:cf:e5:
+                    7f:85:9b:18:e4:fc:cc:2e:72:d3:16:93:4e:ca:99:
+                    63:5c:a1:05:2a:6c:06
+                ASN1 OID: secp384r1
+                NIST CURVE: P-384
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Certificate Sign, CRL Sign
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Subject Key Identifier: 
+                DA:83:63:02:79:8E:DA:4C:C6:3C:23:14:D8:8F:C3:20:AB:28:60:59
+            X509v3 Authority Key Identifier: 
+                keyid:DA:83:63:02:79:8E:DA:4C:C6:3C:23:14:D8:8F:C3:20:AB:28:60:59
+
+    Signature Algorithm: ecdsa-with-SHA384
+         30:65:02:30:70:fe:b0:0b:d9:f7:83:97:ec:f3:55:1d:d4:dc:
+         b3:06:0e:fe:33:98:9d:8b:39:90:6b:94:21:ed:b6:d7:5d:d6:
+         4c:d7:21:a7:e7:bf:21:0f:2b:cd:f7:2a:dc:85:07:9d:02:31:
+         00:86:14:16:e5:dc:b0:65:c2:c0:8e:14:9f:bf:24:16:68:e5:
+         bc:f9:79:69:dc:ad:45:2b:f7:b6:31:73:cc:06:a5:53:93:91:
+         1a:93:ae:70:6a:67:ba:d7:9e:e5:61:1a:5f
+SHA1 Fingerprint=4F:65:8E:1F:E9:06:D8:28:02:E9:54:47:41:C9:54:25:5D:69:CC:1A

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2019 The Android Open Source Project
+
+         Licensed under the Apache License, Version 2.0 (the "License");
+         you may not use this file except in compliance with the License.
+         You may obtain a copy of the License at
+
+                    http://www.apache.org/licenses/LICENSE-2.0
+
+         Unless required by applicable law or agreed to in writing, software
+         distributed under the License is distributed on an "AS IS" BASIS,
+         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         See the License for the specific language governing permissions and
+         limitations under the License.
+-->
+<!-- TODO: define a targetNamespace. Note that it will break retrocompatibility -->
+<xs:schema version="2.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="compatibility-matrix">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="hal" type="hal" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="kernel" type="kernel" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="sepolicy" type="sepolicy" minOccurs="0"/>
+                <xs:element name="avb" type="avb" minOccurs="0"/>
+                <xs:element name="vndk" type="vndk" minOccurs="0"/>
+                <xs:element name="vendor-ndk" type="vendor-ndk" minOccurs="0"/>
+                <xs:element name="system-sdk" type="system-sdk" minOccurs="0"/>
+                <xs:element name="xmlfile" type="xmlfile" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:string" use="required"/>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="level" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="hal">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="version" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="interface" type="interface" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="fqname" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="format" type="xs:string"/>
+        <xs:attribute name="optional" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="interface">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="instance" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="regex-instance" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="kernel">
+        <xs:sequence>
+            <xs:element name="conditions" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="config" type="config" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="config" type="config" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="version" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="config">
+        <xs:sequence>
+            <xs:element name="key" type="xs:string"/>
+            <xs:element name="value">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="type" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="sepolicy">
+        <xs:sequence>
+            <xs:element name="kernel-sepolicy-version" type="xs:string"/>
+            <xs:element name="sepolicy-version" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="avb">
+        <xs:sequence>
+            <xs:element name="vbmeta-version" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="vndk">
+        <xs:sequence>
+            <xs:element name="version" type="xs:string"/>
+            <xs:element name="library" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="vendor-ndk">
+        <xs:sequence>
+            <xs:element name="version" type="xs:string"/>
+            <xs:element name="library" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="system-sdk">
+        <xs:sequence>
+            <xs:element name="version" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="xmlfile">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="version" type="xs:string"/>
+            <xs:element name="path" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="format" type="xs:string"/>
+        <xs:attribute name="optional" type="xs:string"/>
+    </xs:complexType>
+</xs:schema>

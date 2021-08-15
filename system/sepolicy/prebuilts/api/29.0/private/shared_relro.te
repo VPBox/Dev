@@ -1,0 +1,5 @@
+typeattribute shared_relro coredomain;
+
+# The shared relro process is a Java program forked from the zygote, so it
+# inherits from app to get basic permissions it needs to run.
+app_domain(shared_relro)

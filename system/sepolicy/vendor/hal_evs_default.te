@@ -1,0 +1,10 @@
+# evs_mock mock hardware driver service
+type hal_evs_default, domain;
+hal_server_domain(hal_evs_default, hal_evs)
+
+# allow init to launch processes in this context
+type hal_evs_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_evs_default)
+
+allow hal_evs_default hal_graphics_allocator_default:fd use;
+

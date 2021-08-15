@@ -1,0 +1,83 @@
+# bluetooth app
+
+typeattribute bluetooth coredomain;
+
+app_domain(bluetooth)
+net_domain(bluetooth)
+
+# Socket creation under /data/misc/bluedroid.
+type_transition bluetooth bluetooth_data_file:sock_file bluetooth_socket;
+
+# Allow access to net_admin ioctls
+allowxperm bluetooth self:udp_socket ioctl priv_sock_ioctls;
+
+wakelock_use(bluetooth);
+
+# Data file accesses.
+allow bluetooth bluetooth_data_file:dir create_dir_perms;
+allow bluetooth bluetooth_data_file:notdevfile_class_set create_file_perms;
+allow bluetooth bluetooth_logs_data_file:dir rw_dir_perms;
+allow bluetooth bluetooth_logs_data_file:file create_file_perms;
+
+# Socket creation under /data/misc/bluedroid.
+allow bluetooth bluetooth_socket:sock_file create_file_perms;
+
+allow bluetooth self:global_capability_class_set net_admin;
+allow bluetooth self:global_capability2_class_set wake_alarm;
+
+# tethering
+allow bluetooth self:packet_socket create_socket_perms_no_ioctl;
+allow bluetooth self:global_capability_class_set { net_admin net_raw net_bind_service };
+allow bluetooth self:tun_socket create_socket_perms_no_ioctl;
+allow bluetooth tun_device:chr_file rw_file_perms;
+allowxperm bluetooth tun_device:chr_file ioctl { TUNGETIFF TUNSETIFF };
+allow bluetooth efs_file:dir search;
+
+# allow Bluetooth to access uhid device for HID profile
+allow bluetooth uhid_device:chr_file rw_file_perms;
+
+# proc access.
+allow bluetooth proc_bluetooth_writable:file rw_file_perms;
+
+# Allow write access to bluetooth specific properties
+set_prop(bluetooth, bluetooth_a2dp_offload_prop)
+set_prop(bluetooth, bluetooth_audio_hal_prop)
+set_prop(bluetooth, bluetooth_prop)
+set_prop(bluetooth, exported_bluetooth_prop)
+set_prop(bluetooth, pan_result_prop)
+
+allow bluetooth audioserver_service:service_manager find;
+allow bluetooth bluetooth_service:service_manager find;
+allow bluetooth drmserver_service:service_manager find;
+allow bluetooth mediaserver_service:service_manager find;
+allow bluetooth radio_service:service_manager find;
+allow bluetooth app_api_service:service_manager find;
+allow bluetooth system_api_service:service_manager find;
+allow bluetooth network_stack_service:service_manager find;
+
+# already open bugreport file descriptors may be shared with
+# the bluetooth process, from a file in
+# /data/data/com.android.shell/files/bugreports/bugreport-*.
+allow bluetooth shell_data_file:file read;
+
+# Bluetooth audio needs RT scheduling to meet deadlines, allow sys_nice
+allow bluetooth self:global_capability_class_set sys_nice;
+
+hal_client_domain(bluetooth, hal_bluetooth)
+hal_client_domain(bluetooth, hal_telephony)
+
+# Bluetooth A2DP offload requires binding with audio HAL
+hal_client_domain(bluetooth, hal_audio)
+
+read_runtime_log_tags(bluetooth)
+
+###
+### Neverallow rules
+###
+### These are things that the bluetooth app should NEVER be able to do
+###
+
+# Superuser capabilities.
+# Bluetooth requires net_{admin,raw,bind_service} and wake_alarm and block_suspend and sys_nice.
+neverallow bluetooth self:global_capability_class_set ~{ net_admin net_raw net_bind_service sys_nice};
+neverallow bluetooth self:global_capability2_class_set ~{ wake_alarm block_suspend };

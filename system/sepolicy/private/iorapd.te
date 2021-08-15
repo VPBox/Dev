@@ -1,0 +1,4 @@
+typeattribute iorapd coredomain;
+
+init_daemon_domain(iorapd)
+tmpfs_domain(iorapd)

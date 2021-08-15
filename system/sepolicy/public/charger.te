@@ -1,0 +1,44 @@
+type charger, domain;
+type charger_exec, system_file_type, exec_type, file_type;
+
+# Write to /dev/kmsg
+allow charger kmsg_device:chr_file rw_file_perms;
+
+# Read access to pseudo filesystems.
+r_dir_file(charger, rootfs)
+r_dir_file(charger, cgroup)
+
+# Allow to read /sys/class/power_supply directory
+allow charger sysfs_type:dir r_dir_perms;
+
+allow charger self:global_capability_class_set { sys_tty_config };
+allow charger self:global_capability_class_set sys_boot;
+
+wakelock_use(charger)
+
+allow charger self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+
+# Read/write to /sys/power/state
+allow charger sysfs_power:file rw_file_perms;
+
+r_dir_file(charger, sysfs_batteryinfo)
+
+# Read /sys/fs/pstore/console-ramoops
+# Don't worry about overly broad permissions for now, as there's
+# only one file in /sys/fs/pstore
+allow charger pstorefs:dir r_dir_perms;
+allow charger pstorefs:file r_file_perms;
+
+allow charger graphics_device:dir r_dir_perms;
+allow charger graphics_device:chr_file rw_file_perms;
+allow charger input_device:dir r_dir_perms;
+allow charger input_device:chr_file r_file_perms;
+allow charger tty_device:chr_file rw_file_perms;
+allow charger proc_sysrq:file rw_file_perms;
+
+# charger needs to tell init to continue the boot
+# process when running in charger mode.
+set_prop(charger, system_prop)
+set_prop(charger, exported_system_prop)
+set_prop(charger, exported2_system_prop)
+set_prop(charger, exported3_system_prop)

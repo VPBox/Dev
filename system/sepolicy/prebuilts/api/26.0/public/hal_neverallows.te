@@ -1,0 +1,53 @@
+# only HALs responsible for network hardware should have privileged
+# network capabilities
+neverallow {
+  halserverdomain
+  -hal_bluetooth_server
+  -hal_wifi_server
+  -hal_wifi_supplicant_server
+  -rild
+} self:capability { net_admin net_raw };
+
+# Unless a HAL's job is to communicate over the network, or control network
+# hardware, it should not be using network sockets.
+neverallow {
+  halserverdomain
+  -hal_tetheroffload_server
+  -hal_wifi_server
+  -hal_wifi_supplicant_server
+  -rild
+} domain:{ tcp_socket udp_socket rawip_socket } *;
+neverallow hal_tetheroffload_server unlabeled:service_manager list; #TODO: b/62658302
+
+###
+# HALs are defined as an attribute and so a given domain could hypothetically
+# have multiple HALs in it (or even all of them) with the subsequent policy of
+# the domain comprised of the union of all the HALs.
+#
+# This is a problem because
+# 1) Security sensitive components should only be accessed by specific HALs.
+# 2) hwbinder_call and the restrictions it provides cannot be reasoned about in
+#    the platform.
+# 3) The platform cannot reason about defense in depth if there are
+#    monolithic domains etc.
+#
+# As an example, hal_keymaster and hal_gatekeeper can access the TEE and while
+# its OK for them to share a process its not OK with them to share processes
+# with other hals.
+#
+# The following neverallow rules, in conjuntion with CTS tests, assert that
+# these security principles are adhered to.
+#
+# Do not allow a hal to exec another process without a domain transition.
+# TODO remove exemptions.
+neverallow {
+  halserverdomain
+  -hal_dumpstate_server
+  -rild
+} { file_type fs_type }:file execute_no_trans;
+# Do not allow a process other than init to transition into a HAL domain.
+neverallow { domain -init } halserverdomain:process transition;
+# Only allow transitioning to a domain by running its executable. Do not
+# allow transitioning into a HAL domain by use of seclabel in an
+# init.*.rc script.
+neverallow * halserverdomain:process dyntransition;

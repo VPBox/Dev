@@ -1,0 +1,22 @@
+# /proc/config.gz
+type config_gz, fs_type, proc_type;
+
+# /data/misc/storaged
+type storaged_data_file, file_type, data_file_type, core_data_file_type;
+
+# /data/misc/wmtrace for wm traces
+type wm_trace_data_file, file_type, data_file_type, core_data_file_type;
+
+# /data/misc/perfetto-traces for perfetto traces
+type perfetto_traces_data_file, file_type, data_file_type, core_data_file_type;
+
+# /sys/kernel/debug/kcov for coverage guided kernel fuzzing in userdebug builds.
+type debugfs_kcov, fs_type, debugfs_type;
+
+# App executable files in /data/data directories
+type app_exec_data_file, file_type, data_file_type, core_data_file_type;
+typealias app_exec_data_file alias rs_data_file;
+
+# /data/misc_[ce|de]/rollback : Used by installd to store snapshots
+# of application data.
+type rollback_data_file, file_type, data_file_type, core_data_file_type;

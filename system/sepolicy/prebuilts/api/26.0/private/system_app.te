@@ -1,0 +1,92 @@
+###
+### Apps that run with the system UID, e.g. com.android.system.ui,
+### com.android.settings.  These are not as privileged as the system
+### server.
+###
+
+typeattribute system_app coredomain;
+typeattribute system_app domain_deprecated;
+
+app_domain(system_app)
+net_domain(system_app)
+binder_service(system_app)
+
+# Read and write /data/data subdirectory.
+allow system_app system_app_data_file:dir create_dir_perms;
+allow system_app system_app_data_file:{ file lnk_file } create_file_perms;
+
+# Read and write to /data/misc/user.
+allow system_app misc_user_data_file:dir create_dir_perms;
+allow system_app misc_user_data_file:file create_file_perms;
+
+# Access to vold-mounted storage for measuring free space
+allow system_app mnt_media_rw_file:dir search;
+
+# Read wallpaper file.
+allow system_app wallpaper_file:file r_file_perms;
+
+# Read icon file.
+allow system_app icon_file:file r_file_perms;
+
+# Write to properties
+set_prop(system_app, bluetooth_prop)
+set_prop(system_app, debug_prop)
+set_prop(system_app, system_prop)
+set_prop(system_app, logd_prop)
+set_prop(system_app, net_radio_prop)
+set_prop(system_app, system_radio_prop)
+set_prop(system_app, log_tag_prop)
+userdebug_or_eng(`set_prop(system_app, logpersistd_logging_prop)')
+auditallow system_app net_radio_prop:property_service set;
+auditallow system_app system_radio_prop:property_service set;
+
+# ctl interface
+set_prop(system_app, ctl_default_prop)
+set_prop(system_app, ctl_bugreport_prop)
+
+# Create /data/anr/traces.txt.
+allow system_app anr_data_file:dir ra_dir_perms;
+allow system_app anr_data_file:file create_file_perms;
+
+# Settings need to access app name and icon from asec
+allow system_app asec_apk_file:file r_file_perms;
+
+# Allow system apps to interact with incidentd
+binder_call(system_app, incidentd)
+
+allow system_app servicemanager:service_manager list;
+# TODO: scope this down? Too broad?
+allow system_app { service_manager_type -netd_service -dumpstate_service -installd_service -virtual_touchpad_service -vr_hwc_service }:service_manager find;
+
+allow system_app keystore:keystore_key {
+    get_state
+    get
+    insert
+    delete
+    exist
+    list
+    reset
+    password
+    lock
+    unlock
+    is_empty
+    sign
+    verify
+    grant
+    duplicate
+    clear_uid
+    user_changed
+};
+
+# /sys access
+r_dir_file(system_app, sysfs_type)
+
+control_logd(system_app)
+read_runtime_log_tags(system_app)
+
+###
+### Neverallow rules
+###
+
+# app domains which access /dev/fuse should not run as system_app
+neverallow system_app fuse_device:chr_file *;

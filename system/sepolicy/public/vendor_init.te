@@ -1,0 +1,279 @@
+# vendor_init is its own domain.
+type vendor_init, domain, mlstrustedsubject;
+
+# Communication to the main init process
+allow vendor_init init:unix_stream_socket { read write };
+
+# Logging to kmsg
+allow vendor_init kmsg_device:chr_file { open getattr write };
+
+# Mount on /dev/usb-ffs/adb.
+allow vendor_init device:dir mounton;
+
+# Create and remove symlinks in /.
+allow vendor_init rootfs:lnk_file { create unlink };
+
+# Create cgroups mount points in tmpfs and mount cgroups on them.
+allow vendor_init cgroup:dir create_dir_perms;
+allow vendor_init cgroup:file w_file_perms;
+
+# /config
+allow vendor_init configfs:dir mounton;
+allow vendor_init configfs:dir create_dir_perms;
+allow vendor_init configfs:{ file lnk_file } create_file_perms;
+
+# Create directories under /dev/cpuctl after chowning it to system.
+allow vendor_init self:global_capability_class_set { dac_override dac_read_search };
+
+# mkdir, symlink, write, rm/rmdir, chown/chmod, restorecon/restorecon_recursive from init.rc files.
+# chown/chmod require open+read+setattr required for open()+fchown/fchmod().
+# system/core/init.rc requires at least cache_file and data_file_type.
+# init.<board>.rc files often include device-specific types, so
+# we just allow all file types except /system files here.
+allow vendor_init self:global_capability_class_set { chown fowner fsetid };
+
+# mkdir with FBE requires reading /data/unencrypted/{ref,mode}.
+allow vendor_init unencrypted_data_file:dir search;
+allow vendor_init unencrypted_data_file:file r_file_perms;
+
+# Set encryption policy on dirs in /data
+allowxperm vendor_init data_file_type:dir ioctl {
+  FS_IOC_GET_ENCRYPTION_POLICY
+  FS_IOC_SET_ENCRYPTION_POLICY
+};
+
+allow vendor_init system_data_file:dir getattr;
+
+allow vendor_init {
+  file_type
+  -core_data_file_type
+  -exec_type
+  -system_file_type
+  -mnt_product_file
+  -password_slot_metadata_file
+  -unlabeled
+  -vendor_file_type
+  -vold_metadata_file
+  -gsi_metadata_file
+  -apex_metadata_file
+}:dir { create search getattr open read setattr ioctl write add_name remove_name rmdir relabelfrom };
+
+allow vendor_init unlabeled:{ dir notdevfile_class_set } { getattr relabelfrom };
+
+allow vendor_init {
+  file_type
+  -core_data_file_type
+  -exec_type
+  -password_slot_metadata_file
+  -runtime_event_log_tags_file
+  -system_file_type
+  -unlabeled
+  -vendor_file_type
+  -vold_metadata_file
+  -gsi_metadata_file
+  -apex_metadata_file
+}:file { create getattr open read write setattr relabelfrom unlink map };
+
+allow vendor_init {
+  file_type
+  -core_data_file_type
+  -exec_type
+  -password_slot_metadata_file
+  -system_file_type
+  -unlabeled
+  -vendor_file_type
+  -vold_metadata_file
+  -gsi_metadata_file
+  -apex_metadata_file
+}:{ sock_file fifo_file } { create getattr open read setattr relabelfrom unlink };
+
+allow vendor_init {
+  file_type
+  -apex_mnt_dir
+  -core_data_file_type
+  -exec_type
+  -password_slot_metadata_file
+  -system_file_type
+  -unlabeled
+  -vendor_file_type
+  -vold_metadata_file
+  -gsi_metadata_file
+  -apex_metadata_file
+}:lnk_file { create getattr setattr relabelfrom unlink };
+
+allow vendor_init {
+  file_type
+  -core_data_file_type
+  -exec_type
+  -mnt_product_file
+  -password_slot_metadata_file
+  -system_file_type
+  -vendor_file_type
+  -vold_metadata_file
+  -gsi_metadata_file
+  -apex_metadata_file
+}:dir_file_class_set relabelto;
+
+allow vendor_init dev_type:dir create_dir_perms;
+allow vendor_init dev_type:lnk_file create;
+
+# Disable tracing by writing to /sys/kernel/debug/tracing/tracing_on
+allow vendor_init debugfs_tracing:file w_file_perms;
+
+# chown/chmod on pseudo files.
+allow vendor_init {
+  fs_type
+  -contextmount_type
+  -keychord_device
+  -sdcard_type
+  -rootfs
+  -proc_uid_time_in_state
+  -proc_uid_concurrent_active_time
+  -proc_uid_concurrent_policy_time
+}:file { open read setattr map };
+
+allow vendor_init {
+  fs_type
+  -contextmount_type
+  -sdcard_type
+  -rootfs
+  -proc_uid_time_in_state
+  -proc_uid_concurrent_active_time
+  -proc_uid_concurrent_policy_time
+}:dir  { open read setattr search };
+
+# chown/chmod on devices, e.g. /dev/ttyHS0
+allow vendor_init {
+  dev_type
+  -keychord_device
+  -port_device
+  -lowpan_device
+  -hw_random_device
+}:chr_file setattr;
+
+allow vendor_init dev_type:blk_file getattr;
+
+# Write to /proc/sys/net/ping_group_range and other /proc/sys/net files.
+r_dir_file(vendor_init, proc_net_type)
+allow vendor_init proc_net_type:file w_file_perms;
+allow vendor_init self:global_capability_class_set net_admin;
+
+# Write to /proc/sys/vm/page-cluster
+allow vendor_init proc_page_cluster:file w_file_perms;
+
+# Write to sysfs nodes.
+allow vendor_init sysfs_type:dir r_dir_perms;
+allow vendor_init sysfs_type:lnk_file read;
+allow vendor_init { sysfs_type -sysfs_usermodehelper }:file rw_file_perms;
+
+# setfscreatecon() for labeling directories and socket files.
+allow vendor_init self:process { setfscreate };
+
+r_dir_file(vendor_init, vendor_file_type)
+
+# Vendor init can read properties
+allow vendor_init serialno_prop:file { getattr open read map };
+
+# Vendor init can perform operations on trusted and security Extended Attributes
+allow vendor_init self:global_capability_class_set sys_admin;
+
+# Raw writes to misc block device
+allow vendor_init misc_block_device:blk_file w_file_perms;
+
+# vendor_init is using bootstrap bionic
+allow vendor_init system_bootstrap_lib_file:dir r_dir_perms;
+allow vendor_init system_bootstrap_lib_file:file { execute read open getattr map };
+
+# Everything is labeled as rootfs in recovery mode. Vendor init has to execute
+# the dynamic linker and shared libraries.
+recovery_only(`
+  allow vendor_init rootfs:file { r_file_perms execute };
+')
+
+not_compatible_property(`
+    set_prop(vendor_init, {
+      property_type
+      -device_config_activity_manager_native_boot_prop
+      -device_config_boot_count_prop
+      -device_config_reset_performed_prop
+      -device_config_input_native_boot_prop
+      -device_config_netd_native_prop
+      -device_config_runtime_native_boot_prop
+      -device_config_runtime_native_prop
+      -device_config_media_native_prop
+      -restorecon_prop
+      -netd_stable_secret_prop
+      -firstboot_prop
+      -pm_prop
+      -system_boot_reason_prop
+      -bootloader_boot_reason_prop
+      -last_boot_reason_prop
+      -apexd_prop
+      -gsid_prop
+      -nnapi_ext_deny_product_prop
+    })
+')
+
+# Get file context
+allow vendor_init file_contexts_file:file r_file_perms;
+
+set_prop(vendor_init, bluetooth_a2dp_offload_prop)
+set_prop(vendor_init, bluetooth_audio_hal_prop)
+set_prop(vendor_init, cpu_variant_prop)
+set_prop(vendor_init, debug_prop)
+set_prop(vendor_init, exported_audio_prop)
+set_prop(vendor_init, exported_bluetooth_prop)
+set_prop(vendor_init, exported_config_prop)
+set_prop(vendor_init, exported_dalvik_prop)
+set_prop(vendor_init, exported_default_prop)
+set_prop(vendor_init, exported_ffs_prop)
+set_prop(vendor_init, exported_overlay_prop)
+set_prop(vendor_init, exported_pm_prop)
+set_prop(vendor_init, exported_radio_prop)
+set_prop(vendor_init, exported_system_radio_prop)
+set_prop(vendor_init, exported_wifi_prop)
+set_prop(vendor_init, exported2_config_prop)
+set_prop(vendor_init, exported2_system_prop)
+set_prop(vendor_init, exported2_vold_prop)
+set_prop(vendor_init, exported3_default_prop)
+set_prop(vendor_init, exported3_radio_prop)
+set_prop(vendor_init, logd_prop)
+set_prop(vendor_init, log_tag_prop)
+set_prop(vendor_init, log_prop)
+set_prop(vendor_init, serialno_prop)
+set_prop(vendor_init, vendor_default_prop)
+set_prop(vendor_init, vendor_security_patch_level_prop)
+set_prop(vendor_init, wifi_log_prop)
+
+get_prop(vendor_init, exported2_radio_prop)
+get_prop(vendor_init, exported3_system_prop)
+get_prop(vendor_init, theme_prop)
+
+###
+### neverallow rules
+###
+
+# Vendor init shouldn't communicate with any vendor process, nor most system processes.
+neverallow_establish_socket_comms(vendor_init, { domain -init -logd -su -vendor_init });
+
+# The vendor_init domain is only entered via an exec based transition from the
+# init domain, never via setcon().
+neverallow domain vendor_init:process dyntransition;
+neverallow { domain -init } vendor_init:process transition;
+neverallow vendor_init { file_type fs_type -init_exec }:file entrypoint;
+
+# Never read/follow symlinks created by shell or untrusted apps.
+neverallow vendor_init { app_data_file privapp_data_file }:lnk_file read;
+neverallow vendor_init shell_data_file:lnk_file read;
+# Init should not be creating subdirectories in /data/local/tmp
+neverallow vendor_init shell_data_file:dir { write add_name remove_name };
+
+# init should never execute a program without changing to another domain.
+neverallow vendor_init { file_type fs_type }:file execute_no_trans;
+
+# Init never adds or uses services via service_manager.
+neverallow vendor_init service_manager_type:service_manager { add find };
+neverallow vendor_init servicemanager:service_manager list;
+
+# vendor_init should never be ptraced
+neverallow * vendor_init:process ptrace;

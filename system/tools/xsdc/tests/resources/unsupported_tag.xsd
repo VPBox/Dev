@@ -1,0 +1,5 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="unsupported_tag" xmlns="unsupported_tag">
+    <xs:import namespace="reference" schemaLocation="reference.xsd"/>
+    <xs:element name="dummy" type="xs:string"/>
+</xs:schema>

@@ -1,0 +1,25 @@
+# DNS, DHCP services
+type dnsmasq, domain;
+type dnsmasq_exec, exec_type, file_type;
+
+net_domain(dnsmasq)
+allowxperm dnsmasq self:udp_socket ioctl priv_sock_ioctls;
+
+# TODO:  Run with dhcp group to avoid need for dac_override.
+allow dnsmasq self:global_capability_class_set dac_override;
+
+allow dnsmasq self:global_capability_class_set { net_admin net_raw net_bind_service setgid setuid };
+
+allow dnsmasq dhcp_data_file:dir w_dir_perms;
+allow dnsmasq dhcp_data_file:file create_file_perms;
+
+# Inherit and use open files from netd.
+allow dnsmasq netd:fd use;
+allow dnsmasq netd:fifo_file { read write };
+# TODO: Investigate whether these inherited sockets should be closed on exec.
+allow dnsmasq netd:netlink_kobject_uevent_socket { read write };
+allow dnsmasq netd:netlink_nflog_socket { read write };
+allow dnsmasq netd:netlink_route_socket { read write };
+allow dnsmasq netd:unix_stream_socket { read write };
+allow dnsmasq netd:unix_dgram_socket { read write };
+allow dnsmasq netd:udp_socket { read write };

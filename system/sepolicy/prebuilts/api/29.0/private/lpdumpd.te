@@ -1,0 +1,41 @@
+type lpdumpd, domain, coredomain;
+type lpdumpd_exec, system_file_type, exec_type, file_type;
+
+init_daemon_domain(lpdumpd)
+
+# Allow lpdumpd to register itself as a service.
+binder_use(lpdumpd)
+add_service(lpdumpd, lpdump_service)
+
+# Allow lpdumpd to find the super partition block device.
+allow lpdumpd block_device:dir r_dir_perms;
+
+# Allow lpdumpd to read super partition metadata.
+allow lpdumpd super_block_device_type:blk_file r_file_perms;
+
+# Allow lpdumpd to read fstab.
+allow lpdumpd sysfs_dt_firmware_android:dir r_dir_perms;
+allow lpdumpd sysfs_dt_firmware_android:file r_file_perms;
+
+# Triggered when lpdumpd tries to read default fstab.
+dontaudit lpdumpd metadata_file:dir r_dir_perms;
+dontaudit lpdumpd metadata_file:file r_file_perms;
+dontaudit lpdumpd gsi_metadata_file:dir r_dir_perms;
+dontaudit lpdumpd gsi_metadata_file:file r_file_perms;
+
+### Neverallow rules
+
+# Disallow other domains to get lpdump_service and call lpdumpd.
+neverallow {
+    domain
+    -dumpstate
+    -lpdumpd
+    -shell
+} lpdump_service:service_manager find;
+
+neverallow {
+    domain
+    -dumpstate
+    -lpdumpd
+    -shell
+} lpdumpd:binder call;

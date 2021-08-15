@@ -1,0 +1,3 @@
+# surfaceflinger - display compositor service
+type surfaceflinger, domain;
+type surfaceflinger_tmpfs, file_type;

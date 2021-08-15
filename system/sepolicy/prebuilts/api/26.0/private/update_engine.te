@@ -1,0 +1,4 @@
+typeattribute update_engine coredomain;
+typeattribute update_engine domain_deprecated;
+
+init_daemon_domain(update_engine);

@@ -1,0 +1,11 @@
+type vendor_modprobe, domain;
+
+# For the use of /vendor/bin/modprobe from vendor init.rc fragments
+domain_trans(init, vendor_toolbox_exec, vendor_modprobe)
+
+allow vendor_modprobe proc_modules:file r_file_perms;
+allow vendor_modprobe self:global_capability_class_set sys_module;
+allow vendor_modprobe kernel:key search;
+
+allow vendor_modprobe { vendor_file }:system module_load;
+r_dir_file(vendor_modprobe, { vendor_file })

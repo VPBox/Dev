@@ -1,0 +1,27 @@
+# cppreopts
+#
+# This command copies preopted files from the system_b partition to the data
+# partition. This domain ensures that we are only copying into specific
+# directories.
+
+type cppreopts, domain, mlstrustedsubject, coredomain;
+type cppreopts_exec, system_file_type, exec_type, file_type;
+
+# Technically not a daemon but we do want the transition from init domain to
+# cppreopts to occur.
+init_daemon_domain(cppreopts)
+domain_auto_trans(cppreopts, preopt2cachename_exec, preopt2cachename);
+
+# Allow cppreopts copy files into the dalvik-cache
+allow cppreopts dalvikcache_data_file:dir { add_name remove_name search write };
+allow cppreopts dalvikcache_data_file:file { create getattr open read rename write unlink };
+
+# Allow cppreopts to execute itself using #!/system/bin/sh
+allow cppreopts shell_exec:file rx_file_perms;
+
+# Allow us to run find on /postinstall
+allow cppreopts system_file:dir { open read };
+
+# Allow running the cp command using cppreopts permissions. Needed so we can
+# write into dalvik-cache
+allow cppreopts toolbox_exec:file rx_file_perms;

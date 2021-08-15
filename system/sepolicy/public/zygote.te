@@ -1,0 +1,4 @@
+# zygote
+type zygote, domain;
+type zygote_tmpfs, file_type;
+type zygote_exec, system_file_type, exec_type, file_type;

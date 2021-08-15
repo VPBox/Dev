@@ -1,0 +1,49 @@
+typeattribute crash_dump coredomain;
+
+# Crash dump does not need to access devices passed across exec().
+dontaudit crash_dump { devpts dev_type }:chr_file { read write };
+
+allow crash_dump {
+  domain
+  -apexd
+  -bpfloader
+  -crash_dump
+  -init
+  -kernel
+  -keystore
+  -llkd
+  -logd
+  -ueventd
+  -vendor_init
+  -vold
+}:process { ptrace signal sigchld sigstop sigkill };
+userdebug_or_eng(`
+  allow crash_dump { apexd llkd logd vold }:process { ptrace signal sigchld sigstop sigkill };
+')
+
+###
+### neverallow assertions
+###
+
+# ptrace neverallow assertions are spread throughout the other policy
+# files, so we avoid adding redundant assertions here
+
+neverallow crash_dump {
+  apexd
+  userdebug_or_eng(`-apexd')
+  bpfloader
+  init
+  kernel
+  keystore
+  llkd
+  userdebug_or_eng(`-llkd')
+  logd
+  userdebug_or_eng(`-logd')
+  ueventd
+  vendor_init
+  vold
+  userdebug_or_eng(`-vold')
+}:process { signal sigstop sigkill };
+
+neverallow crash_dump self:process ptrace;
+neverallow crash_dump gpu_device:chr_file *;

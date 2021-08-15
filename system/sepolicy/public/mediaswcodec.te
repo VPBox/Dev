@@ -1,0 +1,27 @@
+type mediaswcodec, domain;
+type mediaswcodec_exec, system_file_type, exec_type, file_type;
+
+hal_server_domain(mediaswcodec, hal_codec2)
+
+# mediaswcodec may use an input surface from a different Codec2 service or an
+# OMX service
+hal_client_domain(mediaswcodec, hal_codec2)
+hal_client_domain(mediaswcodec, hal_omx)
+
+hal_client_domain(mediaswcodec, hal_allocator)
+hal_client_domain(mediaswcodec, hal_graphics_allocator)
+
+get_prop(mediaswcodec, device_config_media_native_prop)
+
+crash_dump_fallback(mediaswcodec)
+
+# mediaswcodec_server should never execute any executable without a
+# domain transition
+neverallow mediaswcodec { file_type fs_type }:file execute_no_trans;
+
+# Media processing code is inherently risky and thus should have limited
+# permissions and be isolated from the rest of the system and network.
+# Lengthier explanation here:
+# https://android-developers.googleblog.com/2016/05/hardening-media-stack.html
+neverallow mediaswcodec domain:{ tcp_socket udp_socket rawip_socket } *;
+

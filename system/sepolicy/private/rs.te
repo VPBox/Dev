@@ -1,0 +1,39 @@
+# Any files which would have been created as app_data_file
+# will be created as app_exec_data_file instead.
+allow rs app_data_file:dir ra_dir_perms;
+allow rs app_exec_data_file:file create_file_perms;
+type_transition rs app_data_file:file app_exec_data_file;
+
+# Follow /data/user/0 symlink
+allow rs system_data_file:lnk_file read;
+
+# Read files from the app home directory.
+allow rs app_data_file:file r_file_perms;
+allow rs app_data_file:dir r_dir_perms;
+
+# Cleanup app_exec_data_file files in the app home directory.
+allow rs app_data_file:dir remove_name;
+
+# Use vendor resources
+allow rs vendor_file:dir r_dir_perms;
+r_dir_file(rs, vendor_overlay_file)
+r_dir_file(rs, vendor_app_file)
+
+# Read contents of app apks
+r_dir_file(rs, apk_data_file)
+
+allow rs gpu_device:chr_file rw_file_perms;
+allow rs ion_device:chr_file r_file_perms;
+allow rs same_process_hal_file:file { r_file_perms execute };
+
+# File descriptors passed from app to renderscript
+allow rs { untrusted_app_all ephemeral_app }:fd use;
+
+# rs can access app data, so ensure it can only be entered via an app domain and cannot have
+# CAP_DAC_OVERRIDE.
+neverallow rs rs:capability_class_set *;
+neverallow { domain -appdomain } rs:process { dyntransition transition };
+neverallow rs { domain -crash_dump }:process { dyntransition transition };
+neverallow rs app_data_file:file_class_set ~r_file_perms;
+# rs should never use network sockets
+neverallow rs *:network_socket_class_set *;

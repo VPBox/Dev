@@ -1,0 +1,14 @@
+typeattribute incident_helper coredomain;
+
+type incident_helper_exec, exec_type, file_type;
+
+# switch to incident_helper domain for incident_helper command
+domain_auto_trans(incidentd, incident_helper_exec, incident_helper)
+
+# use pipe to transmit data from/to incidentd/incident_helper for parsing
+allow incident_helper { shell incident incidentd }:fd use;
+allow incident_helper { shell incident incidentd }:fifo_file { getattr read write };
+allow incident_helper incidentd:unix_stream_socket { read write };
+
+# only allow incidentd and shell to call incident_helper
+neverallow { domain -incidentd -incident_helper -shell } incident_helper_exec:file { execute execute_no_trans };

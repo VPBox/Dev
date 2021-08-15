@@ -1,0 +1,46 @@
+###
+### A domain for android.process.media, which contains both
+### MediaProvider and DownloadProvider and associated services.
+###
+
+typeattribute mediaprovider coredomain;
+app_domain(mediaprovider)
+
+# DownloadProvider accesses the network.
+net_domain(mediaprovider)
+
+# DownloadProvider uses /cache.
+allow mediaprovider cache_file:dir create_dir_perms;
+allow mediaprovider cache_file:file create_file_perms;
+# /cache is a symlink to /data/cache on some devices. Allow reading the link.
+allow mediaprovider cache_file:lnk_file r_file_perms;
+# mediaprovider searches through /cache looking for orphans
+# Ignore denials to /cache/recovery and /cache/backup.
+dontaudit mediaprovider cache_private_backup_file:dir getattr;
+dontaudit mediaprovider cache_recovery_file:dir getattr;
+
+# Access external sdcards through /mnt/media_rw
+allow mediaprovider { mnt_media_rw_file }:dir search;
+
+allow mediaprovider app_api_service:service_manager find;
+allow mediaprovider audioserver_service:service_manager find;
+allow mediaprovider drmserver_service:service_manager find;
+allow mediaprovider mediaextractor_service:service_manager find;
+allow mediaprovider mediaserver_service:service_manager find;
+
+# Allow MediaProvider to read/write cached ringtones (opened by system).
+allow mediaprovider ringtone_file:file { getattr read write };
+
+# MtpServer uses /dev/mtp_usb
+allow mediaprovider mtp_device:chr_file rw_file_perms;
+
+# MtpServer uses /dev/usb-ffs/mtp
+allow mediaprovider functionfs:dir search;
+allow mediaprovider functionfs:file rw_file_perms;
+allowxperm mediaprovider functionfs:file ioctl FUNCTIONFS_ENDPOINT_DESC;
+
+# MtpServer sets sys.usb.ffs.mtp.ready
+set_prop(mediaprovider, ffs_prop)
+set_prop(mediaprovider, exported_ffs_prop)
+
+allow mediaprovider ashmem_device:chr_file { getattr read ioctl lock map append write };

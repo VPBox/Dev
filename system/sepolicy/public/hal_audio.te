@@ -1,0 +1,38 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_audio_client, hal_audio_server)
+binder_call(hal_audio_server, hal_audio_client)
+
+hal_attribute_hwservice(hal_audio, hal_audio_hwservice)
+
+allow hal_audio ion_device:chr_file r_file_perms;
+
+r_dir_file(hal_audio, proc)
+r_dir_file(hal_audio, proc_asound)
+allow hal_audio_server audio_device:dir r_dir_perms;
+allow hal_audio_server audio_device:chr_file rw_file_perms;
+
+# Needed to provide debug dump output via dumpsys' pipes.
+allow hal_audio shell:fd use;
+allow hal_audio shell:fifo_file write;
+allow hal_audio dumpstate:fd use;
+allow hal_audio dumpstate:fifo_file write;
+
+# allow hal audio to use vnbinder
+vndbinder_use(hal_audio)
+
+###
+### neverallow rules
+###
+
+# Should never execute any executable without a domain transition
+neverallow hal_audio_server { file_type fs_type }:file execute_no_trans;
+
+# Should never need network access.
+# Disallow network sockets.
+neverallow hal_audio_server domain:{ tcp_socket udp_socket rawip_socket } *;
+
+# Only audio HAL may directly access the audio hardware
+neverallow { halserverdomain -hal_audio_server -hal_omx_server } audio_device:chr_file *;
+
+get_prop(hal_audio, bluetooth_a2dp_offload_prop)
+get_prop(hal_audio, bluetooth_audio_hal_prop)

@@ -1,0 +1,28 @@
+type migrate_legacy_obb_data, domain, coredomain;
+type migrate_legacy_obb_data_exec, system_file_type, exec_type, file_type;
+
+allow migrate_legacy_obb_data media_rw_data_file:dir create_dir_perms;
+allow migrate_legacy_obb_data media_rw_data_file:file create_file_perms;
+
+allow migrate_legacy_obb_data shell_exec:file rx_file_perms;
+
+allow migrate_legacy_obb_data toolbox_exec:file rx_file_perms;
+
+allow migrate_legacy_obb_data self:capability { chown dac_override dac_read_search fowner fsetid };
+
+allow migrate_legacy_obb_data mnt_user_file:dir search;
+allow migrate_legacy_obb_data mnt_user_file:lnk_file read;
+allow migrate_legacy_obb_data storage_file:dir search;
+allow migrate_legacy_obb_data storage_file:lnk_file read;
+
+allow migrate_legacy_obb_data sdcard_type:dir create_dir_perms;
+allow migrate_legacy_obb_data sdcard_type:file create_file_perms;
+
+# TODO: This should not be necessary. We don't deliberately hand over
+# any open file descriptors to this domain, so anything that triggers this
+# should be a candidate for O_CLOEXEC.
+allow migrate_legacy_obb_data installd:fd use;
+
+# This rule is required to let this process read /proc/{parent_pid}/mount.
+# TODO: Why is this required ?
+allow migrate_legacy_obb_data installd:file read;

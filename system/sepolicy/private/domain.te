@@ -1,0 +1,315 @@
+# Transition to crash_dump when /system/bin/crash_dump* is executed.
+# This occurs when the process crashes.
+# We do not apply this to the su domain to avoid interfering with
+# tests (b/114136122)
+domain_auto_trans({ domain userdebug_or_eng(`-su') }, crash_dump_exec, crash_dump);
+allow domain crash_dump:process sigchld;
+
+# Allow every process to check the heapprofd.enable properties to determine
+# whether to load the heap profiling library. This does not necessarily enable
+# heap profiling, as initialization will fail if it does not have the
+# necessary SELinux permissions.
+get_prop(domain, heapprofd_prop);
+# Allow heap profiling on debug builds.
+userdebug_or_eng(`can_profile_heap_userdebug_or_eng({
+  domain
+  -bpfloader
+  -init
+  -kernel
+  -keystore
+  -llkd
+  -logd
+  -logpersist
+  -recovery
+  -recovery_persist
+  -recovery_refresh
+  -ueventd
+  -vendor_init
+  -vold
+})')
+
+# Path resolution access in cgroups.
+allow domain cgroup:dir search;
+allow { domain -appdomain -rs } cgroup:dir w_dir_perms;
+allow { domain -appdomain -rs } cgroup:file w_file_perms;
+
+allow domain cgroup_rc_file:dir search;
+allow domain cgroup_rc_file:file r_file_perms;
+allow domain task_profiles_file:file r_file_perms;
+allow domain vendor_task_profiles_file:file r_file_perms;
+
+# Allow all domains to read sys.use_memfd to determine
+# if memfd support can be used if device supports it
+get_prop(domain, use_memfd_prop);
+
+# For now, everyone can access core property files
+# Device specific properties are not granted by default
+not_compatible_property(`
+    get_prop(domain, core_property_type)
+    get_prop(domain, exported_dalvik_prop)
+    get_prop(domain, exported_ffs_prop)
+    get_prop(domain, exported_system_radio_prop)
+    get_prop(domain, exported2_config_prop)
+    get_prop(domain, exported2_radio_prop)
+    get_prop(domain, exported2_system_prop)
+    get_prop(domain, exported2_vold_prop)
+    get_prop(domain, exported3_default_prop)
+    get_prop(domain, exported3_radio_prop)
+    get_prop(domain, exported3_system_prop)
+    get_prop(domain, vendor_default_prop)
+')
+compatible_property_only(`
+    get_prop({coredomain appdomain shell}, core_property_type)
+    get_prop({coredomain appdomain shell}, exported_dalvik_prop)
+    get_prop({coredomain appdomain shell}, exported_ffs_prop)
+    get_prop({coredomain appdomain shell}, exported_system_radio_prop)
+    get_prop({coredomain appdomain shell}, exported2_config_prop)
+    get_prop({coredomain appdomain shell}, exported2_radio_prop)
+    get_prop({coredomain appdomain shell}, exported2_system_prop)
+    get_prop({coredomain appdomain shell}, exported2_vold_prop)
+    get_prop({coredomain appdomain shell}, exported3_default_prop)
+    get_prop({coredomain appdomain shell}, exported3_radio_prop)
+    get_prop({coredomain appdomain shell}, exported3_system_prop)
+    get_prop({domain -coredomain -appdomain}, vendor_default_prop)
+')
+
+# Allow access to fsverity keyring.
+allow domain kernel:key search;
+# Allow access to keys in the fsverity keyring that were installed at boot.
+allow domain fsverity_init:key search;
+# For testing purposes, allow access to keys installed with su.
+userdebug_or_eng(`
+  allow domain su:key search;
+')
+
+# Limit ability to ptrace or read sensitive /proc/pid files of processes
+# with other UIDs to these whitelisted domains.
+#neverallow {
+#  domain
+#  -vold
+#  userdebug_or_eng(`-llkd')
+#  -dumpstate
+#  userdebug_or_eng(`-incidentd')
+#  -storaged
+#  -system_server
+#  userdebug_or_eng(`-perfprofd')
+#} self:global_capability_class_set sys_ptrace;
+
+# Limit ability to generate hardware unique device ID attestations to priv_apps
+neverallow { domain -priv_app } *:keystore_key gen_unique_id;
+
+neverallow {
+  domain
+  -init
+  -vendor_init
+  userdebug_or_eng(`-domain')
+} debugfs_tracing_debug:file no_rw_file_perms;
+
+# System_server owns dropbox data, and init creates/restorecons the directory
+# Disallow direct access by other processes.
+neverallow { domain -init -system_server } dropbox_data_file:dir *;
+neverallow { domain -init -system_server } dropbox_data_file:file ~{ getattr read };
+
+###
+# Services should respect app sandboxes
+neverallow {
+  domain
+  -appdomain
+  -installd # creation of sandbox
+} { privapp_data_file app_data_file }:dir_file_class_set { create unlink };
+
+# Only the following processes should be directly accessing private app
+# directories.
+#neverallow {
+#  domain
+#  -adbd
+#  -appdomain
+#  -app_zygote
+#  -dexoptanalyzer
+#  -installd
+#  userdebug_or_eng(`-perfprofd')
+#  -profman
+#  -rs # spawned by appdomain, so carryover the exception above
+#  -runas
+#  -system_server
+#  -viewcompiler
+#} { privapp_data_file app_data_file }:dir *;
+
+# Only apps should be modifying app data. installd is exempted for
+# restorecon and package install/uninstall.
+neverallow {
+  domain
+  -appdomain
+  -installd
+  -rs # spawned by appdomain, so carryover the exception above
+} { privapp_data_file app_data_file }:dir ~r_dir_perms;
+
+neverallow {
+  domain
+  -appdomain
+  -app_zygote
+  -installd
+  userdebug_or_eng(`-perfprofd')
+  -rs # spawned by appdomain, so carryover the exception above
+} { privapp_data_file app_data_file }:file_class_set open;
+
+neverallow {
+  domain
+  -appdomain
+  -installd # creation of sandbox
+} { privapp_data_file app_data_file }:dir_file_class_set { create unlink };
+
+neverallow {
+  domain
+  -installd
+} { privapp_data_file app_data_file }:dir_file_class_set { relabelfrom relabelto };
+
+# The staging directory contains APEX and APK files. It is important to ensure
+# that these files cannot be accessed by other domains to ensure that the files
+# do not change between system_server staging the files and apexd processing
+# the files.
+neverallow { domain -init -system_server -apexd -installd} staging_data_file:dir *;
+neverallow { domain -init -system_app -system_server -apexd -kernel -installd } staging_data_file:file *;
+neverallow { domain -init -system_server -installd} staging_data_file:dir no_w_dir_perms;
+# apexd needs the link and unlink permissions, so list every `no_w_file_perms`
+# except for `link` and `unlink`.
+neverallow { domain -init -system_server } staging_data_file:file
+  { append create relabelfrom rename setattr write no_x_file_perms };
+
+neverallow {
+    domain
+    -appdomain # for oemfs
+    -bootanim # for oemfs
+    -recovery # for /tmp/update_binary in tmpfs
+} { fs_type -rootfs }:file execute;
+
+#
+# Assert that, to the extent possible, we're not loading executable content from
+# outside the rootfs or /system partition except for a few whitelisted domains.
+# Executable files loaded from /data is a persistence vector
+# we want to avoid. See
+# https://bugs.chromium.org/p/project-zero/issues/detail?id=955 for example.
+#
+neverallow {
+    domain
+    -appdomain
+    with_asan(`-asan_extract')
+    -shell
+    userdebug_or_eng(`-su')
+    -system_server_startup # for memfd backed executable regions
+    -app_zygote
+    -webview_zygote
+    -zygote
+    userdebug_or_eng(`-mediaextractor')
+    userdebug_or_eng(`-mediaswcodec')
+} {
+    file_type
+    -system_file_type
+    -system_lib_file
+    -system_linker_exec
+    -vendor_file_type
+    -exec_type
+    -postinstall_file
+}:file execute;
+
+# Only init is allowed to write cgroup.rc file
+neverallow {
+  domain
+  -init
+  -vendor_init
+} cgroup_rc_file:file no_w_file_perms;
+
+# Only authorized processes should be writing to files in /data/dalvik-cache
+neverallow {
+  domain
+  -init # TODO: limit init to relabelfrom for files
+  -zygote
+  -installd
+  -postinstall_dexopt
+  -cppreopts
+  -dex2oat
+  -otapreopt_slot
+  -art_apex_postinstall
+  -art_apex_boot_integrity
+} dalvikcache_data_file:file no_w_file_perms;
+
+neverallow {
+  domain
+  -init
+  -installd
+  -postinstall_dexopt
+  -cppreopts
+  -dex2oat
+  -zygote
+  -otapreopt_slot
+  -art_apex_boot_integrity
+  -art_apex_postinstall
+} dalvikcache_data_file:dir no_w_dir_perms;
+
+# Minimize dac_override and dac_read_search.
+# Instead of granting them it is usually better to add the domain to
+# a Unix group or change the permissions of a file.
+define(`dac_override_allowed', `{
+  dnsmasq
+  dumpstate
+  init
+  installd
+  install_recovery
+  userdebug_or_eng(`llkd')
+  lmkd
+  migrate_legacy_obb_data
+  netd
+  perfprofd
+  postinstall_dexopt
+  recovery
+  rss_hwm_reset
+  sdcardd
+  tee
+  ueventd
+  uncrypt
+  vendor_init
+  vold
+  vold_prepare_subdirs
+  zygote
+}')
+neverallow ~dac_override_allowed self:global_capability_class_set dac_override;
+# Since the kernel checks dac_read_search before dac_override, domains that
+# have dac_override should also have dac_read_search to eliminate spurious
+# denials.  Some domains have dac_read_search without having dac_override, so
+# this list should be a superset of the one above.
+neverallow ~{
+  dac_override_allowed
+  traced_probes
+  userdebug_or_eng(`heapprofd')
+} self:global_capability_class_set dac_read_search;
+
+# Limit what domains can mount filesystems or change their mount flags.
+# sdcard_type / vfat is exempt as a larger set of domains need
+# this capability, including device-specific domains.
+neverallow {
+    domain
+    -apexd
+    recovery_only(`userdebug_or_eng(`-fastbootd')')
+    -init
+    -kernel
+    -otapreopt_chroot
+    -recovery
+    -update_engine
+    -vold
+    -zygote
+} { fs_type -sdcard_type }:filesystem { mount remount relabelfrom relabelto };
+
+# Limit raw I/O to these whitelisted domains. Do not apply to debug builds.
+neverallow {
+  domain
+  userdebug_or_eng(`-domain')
+  -kernel
+  -gsid
+  -init
+  -recovery
+  -ueventd
+  -healthd
+  -uncrypt
+  -tee
+  -hal_bootctl_server
+} self:global_capability_class_set sys_rawio;

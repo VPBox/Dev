@@ -1,0 +1,30 @@
+# bpf program loader
+type bpfloader, domain;
+type bpfloader_exec, system_file_type, exec_type, file_type;
+typeattribute bpfloader coredomain;
+
+# These permission is required for pin bpf program for netd.
+allow bpfloader fs_bpf:dir  create_dir_perms;
+allow bpfloader fs_bpf:file create_file_perms;
+allow bpfloader devpts:chr_file { read write };
+
+# Allow bpfloader to create bpf maps and programs. The map_read and map_write permission is needed
+# for retrieving a pinned map when bpfloader do a run time restart.
+allow bpfloader self:bpf { prog_load prog_run map_read map_write map_create };
+
+allow bpfloader self:global_capability_class_set sys_admin;
+
+###
+### Neverallow rules
+###
+neverallow { domain -bpfloader } *:bpf { map_create prog_load };
+neverallow { domain -bpfloader -netd -netutils_wrapper } *:bpf prog_run;
+neverallow { domain -bpfloader -init } bpfloader_exec:file { execute execute_no_trans };
+neverallow bpfloader domain:{ tcp_socket udp_socket rawip_socket } *;
+# only system_server, netd and bpfloader can read/write the bpf maps
+neverallow { domain -system_server -netd -bpfloader} *:bpf { map_read map_write };
+
+# No domain should be allowed to ptrace bpfloader
+neverallow { domain userdebug_or_eng(`-llkd') } bpfloader:process ptrace;
+
+set_prop(bpfloader, bpf_progs_loaded_prop)

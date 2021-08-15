@@ -1,0 +1,41 @@
+typeattribute netutils_wrapper coredomain;
+
+r_dir_file(netutils_wrapper, system_file);
+
+# For netutils (ip, iptables, tc)
+allow netutils_wrapper self:global_capability_class_set net_raw;
+
+allow netutils_wrapper system_file:file { execute execute_no_trans };
+allow netutils_wrapper proc_net:file { open read getattr };
+allow netutils_wrapper self:rawip_socket create_socket_perms;
+allow netutils_wrapper self:udp_socket create_socket_perms;
+allow netutils_wrapper self:global_capability_class_set net_admin;
+# ip utils need everything but ioctl
+allow netutils_wrapper self:netlink_route_socket ~ioctl;
+allow netutils_wrapper self:netlink_xfrm_socket ~ioctl;
+
+# For netutils (ndc) to be able to talk to netd
+allow netutils_wrapper netd_socket:sock_file { open getattr read write append };
+allow netutils_wrapper netd:unix_stream_socket { read getattr connectto };
+
+# For vendor code that update the iptables rules at runtime. They need to reload
+# the whole chain including the xt_bpf rules. They need to access to the pinned
+# program when reloading the rule.
+allow netutils_wrapper fs_bpf:dir search;
+allow netutils_wrapper fs_bpf:file { read write };
+allow netutils_wrapper bpfloader:bpf prog_run;
+
+# For /data/misc/net access to ndc and ip
+r_dir_file(netutils_wrapper, net_data_file)
+
+domain_auto_trans({
+    domain
+    -coredomain
+    -appdomain
+}, netutils_wrapper_exec, netutils_wrapper)
+
+# suppress spurious denials
+dontaudit netutils_wrapper self:global_capability_class_set sys_resource;
+
+# netutils wrapper may only use the following capabilities.
+neverallow netutils_wrapper self:global_capability_class_set ~{ net_admin net_raw };

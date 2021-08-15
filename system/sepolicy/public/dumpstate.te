@@ -1,0 +1,322 @@
+# dumpstate
+type dumpstate, domain, mlstrustedsubject;
+type dumpstate_exec, system_file_type, exec_type, file_type;
+
+net_domain(dumpstate)
+binder_use(dumpstate)
+wakelock_use(dumpstate)
+
+# Allow setting process priority, protect from OOM killer, and dropping
+# privileges by switching UID / GID
+allow dumpstate self:global_capability_class_set { setuid setgid sys_resource };
+
+# Allow dumpstate to scan through /proc/pid for all processes
+r_dir_file(dumpstate, domain)
+
+allow dumpstate self:global_capability_class_set {
+    # Send signals to processes
+    kill
+    # Run iptables
+    net_raw
+    net_admin
+};
+
+# Allow executing files on system, such as:
+#   /system/bin/toolbox
+#   /system/bin/logcat
+#   /system/bin/dumpsys
+allow dumpstate system_file:file execute_no_trans;
+not_full_treble(`allow dumpstate vendor_file:file execute_no_trans;')
+allow dumpstate toolbox_exec:file rx_file_perms;
+
+# hidl searches for files in /system/lib(64)/hw/
+allow dumpstate system_file:dir r_dir_perms;
+
+# Create and write into /data/anr/
+allow dumpstate self:global_capability_class_set { dac_override dac_read_search chown fowner fsetid };
+allow dumpstate anr_data_file:dir rw_dir_perms;
+allow dumpstate anr_data_file:file create_file_perms;
+
+# Allow reading /data/system/uiderrors.txt
+# TODO: scope this down.
+allow dumpstate system_data_file:file r_file_perms;
+
+# Allow dumpstate to append into privileged apps private files.
+allow dumpstate privapp_data_file:file append;
+
+# Read dmesg
+allow dumpstate self:global_capability2_class_set syslog;
+allow dumpstate kernel:system syslog_read;
+
+# Read /sys/fs/pstore/console-ramoops
+allow dumpstate pstorefs:dir r_dir_perms;
+allow dumpstate pstorefs:file r_file_perms;
+
+# Get process attributes
+allow dumpstate domain:process getattr;
+
+# Signal java processes to dump their stack
+allow dumpstate { appdomain system_server zygote }:process signal;
+
+# Signal native processes to dump their stack.
+allow dumpstate {
+  # This list comes from native_processes_to_dump in dumputils/dump_utils.c
+  audioserver
+  cameraserver
+  drmserver
+  inputflinger
+  mediadrmserver
+  mediaextractor
+  mediametrics
+  mediaserver
+  mediaswcodec
+  sdcardd
+  surfaceflinger
+  vold
+
+  # This list comes from hal_interfaces_to_dump in dumputils/dump_utils.c
+  hal_audio_server
+  hal_bluetooth_server
+  hal_camera_server
+  hal_codec2_server
+  hal_drm_server
+  hal_face_server
+  hal_graphics_allocator_server
+  hal_graphics_composer_server
+  hal_health_server
+  hal_omx_server
+  hal_power_server
+  hal_power_stats_server
+  hal_sensors_server
+  hal_thermal_server
+  hal_vr_server
+}:process signal;
+
+# Connect to tombstoned to intercept dumps.
+unix_socket_connect(dumpstate, tombstoned_intercept, tombstoned)
+
+# Access to /sys
+allow dumpstate sysfs_type:dir r_dir_perms;
+
+allow dumpstate {
+  sysfs_devices_block
+  sysfs_dm
+  sysfs_loop
+  sysfs_usb
+  sysfs_zram
+}:file r_file_perms;
+
+# Other random bits of data we want to collect
+allow dumpstate debugfs:file r_file_perms;
+auditallow dumpstate debugfs:file r_file_perms;
+
+allow dumpstate debugfs_mmc:file r_file_perms;
+
+# df for
+allow dumpstate {
+  block_device
+  cache_file
+  metadata_file
+  rootfs
+  selinuxfs
+  storage_file
+  tmpfs
+}:dir { search getattr };
+allow dumpstate fuse_device:chr_file getattr;
+allow dumpstate { dm_device cache_block_device }:blk_file getattr;
+allow dumpstate { cache_file rootfs }:lnk_file { getattr read };
+
+# Read /dev/cpuctl and /dev/cpuset
+r_dir_file(dumpstate, cgroup)
+
+# Allow dumpstate to make binder calls to any binder service
+binder_call(dumpstate, binderservicedomain)
+binder_call(dumpstate, { appdomain netd wificond })
+
+hal_client_domain(dumpstate, hal_dumpstate)
+hal_client_domain(dumpstate, hal_wifi)
+hal_client_domain(dumpstate, hal_graphics_allocator)
+# Vibrate the device after we are done collecting the bugreport
+hal_client_domain(dumpstate, hal_vibrator)
+
+# Reading /proc/PID/maps of other processes
+allow dumpstate self:global_capability_class_set sys_ptrace;
+
+# Allow the bugreport service to create a file in
+# /data/data/com.android.shell/files/bugreports/bugreport
+allow dumpstate shell_data_file:dir create_dir_perms;
+allow dumpstate shell_data_file:file create_file_perms;
+
+# Run a shell.
+allow dumpstate shell_exec:file rx_file_perms;
+
+# For running am and similar framework commands.
+# Run /system/bin/app_process.
+allow dumpstate zygote_exec:file rx_file_perms;
+
+# For Bluetooth
+allow dumpstate bluetooth_data_file:dir search;
+allow dumpstate bluetooth_logs_data_file:dir r_dir_perms;
+allow dumpstate bluetooth_logs_data_file:file r_file_perms;
+
+# Dumpstate calls screencap, which grabs a screenshot. Needs gpu access
+allow dumpstate gpu_device:chr_file rw_file_perms;
+
+# logd access
+read_logd(dumpstate)
+control_logd(dumpstate)
+read_runtime_log_tags(dumpstate)
+
+# Read files in /proc
+allow dumpstate {
+  proc_buddyinfo
+  proc_cmdline
+  proc_meminfo
+  proc_modules
+  proc_net_type
+  proc_pipe_conf
+  proc_pagetypeinfo
+  proc_qtaguid_ctrl
+  proc_qtaguid_stat
+  proc_slabinfo
+  proc_version
+  proc_vmallocinfo
+  proc_vmstat
+}:file r_file_perms;
+
+# Read network state info files.
+allow dumpstate net_data_file:dir search;
+allow dumpstate net_data_file:file r_file_perms;
+
+# List sockets via ss.
+allow dumpstate self:netlink_tcpdiag_socket { create_socket_perms_no_ioctl nlmsg_read };
+
+# Access /data/tombstones.
+allow dumpstate tombstone_data_file:dir r_dir_perms;
+allow dumpstate tombstone_data_file:file r_file_perms;
+
+# Access /cache/recovery
+allow dumpstate cache_recovery_file:dir r_dir_perms;
+allow dumpstate cache_recovery_file:file r_file_perms;
+
+# Access /data/misc/recovery
+allow dumpstate recovery_data_file:dir r_dir_perms;
+allow dumpstate recovery_data_file:file r_file_perms;
+
+#Access /data/misc/update_engine_log
+allow dumpstate update_engine_log_data_file:dir r_dir_perms;
+allow dumpstate update_engine_log_data_file:file r_file_perms;
+
+# Access /data/misc/profiles/{cur,ref}/
+userdebug_or_eng(`
+  allow dumpstate user_profile_data_file:dir r_dir_perms;
+  allow dumpstate user_profile_data_file:file r_file_perms;
+')
+
+# Access /data/misc/logd
+userdebug_or_eng(`
+  allow dumpstate misc_logd_file:dir r_dir_perms;
+  allow dumpstate misc_logd_file:file r_file_perms;
+')
+
+allow dumpstate app_fuse_file:dir r_dir_perms;
+allow dumpstate overlayfs_file:dir r_dir_perms;
+
+allow dumpstate {
+  service_manager_type
+  -apex_service
+  -dumpstate_service
+  -gatekeeper_service
+  -iorapd_service
+  -virtual_touchpad_service
+  -vold_service
+  -vr_hwc_service
+}:service_manager find;
+# suppress denials for services dumpstate should not be accessing.
+dontaudit dumpstate {
+  apex_service
+  dumpstate_service
+  gatekeeper_service
+  iorapd_service
+  virtual_touchpad_service
+  vold_service
+  vr_hwc_service
+}:service_manager find;
+
+# Most of these are neverallowed.
+dontaudit dumpstate hwservice_manager_type:hwservice_manager find;
+
+allow dumpstate servicemanager:service_manager list;
+allow dumpstate hwservicemanager:hwservice_manager list;
+
+allow dumpstate devpts:chr_file rw_file_perms;
+
+# Set properties.
+# dumpstate_prop is used to share state with the Shell app.
+set_prop(dumpstate, dumpstate_prop)
+set_prop(dumpstate, exported_dumpstate_prop)
+# dumpstate_options_prop is used to pass extra command-line args.
+set_prop(dumpstate, dumpstate_options_prop)
+
+# Read any system properties
+get_prop(dumpstate, property_type)
+
+# Access to /data/media.
+# This should be removed if sdcardfs is modified to alter the secontext for its
+# accesses to the underlying FS.
+allow dumpstate media_rw_data_file:dir getattr;
+allow dumpstate proc_interrupts:file r_file_perms;
+allow dumpstate proc_zoneinfo:file r_file_perms;
+
+# Create a service for talking back to system_server
+add_service(dumpstate, dumpstate_service)
+
+# use /dev/ion for screen capture
+allow dumpstate ion_device:chr_file r_file_perms;
+
+# Allow dumpstate to run top
+allow dumpstate proc_stat:file r_file_perms;
+
+# Allow dumpstate to talk to installd over binder
+binder_call(dumpstate, installd);
+
+# Allow dumpstate to run ip xfrm policy
+allow dumpstate self:netlink_xfrm_socket { create_socket_perms_no_ioctl nlmsg_read };
+
+# Allow dumpstate to run iotop
+allow dumpstate self:netlink_socket create_socket_perms_no_ioctl;
+# newer kernels (e.g. 4.4) have a new class for sockets
+allow dumpstate self:netlink_generic_socket create_socket_perms_no_ioctl;
+
+# Allow dumpstate to run ss
+allow dumpstate { domain pdx_channel_socket_type pdx_endpoint_socket_type }:socket_class_set getattr;
+
+# For when dumpstate runs df
+dontaudit dumpstate mnt_vendor_file:dir search;
+dontaudit dumpstate apex_mnt_dir:dir getattr;
+
+# Allow dumpstate to talk to bufferhubd over binder
+binder_call(dumpstate, bufferhubd);
+
+# Allow dumpstate to talk to mediaswcodec over binder
+binder_call(dumpstate, mediaswcodec);
+
+# Allow dumpstate to kill vendor dumpstate service by init
+set_prop(dumpstate, ctl_dumpstate_prop)
+
+###
+### neverallow rules
+###
+
+# dumpstate has capability sys_ptrace, but should only use that capability for
+# accessing sensitive /proc/PID files, never for using ptrace attach.
+neverallow dumpstate *:process ptrace;
+
+# only system_server, dumpstate, traceur_app and shell can find the dumpstate service
+neverallow {
+  domain
+  -system_server
+  -shell
+  -traceur_app
+  -dumpstate
+} dumpstate_service:service_manager find;

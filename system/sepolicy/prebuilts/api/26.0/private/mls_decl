@@ -1,0 +1,10 @@
+#########################################
+# MLS declarations
+#
+
+# Generate the desired number of sensitivities and categories.
+gen_sens(mls_num_sens)
+gen_cats(mls_num_cats)
+
+# Generate level definitions for each sensitivity and category.
+gen_levels(mls_num_sens,mls_num_cats)

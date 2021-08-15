@@ -1,0 +1,6 @@
+# SELinux directory creation and labelling for vold-managed directories
+
+type vold_prepare_subdirs, domain;
+type vold_prepare_subdirs_exec, system_file_type, exec_type, file_type;
+
+typeattribute vold_prepare_subdirs coredomain;

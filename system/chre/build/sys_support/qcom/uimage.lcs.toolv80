@@ -1,0 +1,205 @@
+/*
+Copyright (c) 2017, The Linux Foundation. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+    * Neither the name of The Linux Foundation nor the names of its
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+OUTPUT_FORMAT("elf32-littlehexagon", "elf32-bighexagon",
+	      "elf32-littlehexagon")
+OUTPUT_ARCH(hexagon)
+
+PHDRS {
+phdr1 PT_LOAD;
+phdr2 PT_LOAD;
+dynamic1 PT_DYNAMIC;
+note1 PT_NOTE;
+}
+
+ENTRY(start)
+SECTIONS
+{
+  .interp         : { *(.interp) }
+  .note.qti.uimg.dl.ver : { *(.note.qti.uimg.dl.ver) } : phdr1 : note1
+  .dynsym         :  { *(.dynsym) } : phdr1
+  .dynstr         :  { *(.dynstr) }
+  .hash           :  { *(.hash) }
+  .rela.dyn       :
+  {
+      *(.rela.text .rela.text.* .rela.gnu.linkonce.t.*)
+      *(.rela.fini)
+      *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*)
+      *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*)
+      *(.rela.tdata .rela.tdata.* .rela.gnu.linkonce.td.*)
+      *(.rela.tbss .rela.tbss.* .rela.gnu.linkonce.tb.*)
+      *(.rela.ctors)
+      *(.rela.dtors)
+      *(.rela.got)
+      *(.rela.sdata .rela.lit[a48] .rela.sdata.* .rela.lit[a48].* .rela.gnu.linkonce.s.* .rela.gnu.linkonce.l[a48].*)
+      *(.rela.sbss .rela.sbss.* .rela.gnu.linkonce.sb.*)
+      *(.rela.sdata2 .rela.sdata2.* .rela.gnu.linkonce.s2.*)
+      *(.rela.sbss2 .rela.sbss2.* .rela.gnu.linkonce.sb2.*)
+      *(.rela.bss .rela.bss.* .rela.gnu.linkonce.b.*)
+  }
+  .rela.plt       :
+  {
+      *(.rela.plt)
+  } : phdr1
+  . = ALIGN(64);
+  /* Code starts. */
+  .start          :
+  {
+    KEEP (*(.start))
+  } =0x00c0007f
+  . = ALIGN(64);
+  .init           :
+  {
+    KEEP (*(.init))
+  } =0x00c0007f
+  .plt            :  { *(.plt) }
+  . = ALIGN (64);
+  .text           :
+  {
+    *(.text.unlikely .text.*_unlikely)
+    *(.text.hot .text.hot.* .gnu.linkonce.t.hot.*)
+    *(.text .stub .text.* .gnu.linkonce.t.*)
+  } =0x00c0007f
+  .fini           :
+  {
+    KEEP (*(.fini))
+  } =0x00c0007f
+  PROVIDE (__etext = .);
+  PROVIDE (_etext = .);
+  PROVIDE (etext = .);
+  . = ALIGN(64);
+  /* Constants start. */
+  .rodata         :
+  {
+    *(.rodata.hot .rodata.hot.* .gnu.linkonce.r.hot.*)
+    *(.rodata .rodata.* .gnu.linkonce.r.*)
+  }
+  .eh_frame_hdr   :  { *(.eh_frame_hdr) }
+  .eh_frame       :   { KEEP (*(.eh_frame)) }
+  .gcc_except_table   :  { *(.gcc_except_table .gcc_except_table.*) }
+  _DYNAMIC = .;
+  .dynamic        :  { *(.dynamic) } : phdr1 : dynamic1
+  .got            :  { *(.got) *(.igot) } : phdr1
+  .got.plt        :  { *(.got.plt)  *(.igot.plt) }
+  . = ALIGN(64);
+  .ctors          :
+  {
+    KEEP (*crtbegin.o(.ctors))
+    KEEP (*crtbegin?.o(.ctors))
+    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o fini.o) .ctors))
+    KEEP (*(SORT(.ctors.*)))
+    KEEP (*(.ctors))
+  }
+  .dtors          :
+  {
+    KEEP (*crtbegin.o(.dtors))
+    KEEP (*crtbegin?.o(.dtors))
+    KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o fini.o) .dtors))
+    KEEP (*(SORT(.dtors.*)))
+    KEEP (*(.dtors))
+  }
+  /*. = ALIGN (CONSTANT (MAXPAGESIZE)) - ((CONSTANT (MAXPAGESIZE) - .) & (CONSTANT (MAXPAGESIZE) - 1)); . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
+  . = ALIGN (DEFINED (DATAALIGN) ? (DATAALIGN * 1K) : CONSTANT (MAXPAGESIZE));*/
+  . = DATA_SEGMENT_RELRO_END (16, .);
+  . = ALIGN (4K);
+  .data           :
+  {
+    *(.data.hot .data.hot.* .gnu.linkonce.d.hot.*)
+    *(.data .data.* .gnu.linkonce.d.*)
+    SORT(CONSTRUCTORS)
+  } : phdr2
+  _edata = .; PROVIDE (edata = .);
+  . = ALIGN (64);
+  /* Small data start. */
+  . = ALIGN(64);
+  .sdata          :
+  {
+    PROVIDE (_SDA_BASE_ = .);
+    *(.sdata.1 .sdata.1.* .gnu.linkonce.s.1.*)
+    *(.sbss.1 .sbss.1.* .gnu.linkonce.sb.1.*)
+    *(.scommon.1 .scommon.1.*)
+    *(.sdata.2 .sdata.2.* .gnu.linkonce.s.2.*)
+    *(.sbss.2 .sbss.2.* .gnu.linkonce.sb.2.*)
+    *(.scommon.2 .scommon.2.*)
+    *(.sdata.4 .sdata.4.* .gnu.linkonce.s.4.*)
+    *(.sbss.4 .sbss.4.* .gnu.linkonce.sb.4.*)
+    *(.scommon.4 .scommon.4.*)
+    *(.lit[a4] .lit[a4].* .gnu.linkonce.l[a4].*)
+    *(.sdata.8 .sdata.8.* .gnu.linkonce.s.8.*)
+    *(.sbss.8 .sbss.8.* .gnu.linkonce.sb.8.*)
+    *(.scommon.8 .scommon.8.*)
+    *(.lit8 .lit8.* .gnu.linkonce.l8.*)
+    *(.sdata.hot .sdata.hot.* .gnu.linkonce.s.hot.*)
+    *(.sdata .sdata.* .gnu.linkonce.s.*)
+  }
+  .sbss           :
+  {
+    PROVIDE (__sbss_start = .);
+    PROVIDE (___sbss_start = .);
+    *(.dynsbss)
+    *(.sbss.hot .sbss.hot.* .gnu.linkonce.sb.hot.*)
+    *(.sbss .sbss.* .gnu.linkonce.sb.*)
+    *(.scommon .scommon.*)
+    . = ALIGN (. != 0 ? 64 : 1);
+    PROVIDE (__sbss_end = .);
+    PROVIDE (___sbss_end = .);
+  }
+  . = ALIGN (64);
+  __bss_start = .;
+  .bss            :
+  {
+   *(.dynbss)
+   *(.bss.hot .bss.hot.* .gnu.linkonce.b.hot.*)
+   *(.bss .bss.* .gnu.linkonce.b.*)
+   *(COMMON)
+  }
+  . = ALIGN (64);
+  _end = .;
+  PROVIDE (end = .);
+  .comment       0 :  { *(.comment) }
+  /* DWARF debug sections.
+     Symbols in the DWARF debugging sections are relative to the beginning
+     of the section so we begin them at 0.  */
+  /* DWARF 1 */
+  .debug          0 :  { *(.debug) }
+  .line           0 :  { *(.line) }
+  .debug_aranges  0 :  { *(.debug_aranges) }
+  .debug_pubnames 0 :  { *(.debug_pubnames) }
+  /* DWARF 2 */
+  .debug_info     0 :  { *(.debug_info .gnu.linkonce.wi.*) }
+  .debug_abbrev   0 :  { *(.debug_abbrev) }
+  .debug_line     0 :  { *(.debug_line) }
+  .debug_frame    0 :  { *(.debug_frame) }
+  .debug_str      0 :  { *(.debug_str) }
+  .debug_loc      0 :  { *(.debug_loc) }
+  /* DWARF 3 */
+  .debug_pubtypes 0 :  { *(.debug_pubtypes) }
+  .debug_ranges   0 :  { *(.debug_ranges) }
+  /DISCARD/       :  { *(.note.GNU-stack) *(.gnu_debuglink) }
+}

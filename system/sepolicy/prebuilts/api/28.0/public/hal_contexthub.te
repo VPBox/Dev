@@ -1,0 +1,6 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_contexthub_client, hal_contexthub_server)
+binder_call(hal_contexthub_server, hal_contexthub_client)
+
+add_hwservice(hal_contexthub_server, hal_contexthub_hwservice)
+allow hal_contexthub_client hal_contexthub_hwservice:hwservice_manager find;

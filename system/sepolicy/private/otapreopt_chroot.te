@@ -1,0 +1,74 @@
+# otapreopt_chroot executable
+type otapreopt_chroot, domain, coredomain;
+type otapreopt_chroot_exec, system_file_type, exec_type, file_type;
+
+# Chroot preparation and execution.
+# We need to create an unshared mount namespace, and then mount /data.
+allow otapreopt_chroot postinstall_file:dir { search mounton };
+allow otapreopt_chroot self:global_capability_class_set { sys_admin sys_chroot };
+
+# This is required to mount /vendor and mount/unmount ext4 images from
+# APEX packages in /postinstall/apex.
+allow otapreopt_chroot block_device:dir search;
+allow otapreopt_chroot labeledfs:filesystem { mount unmount };
+# This is required for dynamic partitions.
+allow otapreopt_chroot dm_device:chr_file rw_file_perms;
+
+# This is required to unmount flattened APEX packages under
+# /postinstall/system/apex (which are bind-mounted in /postinstall/apex).
+allow otapreopt_chroot postinstall_file:filesystem unmount;
+# Mounting /vendor can have this side-effect. Ignore denial.
+dontaudit otapreopt_chroot kernel:process setsched;
+
+# Allow otapreopt_chroot to read SELinux policy files.
+allow otapreopt_chroot file_contexts_file:file r_file_perms;
+
+# Allow otapreopt_chroot to open and read the contents of /postinstall/system/apex.
+allow otapreopt_chroot postinstall_file:dir r_dir_perms;
+# Allow otapreopt_chroot to read the persist.apexd.verity_on_system system property.
+get_prop(otapreopt_chroot, apexd_prop)
+
+# Allow otapreopt to use file descriptors from update-engine. It will
+# close them immediately.
+allow otapreopt_chroot postinstall:fd use;
+allow otapreopt_chroot update_engine:fd use;
+allow otapreopt_chroot update_engine:fifo_file write;
+
+# Allow to transition to postinstall_dexopt, to run otapreopt in its own sandbox.
+domain_auto_trans(otapreopt_chroot, postinstall_file, postinstall_dexopt)
+
+# Allow otapreopt_chroot to create loop devices with /dev/loop-control.
+allow otapreopt_chroot loop_control_device:chr_file rw_file_perms;
+# Allow otapreopt_chroot to access loop devices.
+allow otapreopt_chroot loop_device:blk_file rw_file_perms;
+allowxperm otapreopt_chroot loop_device:blk_file ioctl {
+  LOOP_GET_STATUS64
+  LOOP_SET_STATUS64
+  LOOP_SET_FD
+  LOOP_SET_BLOCK_SIZE
+  LOOP_SET_DIRECT_IO
+  LOOP_CLR_FD
+  BLKFLSBUF
+};
+
+# Allow otapreopt_chroot to configure read-ahead of loop devices.
+allow otapreopt_chroot sysfs_loop:dir r_dir_perms;
+allow otapreopt_chroot sysfs_loop:file rw_file_perms;
+
+# Allow otapreopt_chroot to mount a tmpfs filesystem in /postinstall/apex.
+allow otapreopt_chroot tmpfs:filesystem mount;
+# Allow otapreopt_chroot to restore the security context of /postinstall/apex.
+allow otapreopt_chroot tmpfs:dir relabelfrom;
+allow otapreopt_chroot postinstall_apex_mnt_dir:dir relabelto;
+
+# Allow otapreopt_chroot to manipulate directory /postinstall/apex.
+allow otapreopt_chroot postinstall_apex_mnt_dir:dir create_dir_perms;
+# Allow otapreopt_chroot to mount APEX packages in /postinstall/apex.
+allow otapreopt_chroot postinstall_apex_mnt_dir:dir mounton;
+
+# Allow otapreopt_chroot to access /dev/block (needed to detach loop
+# devices used by ext4 images from APEX packages).
+allow otapreopt_chroot block_device:dir r_dir_perms;
+
+# Allow to access the linker through the symlink.
+allow otapreopt_chroot postinstall_file:lnk_file r_file_perms;

@@ -1,0 +1,4 @@
+service vendor.power.stats-hal-1-0 /vendor/bin/hw/android.hardware.power.stats@1.0-service.pixel
+    class hal
+    user system
+    group system

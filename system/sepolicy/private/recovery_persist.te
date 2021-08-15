@@ -1,0 +1,11 @@
+typeattribute recovery_persist coredomain;
+
+init_daemon_domain(recovery_persist)
+
+# recovery_persist is not allowed to write anywhere other than recovery_data_file
+neverallow recovery_persist {
+  file_type
+  -recovery_data_file
+  userdebug_or_eng(`-coredump_file')
+  with_native_coverage(`-method_trace_data_file')
+}:file write;

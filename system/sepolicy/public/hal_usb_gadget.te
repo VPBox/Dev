@@ -1,0 +1,13 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_usb_gadget_client, hal_usb_gadget_server)
+binder_call(hal_usb_gadget_server, hal_usb_gadget_client)
+
+hal_attribute_hwservice(hal_usb_gadget, hal_usb_gadget_hwservice)
+
+# Configuring usb gadget functions
+allow hal_usb_gadget_server configfs:lnk_file { read create unlink};
+allow hal_usb_gadget_server configfs:dir rw_dir_perms;
+allow hal_usb_gadget_server configfs:file create_file_perms;
+allow hal_usb_gadget_server functionfs:dir { read search };
+allow hal_usb_gadget_server functionfs:file read;
+

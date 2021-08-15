@@ -1,0 +1,57 @@
+# bootstat command
+type bootstat, domain;
+type bootstat_exec, exec_type, file_type;
+
+read_runtime_log_tags(bootstat)
+
+# Allow persistent storage in /data/misc/bootstat.
+allow bootstat bootstat_data_file:dir rw_dir_perms;
+allow bootstat bootstat_data_file:file create_file_perms;
+
+# Collect metrics on boot time created by init
+get_prop(bootstat, boottime_prop)
+
+# Read/Write [persist.]sys.boot.reason and ro.boot.bootreason (write if empty)
+set_prop(bootstat, bootloader_boot_reason_prop)
+set_prop(bootstat, system_boot_reason_prop)
+set_prop(bootstat, last_boot_reason_prop)
+
+# ToDo: TBI move access for the following to a system health HAL
+
+# Allow access to /sys/fs/pstore/ and syslog
+allow bootstat pstorefs:dir search;
+allow bootstat pstorefs:file r_file_perms;
+allow bootstat kernel:system syslog_read;
+
+# Allow access to reading the logs to read aspects of system health
+read_logd(bootstat)
+
+# ToDo: end
+
+neverallow {
+  domain
+  -bootanim
+  -bootstat
+  -dumpstate
+  -init
+  -recovery
+  -shell
+  -system_server
+} { bootloader_boot_reason_prop last_boot_reason_prop }:file r_file_perms;
+# ... and refine, as these components should not set the last boot reason
+neverallow { bootanim recovery } last_boot_reason_prop:file r_file_perms;
+
+neverallow {
+  domain
+  -bootstat
+  -init
+  -system_server
+} { bootloader_boot_reason_prop last_boot_reason_prop }:property_service set;
+# ... and refine ... for a ro propertly no less ... keep this _tight_
+neverallow system_server bootloader_boot_reason_prop:property_service set;
+
+neverallow {
+  domain
+  -bootstat
+  -init
+} system_boot_reason_prop:property_service set;

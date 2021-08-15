@@ -1,0 +1,5 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_contexthub_client, hal_contexthub_server)
+binder_call(hal_contexthub_server, hal_contexthub_client)
+
+hal_attribute_hwservice(hal_contexthub, hal_contexthub_hwservice)

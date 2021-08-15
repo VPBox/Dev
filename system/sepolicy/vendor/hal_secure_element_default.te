@@ -1,0 +1,7 @@
+type hal_secure_element_default, domain;
+hal_server_domain(hal_secure_element_default, hal_secure_element)
+type hal_secure_element_default_exec, exec_type, vendor_file_type, file_type;
+
+allow hal_secure_element_default secure_element_device:chr_file rw_file_perms;
+
+init_daemon_domain(hal_secure_element_default)

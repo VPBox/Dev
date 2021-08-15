@@ -1,0 +1,22 @@
+cc_binary {
+    name: "test-fb-refresh",
+    srcs: ["refresh.c"],
+    shared_libs: ["libcutils"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}
+
+cc_binary {
+    name: "test-fb-simple",
+    srcs: ["fb_test.c"],
+    static_executable: true,
+    static_libs: ["libc"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}

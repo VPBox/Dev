@@ -1,0 +1,9 @@
+source /data/nativetest64/hidl_test_helper
+
+TREBLE_TESTING_OVERRIDE=true run_all_tests \
+    "/data/nativetest/android.hardware.tests.msgq@1.0-service-test/android.hardware.tests.msgq@1.0-service-test" \
+    "/data/nativetest64/android.hardware.tests.msgq@1.0-service-test/android.hardware.tests.msgq@1.0-service-test" \
+    "/data/nativetest/mq_test_client/mq_test_client" \
+    "/data/nativetest64/mq_test_client/mq_test_client" \
+    "fmq_test" \
+    "$@"

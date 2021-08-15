@@ -1,0 +1,158 @@
+typeattribute app_zygote coredomain;
+
+######
+###### Policy below is different from regular zygote-spawned apps
+######
+
+# The app_zygote needs to be able to transition domains.
+typeattribute app_zygote mlstrustedsubject;
+
+# Allow access to temporary files, which is normally permitted through
+# a domain macro.
+tmpfs_domain(app_zygote);
+
+# Set the UID/GID of the process.
+# This will be further limited to a range of isolated UIDs with seccomp.
+allow app_zygote self:global_capability_class_set { setgid setuid };
+# Drop capabilities from bounding set.
+allow app_zygote self:global_capability_class_set setpcap;
+# Switch SELinux context to isolated app domain.
+allow app_zygote self:process setcurrent;
+allow app_zygote isolated_app:process dyntransition;
+
+# For JIT
+allow app_zygote self:process execmem;
+
+# Allow app_zygote to stat the files that it opens. It must
+# be able to inspect them so that it can reopen them on fork
+# if necessary: b/30963384.
+allow app_zygote debugfs_trace_marker:file getattr;
+
+# get system_server process group
+allow app_zygote system_server:process getpgid;
+
+# Interaction between the app_zygote and its children.
+allow app_zygote isolated_app:process setpgid;
+
+# TODO (b/63631799) fix this access
+dontaudit app_zygote mnt_expand_file:dir getattr;
+
+# Get seapp_contexts
+allow app_zygote seapp_contexts_file:file r_file_perms;
+# Check validity of SELinux context before use.
+selinux_check_context(app_zygote)
+# Check SELinux permissions.
+selinux_check_access(app_zygote)
+
+######
+###### Policy below is shared with regular zygote-spawned apps
+######
+
+# Child of zygote.
+allow app_zygote zygote:fd use;
+allow app_zygote zygote:process sigchld;
+
+# For ART (read /data/dalvik-cache).
+r_dir_file(app_zygote, dalvikcache_data_file);
+allow app_zygote dalvikcache_data_file:file execute;
+
+# Allow reading/executing installed binaries to enable preloading
+# application data
+allow app_zygote apk_data_file:dir r_dir_perms;
+allow app_zygote apk_data_file:file { r_file_perms execute };
+
+# Allow app_zygote access to /vendor/overlay
+r_dir_file(app_zygote, vendor_overlay_file)
+
+allow app_zygote system_data_file:lnk_file r_file_perms;
+allow app_zygote system_data_file:file { getattr read map };
+
+#####
+##### Neverallow
+#####
+
+# Only permit transition to isolated_app.
+neverallow app_zygote { domain -isolated_app }:process dyntransition;
+
+# Only setcon() transitions, no exec() based transitions, except for crash_dump.
+neverallow app_zygote { domain -crash_dump }:process transition;
+
+# Must not exec() a program without changing domains.
+# Having said that, exec() above is not allowed.
+neverallow app_zygote *:file execute_no_trans;
+
+# The only way to enter this domain is for the zygote to fork a new
+# app_zygote child.
+neverallow { domain -zygote } app_zygote:process dyntransition;
+
+# Disallow write access to properties.
+neverallow app_zygote property_socket:sock_file write;
+neverallow app_zygote property_type:property_service set;
+
+# Should not have any access to non-app data files.
+neverallow app_zygote {
+    bluetooth_data_file
+    nfc_data_file
+    radio_data_file
+    shell_data_file
+}:file { rwx_file_perms };
+
+neverallow app_zygote {
+    service_manager_type
+    -activity_service
+    -ashmem_device_service
+    -webviewupdate_service
+}:service_manager find;
+
+# Isolated apps should not be able to access the driver directly.
+neverallow app_zygote gpu_device:chr_file { rwx_file_perms };
+
+# Do not allow app_zygote access to /cache.
+neverallow app_zygote cache_file:dir ~{ r_dir_perms };
+neverallow app_zygote cache_file:file ~{ read getattr };
+
+# Do not allow most socket access. This is socket_class_set, excluding unix_dgram_socket,
+# unix_stream_socket, and netlink_selinux_socket.
+neverallow app_zygote domain:{
+  socket tcp_socket udp_socket rawip_socket netlink_socket packet_socket key_socket
+  appletalk_socket netlink_route_socket netlink_tcpdiag_socket
+  netlink_nflog_socket netlink_xfrm_socket netlink_audit_socket
+  netlink_dnrt_socket netlink_kobject_uevent_socket tun_socket netlink_iscsi_socket
+  netlink_fib_lookup_socket netlink_connector_socket netlink_netfilter_socket
+  netlink_generic_socket netlink_scsitransport_socket netlink_rdma_socket netlink_crypto_socket
+  sctp_socket icmp_socket ax25_socket ipx_socket netrom_socket atmpvc_socket
+  x25_socket rose_socket decnet_socket atmsvc_socket rds_socket irda_socket
+  pppox_socket llc_socket can_socket tipc_socket bluetooth_socket iucv_socket
+  rxrpc_socket isdn_socket phonet_socket ieee802154_socket caif_socket
+  alg_socket nfc_socket vsock_socket kcm_socket qipcrtr_socket smc_socket
+} *;
+
+# Only allow app_zygote to talk to the logd socket, and su/heapprofd on eng/userdebug
+# This is because cap_setuid/cap_setgid allow to forge uid/gid in SCM_CREDENTIALS.
+# Think twice before changing.
+neverallow app_zygote {
+  domain
+  -app_zygote
+  -logd
+  userdebug_or_eng(`-su')
+  userdebug_or_eng(`-heapprofd')
+}:unix_dgram_socket *;
+
+neverallow app_zygote {
+  domain
+  -app_zygote
+  userdebug_or_eng(`-su')
+  userdebug_or_eng(`-heapprofd')
+}:unix_stream_socket *;
+
+# Never allow ptrace
+neverallow app_zygote *:process ptrace;
+
+# Do not allow access to Bluetooth-related system properties.
+# neverallow rules for Bluetooth-related data files are listed above.
+neverallow app_zygote {
+  bluetooth_a2dp_offload_prop
+  bluetooth_audio_hal_prop
+  bluetooth_prop
+  exported_bluetooth_prop
+}:file create_file_perms;

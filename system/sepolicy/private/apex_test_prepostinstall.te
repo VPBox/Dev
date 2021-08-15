@@ -1,0 +1,20 @@
+# APEX pre- & post-install test.
+#
+# Allow to run pre- and post-install hooks for APEX test modules
+# in debuggable builds.
+
+type apex_test_prepostinstall, domain, coredomain;
+type apex_test_prepostinstall_exec, system_file_type, exec_type, file_type;
+
+userdebug_or_eng(`
+  # /dev/zero
+  allow apex_test_prepostinstall apexd:fd use;
+  # Logwrapper.
+  create_pty(apex_test_prepostinstall)
+  # Logwrapper executing sh.
+  allow apex_test_prepostinstall shell_exec:file rx_file_perms;
+  # Logwrapper exec.
+  allow apex_test_prepostinstall system_file:file execute_no_trans;
+  # Ls.
+  allow apex_test_prepostinstall toolbox_exec:file rx_file_perms;
+')

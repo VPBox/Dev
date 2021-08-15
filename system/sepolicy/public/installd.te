@@ -1,0 +1,177 @@
+# installer daemon
+type installd, domain;
+type installd_exec, system_file_type, exec_type, file_type;
+typeattribute installd mlstrustedsubject;
+allow installd self:global_capability_class_set { chown dac_override dac_read_search fowner fsetid setgid setuid sys_admin };
+
+# Allow labeling of files under /data/app/com.example/oat/
+allow installd dalvikcache_data_file:dir relabelto;
+allow installd dalvikcache_data_file:file { relabelto link };
+
+# Allow movement of APK files between volumes
+allow installd apk_data_file:dir { create_dir_perms relabelfrom };
+allow installd apk_data_file:file { create_file_perms relabelfrom link };
+allow installd apk_data_file:lnk_file { create r_file_perms unlink };
+
+# FS_IOC_ENABLE_VERITY and FS_IOC_MEASURE_VERITY (or in old implementation used in installd,
+# FS_IOC_SET_VERITY_MEASUREMENT) ioctls on APKs in /data/app, to support fsverity.
+# TODO(b/120629632): this path is deprecated, remove when possible.
+allowxperm installd apk_data_file:file ioctl {
+  FS_IOC_ENABLE_VERITY FS_IOC_MEASURE_VERITY
+};
+
+allow installd asec_apk_file:file r_file_perms;
+allow installd apk_tmp_file:file { r_file_perms unlink };
+allow installd apk_tmp_file:dir { relabelfrom create_dir_perms };
+allow installd oemfs:dir r_dir_perms;
+allow installd oemfs:file r_file_perms;
+allow installd cgroup:dir create_dir_perms;
+allow installd mnt_expand_file:dir { search getattr };
+# Check validity of SELinux context before use.
+selinux_check_context(installd)
+
+r_dir_file(installd, rootfs)
+# Scan through APKs in /system/app and /system/priv-app
+r_dir_file(installd, system_file)
+# Scan through APKs in /vendor/app
+r_dir_file(installd, vendor_app_file)
+# Scan through JARs in /vendor/framework
+r_dir_file(installd, vendor_framework_file)
+# Scan through Runtime Resource Overlay APKs in /vendor/overlay
+r_dir_file(installd, vendor_overlay_file)
+# Get file context
+allow installd file_contexts_file:file r_file_perms;
+# Get seapp_context
+allow installd seapp_contexts_file:file r_file_perms;
+
+# Search /data/app-asec and stat files in it.
+allow installd asec_image_file:dir search;
+allow installd asec_image_file:file getattr;
+
+# Create /data/user and /data/user/0 if necessary.
+# Also required to initially create /data/data subdirectories
+# and lib symlinks before the setfilecon call.  May want to
+# move symlink creation after setfilecon in installd.
+allow installd system_data_file:dir create_dir_perms;
+# Also, allow read for lnk_file so that we can process /data/user/0 links when
+# optimizing application code.
+allow installd system_data_file:lnk_file { create getattr read setattr unlink };
+
+# Upgrade /data/media for multi-user if necessary.
+allow installd media_rw_data_file:dir create_dir_perms;
+allow installd media_rw_data_file:file { getattr unlink };
+# restorecon new /data/media directory.
+allow installd system_data_file:dir relabelfrom;
+allow installd media_rw_data_file:dir relabelto;
+
+# Delete /data/media files through sdcardfs, instead of going behind its back
+allow installd tmpfs:dir r_dir_perms;
+allow installd storage_file:dir search;
+allow installd sdcard_type:dir { search open read write remove_name getattr rmdir };
+allow installd sdcard_type:file { getattr unlink };
+
+# Upgrade /data/misc/keychain for multi-user if necessary.
+allow installd misc_user_data_file:dir create_dir_perms;
+allow installd misc_user_data_file:file create_file_perms;
+allow installd keychain_data_file:dir create_dir_perms;
+allow installd keychain_data_file:file {r_file_perms unlink};
+
+# Create /data/.layout_version.* file
+allow installd install_data_file:file create_file_perms;
+
+# Create files under /data/dalvik-cache.
+allow installd dalvikcache_data_file:dir create_dir_perms;
+allow installd dalvikcache_data_file:file create_file_perms;
+allow installd dalvikcache_data_file:lnk_file getattr;
+
+# Create files under /data/resource-cache.
+allow installd resourcecache_data_file:dir rw_dir_perms;
+allow installd resourcecache_data_file:file create_file_perms;
+
+# Upgrade from unlabeled userdata.
+# Just need enough to remove and/or relabel it.
+allow installd unlabeled:dir { getattr search relabelfrom rw_dir_perms rmdir };
+allow installd unlabeled:notdevfile_class_set { getattr relabelfrom rename unlink setattr };
+# Read pkg.apk file for input during dexopt.
+allow installd unlabeled:file r_file_perms;
+
+# Upgrade from before system_app_data_file was used for system UID apps.
+# Just need enough to relabel it and to unlink removed package files.
+# Directory access covered by earlier rule above.
+allow installd system_data_file:notdevfile_class_set { getattr relabelfrom unlink };
+
+# Manage /data/data subdirectories, including initially labeling them
+# upon creation via setfilecon or running restorecon_recursive,
+# setting owner/mode, creating symlinks within them, and deleting them
+# upon package uninstall.
+# Types extracted from seapp_contexts type= fields.
+allow installd {
+    system_app_data_file
+    bluetooth_data_file
+    nfc_data_file
+    radio_data_file
+    shell_data_file
+    app_data_file
+    privapp_data_file
+}:dir { create_dir_perms relabelfrom relabelto };
+
+allow installd {
+    system_app_data_file
+    bluetooth_data_file
+    nfc_data_file
+    radio_data_file
+    shell_data_file
+    app_data_file
+    privapp_data_file
+}:notdevfile_class_set { create_file_perms relabelfrom relabelto };
+
+# Similar for the files under /data/misc/profiles/
+allow installd user_profile_data_file:dir create_dir_perms;
+allow installd user_profile_data_file:file create_file_perms;
+allow installd user_profile_data_file:dir rmdir;
+allow installd user_profile_data_file:file unlink;
+
+# Files created/updated by profman dumps.
+allow installd profman_dump_data_file:dir { search add_name write };
+allow installd profman_dump_data_file:file { create setattr open write };
+
+# Create and use pty created by android_fork_execvp().
+allow installd devpts:chr_file rw_file_perms;
+
+# execute toybox for app relocation
+allow installd toolbox_exec:file rx_file_perms;
+
+# Allow installd to publish a binder service and make binder calls.
+binder_use(installd)
+add_service(installd, installd_service)
+allow installd dumpstate:fifo_file  { getattr write };
+
+# Allow installd to call into the system server so it can check permissions.
+binder_call(installd, system_server)
+allow installd permission_service:service_manager find;
+
+# Allow installd to read and write quotas
+allow installd block_device:dir { search };
+allow installd labeledfs:filesystem { quotaget quotamod };
+
+# Allow installd to delete from /data/preloads when trimming data caches
+# TODO b/34690396 Remove when time-based purge policy for preloads is implemented in system_server
+allow installd preloads_data_file:file { r_file_perms unlink };
+allow installd preloads_data_file:dir { r_dir_perms write remove_name rmdir };
+allow installd preloads_media_file:file { r_file_perms unlink };
+allow installd preloads_media_file:dir { r_dir_perms write remove_name rmdir };
+
+###
+### Neverallow rules
+###
+
+# only system_server, installd and dumpstate may interact with installd over binder
+neverallow { domain -system_server -dumpstate -installd } installd_service:service_manager find;
+neverallow { domain -system_server -dumpstate } installd:binder call;
+neverallow installd {
+    domain
+    -ashmemd
+    -system_server
+    -servicemanager
+    userdebug_or_eng(`-su')
+}:binder call;

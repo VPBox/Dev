@@ -1,0 +1,20 @@
+// Since sysprop_library has an implicit dependency on the framework, create a
+// filegroup rule to be used when including the sysprop within the framework
+// itself.
+filegroup {
+  name: "apex-properties",
+  srcs: ["ApexProperties.sysprop"],
+}
+
+sysprop_library {
+  name: "com.android.sysprop.apex",
+  srcs: ["ApexProperties.sysprop"],
+  property_owner: "Platform",
+  api_packages: ["android.sysprop"],
+  recovery_available: true,
+}
+
+prebuilt_apis {
+  name: "com.android.sysprop.apex.apis",
+  api_dirs: ["1"],
+}

@@ -1,0 +1,53 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_drm_client, hal_drm_server)
+binder_call(hal_drm_server, hal_drm_client)
+
+add_hwservice(hal_drm_server, hal_drm_hwservice)
+allow hal_drm_client hal_drm_hwservice:hwservice_manager find;
+
+allow hal_drm hidl_memory_hwservice:hwservice_manager find;
+
+# Required by Widevine DRM (b/22990512)
+allow hal_drm self:process execmem;
+
+# Permit reading device's serial number from system properties
+get_prop(hal_drm, serialno_prop)
+
+# System file accesses
+allow hal_drm system_file:dir r_dir_perms;
+allow hal_drm system_file:file r_file_perms;
+allow hal_drm system_file:lnk_file r_file_perms;
+
+# Read files already opened under /data
+allow hal_drm system_data_file:file { getattr read };
+
+# Read access to pseudo filesystems
+r_dir_file(hal_drm, cgroup)
+allow hal_drm cgroup:dir { search write };
+allow hal_drm cgroup:file w_file_perms;
+
+# Allow access to ion memory allocation device
+allow hal_drm ion_device:chr_file rw_file_perms;
+allow hal_drm hal_graphics_allocator:fd use;
+
+# Allow access to fds allocated by mediaserver
+allow hal_drm mediaserver:fd use;
+
+allow hal_drm sysfs:file r_file_perms;
+
+allow hal_drm tee_device:chr_file rw_file_perms;
+
+# only allow unprivileged socket ioctl commands
+allowxperm hal_drm self:{ rawip_socket tcp_socket udp_socket }
+  ioctl { unpriv_sock_ioctls unpriv_tty_ioctls };
+
+###
+### neverallow rules
+###
+
+# hal_drm should never execute any executable without a
+# domain transition
+neverallow hal_drm_server { file_type fs_type }:file execute_no_trans;
+
+# do not allow privileged socket ioctl commands
+neverallowxperm hal_drm_server domain:{ rawip_socket tcp_socket udp_socket } ioctl priv_sock_ioctls;

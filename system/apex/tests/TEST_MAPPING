@@ -1,0 +1,10 @@
+{
+  "presubmit": [
+    {
+      "name": "apex_targetprep_tests"
+    },
+    {
+      "name": "CtsStagedInstallHostTestCases"
+    }
+  ]
+}

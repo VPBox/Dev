@@ -1,0 +1,25 @@
+type fsverity_init, domain, coredomain;
+type fsverity_init_exec, exec_type, file_type, system_file_type;
+
+init_daemon_domain(fsverity_init)
+
+# Allow this shell script to run and execute toybox
+allow fsverity_init shell_exec:file rx_file_perms;
+allow fsverity_init toolbox_exec:file rx_file_perms;
+
+# Allow to read /proc/keys for searching key id.
+allow fsverity_init proc_keys:file r_file_perms;
+
+# Kernel only prints the keys that can be accessed and only kernel keyring is needed here.
+dontaudit fsverity_init init:key view;
+dontaudit fsverity_init vold:key view;
+allow fsverity_init kernel:key { view search write setattr };
+allow fsverity_init fsverity_init:key { view search write };
+
+# Allow init to write to /proc/sys/fs/verity/require_signatures
+allow fsverity_init proc_fs_verity:file w_file_perms;
+
+# When kernel requests an algorithm, the crypto API first looks for an
+# already registered algorithm with that name. If it fails, the kernel creates
+# an implementation of the algorithm from templates.
+dontaudit fsverity_init kernel:system module_request;

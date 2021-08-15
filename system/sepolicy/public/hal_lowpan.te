@@ -1,0 +1,20 @@
+# HwBinder IPC from client to server, and callbacks
+binder_call(hal_lowpan_client, hal_lowpan_server)
+binder_call(hal_lowpan_server, hal_lowpan_client)
+
+
+# Allow hal_lowpan_client to be able to find the hal_lowpan_server
+hal_attribute_hwservice(hal_lowpan, hal_lowpan_hwservice)
+
+# hal_lowpan domain can write/read to/from lowpan_prop
+set_prop(hal_lowpan_server, lowpan_prop)
+
+# Allow hal_lowpan_server to open lowpan_devices
+allow hal_lowpan_server lowpan_device:chr_file rw_file_perms;
+
+###
+### neverallow rules
+###
+
+# Only LoWPAN HAL may directly access LoWPAN hardware
+neverallow { domain -hal_lowpan_server -init -ueventd } lowpan_device:chr_file ~getattr;

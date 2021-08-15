@@ -1,0 +1,36 @@
+# update_verifier
+type update_verifier, domain;
+type update_verifier_exec, system_file_type, exec_type, file_type;
+
+# Allow update_verifier to reach block devices in /dev/block.
+allow update_verifier block_device:dir search;
+
+# Read care map in /data/ota_package/.
+allow update_verifier ota_package_file:dir r_dir_perms;
+allow update_verifier ota_package_file:file r_file_perms;
+
+# Read /sys/block to find all the DM directories like (/sys/block/dm-X).
+allow update_verifier sysfs:dir r_dir_perms;
+
+# Read /sys/block/dm-X/dm/name (which is a symlink to
+# /sys/devices/virtual/block/dm-X/dm/name) to identify the mapping between
+# dm-X and system/vendor partitions.
+allow update_verifier sysfs_dm:dir r_dir_perms;
+allow update_verifier sysfs_dm:file r_file_perms;
+
+# Read all blocks in DM wrapped system partition.
+allow update_verifier dm_device:blk_file r_file_perms;
+
+# Write to kernel message.
+allow update_verifier kmsg_device:chr_file { getattr w_file_perms };
+
+# Allow update_verifier to reboot the device.
+set_prop(update_verifier, powerctl_prop)
+
+# Use Boot Control HAL
+hal_client_domain(update_verifier, hal_bootctl)
+
+# Access Checkpoint commands over binder
+allow update_verifier vold_service:service_manager find;
+binder_call(update_verifier, servicemanager)
+binder_call(update_verifier, vold)

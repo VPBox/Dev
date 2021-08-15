@@ -1,0 +1,45 @@
+// Copyright 2017 The Android Open Source Project
+
+cc_library_shared {
+    name: "libf2fs_sparseblock",
+    cflags: ["-Werror"],
+
+    srcs: ["f2fs_sparseblock.c"],
+
+    shared_libs: [
+        "liblog",
+        "libcutils",
+    ],
+
+    include_dirs: [
+        "external/f2fs-tools/include",
+        "system/core/include/log",
+    ],
+
+    export_include_dirs: ["."]
+}
+
+cc_binary {
+    name: "f2fs_sparseblock",
+    cflags: ["-Werror"],
+
+    srcs: ["f2fs_sparseblock.c"],
+
+    shared_libs: [
+        "liblog",
+        "libcutils",
+    ],
+
+    include_dirs: [
+        "external/f2fs-tools/include",
+        "system/core/include/log",
+    ],
+}
+
+sh_binary {
+    name: "mkf2fsuserimg.sh",
+
+    src: "mkf2fsuserimg.sh",
+    required: ["make_f2fs", "sload_f2fs"],
+    host_supported: true,
+}

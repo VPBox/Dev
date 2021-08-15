@@ -1,0 +1,44 @@
+type sdcardd, domain;
+type sdcardd_exec, system_file_type, exec_type, file_type;
+
+allow sdcardd cgroup:dir create_dir_perms;
+allow sdcardd fuse_device:chr_file rw_file_perms;
+allow sdcardd rootfs:dir mounton;  # TODO: deprecated in M
+allow sdcardd sdcardfs:filesystem remount;
+allow sdcardd tmpfs:dir r_dir_perms;
+allow sdcardd mnt_media_rw_file:dir r_dir_perms;
+allow sdcardd storage_file:dir search;
+allow sdcardd storage_stub_file:dir { search mounton };
+allow sdcardd sdcard_type:filesystem { mount unmount };
+allow sdcardd self:global_capability_class_set { setuid setgid dac_override dac_read_search sys_admin sys_resource };
+
+allow sdcardd sdcard_type:dir create_dir_perms;
+allow sdcardd sdcard_type:file create_file_perms;
+
+allow sdcardd media_rw_data_file:dir create_dir_perms;
+allow sdcardd media_rw_data_file:file create_file_perms;
+
+# Read /data/system/packages.list.
+allow sdcardd system_data_file:file r_file_perms;
+allow sdcardd packages_list_file:file r_file_perms;
+
+# Read /data/.layout_version
+allow sdcardd install_data_file:file r_file_perms;
+
+# Allow stdin/out back to vold
+allow sdcardd vold:fd use;
+allow sdcardd vold:fifo_file { read write getattr };
+
+# Allow running on top of expanded storage
+allow sdcardd mnt_expand_file:dir search;
+
+# access /proc/filesystems
+allow sdcardd proc_filesystems:file r_file_perms;
+
+###
+### neverallow rules
+###
+
+# The sdcard daemon should no longer be started from init
+neverallow init sdcardd_exec:file execute;
+neverallow init sdcardd:process { transition dyntransition };

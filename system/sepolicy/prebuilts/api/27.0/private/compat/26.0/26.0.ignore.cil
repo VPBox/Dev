@@ -1,0 +1,34 @@
+;; new_objects - a collection of types that have been introduced that have no
+;;   analogue in older policy.  Thus, we do not need to map these types to
+;;   previous ones.  Add here to pass checkapi tests.
+(typeattribute new_objects)
+(typeattributeset new_objects
+  ( adbd_exec
+    broadcastradio_service
+    e2fs
+    e2fs_exec
+    hal_broadcastradio_hwservice
+    hal_cas_hwservice
+    hal_neuralnetworks_hwservice
+    hal_tetheroffload_hwservice
+    hal_wifi_offload_hwservice
+    kmsg_debug_device
+    mediaprovider_tmpfs
+    netd_stable_secret_prop
+    package_native_service
+    sysfs_fs_ext4_features
+    system_net_netd_hwservice
+    thermal_service
+    thermalcallback_hwservice
+    thermalserviced
+    thermalserviced_exec
+    thermalserviced_tmpfs
+    timezone_service
+    tombstoned_java_trace_socket))
+
+;; private_objects - a collection of types that were labeled differently in
+;;     older policy, but that should not remain accessible to vendor policy.
+;;     Thus, these types are also not mapped, but recorded for checkapi tests
+(typeattribute priv_objects)
+(typeattributeset priv_objects
+     ( adbd_tmpfs ))

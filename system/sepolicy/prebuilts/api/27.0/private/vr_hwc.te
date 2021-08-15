@@ -1,0 +1,6 @@
+typeattribute vr_hwc coredomain;
+
+# Daemon started by init.
+init_daemon_domain(vr_hwc)
+
+hal_server_domain(vr_hwc, hal_graphics_composer)

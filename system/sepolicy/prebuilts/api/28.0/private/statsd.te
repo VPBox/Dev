@@ -1,0 +1,116 @@
+type statsd, domain, mlstrustedsubject;
+typeattribute statsd coredomain;
+
+init_daemon_domain(statsd)
+
+type statsd_exec, exec_type, file_type;
+binder_use(statsd)
+
+# Allow statsd to scan through /proc/pid for all processes.
+r_dir_file(statsd, domain)
+
+# Allow executing files on system, such as running a shell or running:
+#   /system/bin/toolbox
+#   /system/bin/logcat
+#   /system/bin/dumpsys
+allow statsd devpts:chr_file { getattr ioctl read write };
+allow statsd shell_exec:file rx_file_perms;
+allow statsd system_file:file execute_no_trans;
+allow statsd toolbox_exec:file rx_file_perms;
+
+userdebug_or_eng(`
+  allow statsd su:fifo_file read;
+')
+
+# Create, read, and write into /data/misc/stats-data, /data/misc/stats-system.
+allow statsd stats_data_file:dir create_dir_perms;
+allow statsd stats_data_file:file create_file_perms;
+
+# Allow statsd to make binder calls to any binder service.
+binder_call(statsd, appdomain)
+binder_call(statsd, healthd)
+binder_call(statsd, incidentd)
+userdebug_or_eng(`
+  binder_call(statsd, perfprofd)
+')
+binder_call(statsd, statscompanion_service)
+binder_call(statsd, system_server)
+
+# Allow logd access.
+read_logd(statsd)
+control_logd(statsd)
+
+# Allow to exec the perfetto cmdline client and pass it the trace config on
+# stdint through a pipe. It allows statsd to  capture traces and hand them
+# to Android dropbox.
+allow statsd perfetto_exec:file rx_file_perms;
+domain_auto_trans(statsd, perfetto_exec, perfetto)
+
+# Grant statsd with permissions to register the services.
+allow statsd {
+  app_api_service
+  incident_service
+  statscompanion_service
+  system_api_service
+}:service_manager find;
+
+# Grant statsd to access health hal to access battery metrics.
+allow statsd hal_health_hwservice:hwservice_manager find;
+
+# Only statsd can publish the binder service.
+add_service(statsd, stats_service)
+
+# Allow pipes from (and only from) stats.
+allow statsd stats:fd use;
+allow statsd stats:fifo_file write;
+
+# Allow statsd to send dump info to dumpstate
+allow statsd dumpstate:fd use;
+allow statsd dumpstate:fifo_file { getattr write };
+
+# Allow statsd to call back to stats with status updates.
+binder_call(statsd, stats)
+
+# Allow access to with hardware layer and process stats.
+allow statsd proc_uid_cputime_showstat:file { getattr open read };
+hal_client_domain(statsd, hal_health)
+hal_client_domain(statsd, hal_power)
+hal_client_domain(statsd, hal_thermal)
+
+# Allow 'adb shell cmd' to upload configs and download output.
+allow statsd adbd:fd use;
+allow statsd adbd:unix_stream_socket { getattr read write };
+allow statsd shell:fifo_file { getattr read };
+
+unix_socket_send(bluetooth, statsdw, statsd)
+unix_socket_send(bootstat, statsdw, statsd)
+unix_socket_send(lmkd, statsdw, statsd)
+unix_socket_send(platform_app, statsdw, statsd)
+unix_socket_send(radio, statsdw, statsd)
+unix_socket_send(statsd, statsdw, statsd)
+unix_socket_send(system_server, statsdw, statsd)
+
+###
+### neverallow rules
+###
+
+# Only system_server, system_app, traceur_app, and stats command can find the stats service.
+neverallow {
+  domain
+  -dumpstate
+  -priv_app
+  -shell
+  -stats
+  -statsd
+  -system_app
+  -system_server
+  -traceur_app
+} stats_service:service_manager find;
+
+# Only statsd and the other root services in limited circumstances.
+# can get to the files in /data/misc/stats-data, /data/misc/stats-service.
+# Other services are prohibitted from accessing the file.
+neverallow { domain -statsd -system_server -init -vold } stats_data_file:file *;
+
+# Limited access to the directory itself.
+neverallow { domain -statsd -system_server -init -vold } stats_data_file:dir *;

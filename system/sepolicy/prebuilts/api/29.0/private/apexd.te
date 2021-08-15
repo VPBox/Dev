@@ -1,0 +1,114 @@
+typeattribute apexd coredomain;
+
+init_daemon_domain(apexd)
+
+# Allow creating, reading and writing of APEX files/dirs in the APEX data dir
+allow apexd apex_data_file:dir create_dir_perms;
+allow apexd apex_data_file:file create_file_perms;
+
+# Allow creating, reading and writing of APEX files/dirs in the APEX metadata dir
+allow apexd metadata_file:dir search;
+allow apexd apex_metadata_file:dir create_dir_perms;
+allow apexd apex_metadata_file:file create_file_perms;
+
+# allow apexd to create loop devices with /dev/loop-control
+allow apexd loop_control_device:chr_file rw_file_perms;
+# allow apexd to access loop devices
+allow apexd loop_device:blk_file rw_file_perms;
+allowxperm apexd loop_device:blk_file ioctl {
+  LOOP_GET_STATUS64
+  LOOP_SET_STATUS64
+  LOOP_SET_FD
+  LOOP_SET_BLOCK_SIZE
+  LOOP_SET_DIRECT_IO
+  LOOP_CLR_FD
+  BLKFLSBUF
+};
+# allow apexd to access /dev/block
+allow apexd block_device:dir r_dir_perms;
+
+# allow apexd to access /dev/block/dm-* (device-mapper entries)
+allow apexd dm_device:chr_file rw_file_perms;
+allow apexd dm_device:blk_file rw_file_perms;
+
+# sys_admin is required to access the device-mapper and mount
+allow apexd self:global_capability_class_set sys_admin;
+
+# allow apexd to create a mount point in /apex
+allow apexd apex_mnt_dir:dir create_dir_perms;
+# allow apexd to mount in /apex
+allow apexd apex_mnt_dir:filesystem { mount unmount };
+allow apexd apex_mnt_dir:dir mounton;
+# allow apexd to create symlinks in /apex
+allow apexd apex_mnt_dir:lnk_file create_file_perms;
+# allow apexd to unlink apex files in /data/apex/active
+# note that apexd won't be able to unlink files in /data/app-staging/session_XXXX,
+# because it doesn't have write permission for staging_data_file object.
+allow apexd staging_data_file:file unlink;
+
+# allow apexd to read files from /data/app-staging and hardlink them to /data/apex.
+allow apexd staging_data_file:dir r_dir_perms;
+allow apexd staging_data_file:file { r_file_perms link };
+
+# Unmount and mount filesystems
+allow apexd labeledfs:filesystem { mount unmount };
+
+# /sys directory tree traversal
+allow apexd sysfs_type:dir search;
+# Configure read-ahead of dm-verity and loop devices
+# for dm-X
+allow apexd sysfs_dm:dir r_dir_perms;
+allow apexd sysfs_dm:file rw_file_perms;
+# for loopX
+allow apexd sysfs_loop:dir r_dir_perms;
+allow apexd sysfs_loop:file rw_file_perms;
+
+# Spawning a libbinder thread results in a dac_override deny,
+# /dev/cpuset/tasks is owned by system.
+#
+# See b/35323867#comment3
+dontaudit apexd self:global_capability_class_set { dac_override dac_read_search };
+
+# Allow apexd to log to the kernel.
+allow apexd kmsg_device:chr_file w_file_perms;
+
+# Allow apexd to reboot device. Required for rollbacks of apexes that are
+# not covered by rollback manager.
+set_prop(apexd, powerctl_prop)
+
+# Find the vold service, and call into vold to manage FS checkpoints
+allow apexd vold_service:service_manager find;
+binder_call(apexd, vold)
+
+# Apex pre- & post-install permission.
+
+# Allow self-execute for the fork mount helper.
+allow apexd apexd_exec:file execute_no_trans;
+
+# Unshare and make / private so that hooks cannot influence the
+# running system.
+allow apexd rootfs:dir mounton;
+
+# Allow to execute shell for pre- and postinstall scripts. A transition
+# rule is required, thus restricted to execute and not execute_no_trans.
+allow apexd shell_exec:file { r_file_perms execute };
+
+# apexd is using bootstrap bionic
+allow apexd system_bootstrap_lib_file:dir r_dir_perms;
+allow apexd system_bootstrap_lib_file:file { execute read open getattr map };
+
+# Allow transition to ART APEX preinstall domain.
+domain_auto_trans(apexd, art_apex_preinstall_exec, art_apex_preinstall)
+# Allow transition to ART APEX postinstall domain.
+domain_auto_trans(apexd, art_apex_postinstall_exec, art_apex_postinstall)
+
+# Allow transition to test APEX preinstall domain.
+userdebug_or_eng(`
+  domain_auto_trans(apexd, apex_test_prepostinstall_exec, apex_test_prepostinstall)
+')
+
+neverallow { domain -apexd -init } apex_data_file:dir no_w_dir_perms;
+neverallow { domain -apexd -init } apex_metadata_file:dir no_w_dir_perms;
+neverallow { domain -apexd -init -kernel } apex_data_file:file no_w_file_perms;
+neverallow { domain -apexd -init -kernel } apex_metadata_file:file no_w_file_perms;
+neverallow { domain -apexd } apex_mnt_dir:lnk_file no_w_file_perms;

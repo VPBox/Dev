@@ -1,0 +1,126 @@
+// Copyright (C) 2017 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+cc_test {
+    name: "libvintf_test",
+    defaults: ["libvintf-defaults"],
+    host_supported: true,
+    gtest: false,
+    srcs: [
+        "AssembleVintfTest.cpp",
+        "LibVintfTest.cpp",
+    ],
+
+    shared_libs: [
+        "libbase",
+        "libcutils",
+        "liblog",
+        "libvintf",
+    ],
+    static_libs: [
+        "libgtest",
+        "libassemblevintf",
+        "libhidl-gen-utils",
+    ],
+
+    cflags: [
+        "-O0",
+        "-g",
+        "-Wno-deprecated-declarations",
+    ],
+    target: {
+        android: {
+            cflags: ["-DLIBVINTF_TARGET"],
+            test_config: "libvintf_test.xml",
+        },
+    },
+
+    test_suites: [
+        "general-tests",
+    ],
+}
+
+cc_test {
+    name: "vintf_object_test",
+    defaults: ["libvintf-defaults"],
+    host_supported: true,
+    native_coverage: true,
+    srcs: [
+        "RuntimeInfo-fake.cpp",
+        "vintf_object_tests.cpp",
+    ],
+    shared_libs: [
+        "libbase",
+        "libcutils",
+        "liblog",
+        "libselinux",
+        "libtinyxml2",
+    ],
+    static_libs: [
+        "libgtest",
+        "libgmock",
+        "libvintf",
+        "libhidl-gen-utils",
+        "libz",
+    ],
+    cflags: [
+        "-O0",
+        "-g",
+        // Unexpected logging of string pointer warning from gmock
+        "-Wno-user-defined-warnings"
+    ],
+    target: {
+        android: {
+            cflags: ["-DLIBVINTF_TARGET"],
+            test_config: "vintf_object_test.xml",
+        },
+    },
+
+    test_suites: [
+        "general-tests",
+    ],
+}
+
+// run this with: ./vintf_object_recovery_test.sh
+cc_test {
+    name: "vintf_object_recovery_test",
+    defaults: ["libvintf-defaults"],
+
+    static_libs: [
+        "libvintf_recovery",
+        "libvintf",
+        "libhidl-gen-utils",
+        "libfs_mgr",
+        "liblp",
+        "libcrypto",
+        "libcrypto_utils",
+        "libext4_utils",
+        "libcutils",
+        "libgtest",
+        "libbase",
+        "liblog",
+        "libselinux",
+        "libtinyxml2",
+        "libz",
+    ],
+
+    cflags: [
+        "-O0",
+        "-g",
+    ],
+
+    srcs: [
+        "VintfObjectRecoveryTest.cpp",
+    ],
+}

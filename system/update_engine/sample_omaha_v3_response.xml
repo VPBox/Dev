@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response protocol="3.0" server="prod">
+  <daystart elapsed_days="4086" elapsed_seconds="62499"/>
+  <app appid="{C166AF52-7EE9-4F08-AAA7-B4B895A9F336}" cohort="1:3:" cohortname="caroline_beta" status="ok">
+    <ping status="ok"/>
+    <updatecheck status="ok">
+      <urls>
+        <url codebase="http://dl.google.com/chromeos/caroline/10323.52.0/beta-channel/"/>
+        <url codebase="https://dl.google.com/chromeos/caroline/10323.52.0/beta-channel/"/>
+      </urls>
+      <manifest version="10323.52.0">
+        <actions>
+          <action event="update" run="chromeos_10323.46.0-10323.52.0_caroline_beta-channel_delta_mp.bin-f5c4e5e263c4c119d7d22e0f18a586e5.signed"/>
+          <action ChromeOSVersion="10323.52.0" ChromeVersion="65.0.3325.148" IsDelta="true" IsDeltaPayload="true" MaxDaysToScatter="14" MetadataSignatureRsa="tkrOiIQn2GMQzjLckjiiOyuyV+RqupNW50t6JlFWOhAzWM8dm1qrJVYTYlULxTVlx4BHijbNuX7+OYk6zhRuxuceY7sUwrCM2yxERZ/sDLA5wF0u/8KLP7qrDKL2OIk9JJhF0EdLPylUAEt6vWW4pbYRFhK0girgWIPSdqdjkfHNTKWEUtcQ3iAAB8AvLNOyGP/en0makFvSVXZ8Mq95UrSwWMYFdVmWdVkyRtLYSwLaz5J45y3DQuk3YjeaHhRlH/AQ3OJXX6rjTCwgyiddAccOalwFVwrczq6AUs5S+/vWAMqi+7YfCPgjRdPPIhRJVKcIiAPb8RNXlP+rigGwew==" MetadataSize="414487" event="postinstall" sha256="kONiEAWQV7UyBjOoFBcKDz0OkUx0yRuIGzse4O6rmDs="/>
+        </actions>
+        <packages>
+          <package fp="1.90e36210059057b5320633a814170a0f3d0e914c74c91b881b3b1ee0eeab983b" hash="gD1W+dPZiNEhz3f3odCtfL81Yi8=" hash_sha256="90e36210059057b5320633a814170a0f3d0e914c74c91b881b3b1ee0eeab983b" name="chromeos_10323.46.0-10323.52.0_caroline_beta-channel_delta_mp.bin-f5c4e5e263c4c119d7d22e0f18a586e5.signed" required="true" size="29981022"/>
+        </packages>
+      </manifest>
+    </updatecheck>
+  </app>
+</response>

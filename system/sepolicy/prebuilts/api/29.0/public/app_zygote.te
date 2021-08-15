@@ -1,0 +1,6 @@
+# app_zygote is an auxiliary zygote process that is used to spawn
+# isolated service processes for individual applications. It is
+# spawned from the regular zygote process as a "child zygote".
+
+type app_zygote, domain;
+type app_zygote_tmpfs, file_type;

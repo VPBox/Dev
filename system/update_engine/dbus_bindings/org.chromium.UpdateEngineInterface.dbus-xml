@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<node name="/org/chromium/UpdateEngine">
+  <interface name="org.chromium.UpdateEngineInterface">
+    <annotation name="org.freedesktop.DBus.GLib.CSymbol"
+                value="update_engine_service" />
+    <annotation name="org.freedesktop.DBus.GLib.ClientCSymbol"
+                value="update_engine_client" />
+    <method name="AttemptUpdate">
+      <arg type="s" name="app_version" direction="in" />
+      <arg type="s" name="omaha_url" direction="in" />
+    </method>
+    <!-- TODO(zeuthen,chromium:286399): Rename to AttemptUpdate and
+         update Chrome and other users of the AttemptUpdate() method
+         in lockstep.
+    -->
+    <method name="AttemptUpdateWithFlags">
+      <arg type="s" name="app_version" direction="in" />
+      <arg type="s" name="omaha_url" direction="in" />
+      <!-- See AttemptUpdateFlags enum in update_engine/dbus-constants.h. -->
+      <arg type="i" name="flags" direction="in" />
+    </method>
+    <method name="AttemptInstall">
+      <arg type="s" name="dlc_request" direction="in" />
+    </method>
+    <method name="AttemptRollback">
+      <arg type="b" name="powerwash" direction="in" />
+    </method>
+    <method name="CanRollback">
+      <arg type="b" name="can_rollback" direction="out" />
+    </method>
+    <method name="ResetStatus">
+    </method>
+    <method name="GetStatus">
+      <arg type="x" name="last_checked_time" direction="out" />
+      <arg type="d" name="progress" direction="out" />
+      <arg type="s" name="current_operation" direction="out" />
+      <arg type="s" name="new_version" direction="out" />
+      <arg type="x" name="new_size" direction="out" />
+    </method>
+    <method name="RebootIfNeeded">
+    </method>
+    <method name="SetChannel">
+      <arg type="s" name="target_channel" direction="in" />
+      <arg type="b" name="is_powerwash_allowed" direction="in" />
+    </method>
+    <method name="GetChannel">
+      <arg type="b" name="get_current_channel" direction="in" />
+      <arg type="s" name="channel" direction="out" />
+    </method>
+    <method name="SetCohortHint">
+      <arg type="s" name="cohort_hint" direction="in" />
+    </method>
+    <method name="GetCohortHint">
+      <arg type="s" name="cohort_hint" direction="out" />
+    </method>
+    <method name="SetP2PUpdatePermission">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol"
+        value="update_engine_service_set_p2p_update_permission" />
+      <annotation name="org.freedesktop.DBus.GLib.ClientCSymbol"
+        value="update_engine_client_set_p2p_update_permission" />
+      <arg type="b" name="enabled" direction="in" />
+    </method>
+    <method name="GetP2PUpdatePermission">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol"
+        value="update_engine_service_get_p2p_update_permission" />
+      <annotation name="org.freedesktop.DBus.GLib.ClientCSymbol"
+        value="update_engine_client_get_p2p_update_permission" />
+      <arg type="b" name="enabled" direction="out" />
+    </method>
+    <method name="SetUpdateOverCellularPermission">
+      <arg type="b" name="allowed" direction="in" />
+    </method>
+    <method name="SetUpdateOverCellularTarget">
+      <arg type="s" name="target_version" direction="in" />
+      <arg type="x" name="target_size" direction="in" />
+    </method>
+    <method name="GetUpdateOverCellularPermission">
+      <arg type="b" name="allowed" direction="out" />
+    </method>
+    <method name="GetDurationSinceUpdate">
+      <arg type="x" name="usec_wallclock" direction="out" />
+    </method>
+    <signal name="StatusUpdate">
+      <arg type="x" name="last_checked_time" />
+      <arg type="d" name="progress" />
+      <arg type="s" name="current_operation" />
+      <arg type="s" name="new_version" />
+      <arg type="x" name="new_size" />
+    </signal>
+    <method name="GetPrevVersion">
+      <arg type="s" name="prev_version" direction="out" />
+    </method>
+    <method name="GetRollbackPartition">
+      <arg type="s" name="rollback_partition_name" direction="out" />
+    </method>
+    <method name="GetLastAttemptError">
+      <arg type="i" name="last_attempt_error" direction="out" />
+    </method>
+    <method name="GetEolStatus">
+      <arg type="i" name="eol_status" direction="out" />
+    </method>
+  </interface>
+</node>

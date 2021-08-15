@@ -1,0 +1,62 @@
+/*
+ * Copyright (C) 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package keystore;
+
+option optimize_for = LITE_RUNTIME;
+
+message KeyConfig {
+  // What type of encryption algorithm is this key being generated/imported for
+  // e.g. AES, RSA, etc
+  optional string algorithm = 1;
+
+  // Size of the key being generated/imported
+  optional int32 key_size = 2;
+
+  // Log whether the key was generated, imported, securely imported, or derived.
+  optional string origin = 3;
+
+  // What auth types does this key require? If none, then no auth required.
+  optional string user_auth_type = 4;
+
+  // If user authentication is required, is the requirement time based? If it
+  // is not time based then this field will not be used and the key is per
+  // operation. Per operation keys must be user authenticated on each usage.
+  optional int32 user_auth_key_timeout = 5;
+
+  // Track which padding modes this key supports.
+  repeated string padding = 6;
+
+  // Track which digests this key supports
+  repeated string digest = 7;
+
+  // Check what block mode is being used depending on the mode of encryption
+  repeated string block_mode = 8;
+
+  // Was the key generated/imported successfully?
+  optional bool was_creation_successful = 9;
+
+  // What purposes can this key be used for?
+  repeated string purpose = 10;
+
+  // Which ec curve was selected if elliptic curve cryptography is in use
+  optional string ec_curve = 11;
+
+  // Standalone or is a file system required
+  optional string key_blob_usage_reqs = 12;
+}

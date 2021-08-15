@@ -1,0 +1,5 @@
+type hal_wifi_offload_default, domain;
+hal_server_domain(hal_wifi_offload_default, hal_wifi_offload)
+
+type hal_wifi_offload_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_wifi_offload_default)

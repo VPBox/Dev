@@ -1,0 +1,8 @@
+on post-fs-data
+    mkdir /data/misc/fake-nvram 0700 nvram nvram
+
+service fake-nvram /system/bin/fake-nvram
+    class late_start
+    user root
+    group root
+    socket nvram seqpacket 0666 nvram nvram

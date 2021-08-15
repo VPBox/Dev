@@ -1,0 +1,14 @@
+# secure element subsystem
+typeattribute secure_element coredomain;
+app_domain(secure_element)
+
+binder_service(secure_element)
+add_service(secure_element, secure_element_service)
+
+allow secure_element app_api_service:service_manager find;
+hal_client_domain(secure_element, hal_secure_element)
+
+# already open bugreport file descriptors may be shared with
+# the secure element process, from a file in
+# /data/data/com.android.shell/files/bugreports/bugreport-*.
+allow secure_element shell_data_file:file read;

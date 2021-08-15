@@ -1,0 +1,106 @@
+###
+### Untrusted_app_all.
+###
+### This file defines the rules shared by all untrusted app domains except
+### apps which target the v2 security sandbox (ephemeral_app for instant apps,
+### untrusted_v2_app for fully installed v2 apps).
+### Apps are labeled based on mac_permissions.xml (maps signer and
+### optionally package name to seinfo value) and seapp_contexts (maps UID
+### and optionally seinfo value to domain for process and type for data
+### directory).  The untrusted_app_all attribute is assigned to all default
+### seapp_contexts for any app with UID between APP_AID (10000)
+### and AID_ISOLATED_START (99000) if the app has no specific seinfo
+### value as determined from mac_permissions.xml.  In current AOSP, this
+### attribute is assigned to all non-system apps as well as to any system apps
+### that are not signed by the platform key.  To move
+### a system app into a specific domain, add a signer entry for it to
+### mac_permissions.xml and assign it one of the pre-existing seinfo values
+### or define and use a new seinfo value in both mac_permissions.xml and
+### seapp_contexts.
+###
+### Note that rules that should apply to all untrusted apps must be in app.te or also
+### added to untrusted_v2_app.te and ephemeral_app.te.
+
+# Legacy text relocations
+allow untrusted_app_all apk_data_file:file execmod;
+
+# Some apps ship with shared libraries and binaries that they write out
+# to their sandbox directory and then execute.
+allow untrusted_app_all app_data_file:file { rx_file_perms execmod };
+
+# ASEC
+allow untrusted_app_all asec_apk_file:file r_file_perms;
+allow untrusted_app_all asec_apk_file:dir r_dir_perms;
+# Execute libs in asec containers.
+allow untrusted_app_all asec_public_file:file { execute execmod };
+
+# Used by Finsky / Android "Verify Apps" functionality when
+# running "adb install foo.apk".
+# TODO: Long term, we don't want apps probing into shell data files.
+# Figure out a way to remove these rules.
+allow untrusted_app_all shell_data_file:file r_file_perms;
+allow untrusted_app_all shell_data_file:dir r_dir_perms;
+
+# Read and write system app data files passed over Binder.
+# Motivating case was /data/data/com.android.settings/cache/*.jpg for
+# cropping or taking user photos.
+allow untrusted_app_all system_app_data_file:file { read write getattr };
+
+#
+# Rules migrated from old app domains coalesced into untrusted_app.
+# This includes what used to be media_app, shared_app, and release_app.
+#
+
+# Access to /data/media.
+allow untrusted_app_all media_rw_data_file:dir create_dir_perms;
+allow untrusted_app_all media_rw_data_file:file create_file_perms;
+
+# Traverse into /mnt/media_rw for bypassing FUSE daemon
+# TODO: narrow this to just MediaProvider
+allow untrusted_app_all mnt_media_rw_file:dir search;
+
+# allow cts to query all services
+allow untrusted_app_all servicemanager:service_manager list;
+
+allow untrusted_app_all audioserver_service:service_manager find;
+allow untrusted_app_all cameraserver_service:service_manager find;
+allow untrusted_app_all drmserver_service:service_manager find;
+allow untrusted_app_all mediaserver_service:service_manager find;
+allow untrusted_app_all mediaextractor_service:service_manager find;
+allow untrusted_app_all mediacodec_service:service_manager find;
+allow untrusted_app_all mediametrics_service:service_manager find;
+allow untrusted_app_all mediadrmserver_service:service_manager find;
+allow untrusted_app_all mediacasserver_service:service_manager find;
+allow untrusted_app_all nfc_service:service_manager find;
+allow untrusted_app_all radio_service:service_manager find;
+allow untrusted_app_all surfaceflinger_service:service_manager find;
+allow untrusted_app_all app_api_service:service_manager find;
+allow untrusted_app_all vr_manager_service:service_manager find;
+
+# Allow GMS core to access perfprofd output, which is stored
+# in /data/misc/perfprofd/. GMS core will need to list all
+# data stored in that directory to process them one by one.
+userdebug_or_eng(`
+  allow untrusted_app_all perfprofd_data_file:file r_file_perms;
+  allow untrusted_app_all perfprofd_data_file:dir r_dir_perms;
+')
+
+# gdbserver for ndk-gdb ptrace attaches to app process.
+allow untrusted_app_all self:process ptrace;
+
+# Cts: HwRngTest
+allow untrusted_app_all sysfs_hwrandom:dir search;
+allow untrusted_app_all sysfs_hwrandom:file r_file_perms;
+
+# Allow apps to view preloaded media content
+allow untrusted_app_all preloads_media_file:dir r_dir_perms;
+allow untrusted_app_all preloads_media_file:file r_file_perms;
+allow untrusted_app_all preloads_data_file:dir search;
+
+# Allow untrusted apps read / execute access to /vendor/app for there can
+# be pre-installed vendor apps that package a library within themselves.
+# TODO (b/37784178) Consider creating  a special type for /vendor/app installed
+# apps.
+allow untrusted_app_all vendor_app_file:dir { open getattr read search };
+allow untrusted_app_all vendor_app_file:file { open getattr read execute };
+allow untrusted_app_all vendor_app_file:lnk_file { open getattr read };

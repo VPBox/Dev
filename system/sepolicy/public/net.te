@@ -1,0 +1,30 @@
+## Network types
+type node, node_type;
+type netif, netif_type;
+type port, port_type;
+
+###
+### Domain with network access
+###
+
+# Use network sockets.
+allow netdomain self:tcp_socket create_stream_socket_perms;
+allow netdomain self:{ icmp_socket udp_socket rawip_socket } create_socket_perms;
+
+# Connect to ports.
+allow netdomain port_type:tcp_socket name_connect;
+# Bind to ports.
+allow {netdomain -ephemeral_app} node_type:{ icmp_socket rawip_socket tcp_socket udp_socket } node_bind;
+allow {netdomain -ephemeral_app} port_type:udp_socket name_bind;
+allow {netdomain -ephemeral_app} port_type:tcp_socket name_bind;
+# See changes to the routing table.
+allow netdomain self:netlink_route_socket { create read getattr write setattr lock append bind connect getopt setopt shutdown nlmsg_read };
+
+# Talks to netd via dnsproxyd socket.
+unix_socket_connect(netdomain, dnsproxyd, netd)
+
+# Talks to netd via fwmarkd socket.
+unix_socket_connect(netdomain, fwmarkd, netd)
+
+# Connect to mdnsd via mdnsd socket.
+unix_socket_connect(netdomain, mdnsd, mdnsd)

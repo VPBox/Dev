@@ -1,0 +1,33 @@
+# ART APEX preinstall.
+#
+
+type art_apex_preinstall, domain, coredomain;
+type art_apex_preinstall_exec, system_file_type, exec_type, file_type;
+
+# /system/bin/sh (see b/126787589).
+allow art_apex_preinstall apexd:fd use;
+
+# Create temp dirs and files under /data/ota.
+allow art_apex_preinstall ota_data_file:dir create_dir_perms;
+allow art_apex_preinstall ota_data_file:file create_file_perms;
+# We mount /data/ota/dalvik-cache over /data/dalvik-cache in our
+# mount namespace.
+allow art_apex_preinstall dalvikcache_data_file:dir { r_dir_perms mounton };
+allow art_apex_preinstall self:capability sys_admin;
+
+# Script helpers.
+allow art_apex_preinstall shell_exec:file rx_file_perms;
+allow art_apex_preinstall toolbox_exec:file rx_file_perms;
+
+# Execute subscripts in the same domain.
+allow art_apex_preinstall art_apex_preinstall_exec:file execute_no_trans;
+
+# Run dex2oat.
+domain_auto_trans(art_apex_preinstall, dex2oat_exec, dex2oat)
+
+# Fsverity in the same domain.
+allow art_apex_preinstall system_file:file execute_no_trans;
+# Fsverity work.
+allowxperm art_apex_preinstall ota_data_file:file ioctl {
+  FS_IOC_ENABLE_VERITY FS_IOC_MEASURE_VERITY
+};

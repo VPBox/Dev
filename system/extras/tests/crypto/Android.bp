@@ -1,0 +1,11 @@
+// Copyright 2013 The Android Open Source Project
+
+cc_binary {
+    name: "get_dm_versions",
+    srcs: ["get_dm_versions.c"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}

@@ -1,0 +1,40 @@
+cc_defaults {
+    name: "computestats-defaults",
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+
+    target: {
+        darwin: {
+            enabled: false,
+        },
+    },
+}
+
+cc_binary_host {
+    name: "computestats",
+    defaults: ["computestats-defaults"],
+    srcs: ["computestats.c"],
+}
+
+cc_binary_host {
+    name: "computestatsf",
+    defaults: ["computestats-defaults"],
+    srcs: ["computestatsf.c"],
+}
+
+sh_binary_host {
+    name: "app-launcher",
+    src: "app-launcher",
+    required: [
+        "computestats",
+        "computestatsf",
+    ],
+    target: {
+        darwin: {
+            enabled: false,
+        },
+    },
+}

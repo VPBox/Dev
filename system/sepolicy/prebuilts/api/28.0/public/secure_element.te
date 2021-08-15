@@ -1,0 +1,2 @@
+# secure_element subsystem
+type secure_element, domain;

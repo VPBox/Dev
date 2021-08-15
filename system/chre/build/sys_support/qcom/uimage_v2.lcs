@@ -1,0 +1,157 @@
+/*
+Copyright (c) 2018, The Linux Foundation. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+    * Neither the name of The Linux Foundation nor the names of its
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+OUTPUT_FORMAT("elf32-littlehexagon", "elf32-littlehexagon",
+	      "elf32-littlehexagon")
+OUTPUT_ARCH(hexagon)
+
+PHDRS {
+phdr1 PT_LOAD;
+phdr2 PT_LOAD;
+dynamic1 PT_DYNAMIC;
+note1 PT_NOTE;
+}
+
+SECTIONS
+{
+
+  /* micro-image version note */
+  .note.qti.uimg.dl.ver : { *(.note.qti.uimg.dl.ver) } : phdr1 : note1
+
+  /* SysV hash section */
+  .hash           :  { *(.hash) } : phdr1
+
+  /* GNU hash section */
+  .gnu.hash       :  { *(.gnu.hash) }
+
+  /* Dynamic Symbol Table section */
+  .dynsym         :  { *(.dynsym) }
+
+  /* Dynamic string table section */
+  .dynstr         :  { *(.dynstr) }
+
+  /* Dynamic relocations for data */
+  .rela.dyn       :  { *(.rela.dyn) }
+
+  /* Dynamic relocations for PLT */
+  .rela.plt       :  { *(.rela.plt) }
+
+  /* Initializer */
+  .init           :
+  {
+    KEEP (*(.init))
+  }
+
+  /* Procedure Linkage table */
+  .plt            :  { *(.plt) }
+
+  /* Text section */
+  .text           :
+  {
+    *(.text*)
+  }
+
+  /* Finalizer section */
+  .fini           :
+  {
+    KEEP (*(.fini))
+  }
+
+  /* Standard symbols for Text */
+  PROVIDE (__etext = .);
+  PROVIDE (_etext = .);
+  PROVIDE (etext = .);
+
+  /* Read Only Data */
+  .rodata         : { *(.rodata*) }
+
+  /* EH Frame Information */
+  .eh_frame_hdr   :  { *(.eh_frame_hdr) }
+  .eh_frame       :  ONLY_IF_RO { KEEP (*(.eh_frame)) }
+
+   /* TLS */
+  .tdata	  :  { *(.tdata*) }
+  .tbss		  :  { *(.tbss*)  }
+
+  /* Constructors and Destructors */
+  .init_array     :  { KEEP (*(.init_array)) }
+  .fini_array     :  { KEEP (*(.fini_array.*)) }
+  .ctors          : { KEEP (*(.ctors)) }
+  .dtors          : { KEEP (*(.dtors)) }
+
+
+  .data.rel.ro    :  { *(.data.rel.ro*) }
+
+  . = ALIGN(4K);
+
+   /* Dynamic Sections */
+  .dynamic        :  { *(.dynamic) } : dynamic1 : phdr2
+
+   /* GOT section */
+  .got            :  { *(.got) }
+
+  /* GOT slots for PLT section  */
+  .got.plt        :  { *(.got.plt) }
+
+  .data           :
+  {
+    *(.data .data.*)
+  }
+  _edata = .; PROVIDE (edata = .);
+
+  /* BSS */
+  __bss_start = .;
+  .bss            :
+  {
+   *(.bss*)
+   *(COMMON)
+  }
+  . = ALIGN (64);
+  _end = .;
+
+  /* Non alloc sections */
+  PROVIDE (end = .);
+  .comment       0 :  { *(.comment) }
+  /* GNU DWARF 1 extensions */
+  .debug_srcinfo  0 :  { *(.debug_srcinfo) }
+  .debug_sfnames  0 :  { *(.debug_sfnames) }
+  /* DWARF 1.1 and DWARF 2 */
+  .debug_aranges  0 :  { *(.debug_aranges) }
+  .debug_pubnames 0 :  { *(.debug_pubnames) }
+  /* DWARF 2 */
+  .debug_info     0 :  { *(.debug_info .gnu.linkonce.wi.*) }
+  .debug_abbrev   0 :  { *(.debug_abbrev) }
+  .debug_line     0 :  { *(.debug_line) }
+  .debug_frame    0 :  { *(.debug_frame) }
+  .debug_str      0 :  { *(.debug_str) }
+  .debug_loc      0 :  { *(.debug_loc) }
+  /* DWARF 3 */
+  .debug_pubtypes 0 :  { *(.debug_pubtypes) }
+  .debug_ranges   0 :  { *(.debug_ranges) }
+}

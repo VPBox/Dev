@@ -1,0 +1,20 @@
+# Enable new networking controls.
+policycap network_peer_controls;
+
+# Enable open permission check.
+policycap open_perms;
+
+# Enable separate security classes for
+# all network address families previously
+# mapped to the socket class and for
+# ICMP and SCTP sockets previously mapped
+# to the rawip_socket class.
+policycap extended_socket_class;
+
+# Enable NoNewPrivileges support.  Requires libsepol 2.7+
+# and kernel 4.14 (estimated).
+#
+# Checks enabled;
+# process2: nnp_transition, nosuid_transition
+#
+policycap nnp_nosuid_transition;

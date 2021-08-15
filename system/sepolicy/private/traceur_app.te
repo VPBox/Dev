@@ -1,0 +1,22 @@
+typeattribute traceur_app coredomain;
+
+app_domain(traceur_app);
+allow traceur_app debugfs_tracing:file rw_file_perms;
+allow traceur_app debugfs_tracing_debug:dir r_dir_perms;
+
+userdebug_or_eng(`
+  allow traceur_app debugfs_tracing_debug:file rw_file_perms;
+')
+
+allow traceur_app trace_data_file:file create_file_perms;
+allow traceur_app trace_data_file:dir rw_dir_perms;
+allow traceur_app atrace_exec:file rx_file_perms;
+
+# To exec the perfetto cmdline client and pass it the trace config on
+# stdint through a pipe.
+allow traceur_app perfetto_exec:file rx_file_perms;
+
+# Allow to access traced's privileged consumer socket.
+unix_socket_connect(traceur_app, traced_consumer, traced)
+
+dontaudit traceur_app debugfs_tracing_debug:file audit_access;

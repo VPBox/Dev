@@ -1,0 +1,27 @@
+# service flash_recovery in init.rc
+type install_recovery, domain;
+type install_recovery_exec, exec_type, file_type;
+
+allow install_recovery self:capability dac_override;
+
+# /system/bin/install-recovery.sh is a shell script.
+# Needs to execute /system/bin/sh
+allow install_recovery shell_exec:file rx_file_perms;
+
+# Execute /system/bin/applypatch
+allow install_recovery system_file:file rx_file_perms;
+not_full_treble(`allow install_recovery vendor_file:file rx_file_perms;')
+
+allow install_recovery toolbox_exec:file rx_file_perms;
+
+# Update the recovery block device based off a diff of the boot block device
+allow install_recovery block_device:dir search;
+allow install_recovery boot_block_device:blk_file r_file_perms;
+allow install_recovery recovery_block_device:blk_file rw_file_perms;
+
+# Create and delete /cache/saved.file
+allow install_recovery cache_file:dir rw_dir_perms;
+allow install_recovery cache_file:file create_file_perms;
+
+# Write to /proc/sys/vm/drop_caches
+allow install_recovery proc_drop_caches:file w_file_perms;
