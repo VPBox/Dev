@@ -31,62 +31,62 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
   - busybox/: Linux tools
 
 ### system
-  core/adb/: adb mutex virtualization
+  - core/adb/: adb mutex virtualization
 
-  core/init/: VP startup
+  - core/init/: VP startup
 
-  core/rootdir/init.cells.rc: VP's init.rc
+  - core/rootdir/init.cells.rc: VP's init.rc
 
-  core/rootdir/cells/: additional configuration files for the VP
+  - core/rootdir/cells/: additional configuration files for the VP
 
-  core/sdcard/: sdcard virtualization
+  - core/sdcard/: sdcard virtualization
 
 ### kernel
-  drivers/base/core.c: drv namespace initialization
+  - drivers/base/core.c: drv namespace initialization
 
-  kernel/drv_namespace.c: drv namespace api
+  - kernel/drv_namespace.c: drv namespace api
 
-  kernel/nsproxy.c: namespaces proxy
+  - kernel/nsproxy.c: namespaces proxy
 
-  drivers/android/binder.c: binder virtualization
+  - drivers/android/binder.c: binder virtualization
 
-  drivers/input/evdev.c: input virtualization
+  - drivers/input/evdev.c: input virtualization
 
-  kernel/power/wakelock.c: wakelock virtualization
+  - kernel/power/wakelock.c: wakelock virtualization
 
 ### frameworks
-  av/: camera audio video media virtualization
+  - av/: camera audio video media virtualization
 
-  native/libs/binder/: binder virtualization
+  - native/libs/binder/: binder virtualization
 
-  native/services/surfaceflinger/: display virtualization
+  - native/services/surfaceflinger/: display virtualization
 
-  base/services/core/java/com/android/server/CellsService.java: net virtualization
+  - base/services/core/java/com/android/server/CellsService.java: net virtualization
 
-  base/core/java/android/app/CellsPrivateServiceManager.java: cellsservice java service
+  - base/core/java/android/app/CellsPrivateServiceManager.java: cellsservice java service
 
 ### android-binder
-  binder virtualization  of the android operating system
+  - binder virtualization  of the android operating system
 
 ### configuration file
 
-  share-services: compile system configuration file
+  - share-services: compile system configuration file
 
-  kernel-modify-config： kernel config modify file
+  - kernel-modify-config： kernel config modify file
 
-  build.VPDroid.prop/ build.VPDroid-1.prop/ build.VPDroid-2.prop/ build.VPDroid-3.prop:  custom configuration file for update customized environment
+  - build.VPDroid.prop/ build.VPDroid-1.prop/ build.VPDroid-2.prop/ build.VPDroid-3.prop:  custom configuration file for update customized environment
 
 ### basic code 
 
-The Android source code is:  android-10.0.0_r33
+- The Android source code is:  android-10.0.0_r33
 
-The ways to download source code:  https://source.android.com/setup/develop/repo
+- The ways to download source code:  https://source.android.com/setup/develop/repo
 
 ## System Prerequisites
 
-Operating System: Ubuntu 20.04 LTS
+- Operating System: Ubuntu 20.04 LTS
 
-JDK version：openJDK version 9
+- JDK version：openJDK version 9
 
 ## Compile Command
 
@@ -101,17 +101,17 @@ JDK version：openJDK version 9
 
 ### Benchmarks 
 
-Linpack (v1.1) for CPU; 
+- Linpack (v1.1) for CPU; 
 
-Quadrant advanced edition (v2.1.1) for 2D graphics and file I/O; 
+- Quadrant advanced edition (v2.1.1) for 2D graphics and file I/O; 
 
-3DMark (v2.0.4646) for 3D graphics;
+- 3DMark (v2.0.4646) for 3D graphics;
 
-BusyBox wget (v1.21.1) for networking.
+- BusyBox wget (v1.21.1) for networking.
 
-GPS Test app (v1.6.3) for GPS.
+- GPS Test app (v1.6.3) for GPS.
 
-Bluetooth Setting for Bluetooth. 
+- Bluetooth Setting for Bluetooth. 
 
 ### Samples  
 
