@@ -72,6 +72,10 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
   - build.VPDroid.prop build.VPDroid.cell2.prop build.VPDroid.cell3.prop:  custom configuration file for update customized environment
 
+### other modify
+
+  - aufs and ksm modify see commit log
+
 ### basic code 
 
 - The Android source code is:  android-10.0.0_r33
