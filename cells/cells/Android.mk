@@ -46,9 +46,7 @@ LOCAL_SRC_FILES:= \
 LOCAL_MODULE := celld
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_OWNER := cells
-LOCAL_C_INCLUDES := \
-	$(call include-path-for, libhardware_legacy)/hardware_legacy
-LOCAL_SHARED_LIBRARIES := libm libcutils libc libhardware_legacy libselinux liblog
+LOCAL_SHARED_LIBRARIES := libm libcutils libc libselinux liblog
 #LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT_SBIN)
 include $(BUILD_EXECUTABLE)
 

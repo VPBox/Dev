@@ -131,11 +131,9 @@ struct conf_key_offset config_keys[] = {
 	{ "mnt_tmpfs",	offsetof(struct config_info, mnt_tmpfs) },
 	{ "newpts",	offsetof(struct config_info, newpts) },
 	{ "newcgrp",	offsetof(struct config_info, newcgrp) },
-	{ "share_dalvik_cache",offsetof(struct config_info, share_dalvik_cache) },
 	{ "sdcard_branch",	offsetof(struct config_info, sdcard_branch) },
 	{ "autostart",	offsetof(struct config_info, autostart) },
 	{ "autoswitch",	offsetof(struct config_info, autoswitch) },
-	{ "wifiproxy",	offsetof(struct config_info, wifiproxy) },
 	{ "initpid",	offsetof(struct config_info, initpid) },
 	{ "id",		offsetof(struct config_info, id) },
 	{ "console",	offsetof(struct config_info, console) },
@@ -380,9 +378,7 @@ void config_to_start_args(struct config_info *config,
 	args->mnt_tmpfs = config->mnt_tmpfs;
 	args->newpts = config->newpts;
 	args->newcgrp = config->newcgrp;
-	args->share_dalvik_cache = config->share_dalvik_cache;
 	args->sdcard_branch = config->sdcard_branch;
-	args->wifiproxy = config->wifiproxy;
 	args->open_console = config->console;
 	/* only set autoswitch if it was _not_ given on the command-line */
 	if (!args->autoswitch)
@@ -402,9 +398,7 @@ void start_args_to_config(struct cell_start_args *args,
 	config->mnt_tmpfs = args->mnt_tmpfs;
 	config->newpts = args->newpts;
 	config->newcgrp = args->newcgrp;
-	config->share_dalvik_cache= args->share_dalvik_cache;
 	config->sdcard_branch = args->sdcard_branch;
-	config->wifiproxy = args->wifiproxy;
 	config->console = args->open_console;
 
 	/*
@@ -440,9 +434,7 @@ void init_cellvm_config(char* name)
 	config.mnt_tmpfs = 0;
 	config.newpts = 0;
 	config.newcgrp = 1;
-	config.share_dalvik_cache= 0;
 	config.sdcard_branch = 0;
-	config.wifiproxy = 0;
 	config.console = 0;
 	config.autostart = 1;
 	config.autoswitch = 0;

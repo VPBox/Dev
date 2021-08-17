@@ -47,6 +47,7 @@
 #include <cutils/misc.h>
 #include <selinux/selinux.h>
 #include "cutils/properties.h"
+#include <cutils/android_filesystem_config.h>
 
 #include "celld.h"
 #include "cell_console.h"
@@ -94,7 +95,10 @@ static int load_cgroup_dir(char *dest, int len, const char* keyword)
 		path = strtok_r(NULL, " ", &p1);
 		fsname = strtok_r(NULL, " ", &p1);
 		options = strtok_r(NULL, " ", &p1);
-		if (strcmp(fsname, "cgroup") != 0 || strstr(path, keyword) == NULL)
+		if(fsname == NULL || path == NULL)
+			continue;
+		if ((strcmp(fsname, "cgroup") != 0&&strcmp(fsname, "cgroup2") != 0) 
+			|| strstr(path, keyword) == NULL)
 			continue;
 		strncpy(dest, path, len);
 		fclose(f);
@@ -125,36 +129,46 @@ static char *get_cgroup_folder(char *cellname, const char* keyword)
 	return folder;
 }
 
-static char *create_cgroup(char *cellname, const char* keyword)
+static char *create_cgroup(char *cellname, 
+	const char* keyword, mode_t mode, uid_t uid, gid_t gid)
 {
-	int ret;
 	char *cgroupname;
 
 	cgroupname = get_cgroup_folder(cellname, keyword);
 	if (!cgroupname)
 		return NULL;
 
-	ret = mkdir(cgroupname, 0755);
-	if (ret && errno != EEXIST)
+	if (mkdir(cgroupname, mode) == -1 && errno != EEXIST){
+		free(cgroupname);
 		return NULL;
+	}
+
+    if (chown(cgroupname, uid, gid) == -1) {
+        rmdir(cgroupname);
+		free(cgroupname);
+		return NULL;
+    }
+
 	return cgroupname;
 }
 
-static int move_acct_to_new_cgroup(struct cell_args *args)
+static int move_to_new_cgroup(struct cell_args *args, const char* key, const char* tasks, 
+	mode_t mode, uid_t uid, gid_t gid, const char* subdir)
 {
 	char tasksfname[200];
+	char subdirpath[200];
 	FILE *fout;
 	char *cgroupname;
 	int ret;
 
 	ret = -1;
 
-	cgroupname = create_cgroup(args->cellname, "acct");
+	cgroupname = create_cgroup(args->cellname, key, mode, uid, gid);
 	if (!cgroupname)
 		goto out;
 
 	{
-		snprintf(tasksfname, sizeof(tasksfname), "%s/tasks", cgroupname);
+		snprintf(tasksfname, sizeof(tasksfname), "%s/%s", cgroupname, tasks);
 		fout = fopen(tasksfname, "w");
 		if (!fout)
 			goto out;
@@ -162,44 +176,18 @@ static int move_acct_to_new_cgroup(struct cell_args *args)
 		fclose(fout);
 	}
 
-	ALOGI("Moved %s (%d) into new cgroup (%s)",
-		 args->cellname, args->init_pid, cgroupname);
-	ret = 0;
-out:
-	free(cgroupname);
-	return ret;
-}
-
-#define MEMORY_CGROUP "1536M"
-static int move_memory_to_new_cgroup(struct cell_args *args)
-{
-	char tasksfname[200];
-	FILE *fout;
-	char *cgroupname;
-	int ret;
-
-	ret = -1;
-
-	cgroupname = create_cgroup(args->cellname, "memcg");
-	if (!cgroupname)
-		goto out;
-
 	{
-		snprintf(tasksfname, sizeof(tasksfname), "%s/memory.limit_in_bytes", cgroupname);
-		fout = fopen(tasksfname, "w");
-		if (!fout)
-			goto out;
-		fprintf(fout, MEMORY_CGROUP);
-		fclose(fout);
-	}
+		if(subdir != NULL){
+			snprintf(subdirpath, sizeof(subdirpath), "%s/%s", cgroupname, subdir);
+			if (mkdir(subdirpath, mode) == -1 && errno != EEXIST){
+				goto out;
+			}
 
-	{
-		snprintf(tasksfname, sizeof(tasksfname), "%s/tasks", cgroupname);
-		fout = fopen(tasksfname, "w");
-		if (!fout)
-			goto out;
-		fprintf(fout, "%d\n", args->init_pid);
-		fclose(fout);
+			if (chown(subdirpath, uid, gid) == -1) {
+				rmdir(subdirpath);
+				goto out;
+			}
+		}
 	}
 
 	ALOGI("Moved %s (%d) into new cgroup (%s)",
@@ -215,9 +203,19 @@ static int do_newcgroup(struct cell_args *args)
 	if (!args->start_args.newcgrp)
 		return 0;
 
-	move_acct_to_new_cgroup(args);
+	//move_to_new_cgroup(args,"acct", "cgroup.procs", 0555, 0, 0, NULL);
 
-	move_memory_to_new_cgroup(args);
+	//move_to_new_cgroup(args,"cpuctl", "cgroup.procs", 0755, AID_SYSTEM, AID_SYSTEM, NULL);
+
+	//move_to_new_cgroup(args,"cpuset", "cgroup.procs", 0755, AID_SYSTEM, AID_SYSTEM, NULL);
+
+	//move_to_new_cgroup(args,"memcg", "cgroup.procs", 0700, 0, AID_SYSTEM, NULL);
+
+	//move_to_new_cgroup(args,"stune", "cgroup.procs", 0755, AID_SYSTEM, AID_SYSTEM, NULL);
+
+	//move_to_new_cgroup(args,"blkio", "cgroup.procs",  0755, AID_SYSTEM, AID_SYSTEM, NULL);
+
+	move_to_new_cgroup(args,"cgroup", "cgroup.procs", 0755, AID_SYSTEM, AID_SYSTEM, "freezer");
 
 	return 0;
 }
@@ -274,7 +272,7 @@ static int rootfs_chroot_root(const char *rootfs)
 			for (slider1 = line, i = 0; slider1 && i < 4; i++)
 				slider1 = strchr(slider1 + 1, ' ');
 
-			ALOGD("rootfs_chroot_root line %s", line);
+			//ALOGD("rootfs_chroot_root line %s", line);
 			if (!slider1)
 				continue;
 
@@ -291,7 +289,7 @@ static int rootfs_chroot_root(const char *rootfs)
 			if (strcmp(slider1 + 1, "/proc") == 0)
 				continue;
 
-			ALOGD("rootfs_chroot_root umount2 %s", slider1);
+			//ALOGD("rootfs_chroot_root umount2 %s", slider1);
 			ret = umount2(slider1, MNT_DETACH);
 			if (ret == 0)
 				progress++;
@@ -315,7 +313,7 @@ static int rootfs_chroot_root(const char *rootfs)
 
 	ret = chroot(".");
 	if (ret < 0){
-		ALOGD("Failed to chdir(.).");
+		ALOGD("Failed to chroot(.).");
 		return -1;
 	}
 
@@ -451,7 +449,6 @@ static int do_child(void *vargv)
 	ALOGD("mnt_tmpfs: %d", start_args->mnt_tmpfs);
 	ALOGD("newpts: %d", start_args->newpts);
 	ALOGD("newcgrp: %d", start_args->newcgrp);
-	ALOGD("share_dalvik_cache: %d", start_args->share_dalvik_cache);
 	ALOGD("sdcard_branch: %d", start_args->sdcard_branch);
 	ALOGD("open_console: %d", start_args->open_console);
 	ALOGD("autoswitch: %d", start_args->autoswitch);
@@ -719,9 +716,6 @@ int cell_nsexec(int sd, struct cell_args *cell_args,
 			goto err_cleanup;
 		}
 	}
-
-	if (args->share_dalvik_cache)
-		do_share_dalvik_cache(rootdir);
 
 	if (args->open_console) {
 		ALOGD("Opening console for '%s'", name);

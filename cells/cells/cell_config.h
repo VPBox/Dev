@@ -42,11 +42,9 @@ struct config_info {
 	int mnt_tmpfs;
 	int newpts;
 	int newcgrp;
-	int share_dalvik_cache;
 	int sdcard_branch;
 	int autostart;
 	int autoswitch;
-	int wifiproxy;
 	int initpid;
 	int restart_pid; /* pid of restart process */
 	int id;

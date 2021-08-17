@@ -62,7 +62,7 @@
 #include "nsexec.h"
 #include "util.h"
 
-#define MAX_CELL_AUTOSTART_ATTEMPTS 5
+#define CELLS_MAX_CONTEXT 6
 
 static void set_properties_cells(char *name,char* v)
 {
@@ -121,6 +121,23 @@ static struct cell_node *__search_cells(char *name, struct cell_list *list)
 static struct cell_node *search_cells(char *name)
 {
 	return __search_cells(name, &g_cell_list);
+}
+
+static int count_cells(void)
+{
+	struct cell_list *list = &g_cell_list;
+	struct cell_node *cell = NULL;
+	int count = 0;
+
+	pthread_mutex_lock(&list->mutex);
+	cell = list->head;
+	while (cell != NULL) {
+		count++;
+		cell = cell->next;
+	}
+	pthread_mutex_unlock(&list->mutex);
+
+	return count;
 }
 
 static struct cell_node *search_dead_cells(char *name)
@@ -214,6 +231,58 @@ create_cell_node(char *name, struct config_info *config,
 	return new;
 }
 
+#define BASE_KSM_PATH "/sys/kernel/mm/ksm"
+#define BASE_KSM_SLEEP 4000
+#define BASE_KSM_PAGES 500
+static void do_make_ksm(int count)
+{
+	FILE *fout;
+	char ksmname[200] = {0};
+
+	if(count > 0){
+		snprintf(ksmname, sizeof(ksmname), "%s/run", BASE_KSM_PATH);
+		fout = fopen(ksmname, "w");
+		if (fout){
+			fprintf(fout, "%d", 0);
+			fclose(fout);
+		}
+
+		snprintf(ksmname, sizeof(ksmname), "%s/run", BASE_KSM_PATH);
+		fout = fopen(ksmname, "w");
+		if (fout){
+			fprintf(fout, "%d", 1);
+			fclose(fout);
+		}
+	}else{
+		snprintf(ksmname, sizeof(ksmname), "%s/run", BASE_KSM_PATH);
+		fout = fopen(ksmname, "w");
+		if (fout){
+			fprintf(fout, "%d", 0);
+			fclose(fout);
+		}
+
+		return;
+	}
+
+	{
+		snprintf(ksmname, sizeof(ksmname), "%s/sleep_millisecs", BASE_KSM_PATH);
+		fout = fopen(ksmname, "w");
+		if (fout){
+			fprintf(fout, "%d", BASE_KSM_SLEEP + (count - 1) * 600);
+			fclose(fout);
+		}
+	}
+
+	{
+		snprintf(ksmname, sizeof(ksmname), "%s/pages_to_scan", BASE_KSM_PATH);
+		fout = fopen(ksmname, "w");
+		if (fout){
+			fprintf(fout, "%d", BASE_KSM_PAGES * count);
+			fclose(fout);
+		}
+	}
+}
+
 static void __add_cell_to(struct cell_node *cell, struct cell_list *list)
 {
 	pthread_mutex_lock(&list->mutex);
@@ -229,6 +298,8 @@ static void __add_cell_to(struct cell_node *cell, struct cell_list *list)
 		list->tail = cell;
 	}
 	pthread_mutex_unlock(&list->mutex);
+
+	do_make_ksm(count_cells());
 }
 
 static void __del_cell_from(struct cell_node *cell, struct cell_list *list)
@@ -244,6 +315,8 @@ static void __del_cell_from(struct cell_node *cell, struct cell_list *list)
 	if (list->tail == cell)
 		list->tail = cell->prev;
 	pthread_mutex_unlock(&list->mutex);
+
+	do_make_ksm(count_cells());
 }
 
 /* Add a cell_node to cells list */
@@ -392,18 +465,12 @@ void copyfs_callback(void *ctx, const char *path, const char *subpath, struct di
 		mkdir(newpath, 0755);
 		break;
 	case DT_REG:
-		/*snprintf(linkpath, PATH_MAX, CELL_ETC_PATH "/%s", path);
-		if (stat(linkpath, &cell_st) == 0)
-			path = linkpath;*/
 		copy_file(path, newpath);
 		break;
 	case DT_LNK:
 		memset(linkpath, 0, PATH_MAX);
-		//memset(newlinkpath, 0, PATH_MAX);
 		if (readlink(path, linkpath, PATH_MAX) < 0)
 			break;
-
-		//snprintf(newlinkpath, PATH_MAX, "%s%s", root_path, linkpath);
 		symlink(linkpath, newpath);
 		break;
 	default:
@@ -419,9 +486,6 @@ void copyfs_callback(void *ctx, const char *path, const char *subpath, struct di
 static int mount_rootfs(const char *root_path)
 {
 	int ret = 0;
-	char dev_adb_dir_name[PATH_MAX];
-	char dev_mtp_dir_name[PATH_MAX];
-	char dev_ptp_dir_name[PATH_MAX];
 
 	if (!dir_exists(root_path)) {
 		errno = ENOENT;
@@ -439,28 +503,11 @@ static int mount_rootfs(const char *root_path)
 	//ret += walkdir((void *)root_path, "/", "/root", 100, copyfs_callback);
 	ret += walkdir((void *)root_path, "/", "/cells", 100, copyfs_callback);
 	ret += walkdir_through((void *)root_path, "/", "/mnt", 1, "//mnt/vendor/persist", copyfs_callback);
+	ret += walkdir((void *)root_path, "/dev/usb-ffs", "/", 0, copyfs_callback);
 	if (ret) {
 		ALOGE("walkdir copy fail! umount...");
 	//	umount(root_path);
 	//	return ret;
-	}
-
-	if(is_mounted("/dev/usb-ffs/adb")){
-		sprintf(dev_adb_dir_name, "%s/adb", root_path);
-		mkdir(dev_adb_dir_name, 0777);
-		chown(dev_adb_dir_name, 2000, 2000);
-	}
-
-	if(is_mounted("/dev/usb-ffs/mtp")){
-		sprintf(dev_mtp_dir_name, "%s/mtp", root_path);
-		mkdir(dev_mtp_dir_name, 0777);
-		chown(dev_mtp_dir_name, 2000, 2000);
-	}
-
-	if(is_mounted("/dev/usb-ffs/ptp")){
-		sprintf(dev_ptp_dir_name, "%s/ptp", root_path);
-		mkdir(dev_ptp_dir_name, 0777);
-		chown(dev_ptp_dir_name, 2000, 2000);
 	}
 
 	rename_cells_file(root_path);
@@ -558,7 +605,8 @@ static int mount_rw_fs(const char *root_path, const char *rw_path)
 static int mount_ro_fs(const char *root_path)
 {
 	int ret = 0;
-	char dev_system_dir_name[PATH_MAX];
+	//char dev_system_dir_name[PATH_MAX];
+	char dev_system_ext_dir_name[PATH_MAX];
 	char dev_vendor_dir_name[PATH_MAX];
 	char dev_vendor_dsp_dir_name[PATH_MAX];
 	char dev_vendor_bt_firmware_dir_name[PATH_MAX];
@@ -570,10 +618,17 @@ static int mount_ro_fs(const char *root_path)
 	char dev_mtp_dir_name[PATH_MAX];
 	char dev_ptp_dir_name[PATH_MAX];
 
-	errno = 0;
+	/*errno = 0;
 	sprintf(dev_system_dir_name, "%s/system", root_path);
 	ret |= mount("/system", dev_system_dir_name, NULL, MS_BIND, NULL);//ro
-	ALOGD("mount /system %s = %s", dev_system_dir_name, strerror(errno));
+	ALOGD("mount /system %s = %s", dev_system_dir_name, strerror(errno));*/
+
+	errno = 0;
+	sprintf(dev_system_ext_dir_name, "%s/system_ext", root_path);
+	if(is_mounted("/system_ext")){
+		ret |= mount("/system_ext", dev_system_ext_dir_name, NULL, MS_BIND, NULL);//ro
+		ALOGD("mount /system_ext %s = %s", dev_system_ext_dir_name, strerror(errno));
+	}
 
 	errno = 0;
 	sprintf(dev_vendor_dir_name, "%s/vendor", root_path);
@@ -672,6 +727,11 @@ int mount_cell(char *name, int sdcard_mnt)
 		goto err_free_paths;
 	}
 
+	if(mount_systemfs(root_path, rw_path) < 0){
+		ALOGE("Failed to mount cell's system dir: %s", strerror(errno));
+		goto err_free_paths;
+	}
+
 	if (mount_ro_fs(root_path) < 0) {
 		ALOGE("Failed to mount cell's ro dir: %s", strerror(errno));
 		goto err_free_paths;
@@ -688,27 +748,6 @@ err_free_paths:
 	free(root_path);
 
 	return ret;
-}
-
-/* construct a simple argv array mostly so I can use getopt()... */
-static int construct_argv(char *options, char ***argv, int *argc)
-{
-	char *str, *opt;
-	char *saveptr;
-
-	*argv = malloc(sizeof(char *) * MAX_ARGS);
-	if (!(*argv))
-		return -1;
-	(*argv)[0] = "__celld__";
-	*argc = 1;
-	for (str = options; *argc < MAX_ARGS; str = NULL) {
-		opt = strtok_r(str, " ", &saveptr);
-		if (opt == NULL)
-			break;
-		(*argv)[(*argc)++] = opt;
-	}
-
-	return 0;
 }
 
 /*
@@ -797,6 +836,7 @@ static int finish_cell_startup(char *name)
 static int __umount_rootmount(const char* root_path)
 {
 	char dev_system_dir_name[PATH_MAX];
+	char dev_system_ext_dir_name[PATH_MAX];
 	char dev_vendor_dir_name[PATH_MAX];
 	char dev_vendor_dsp_dir_name[PATH_MAX];
 	char dev_vendor_bt_firmware_dir_name[PATH_MAX];
@@ -919,6 +959,13 @@ static int __umount_rootmount(const char* root_path)
 	if(is_mounted(dev_vendor_dir_name)){
 		ret |= umount(dev_vendor_dir_name);//ro
 		ALOGD("umount %s = %s", dev_vendor_dir_name, strerror(errno));
+	}
+
+	errno = 0;
+	sprintf(dev_system_ext_dir_name, "%s/system_ext", root_path);
+	if(is_mounted(dev_system_ext_dir_name)){
+		ret |= umount(dev_system_ext_dir_name);//ro
+		ALOGD("umount %s = %s", dev_system_ext_dir_name, strerror(errno));
 	}
 
 	errno = 0;
@@ -1596,8 +1643,8 @@ static void do_start(int fd, struct cell_cmd_arg *cmd_args)
 
 	/* Make sure cell INDEX */
 	sscanf(name, "cell%d", &index);
-	if(index <= 0 || index > MAX_CELL_NUM){
-		send_msg(fd, "Start failed. Cell INDEX is 1~ %d.", MAX_CELL_NUM);
+	if(index <= 0 || index >= CELLS_MAX_CONTEXT){
+		send_msg(fd, "Start failed. Cell INDEX is 1~ %d.", CELLS_MAX_CONTEXT-1);
 		return;
 	}
 
@@ -2392,7 +2439,7 @@ static int __autostart_cells(void)
 			continue;
 		/* Don't start cells we've already started */
 		aci = search_autostarted(name_list[i]);
-		if (aci && aci->attempts >= MAX_CELL_AUTOSTART_ATTEMPTS)
+		if (aci && aci->attempts >= CELLS_MAX_CONTEXT)
 			continue;
 		/* Add cell to list of already autostarted cells */
 		if (!aci) {
@@ -2697,16 +2744,17 @@ static void init_cells_config(void)
 	char cellname[64] = {0};
 
 	property_set("persist.sys.exit", "0");
-	property_set("persist.sys.vm.name", "");
 	property_set("persist.sys.active", "");
 
-	for( i = 1 ; i <= MAX_CELL_NUM ; i++)
+	for( i = 1 ; i < CELLS_MAX_CONTEXT ; i++)
 	{
 		memset(cellname, 0, 64);
 		sprintf(cellname, "cell%d", i);
 		set_properties_cells(cellname, "0");
 		init_cellvm_config(cellname);
 	}
+
+	do_make_ksm(count_cells());
 }
 
 int main(int argc, char **argv)

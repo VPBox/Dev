@@ -515,8 +515,6 @@ restart_default:
 		case 'p': args->pid_ns = 1;		no = 0;	break;
 		case 't': args->newpts = 1;		no = 0;	break;
 		case 'C': args->open_console = 1;	no = 0; break;
-		case 'W': args->wifiproxy = 1;		no = 0;	break;
-		case 'H': args->share_dalvik_cache = 1;	no = 0; break;
 		case 'S': args->sdcard_branch = 1;	no = 0;	break;
 		case 'D': defaults = 1;				break;
 		case 'h': print_start_help(argv[0]);

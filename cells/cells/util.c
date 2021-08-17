@@ -182,11 +182,10 @@ int walkdir_through(void *ctx, const char *base, const char *sdir, int depth,con
 			continue;
 
 		snprintf(full_name, FILENAME_MAX, "%s/%s", path, entry.d_name);	
-		//ALOGD("walkdir_through through = %s full_name = %s.", through, full_name);
 		if(strstr(through, full_name) == NULL)
 			continue;
+
 		snprintf(subpath, FILENAME_MAX, "%s/%s", sdir, entry.d_name);
-		//ALOGD("walkdir_through full_name = %s subpath = %s.", full_name, subpath);
 		callback(ctx, full_name, subpath, &entry);
 
 		if (depth && entry.d_type == DT_DIR) {
