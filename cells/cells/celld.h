@@ -204,7 +204,6 @@ int recv_fd(int conn_fd);
 
 extern char *get_rw_path(const char *name);
 extern char *get_root_path(const char *name);
-extern int do_share_dalvik_cache(char *root_path);
 
 int mount_cell(char *name, int sdcard_mnt);
 int unmount_all(const char *root_path, int mount_fs);

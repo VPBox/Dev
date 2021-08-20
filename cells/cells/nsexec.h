@@ -24,9 +24,6 @@
 #ifndef NSEXEC_H
 #define NSEXEC_H
 
-extern int mount_dev_tmpfs(char *root_path);
-extern int mount_freezer_on_dev(char *root_path);
-
 extern void tear_down_cell(struct cell_args *args,
 			   struct pty_info *console_pty);
 

@@ -555,48 +555,6 @@ static int write_pid(char *pid_file, int pid)
 	return 0;
 }
 
-int do_share_dalvik_cache(char *root_path)
-{
-	char target[PATH_MAX];
-	int ret = -1;
-
-	ALOGI("Dalvik Cache: relocating %s/data/dalvik-cache...", root_path);
-
-	snprintf(target, sizeof(target), "%s/data/dalvik-cache", root_path);
-	mkdir(target, 0755);
-
-	/* bind-mount the host's dalvik-cache directory into the cell */
-	ret = mount("/data/dalvik-cache", target, "none", MS_BIND, 0);
-	if (ret < 0)
-		ALOGW("Couldn't share Dalvik cache");
-
-	return (ret < 0) ? -1 : 0;
-}
-
-int mount_dev_tmpfs(char *root_path)
-{
-	char target[PATH_MAX];
-	struct stat st;
-	int ret = -1;
-	
-	snprintf(target, sizeof(target), "%s/dev", root_path);
-	if (stat(target, &st) < 0) {
-		/* try to create the directory */
-		if (mkdir(target, 0755) < 0) {
-			ALOGE("cannot create <root>/dev: %s", strerror(errno));
-			return -1;
-		}
-	}
-
-	ret = mount("tmpfs", target, "tmpfs", 0, "mode=0755");
-	if (ret < 0) {
-		ALOGE("unable to mount tmpfs: %s", strerror(errno));
-		return -1;
-	}
-
-	return 0;
-}
-
 static int do_clone(struct cell_args *cell_args)
 {
 	struct cell_start_args *args = &cell_args->start_args;
