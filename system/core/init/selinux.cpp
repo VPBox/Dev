@@ -273,8 +273,8 @@ bool GetVendorMappingVersion(std::string* plat_vers) {
 constexpr const char plat_policy_cil_file[] = "/system/etc/selinux/plat_sepolicy.cil";
 
 bool IsSplitPolicyDevice() {
-    //return access(plat_policy_cil_file, R_OK) != -1;
-    return false;
+    return access(plat_policy_cil_file, R_OK) != -1;
+    //return false;
 }
 
 bool LoadSplitPolicy() {
