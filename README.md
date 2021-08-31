@@ -1,3 +1,17 @@
+# Paper
+
+This software is the outcome of our accademic research.
+
+If you use this code, please cite our accademic paper as:
+
+@inproceedings{VPBox,
+ author = {Wenna Song and Jiang Ming and Lin Jiang and Yi Xiang and Xuanchen Pan and Jianming Fu and Guojun Peng},
+ title = {{Towards Transparent and Stealthy Android OS Sandboxing via Customizable Container-Based Virtualization}},
+ booktitle = {Proceedings of the 28th ACM Conference on Computer and Communications Security (CCS'21)},
+ year = {2021}
+} 
+
+
 # VPBox (Android 10)
 
 We develop a transparent and stealthy Android OS Sandboxing named VPBox. With VPBox, security analysts can bypass a set of virtual environment detection heuristics. Besides, we demonstrate VPBox’s flexibility in testing environment-sensitive malware that try to evade sandboxes. VPBox’s design is capable of meeting the following two progressive requirements: 
