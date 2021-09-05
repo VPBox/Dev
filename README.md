@@ -4,13 +4,14 @@ This software is the outcome of our accademic research.
 
 If you use this code, please cite our accademic paper as:
 
+```
 @inproceedings{VPBox,
  author = {Wenna Song and Jiang Ming and Lin Jiang and Yi Xiang and Xuanchen Pan and Jianming Fu and Guojun Peng},
  title = {{Towards Transparent and Stealthy Android OS Sandboxing via Customizable Container-Based Virtualization}},
  booktitle = {Proceedings of the 28th ACM Conference on Computer and Communications Security (CCS'21)},
  year = {2021}
 } 
-
+```
 
 # VPBox (Android 10)
 
@@ -131,7 +132,7 @@ The figure provides an overview of VPBox’s device virtualization. Each isolate
 
 We have used nine families of malware to evaluate virtualization environment detection.
 
-Rotexy，Ashas, HeHe, Ztorg, Andr RuSms-AT, OBAD, Android BankBot, GhostClicker, G-Ware.
+
 
 
 
